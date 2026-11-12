@@ -636,7 +636,7 @@ Em 6 colunas no desktop, 2 no tablet e 1 no celular:
 | Bloco | Visual | Dado |
 | --- | --- | --- |
 | Dispositivos online agora | número em destaque + ponto pulsando | `online_now` (com a janela em `online_window_seconds`) |
-| Atividade por janela | 4 barras finas (1 h, 24 h, 7 dias, 30 dias) | `active_1h`, `active_24h`, `active_7d`, `active_30d` |
+| Ativos por período | 4 barras finas (1 h, 24 h, 7 dias, 30 dias) | `active_1h`, `active_24h`, `active_7d`, `active_30d` |
 | Ativos em 7 dias | anel SVG | `active_7d` sobre `accounts.total` |
 | Regiões / Beacons | número | `network.regions`, `network.beacons` |
 | Servidor no ar há / Serviço no ar desde | número / data | `uptime_seconds`, `service_started_at` |

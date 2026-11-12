@@ -352,8 +352,12 @@
             <span class="live">ao vivo</span>
             <p class="stat-sub" id="painelOnlineLegenda">—</p>
           </div>
+          <div class="stat stat--span2">
+            <div class="label">Servidor no ar há</div>
+            <div class="value" id="painelUptime">—</div>
+          </div>
           <div class="stat stat--span4 stat--barras">
-            <div class="label">Atividade por janela</div>
+            <div class="label">Ativos por período</div>
             <div class="barras">
               <div class="barra-linha">
                 <span class="barra-rotulo">1 h</span>
@@ -376,17 +380,6 @@
                 <span class="barra-valor" id="painelAtivos30">—</span>
               </div>
             </div>
-          </div>
-          <div class="stat stat--span2 stat--centro">
-            <div class="label">Ativos em 7 dias</div>
-            <div class="anel-figura">
-              <svg viewBox="0 0 84 84" aria-hidden="true" focusable="false">
-                <circle class="anel-trilho" cx="42" cy="42" r="36"></circle>
-                <circle class="anel-valor" id="painelAnelArco" cx="42" cy="42" r="36"></circle>
-              </svg>
-              <span class="anel-numero" id="painelTaxa">—</span>
-            </div>
-            <p class="stat-sub" id="painelAnelLegenda">—</p>
           </div>
           <div class="stat stat--span2">
             <div class="label">Regiões</div>
@@ -453,11 +446,6 @@
             <div class="value" id="painelContaRecente">—</div>
           </div>
           <div class="stat stat--span2">
-            <div class="label">Primeira conta em</div>
-            <div class="value" id="painelPrimeiraConta">—</div>
-          </div>
-
-          <div class="stat stat--span2">
             <div class="label">Contas apagadas</div>
             <div class="value" id="painelApagadas">—</div>
           </div>
@@ -468,10 +456,6 @@
           <div class="stat stat--span2">
             <div class="label">Novas contas em 7 dias</div>
             <div class="value" id="painelNovas7d">—</div>
-          </div>
-          <div class="stat stat--span2">
-            <div class="label">Serviço no ar desde</div>
-            <div class="value" id="painelDesde">—</div>
           </div>
           <div class="stat stat--span2">
             <div class="label">Usernames reservados</div>
@@ -502,8 +486,8 @@
             <div class="value" id="painelAfiliados">—</div>
           </div>
           <div class="stat">
-            <div class="label">Contatados</div>
-            <div class="value" id="painelContatados">—</div>
+            <div class="label">Comissões + saques</div>
+            <div class="value" id="painelProgramaTotal">—</div>
           </div>
           <div class="stat">
             <div class="label">Indicações ativas</div>

@@ -127,6 +127,46 @@
     });
   }
 
+  /* marca: sorteia uma das versões da wordmark a cada carregamento.
+     As artes são brancas com transparência e entram como máscara, então
+     herdam a cor do texto (e o hover da marca) em qualquer tema. */
+  var wordmarks = [
+    { src: '/assets/brand/wordmark-1.png', ratio: 298 / 66 },
+    { src: '/assets/brand/wordmark-2.png', ratio: 294 / 71 },
+    { src: '/assets/brand/wordmark-3.png', ratio: 188 / 63 },
+    { src: '/assets/brand/wordmark-4.png', ratio: 301 / 61 },
+    { src: '/assets/brand/wordmark-5.png', ratio: 390 / 75 },
+    { src: '/assets/brand/wordmark-6.png', ratio: 353 / 57 },
+  ];
+  var wordmarkTargets = $$('[data-brand-wordmark]');
+  if (wordmarkTargets.length) {
+    var lastWordmark = -1;
+    try {
+      lastWordmark = parseInt(window.sessionStorage.getItem('vizin-wordmark'), 10);
+    } catch (error) {
+      lastWordmark = -1;
+    }
+
+    var wordmarkIndex = Math.floor(Math.random() * wordmarks.length);
+    if (!isNaN(lastWordmark) && wordmarkIndex === lastWordmark) {
+      wordmarkIndex = (wordmarkIndex + 1) % wordmarks.length;
+    }
+
+    try {
+      window.sessionStorage.setItem('vizin-wordmark', String(wordmarkIndex));
+    } catch (error) {
+      /* sessionStorage indisponível: segue com o sorteio simples. */
+    }
+
+    var wordmark = wordmarks[wordmarkIndex];
+    wordmarkTargets.forEach(function (target) {
+      target.style.setProperty('--wordmark-ratio', String(wordmark.ratio));
+      target.style.webkitMaskImage = 'url("' + wordmark.src + '")';
+      target.style.maskImage = 'url("' + wordmark.src + '")';
+      target.classList.add('is-ready');
+    });
+  }
+
   /* link de download */
   var download = $('#android-download');
   if (download) {

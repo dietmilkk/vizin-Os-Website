@@ -213,23 +213,12 @@ def main() -> int:
                 ("painelCofres", "2"),
                 ("painelCriadores", "2"),
                 ("painelAfiliados", "1"),
-                ("painelContatados", "3"),
+                ("painelProgramaTotal", "3"),
                 ("painelNovas24h", str(CONTAS_NOVAS_24H)),
                 ("painelNovas7d", str(CONTAS_NOVAS_7D)),
             ]:
                 text = page.inner_text(f"#{element_id}").strip()
                 check(f"#{element_id} mostra {expected}", text == expected, f"veio '{text}'")
-
-            taxa = round(accounts_ativas(7 * DAY) / CONTAS_TOTAL * 100)
-            texto_taxa = page.inner_text("#painelTaxa").strip()
-            check(f"#painelTaxa mostra {taxa}%", texto_taxa == f"{taxa}%", f"veio '{texto_taxa}'")
-
-            anel = page.inner_text("#painelAnelLegenda").strip()
-            check(
-                "#painelAnelLegenda explica a proporção",
-                anel == f"{accounts_ativas(7 * DAY):,} de {CONTAS_TOTAL:,} contas".replace(",", "."),
-                f"veio '{anel}'",
-            )
 
             indicacoes = page.inner_text("#painelIndicacoes").strip()
             check("#painelIndicacoes mostra ativas de total", indicacoes == "1 de 2", f"veio '{indicacoes}'")
@@ -252,7 +241,6 @@ def main() -> int:
                 "painelLatencia",
                 "painelContaRecente",
                 "painelOnlineLegenda",
-                "painelDesde",
                 "painelComissoes",
                 "painelHeapLegenda",
                 "painelUsernamesLegenda",

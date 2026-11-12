@@ -24,7 +24,6 @@ CAMPOS = [
     ("painelRegioes", "Regioes"),
     ("painelBeacons", "Beacons"),
     ("painelUptime", "Servidor no ar ha"),
-    ("painelDesde", "Servico no ar desde"),
     ("painelContas", "Contas"),
     ("painelContaRecente", "Conta mais recente"),
     ("painelNovas24h", "Novas 24 h"),

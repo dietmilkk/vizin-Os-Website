@@ -21,8 +21,6 @@
   // Histórico local da latência medida no navegador (só números de ms).
   var LAT_CHAVE = "vizinOs.painel.latencia.v1";
   var LAT_MAX = 24;
-  var ANEL_RAIO = 36;
-  var ANEL_CIRC = 2 * Math.PI * ANEL_RAIO;
 
   var config = window.VIZINHANCA_CONFIG || {};
   var apiUrl = String(config.apiUrl || "").replace(/\/+$/, "");
@@ -74,7 +72,14 @@
     var ms = (Number(unixSeconds) || 0) * 1000;
     if (!ms) return "—";
     try {
-      return new Intl.DateTimeFormat("pt-BR", { dateStyle: "long" }).format(new Date(ms));
+      // Mes abreviado + horario: "9 de nov. de 2026, 14:32".
+      return new Intl.DateTimeFormat("pt-BR", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(new Date(ms));
     } catch (err) {
       return "—";
     }
@@ -110,15 +115,6 @@
     if (!el || !el.style) return;
     var p = Math.max(0, Math.min(100, Number(percent) || 0));
     el.style.width = p.toFixed(2) + "%";
-  }
-
-  /** Preenchimento do anel em % (0–100). */
-  function setAnel(percent) {
-    var el = document.getElementById("painelAnelArco");
-    if (!el || !el.style) return;
-    var p = Math.max(0, Math.min(100, Number(percent) || 0));
-    el.style.strokeDasharray = ANEL_CIRC.toFixed(2);
-    el.style.strokeDashoffset = (ANEL_CIRC * (1 - p / 100)).toFixed(2);
   }
 
   function lerLatencias() {
@@ -200,8 +196,6 @@
       "painelSaquesPilhaAfiliados",
     ];
     for (var i = 0; i < fills.length; i += 1) setFill(fills[i], 0);
-    setText("painelTaxa", "—");
-    setAnel(0);
     setText("painelOnlineLegenda", "—");
     setText("painelHeapLegenda", "—");
     setText("painelIndicacoesLegenda", "—");
@@ -357,25 +351,9 @@
     setFill("painelBarra7", a30 > 0 ? (a7 / a30) * 100 : 0);
     setFill("painelBarra30", a30 > 0 ? 100 : 0);
 
-    // Anel: fatia das contas ativas nos últimos 7 dias.
-    if (total > 0) {
-      var taxa = (a7 / total) * 100;
-      setText("painelTaxa", Math.round(taxa) + "%");
-      setAnel(taxa);
-      setText("painelAnelLegenda", fmtInt(a7) + " de " + fmtInt(total) + " contas");
-    } else {
-      setText("painelTaxa", "—");
-      setAnel(0);
-      setText("painelAnelLegenda", "—");
-    }
-
     setText("painelRegioes", fmtInt(Array.isArray(network.regions) ? network.regions.length : 0));
     setText("painelBeacons", fmtInt(network.beacons));
     setText("painelUptime", fmtDuration(server.uptime_seconds));
-    setText(
-      "painelDesde",
-      server.service_started_at ? fmtDate(server.service_started_at) : "—",
-    );
     renderRegions(network.regions);
 
     // Memória: total (RSS) no cartão e fatia do heap dentro dele no medidor.
@@ -429,7 +407,6 @@
 
     setText("painelCriadores", fmtInt(partners.creators));
     setText("painelAfiliados", fmtInt(partners.hunters));
-    setText("painelContatados", fmtInt(partners.creators_contacted));
     renderContacts(partners.recent_contacts);
     setText(
       "painelIndicacoes",
@@ -442,6 +419,15 @@
     setText("painelIndicacoesLegenda", refT > 0 ? Math.round((refA / refT) * 100) + "% ativas" : "—");
 
     setText("painelComissoes", fmtInt(partners.earnings));
+    /* Total movimentado pelo programa: comissoes geradas + saques pagos. */
+    setText(
+      "painelProgramaTotal",
+      fmtInt(
+        (Number(partners.earnings) || 0) +
+          (Number(partners.payouts_paid) || 0) +
+          (Number(partners.payouts_hunter_paid) || 0),
+      ),
+    );
     var pagosC = Number(partners.payouts_paid) || 0;
     var pagosA = Number(partners.payouts_hunter_paid) || 0;
     setText("painelSaques", fmtInt(pagosC + pagosA));
