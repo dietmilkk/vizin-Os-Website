@@ -360,7 +360,8 @@ button {
 }
 
 .desktop-nav a:hover {
-
+  color: var(--text-muted);
+}
 .header-actions {
   display: flex;
   align-items: center;
