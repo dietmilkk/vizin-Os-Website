@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#0f1115">
+  <title>vizin.Os — criadores e afiliados parceiros</title>
+  <meta name="description" content="Programa de parceiros do vizin.Os: movimento aberto de divulgação onde qualquer pessoa pode participar — sem entrevista, aprovação, currículo ou seguidores. Ganho proporcional ao esforço, pagamento via PIX, transparência total. Estudante, aposentado, comerciante, criador, síndico: todos bem-vindos.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script>
+    /* Antes de carregar o conteudo, a pagina e checada contra IP de datacenter,
+       VPN ou fora do Brasil. Enquanto a checagem nao termina, nada aparece. */
+    (function () {
+      "use strict";
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var hasPanel =
+          params.get("p") || params.get("afiliado_token") || params.get("token");
+        if (hasPanel) return;
+        document.documentElement.classList.add("is-guarding");
+        window.setTimeout(function () {
+          document.documentElement.classList.remove("is-guarding");
+        }, 6000);
+      } catch (error) {
+        document.documentElement.classList.remove("is-guarding");
+      }
+    })();
+  </script>
+  <style>
+    /* ============================================ guarda de IP (servidor)
+       A checagem nao deve esconder a pagina inteira: o visitante ve o
+       conteudo de imediato e so a parte que exige acesso liberado
+       (cadastro e paineis) fica oculta ate a checagem terminar. */
+    html.is-guarding #criar,
+    html.is-guarding #participar {
+      visibility: hidden;
+    }
+
+    /* ====================================== aviso dentro da janela (modal) */
+    /* Uma linha de texto: sem caixa, sem fundo e sem ícone. */
+    .create-warning {
+      margin: var(--space-3) 0 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: left;
+    }
+    /* ===== Base da página de afiliados ===== */
+    .creators-guide hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: var(--space-8) 0 0;
+    }
+    .creators-guide h3 {
+      margin: var(--space-8) 0 0;
+      font-size: 1.15rem;
+    }
+    .creators-more {
+      margin-top: var(--space-8);
+      padding: var(--space-6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface-alt);
+    }
+    .creators-more h3 {
+      margin: 0;
+    }
+    .creators-nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+    }
+    .creators-nav .btn {
+      margin: 0;
+    }
+    .creators-nav-links {
+      display: flex;
+      gap: var(--space-3);
+    }
+    .creators-nav-links .btn {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: var(--space-4);
+    }
+    @media (max-width: 720px) {
+      .creators-more {
+        margin-top: var(--space-8);
+        padding: 0;
+        border: 0;
+        background: transparent;
+      }
+      .creators-nav {
+        margin-top: var(--space-4);
+      }
+      .creators-nav-links {
+        flex-direction: column;
+      }
+      .creators-nav-links .btn {
+        flex: none;
+        width: 100%;
+      }
+    }
+
+    /* ===== Hero com fundo gradiente ===== */
+    /* Decoracao unica no site: so a home do programa de parceiros usa este
+       bloco. Em telefone ela sai do ar — o hero vira um cartao simples, sem
+       aurora, sem orbes e sem animacao nenhuma. */
+    .creators-hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: var(--space-8) var(--space-7);
+      margin-top: var(--space-5);
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 0%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 100%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+        var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .creators-hero::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background: conic-gradient(
+          from 0deg at 30% 30%,
+          transparent 0deg,
+          color-mix(in srgb, var(--primary) 6%, transparent) 60deg,
+          transparent 120deg,
+          color-mix(in srgb, var(--accent) 5%, transparent) 200deg,
+          transparent 280deg
+        );
+        animation: hero-aurora 18s linear infinite;
+        pointer-events: none;
+      }
+      .creators-hero > * {
+        position: relative;
+        z-index: 1;
+      }
+    }
+    @keyframes hero-aurora {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ===== Entrada escalonada (stagger) para elementos do hero ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js .creators-hero[data-reveal] h1,
+      .js .creators-hero[data-reveal] > p {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      .js .creators-hero[data-reveal].is-visible h1 { animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards; }
+      .js .creators-hero[data-reveal].is-visible > p { animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards; }
+    }
+    @keyframes hero-stagger {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* ===== Botão CTA ===== */
+    .creators-cta-wrap {
+      margin-top: var(--space-8);
+    }
+    .creators-cta {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      min-height: 68px;
+      padding: var(--space-5) var(--space-8);
+      font-size: 1.15rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 20px 45px -14px color-mix(in srgb, var(--primary) 60%, transparent);
+      transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+    }
+    .creators-cta:hover {
+      transform: translateY(var(--lift));
+      box-shadow: 0 28px 60px -14px color-mix(in srgb, var(--primary) 75%, transparent);
+    }
+    .creators-cta:active {
+      transform: scale(var(--press));
+    }
+    .creators-cta svg {
+      width: 22px;
+      height: 22px;
+      flex: none;
+    }
+
+    /* ===== Barra de divisão animada ===== */
+    .split-segment {
+      transition: flex-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .js .split-bar:not(.is-visible) .split-segment {
+        flex-grow: 0.01;
+      }
+      .js .split-bar.is-visible .split-segment {
+        animation: split-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+    }
+    @keyframes split-grow {
+      from { flex-grow: 0.01; }
+      to { flex-grow: var(--share-grow, 1); }
+    }
+
+    /* ===== Cards de programa com hover ===== */
+    .program-card {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .program-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 45px -16px color-mix(in srgb, var(--shadow) 18%, transparent);
+        border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+      }
+      .program-card:hover .program-number {
+        transform: scale(1.08);
+      }
+    }
+    .program-number {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ===== Pilares do projeto com hover ===== */
+    .pillar {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .pillar:hover {
+        transform: translateY(-3px);
+        background: var(--surface);
+        border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+      }
+    }
+
+    /* ===== Seções com entrada suave adicional ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js [data-reveal] .project-pillars,
+      .js [data-reveal] .program-grid,
+      .js [data-reveal] .split-bar,
+      .js [data-reveal] .split-grid {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .js [data-reveal].is-visible .project-pillars,
+      .js [data-reveal].is-visible .program-grid,
+      .js [data-reveal].is-visible .split-bar,
+      .js [data-reveal].is-visible .split-grid {
+        animation: section-stagger 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      .js [data-reveal].is-visible .program-grid { animation-delay: 0.1s; }
+      .js [data-reveal].is-visible .split-bar { animation-delay: 0.15s; }
+      .js [data-reveal].is-visible .split-grid { animation-delay: 0.2s; }
+    }
+    @keyframes section-stagger {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Navegação do header com indicador ativo ===== */
+    .partners-nav a {
+      position: relative;
+      transition: color 0.25s ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .partners-nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--primary);
+        border-radius: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .partners-nav a:hover::after {
+        transform: scaleX(1);
+      }
+    }
+
+
+
+    /* ===== Orbes decorativos (so no hero do programa, so no desktop) ===== */
+    @media (min-width: 721px) {
+      .hero-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        border-radius: inherit;
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.5;
+      }
+      .hero-orb--1 {
+        width: 280px;
+        height: 280px;
+        top: -80px;
+        right: 8%;
+        background: radial-gradient(circle, color-mix(in srgb, var(--primary) 35%, transparent), transparent 70%);
+      }
+      .hero-orb--2 {
+        width: 200px;
+        height: 200px;
+        bottom: -60px;
+        left: 12%;
+        background: radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+      }
+      .hero-orb--3 {
+        width: 140px;
+        height: 140px;
+        top: 40%;
+        left: 45%;
+        background: radial-gradient(circle, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%);
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .hero-orb--1 { animation: orb-float-1 14s ease-in-out infinite; }
+        .hero-orb--2 { animation: orb-float-2 18s ease-in-out infinite; }
+        .hero-orb--3 { animation: orb-float-3 11s ease-in-out infinite; }
+      }
+    }
+    @keyframes orb-float-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-30px, 20px) scale(1.1); }
+      66% { transform: translate(20px, -15px) scale(0.95); }
+    }
+    @keyframes orb-float-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(25px, -25px) scale(1.15); }
+    }
+    @keyframes orb-float-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-20px, 15px) scale(1.2); }
+    }
+
+    /* ===== H1 com destaque em gradiente ===== */
+    .creators-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* ===== Entrada escalonada para itens de lista ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js [data-reveal] ul li,
+      .js [data-reveal] ol li {
+        opacity: 0;
+        transform: translateX(-12px);
+      }
+      .js [data-reveal].is-visible ul li,
+      .js [data-reveal].is-visible ol li {
+        animation: list-slide-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      .js [data-reveal].is-visible ul li:nth-child(1), .js [data-reveal].is-visible ol li:nth-child(1) { animation-delay: 0.05s; }
+      .js [data-reveal].is-visible ul li:nth-child(2), .js [data-reveal].is-visible ol li:nth-child(2) { animation-delay: 0.12s; }
+      .js [data-reveal].is-visible ul li:nth-child(3), .js [data-reveal].is-visible ol li:nth-child(3) { animation-delay: 0.19s; }
+      .js [data-reveal].is-visible ul li:nth-child(4), .js [data-reveal].is-visible ol li:nth-child(4) { animation-delay: 0.26s; }
+      .js [data-reveal].is-visible ul li:nth-child(5), .js [data-reveal].is-visible ol li:nth-child(5) { animation-delay: 0.33s; }
+      .js [data-reveal].is-visible ul li:nth-child(6), .js [data-reveal].is-visible ol li:nth-child(6) { animation-delay: 0.4s; }
+    }
+    @keyframes list-slide-in {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ===== Split items com hover ===== */
+    .split-item {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .split-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--shadow) 15%, transparent);
+      }
+    }
+
+    /* ===== Painel do afiliado: link em destaque =====
+       Mesma caixa tracejada do painel do criador (.code-box). O link de
+       afiliado e um endereco longo, entao o campo e o botao ficam lado a
+       lado dentro da caixa. */
+    .affiliate-code {
+      flex: 0 1 460px;
+      min-width: 260px;
+      margin-top: 0;
+      padding: var(--space-4);
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+    .affiliate-code .link-field {
+      margin-top: 0;
+    }
+    .affiliate-code input {
+      min-height: 44px;
+      padding: var(--space-2) var(--space-3);
+      background: var(--surface);
+      font-size: 0.82rem;
+    }
+
+    /* ===== Stats do painel do afiliado ===== */
+    .stat--accent {
+      background: color-mix(in srgb, var(--primary) 7%, var(--surface-alt));
+      border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .stat {
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+      }
+      .stat:hover {
+        transform: translateY(-3px);
+      }
+      .stat--accent:hover {
+        border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+      }
+    }
+
+    /* ===== Linhas de contato ===== */
+    .contact-row {
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .contact-row__main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .contact-row__name {
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+    .contact-row__meta {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      overflow-wrap: anywhere;
+    }
+    .contact-row__side {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex: none;
+    }
+    .contact-row__date {
+      color: var(--text-faint);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    @media (max-width: 560px) {
+      .contact-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .contact-row__side {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    /* ===== Hint dos campos ===== */
+    .field-hint {
+      margin: var(--space-2) 0 0;
+      color: var(--text-faint);
+      font-size: 0.79rem;
+      line-height: 1.55;
+    }
+
+    /* ===== Verificação com destaque ===== */
+    .check-result.is-ok,
+    .check-result.is-error {
+      font-weight: 500;
+      animation: result-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes result-in {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Entrada escalonada dos grupos do painel ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js #afiliadoDashboardView .panel-group {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      .js #afiliadoDashboardView.is-loaded .panel-group {
+        animation: section-stagger 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(1) { animation-delay: 0.04s; }
+      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(2) { animation-delay: 0.12s; }
+      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(3) { animation-delay: 0.2s; }
+      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(4) { animation-delay: 0.28s; }
+      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(5) { animation-delay: 0.36s; }
+    }
+
+    /* ===== CTA final da página pública ===== */
+    .participate-card {
+      text-align: center;
+    }
+    .participate-card p {
+      max-width: 56ch;
+      margin-inline: auto;
+    }
+    .participate-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-4);
+      margin-top: var(--space-7);
+    }
+    .participate-actions .btn {
+      margin: 0;
+      width: auto;
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 320px;
+    }
+    @media (max-width: 560px) {
+      .participate-actions {
+        flex-direction: column;
+      }
+      .participate-actions .btn {
+        width: 100%;
+        max-width: none;
+      }
+    }
+
+    /* ===== Guia completo (aparece acima do rodapé no painel) ===== */
+    .guia-completo {
+      margin-top: var(--space-8);
+      padding: var(--space-8) var(--space-7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(ellipse 70% 45% at 12% 0%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 62%),
+        radial-gradient(ellipse 55% 45% at 92% 8%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 58%),
+        var(--surface-alt);
+      box-shadow: 0 24px 60px -36px rgba(0, 0, 0, 0.55);
+    }
+    .guia-completo__head {
+      max-width: 68ch;
+      margin-bottom: var(--space-6);
+    }
+    .guia-completo__head h2 {
+      margin: var(--space-2) 0 var(--space-3);
+      font-size: clamp(1.6rem, 3.2vw, 2.15rem);
+      line-height: 1.15;
+    }
+    .guia-completo__head p {
+      margin: 0;
+    }
+    .guia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: var(--space-5);
+      align-items: start;
+    }
+    .guia-bloco {
+      padding: var(--space-6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .guia-bloco h3 {
+      margin: var(--space-4) 0 var(--space-3);
+      font-size: 1.2rem;
+      line-height: 1.25;
+    }
+    .guia-bloco h3 + p,
+    .guia-bloco p + h3,
+    .guia-bloco ul,
+    .guia-bloco ol {
+      margin-top: var(--space-4);
+    }
+    .guia-bloco ul,
+    .guia-bloco ol {
+      padding-left: 1.15rem;
+      display: grid;
+      gap: var(--space-3);
+      color: var(--text-muted);
+    }
+    .guia-bloco strong {
+      color: var(--text);
+    }
+    .guia-bloco .program-grid,
+    .guia-bloco .split-grid,
+    .guia-bloco .project-pillars {
+      margin-top: var(--space-5);
+    }
+    .guia-bloco .creators-more {
+      margin-top: var(--space-5);
+    }
+    .guia-bloco--afiliado {
+      border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+    }
+    .guia-bloco--criador {
+      border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    }
+    .guia-bloco.is-current {
+      border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 40%, transparent),
+        0 20px 48px -30px color-mix(in srgb, var(--primary) 60%, transparent);
+    }
+    .guia-bloco__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .guia-badge {
+      display: none;
+      align-items: center;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-ink);
+      background: color-mix(in srgb, var(--primary) 14%, transparent);
+      white-space: nowrap;
+    }
+    .guia-bloco.is-current .guia-badge {
+      display: inline-flex;
+    }
+    .guia-bloco {
+      display: flow-root;
+    }
+    .guia-bloco[hidden] {
+      display: none;
+    }
+    .guia-cross {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .guia-cross__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-5);
+      padding: var(--space-5) var(--space-6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+    }
+    .guia-cross__item strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+    .guia-cross__item p {
+      margin: var(--space-2) 0 0;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+    .guia-cross__item .btn {
+      margin: 0;
+      flex: none;
+    }
+    @media (max-width: 720px) {
+      .guia-completo {
+        padding: var(--space-6) var(--space-5);
+        border-radius: var(--radius-lg);
+      }
+      .guia-grid {
+        grid-template-columns: 1fr;
+      }
+      .guia-bloco {
+        padding: var(--space-5);
+      }
+      .guia-cross__item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .guia-cross__item .btn {
+        width: 100%;
+      }
+    }
+
+    /* ===== Ritmo vertical da página pública =====
+       Um único intervalo entre as seções: hero -> movimento -> divisao ->
+       participar -> guia. Sem isso o primeiro vao fica curto (40px) e o resto
+       largo (72px), e a pagina perde o sentido de ritmo.
+       O guia fica logo depois de #partnerMarketing e usa o proprio
+       margin-top, entao nenhuma secao precisa de folga extra no fim. */
+    #partnerMarketing {
+      display: flow-root;
+    }
+    #partnerMarketing > .creators-hero {
+      margin-bottom: 0;
+    }
+    #partnerMarketing > .creators-guide {
+      margin-top: var(--space-8);
+      margin-bottom: 0;
+    }
+    #partnerMarketing > .creators-guide h2 {
+      margin-top: 0;
+    }
+
+    /* ===== Painel do afiliado: mesmo desenho do painel do criador =====
+       H1 (painel) -> H2 (grupo) -> H3 (card). Cada grupo e um passo do
+       trabalho do afiliado, com um numero que da a ordem das acoes. O grupo
+       e um cartao: o numero e o titulo moram dentro dele, como no painel
+       do criador. O numero fica discreto ao lado do titulo grande, para
+       marcar a ordem sem virar o protagonista. */
+    .panel-flow {
+      display: grid;
+      gap: var(--space-8);
+    }
+    /* O dashboard-heading ja tem 16px de padding inferior; 32px separa melhor
+       o titulo do painel do primeiro grupo. */
+    #afiliadoDashboardView .dashboard-heading {
+      padding-bottom: var(--space-6);
+    }
+    .panel-group {
+      display: block;
+    }
+    .panel-group__head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    .panel-group__num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    /* Sem override de tamanho: o titulo do grupo herda o h2 global, que e
+       exatamente o titulo de card do painel do criador. */
+    .panel-group__title {
+      margin: 0;
+    }
+    .panel-group__lead {
+      max-width: 62ch;
+      margin: var(--space-3) 0 var(--space-5);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    /* Itens de grid/flex nascem com min-width:auto (= min-content). Sem isso a
+       coluna do painel trava na largura minima do conteudo e estoura a pagina
+       em telas de 320px. */
+    .panel-flow,
+    .panel-group,
+    .panel-group > *,
+    .panel-group__head > *,
+    .panel-two-col,
+    .panel-two-col > *,
+    .form-card {
+      min-width: 0;
+    }
+    .panel-group > .form-card {
+      margin-top: 0;
+    }
+    .panel-card__title {
+      margin: 0;
+      /* A fonte vem aqui, e nao do h2/h3: o mesmo titulo de card aparece
+         como h3 no painel do afiliado e como h2 no do criador, e os dois
+         precisam ficar com a mesma aparencia. */
+      font-family: var(--font-body);
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+    .panel-card__lead {
+      margin: var(--space-2) 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    /* ===== Bloco de apoio dentro do cartao =====
+       Separa o formulario da explicacao com uma regra no topo: o texto
+       continua no mesmo cartao, mas nao parece parte do formulario. */
+    .panel-subsection {
+      margin-top: var(--space-6);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--border);
+    }
+    /* No telefone o botao ocupa a linha toda (alvo de toque largo). No painel
+       largo ele fica do tamanho do texto: um botao de mil pixels e um bloco de
+       cor que briga com o resto do cartao. */
+    @media (min-width: 561px) {
+      #outreachForm .btn {
+        width: auto;
+      }
+    }
+    .panel-two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+      align-items: start;
+    }
+    .panel-two-col--split {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+    @media (max-width: 900px) {
+      .panel-two-col,
+      .panel-two-col--split {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .panel-group__head {
+        gap: var(--space-3);
+      }
+      .panel-group__num {
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        font-size: 0.78rem;
+      }
+    }
+
+    /* ===== Stats do painel: a mesma grade do painel do criador ===== */
+    .stats-grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .stats-grid--4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    @media (max-width: 900px) {
+      .stats-grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .stats-grid--3,
+      .stats-grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* ===== Guia: sumario no topo ===== */
+    .guia-sumario {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+      padding: var(--space-4) var(--space-5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+    }
+    .guia-sumario__label {
+      display: block;
+      color: var(--text-faint);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .guia-sumario__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: guia-sumario;
+    }
+    .guia-sumario__list li {
+      margin: 0;
+    }
+    .guia-sumario__list button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .guia-sumario__list button::before {
+      counter-increment: guia-sumario;
+      content: counter(guia-sumario, decimal-leading-zero);
+      color: var(--primary-ink);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .guia-sumario__list button:hover,
+      .guia-sumario__list button.is-active {
+        color: var(--text);
+        border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+        background: color-mix(in srgb, var(--primary) 8%, transparent);
+      }
+    }
+
+    /* ===== Guia: hierarquia H3 (bloco) -> H4 (subsecao) ===== */
+    .guia-bloco h4 {
+      margin: var(--space-6) 0 0;
+      font-size: 1.02rem;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+    .guia-bloco h4 + p,
+    .guia-bloco h4 + ul,
+    .guia-bloco h4 + ol,
+    .guia-bloco h4 + .program-grid {
+      margin-top: var(--space-3);
+    }
+    .guia-bloco .creators-more h4,
+    .guia-bloco .program-card h4 {
+      margin: 0;
+    }
+    .guia-bloco .program-card h4 {
+      font-size: 1.08rem;
+    }
+    .guia-bloco .creators-more h4 {
+      font-size: 1rem;
+    }
+    .guia-bloco .program-grid {
+      margin-top: var(--space-5);
+    }
+
+    /* ===== Troca de papel: criador <-> afiliado ===== */
+    .role-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+      padding: var(--space-4) var(--space-5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-alt);
+    }
+    .role-switch strong {
+      font-size: 0.95rem;
+    }
+    .role-switch p {
+      margin: var(--space-1) 0 0;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .role-switch .btn {
+      margin: 0;
+      flex: none;
+    }
+
+    /* ===== Historico de saques =====
+       O eixo vertical e as linhas do historico vivem em /assets/styles.css
+       (.withdraw-history e .withdraw-row): o bloco de saque e o mesmo no
+       painel do criador e no do afiliado. */
+
+    @media (max-width: 560px) {
+      .role-switch {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .role-switch .btn {
+        width: 100%;
+      }
+    }
+
+    /* ===== Responsivo ===== */
+    /* Em telefone o hero decorado nao existe: no lugar dele, so o texto. */
+    .creators-hero-mobile {
+      display: none;
+    }
+    @media (max-width: 720px) {
+      .creators-hero {
+        display: none;
+      }
+      .creators-hero-mobile {
+        display: block;
+        padding: var(--space-7) 0 0;
+        text-align: left;
+      }
+      .creators-hero-mobile .breadcrumb {
+        margin-bottom: var(--space-5);
+      }
+      .creators-hero-mobile h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+        line-height: 1.2;
+        margin-bottom: var(--space-3);
+      }
+      .creators-hero-mobile h1 em {
+        font-style: normal;
+        background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      .creators-hero-mobile p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 100%;
+        margin: var(--space-4) 0 0;
+      }
+      .creators-hero-mobile p:first-of-type {
+        color: var(--text);
+        font-size: 1rem;
+        margin-top: var(--space-5);
+      }
+    }
+    /* Celular em paisagem: a tela e larga, mas o aparelho e um telefone.
+       A decoracao tambem sai do ar aqui, valendo da mesma troca simples. */
+    @media (max-height: 500px) and (pointer: coarse) {
+      .creators-hero {
+        display: none;
+      }
+      .creators-hero-mobile {
+        display: block;
+        padding: var(--space-7) 0 0;
+        text-align: left;
+      }
+    }
+  </style>
+  <!-- Vercel Web Analytics: visitação e page views do site.
+       O script vive na rota /_vercel/insights/script.js, que só existe
+       quando o site é servido pela Vercel. No InfinityFree ele não existe
+       e nada é coletado (ver "Analytics de visitação" no README). -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="creators-page">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="vizin.Os, início">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="/assets/icon-192.png" alt="" width="40" height="40" />
+        </span>
+        <span>vizin.Os</span>
+      </a>
+      <nav class="desktop-nav partners-nav" aria-label="Seções do programa">
+        <a href="#divisao" data-nav="divisao">A divisão</a>
+        <a href="#participar" data-nav="participar">Participar</a>
+        <a href="#guiaCompleto" data-nav="guiaCompleto">O guia</a>
+      </nav>
+      <span class="badge">Programa de parceiros</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="partnerMarketing">
+      <section class="creators-hero" id="creatorsHero" data-reveal>
+
+        <nav class="breadcrumb" aria-label="Você está aqui">
+          <a href="/">Início</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Afiliados</span>
+        </nav>
+
+        <div class="hero-orbs" aria-hidden="true">
+          <span class="hero-orb hero-orb--1"></span>
+          <span class="hero-orb hero-orb--2"></span>
+          <span class="hero-orb hero-orb--3"></span>
+        </div>
+        <h1>O vizin.Os é feito por <em>gente como você</em>.</h1>
+        <p class="hero-lead">
+          O vizin.Os é um app 100% brasileiro, sem anúncios e sem investidores. Para ele
+          crescer, o app divulga no boca a boca — e paga quem divulga.
+        </p>
+        <p>
+          <strong>É um movimento aberto:</strong> qualquer pessoa pode participar. Sem entrevista,
+          sem aprovação, sem currículo e sem exigir seguidores. Não tem chefe, horário fixo,
+          meta mínima nem exclusividade.
+        </p>
+        <p>
+          <strong>Como funciona:</strong> quem é criador de conteúdo divulga o app com o seu
+          código e ganha <strong>40%</strong> de cada pagamento confirmado. Quem é afiliado
+          encontra criadores, apresenta o projeto e ganha <strong>20%</strong> das mensalidades
+          dos criadores que trouxer. O pagamento cai direto na sua conta via PIX e o painel
+          mostra cada indicação, cada comissão e cada saque.
+        </p>
+
+        <div id="afiliadoBanner" class="afiliado-banner hidden" role="status"></div>
+      </section>
+
+      <section class="creators-hero-mobile">
+        <nav class="breadcrumb" aria-label="Você está aqui">
+          <a href="/">Início</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Afiliados</span>
+        </nav>
+        <h1>O vizin.Os é feito por <em>gente como você</em>.</h1>
+        <p class="hero-lead">
+          App 100% brasileiro, sem anúncios e sem investidores. Para crescer, ele divulga no
+          boca a boca — e paga quem divulga.
+        </p>
+        <p>
+          <strong>Movimento aberto:</strong> qualquer pessoa pode participar. Sem entrevista,
+          sem currículo, sem seguidores, sem meta e sem exclusividade.
+        </p>
+        <p>
+          <strong>Criador</strong> ganha <strong>40%</strong> de cada pagamento confirmado.
+          <strong>Afiliado</strong> ganha <strong>20%</strong> das mensalidades dos criadores
+          que trouxer. Saque via PIX, com tudo visível no painel.
+        </p>
+      </section>
+
+      <section class="form-card creators-guide" id="divisao" data-reveal>
+        <h2>Para onde vai cada real</h2>
+        <p>
+          Todo pagamento é dividido entre quem usa, quem indicou e quem mantém o app vivo.
+          A divisão é pensada para manter o app sustentável, recompensar quem indica e ainda
+          dar um desconto real para quem usa. O usuário paga menos; do valor efetivamente
+          pago, cada parte recebe a sua fatia.
+        </p>
+
+        <div class="split-bar" role="img" aria-label="Divisão da receita: 20% para o usuário em desconto, 40% para o criador, 20% para o afiliado e 20% para desenvolvimento, estrutura e criador do app.">
+          <span class="split-segment split-user" style="--share: 20%">20%</span>
+          <span class="split-segment split-creator" style="--share: 40%">40%</span>
+          <span class="split-segment split-afiliado" style="--share: 20%">20%</span>
+          <span class="split-segment split-dev" style="--share: 20%">20%</span>
+        </div>
+
+        <div class="split-grid">
+          <article class="split-item split-item--user">
+            <strong>20% usuário</strong>
+            <p>Desconto na assinatura do Plus durante o primeiro ano.</p>
+          </article>
+          <article class="split-item split-item--creator">
+            <strong>40% criador</strong>
+            <p>Comissão por cada usuário que entrar com o código do criador.</p>
+          </article>
+          <article class="split-item split-item--afiliado">
+            <strong>20% afiliado</strong>
+            <p>Comissão por cada criador que o afiliado trouxe para o programa.</p>
+          </article>
+          <article class="split-item split-item--dev">
+            <strong>20% desenvolvimento</strong>
+            <p>
+              Estrutura, servidores, manutenção e o criador do app. É esta parte que mantém
+              o espaço de pé para o app crescer e ter gente suficiente.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="form-card creators-guide participate-card" id="participar" data-reveal>
+        <h2>Escolha o seu caminho</h2>
+        <p>
+          <strong>Criador</strong> — para quem tem audiência e quer transformar alcance em renda recorrente.
+          <strong>Afiliado</strong> — para quem conhece criadores e quer ganhar apresentando o projeto.
+          Nos dois casos, o painel acompanha tudo em tempo real.
+        </p>
+        <p class="fine-print">Já tem uma conta? Pode criar a outra também — criador e afiliado são independentes e se complementam.</p>
+        <div class="participate-actions">
+          <button class="btn btn-primary" type="button" data-open-create="creator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            Quero ser criador
+          </button>
+          <button class="btn btn-secondary" type="button" data-open-create="afiliado">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M8 11h6M11 8v6"/></svg>
+            Quero ser afiliado
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div id="criar">
+      <div id="createModal" class="modal" hidden>
+        <div class="modal-backdrop" data-close></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="createTitle">
+          <button class="modal-close" type="button" aria-label="Fechar" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          <section id="createView">
+            <h2 id="createTitle">Criar conta</h2>
+            <p class="muted create-intro" id="createIntro">Defina seu código.</p>
+            <div id="afiliadoAttribution" class="afiliado-attribution hidden" role="status"></div>
+            <div id="createWarning" class="create-warning hidden" role="status" aria-live="polite"></div>
+            <form id="createForm">
+              <div class="field">
+                <input id="code" name="code" maxlength="32" aria-label="Código que você quer compartilhar" autocomplete="off">
+              </div>
+              <p id="codeStatus" class="code-status" role="status" aria-live="polite"></p>
+              <button class="btn btn-primary" id="createButton" type="submit">Criar</button>
+              <div id="createError" class="error" role="alert"></div>
+            </form>
+          </section>
+
+          <section id="createdView" class="hidden">
+            <h2 id="createdTitle">Pronto 🎉</h2>
+            <p class="muted create-intro" id="createdIntro">Guarde o link: é a sua senha.</p>
+            <p class="muted panel-link"><a id="dashboardLink" href="#">abrir painel</a></p>
+            <button class="btn btn-primary" id="openDashboard" type="button">Abrir painel</button>
+          </section>
+        </div>
+      </div>
+
+      <section id="dashboardView" class="hidden">
+        <div class="dashboard-heading">
+          <h1>Criador parceiro</h1>
+        </div>
+        <div class="role-switch">
+          <div>
+            <strong>Também quer indicar criadores?</strong>
+            <p>Quem já tem conta de criador pode criar a conta de afiliado e ganhar 20% por ponte.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" type="button" data-open-create="afiliado">Criar conta de afiliado</button>
+        </div>
+        <div class="form-card">
+          <div class="creator-head">
+            <div class="creator-identity">
+              <h2 id="creatorName">Painel do criador</h2>
+              <p id="creatorHandle" class="muted"></p>
+            </div>
+            <div class="code-box creator-code">
+              <span id="creatorCode">—</span>
+              <button class="btn btn-secondary btn-sm code-copy" id="copyDashboardCode" type="button">Copiar</button>
+            </div>
+          </div>
+          <p id="creatorAfiliadoNote" class="muted afiliado-note hidden"></p>
+          <p id="creatorError" class="error" role="alert"></p>
+          <div class="stats-grid">
+            <div class="stat"><div class="label">Indicações</div><div class="value" id="statReferrals">0</div></div>
+            <div class="stat"><div class="label">Comissão total</div><div class="value" id="statCommission">R$ 0,00</div></div>
+            <div class="stat"><div class="label">Disponível para saque</div><div class="value ok" id="statAvailable">R$ 0,00</div></div>
+            <div class="stat"><div class="label">Em processamento</div><div class="value" id="statPending">R$ 0,00</div></div>
+            <div class="stat"><div class="label">Já sacado</div><div class="value" id="statWithdrawn">R$ 0,00</div></div>
+          </div>
+        </div>
+
+        <div class="form-card stacked-card withdraw-panel">
+          <h2>Sacar saldo</h2>
+          <div class="withdraw-panel__form">
+            <h3 class="panel-card__title">Pedir saque</h3>
+            <p class="panel-card__lead">
+              O Pix vai direto para a conta informada. O comprovante chega no e-mail.
+            </p>
+            <div class="withdraw-panel__balance">
+              <span class="withdraw-panel__balance-label">Disponível para saque</span>
+              <strong class="withdraw-panel__balance-value" id="withdrawAvailable">R$ 0,00</strong>
+            </div>
+            <div class="field">
+              <label for="withdrawPix">Chave Pix para receber</label>
+              <input id="withdrawPix" maxlength="200">
+            </div>
+            <div class="field">
+              <label for="withdrawPixCpf">CPF ou CNPJ do titular</label>
+              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="withdrawEmail">E-mail para o comprovante</label>
+              <input id="withdrawEmail" type="email" maxlength="200">
+            </div>
+            <button class="btn btn-primary" id="withdrawButton" type="button">Sacar saldo disponível</button>
+            <div id="withdrawError" class="error" role="alert"></div>
+          </div>
+          <div class="withdraw-panel__history withdraw-history">
+            <h3 class="panel-card__title">Histórico de saques</h3>
+            <p class="panel-card__lead">
+              Cada pedido mostra o valor e onde ele está.
+            </p>
+            <div id="withdrawalList" class="list"><p class="muted">Nenhum saque solicitado.</p></div>
+          </div>
+        </div>
+
+        <div class="form-card stacked-card">
+          <h2>Indicações recentes</h2>
+          <div id="referralList" class="list"><p class="muted">Nenhuma indicação ainda.</p></div>
+        </div>
+      </section>
+
+      <section id="afiliadoDashboardView" class="hidden">
+        <div class="dashboard-heading dashboard-heading--afiliado">
+          <h1>Afiliado parceiro</h1>
+          <p class="muted">
+            Encontre criadores, envie o convite por e-mail e acompanhe sua comissão. Aqui
+            você ganha 20% do que os criadores que indicou gerarem.
+          </p>
+        </div>
+        <div class="role-switch">
+          <div>
+            <strong>Também quer ser criador?</strong>
+            <p>Quem já tem conta de afiliado pode criar a conta de criador e ganhar 40% das próprias indicações.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" type="button" data-open-create="creator">Criar conta de criador</button>
+        </div>
+
+        <div class="panel-flow">
+
+          <!-- ============ 1. Link e numeros ============ -->
+          <section class="panel-group" aria-labelledby="afiliadoGrupo1">
+            <div class="form-card">
+              <div class="panel-group__head">
+                <span class="panel-group__num" aria-hidden="true">1</span>
+                <h2 class="panel-group__title" id="afiliadoGrupo1">Seu link e seus números</h2>
+              </div>
+              <p class="panel-group__lead">
+                Compartilhe seu link. Quem abrir ele fica marcado como seu por 180 dias;
+                se o criador criar a conta pelo mesmo navegador, os 20% são seus.
+              </p>
+              <div class="creator-head">
+                <div class="creator-identity">
+                  <h3 id="afiliadoName">Painel do afiliado</h3>
+                  <p id="afiliadoHandle" class="muted"></p>
+                </div>
+                <div class="code-box creator-code affiliate-code">
+                  <div class="link-field">
+                    <input id="afiliadoLink" type="text" readonly aria-label="Seu link de afiliado">
+                    <button class="btn btn-secondary btn-sm code-copy" id="copyAfiliadoLink" type="button">Copiar link</button>
+                  </div>
+                </div>
+              </div>
+              <p id="afiliadoError" class="error" role="alert"></p>
+
+                <div class="stats-grid stats-grid--4">
+                  <div class="stat stat--accent"><div class="label">Contatos registrados</div><div class="value" id="afiliadoStatOutreach">0</div></div>
+                  <div class="stat stat--accent"><div class="label">Criadores recrutados</div><div class="value" id="afiliadoStatCreators">0</div></div>
+                  <div class="stat"><div class="label">Indicações geradas</div><div class="value" id="afiliadoStatReferrals">0</div></div>
+                  <div class="stat" id="afiliadoStatEmailsCard"><div class="label">E-mails enviados</div><div class="value" id="afiliadoStatEmails">0/3</div></div>
+                  <div class="stat"><div class="label">Comissão total</div><div class="value" id="afiliadoStatCommission">R$ 0,00</div></div>
+                  <div class="stat"><div class="label">Disponível para saque</div><div class="value ok" id="afiliadoStatAvailable">R$ 0,00</div></div>
+                  <div class="stat"><div class="label">Em processamento</div><div class="value" id="afiliadoStatPending">R$ 0,00</div></div>
+                  <div class="stat"><div class="label">Já sacado</div><div class="value" id="afiliadoStatWithdrawn">R$ 0,00</div></div>
+                </div>
+              </div>
+          </section>
+
+          <!-- ============ 2. Enviar convite ============ -->
+          <section class="panel-group" aria-labelledby="afiliadoGrupo2">
+            <div class="form-card">
+              <div class="panel-group__head">
+                <span class="panel-group__num" aria-hidden="true">2</span>
+                <h2 class="panel-group__title" id="afiliadoGrupo2">Envie o convite por e-mail</h2>
+              </div>
+              <p class="panel-group__lead">
+                Preencha os dados do criador. A verificação da base é automática e
+                obrigatória: o convite só sai depois que o painel confirma que o criador
+                ainda não foi contatado. O texto do e-mail é do vizin.Os.
+              </p>
+              <form id="outreachForm">
+                <div class="field-row">
+                  <div class="field">
+                    <label for="outreachName">Como o criador é conhecido</label>
+                    <input id="outreachName" maxlength="80" autocomplete="off" required>
+                  </div>
+                  <div class="field">
+                    <label for="outreachEmail">E-mail do criador</label>
+                    <input id="outreachEmail" type="email" maxlength="120" autocomplete="off" required>
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="outreachPlatform">Onde você encontrou (opcional)</label>
+                    <select id="outreachPlatform">
+                      <option value="instagram">Instagram</option>
+                      <option value="tiktok">TikTok</option>
+                      <option value="youtube">YouTube</option>
+                      <option value="twitch">Twitch</option>
+                      <option value="x">X / Twitter</option>
+                      <option value="outro">Outro lugar</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="outreachContact">@ do criador <span aria-hidden="true">*</span></label>
+                    <input id="outreachContact" maxlength="61" autocomplete="off" required>
+                    <p class="field-hint">
+                      Obrigatório. Fica salvo por 6 meses e aparece no painel de dados do site.
+                    </p>
+                  </div>
+                </div>
+                <button class="btn btn-primary" id="outreachButton" type="submit">Enviar e-mail</button>
+                <div id="outreachStatus" class="code-status" role="status" aria-live="polite"></div>
+                <div id="outreachError" class="error" role="alert"></div>
+              </form>
+              <div class="panel-subsection">
+                <h3 class="panel-card__title">Como funciona o envio</h3>
+                <ul class="panel-list">
+                  <li>A verificação da base é obrigatória e feita no mesmo clique do envio: não existe caminho para enviar sem verificar.</li>
+                  <li>Você preenche o nome popular, o e-mail e o @ do criador (obrigatório). A plataforma é opcional.</li>
+                  <li>O modelo do convite é do vizin.Os e fica no servidor: o texto enviado não sai do painel.</li>
+                  <li>Cada e-mail enviado registra o contato na base compartilhada, travando o contato duplicado.</li>
+                  <li>Você pode enviar 3 e-mails a cada 3 dias. Envio que falha não gasta cota.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ 3. Acompanhar ============ -->
+          <section class="panel-group" aria-labelledby="afiliadoGrupo3">
+            <div class="form-card">
+              <div class="panel-group__head">
+                <span class="panel-group__num" aria-hidden="true">3</span>
+                <h2 class="panel-group__title" id="afiliadoGrupo3">Acompanhe o resultado</h2>
+              </div>
+              <p class="panel-group__lead">
+                Quem você já contatou e quem já entrou no programa pelo seu link.
+              </p>
+              <div class="panel-two-col">
+                <div>
+                  <h3 class="panel-card__title">Contatos recentes</h3>
+                  <div id="outreachList" class="list"><p class="muted">Nenhum contato registrado ainda.</p></div>
+                </div>
+                <div>
+                  <h3 class="panel-card__title">Criadores recrutados</h3>
+                  <p class="panel-card__lead">Criadores que criaram a conta a partir do seu link.</p>
+                  <div id="recruitedList" class="list"><p class="muted">Nenhum criador recrutado ainda.</p></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ 4. Saque ============ -->
+          <section class="panel-group" aria-labelledby="afiliadoGrupo4">
+            <div class="form-card">
+              <div class="panel-group__head">
+                <span class="panel-group__num" aria-hidden="true">4</span>
+                <h2 class="panel-group__title" id="afiliadoGrupo4">Saque seu saldo</h2>
+              </div>
+              <p class="panel-group__lead">
+                O saque usa o saldo disponível. O comprovante chega no e-mail informado.
+              </p>
+              <div class="withdraw-panel">
+              <div class="withdraw-panel__form">
+                <h3 class="panel-card__title">Pedir saque</h3>
+                <p class="panel-card__lead">
+                  O Pix vai direto para a conta informada. O comprovante chega no e-mail.
+                </p>
+                <div class="withdraw-panel__balance">
+                  <span class="withdraw-panel__balance-label">Disponível para saque</span>
+                  <strong class="withdraw-panel__balance-value" id="afiliadoWithdrawAvailable">R$ 0,00</strong>
+                </div>
+                <div class="field">
+                  <label for="afiliadoWithdrawPix">Chave Pix para receber</label>
+                  <input id="afiliadoWithdrawPix" maxlength="200">
+                </div>
+                <div class="field">
+                  <label for="afiliadoWithdrawPixCpf">CPF ou CNPJ do titular</label>
+                  <input id="afiliadoWithdrawPixCpf" maxlength="18" inputmode="numeric">
+                </div>
+                <div class="field">
+                  <label for="afiliadoWithdrawEmail">E-mail para o comprovante</label>
+                  <input id="afiliadoWithdrawEmail" type="email" maxlength="200">
+                </div>
+                <button class="btn btn-primary" id="afiliadoWithdrawButton" type="button">Sacar saldo disponível</button>
+                <div id="afiliadoWithdrawError" class="error" role="alert"></div>
+              </div>
+              <div class="withdraw-panel__history withdraw-history">
+                <h3 class="panel-card__title">Histórico de saques</h3>
+                <p class="panel-card__lead">
+                  Cada pedido mostra o valor e onde ele está.
+                </p>
+                <div id="afiliadoWithdrawalList" class="list"><p class="muted">Nenhum saque solicitado.</p></div>
+              </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </section>
+    </div>
+
+    <!-- Guia completo: o mesmo bloco serve para a página pública e para o painel.
+         No painel ele assume o papel de quem está logado. -->
+    <section id="guiaCompleto" class="guia-completo" aria-labelledby="guiaTitle" data-reveal>
+      <div class="guia-completo__head">
+        <h2 id="guiaTitle">Como funciona por dentro</h2>
+        <p class="muted">
+          A página pública mostra o essencial. Aqui ficam as regras, a divisão completa, o
+          passo a passo de cada papel e a proteção da base de contatos — e os números gerais
+          do serviço são públicos no <a href="/painel">painel público</a>.
+        </p>
+      </div>
+
+      <nav class="guia-sumario" aria-label="Sumário do guia">
+        <span class="guia-sumario__label">Neste guia</span>
+        <ol class="guia-sumario__list">
+          <li><button type="button" class="guia-sumario__btn is-active" data-guide-target="guiaProjeto" aria-expanded="true" aria-controls="guiaProjeto">O projeto</button></li>
+          <li><button type="button" class="guia-sumario__btn" data-guide-target="guiaPrograma" aria-expanded="false" aria-controls="guiaPrograma">Como funciona</button></li>
+          <li><button type="button" class="guia-sumario__btn" data-guide-target="guiaDivisao" aria-expanded="false" aria-controls="guiaDivisao">A divisão</button></li>
+          <li><button type="button" class="guia-sumario__btn" data-guide-target="guiaAfiliado" aria-expanded="false" aria-controls="guiaAfiliado">Afiliados</button></li>
+          <li><button type="button" class="guia-sumario__btn" data-guide-target="guiaCriador" aria-expanded="false" aria-controls="guiaCriador">Criadores</button></li>
+          <li><button type="button" class="guia-sumario__btn" data-guide-target="guiaTransparencia" aria-expanded="false" aria-controls="guiaTransparencia">Transparência</button></li>
+        </ol>
+      </nav>
+
+      <div class="guia-grid">
+        <article class="guia-bloco guia-bloco--active" id="guiaProjeto" data-guide-panel>
+          <h3>Movimento aberto de divulgação</h3>
+          <p>
+            A uberização não inventou o trabalho informal — ela organizou uma necessidade
+            que já existia: gente querendo renda extra com liberdade total. O vizin.Os faz o
+            mesmo com a divulgação de um app de bairro. Não inventamos a indicação de boca
+            em boca, a pessoa que recomenda, o comerciante que comenta com o cliente.
+            Organizamos a proximidade para que essa divulgação natural vire renda real.
+          </p>
+          <p>
+            Em vez de um feed infinito que prende você na tela, o vizin.Os conecta pessoas
+            que moram perto e compartilham os mesmos interesses — e faz o contrário do
+            resto: quer que você desligue o celular e saia. É uma infraestrutura de
+            encontros reais, não mais uma rede social.
+          </p>
+          <p>
+            O projeto é <strong>100% nacional e brasileiro</strong>, desenvolvido de forma
+            <strong>independente</strong>, sem empresa por trás, sem investidores e sem
+            equipe. O app é sustentado por quem usa e por quem acredita nele.
+          </p>
+          <p>
+            A distribuição é um <strong>movimento aberto</strong> baseado em cinco princípios:
+          </p>
+          <ul>
+            <li>
+              <strong>Acesso universal:</strong> qualquer pessoa pode participar — não precisa
+              de entrevista, aprovação, currículo ou seguidores. O cadastro leva segundos e
+              você já sai com seu link ativo.
+            </li>
+            <li>
+              <strong>Informalidade total:</strong> sem chefe, sem horário fixo, sem meta
+              mínima, sem exclusividade. Você divulga quando, onde e como quiser — no
+              WhatsApp, no Instagram, na conversa na padaria, no grupo do condomínio.
+            </li>
+            <li>
+              <strong>Ganho proporcional ao esforço:</strong> quanto mais e melhor você divulga,
+              mais você recebe. Não tem teto de ganhos, não tem letra miúda. A comissão é
+              20% de cada pagamento gerado pelos criadores que você trouxe, por 1 ano.
+            </li>
+            <li>
+              <strong>Sem burocracia:</strong> cadastro rápido, pagamento direto via PIX,
+              transparência total nos números. Seu painel mostra tudo em tempo real:
+              contatos feitos, criadores recrutados, comissão total, disponível, em
+              processamento e já sacado.
+            </li>
+            <li>
+              <strong>Aberto para todos:</strong> estudante, aposentado, comerciante, criador de
+              conteúdo, síndico, morador engajado — não importa sua ocupação ou idade. Se
+              você conhece gente no bairro e gosta de recomendar coisas boas, já sabe fazer
+              isso.
+            </li>
+          </ul>
+
+          <h4>Pilares do projeto</h4>
+          <div class="project-pillars">
+            <article class="pillar">
+              <strong>100% brasileiro</strong>
+              <p>Nascido e desenvolvido no Brasil, para a realidade dos bairros brasileiros.</p>
+            </article>
+            <article class="pillar">
+              <strong>Independente</strong>
+              <p>Sem empresa, sem investidores e sem roteiro de crescimento a qualquer custo.</p>
+            </article>
+            <article class="pillar">
+              <strong>Anti-vigilância</strong>
+              <p>Zero coleta de dados, mensagens que somem e privacidade como fundação.</p>
+            </article>
+          </div>
+        </article>
+
+        <article class="guia-bloco" id="guiaPrograma" data-guide-panel hidden>
+          <h3>Dois jeitos de fazer parte</h3>
+          <p>
+            O processo de criação de conta é o mesmo para criadores e afiliados: você escolhe
+            um código, gera seu painel e recebe um link secreto de acesso. A diferença está
+            no trabalho e na recompensa.
+          </p>
+
+          <div class="program-grid">
+            <article class="program-card">
+              <span class="program-number">01</span>
+              <h4>Criador</h4>
+              <ol>
+                <li>Crie seu código exclusivo no painel.</li>
+                <li>Compartilhe com a sua audiência no seu formato e na sua linguagem.</li>
+                <li>Quem entrar com o código ganha 15 dias com todos os recursos Plus desbloqueados, sem pagar nada, e 20% de desconto na assinatura.</li>
+                <li>Você recebe 40% de cada pagamento confirmado por 1 ano.</li>
+                <li>Acompanhe saldo, indicações e saques via Pix.</li>
+              </ol>
+            </article>
+            <article class="program-card program-card--afiliado">
+              <span class="program-number">02</span>
+              <h4>Afiliado</h4>
+              <ol>
+                <li>Crie sua conta.</li>
+                <li>Encontre criadores e verifique na base se já foram contatados.</li>
+                <li>Preencha os dados do criador e envie o convite por e-mail.</li>
+                <li>Quando o criador criar o código dele, o vínculo é salvo.</li>
+                <li>Você recebe 20% de cada pagamento gerado por esse criador por 1 ano.</li>
+              </ol>
+            </article>
+          </div>
+        </article>
+
+        <article class="guia-bloco" id="guiaDivisao" data-guide-panel hidden>
+          <h3>Para onde vai cada real</h3>
+          <p>
+            A divisão é pensada para manter o app vivo, recompensar quem indica e ainda
+            dar um desconto real para quem usa. O usuário paga menos; do valor
+            efetivamente pago, cada parte recebe a sua fatia.
+          </p>
+
+          <div class="split-bar" role="img" aria-label="Divisão da receita: 20% para o usuário em desconto, 40% para o criador, 20% para o afiliado e 20% para desenvolvimento, estrutura e criador do app.">
+            <span class="split-segment split-user" style="--share: 20%">20%</span>
+            <span class="split-segment split-creator" style="--share: 40%">40%</span>
+            <span class="split-segment split-afiliado" style="--share: 20%">20%</span>
+            <span class="split-segment split-dev" style="--share: 20%">20%</span>
+          </div>
+
+          <div class="split-grid">
+            <article class="split-item split-item--user">
+              <strong>20% usuário</strong>
+              <p>Desconto na assinatura do Plus durante o primeiro ano.</p>
+            </article>
+            <article class="split-item split-item--creator">
+              <strong>40% criador</strong>
+              <p>Comissão por cada usuário que entrar com o código do criador.</p>
+            </article>
+            <article class="split-item split-item--afiliado">
+              <strong>20% afiliado</strong>
+              <p>Comissão por cada criador que o afiliado trouxe para o programa.</p>
+            </article>
+            <article class="split-item split-item--dev">
+              <strong>20% desenvolvimento</strong>
+              <p>
+                Estrutura, servidores, manutenção e o criador do app. É esta parte que mantém
+                o espaço de pé para o app crescer e ter gente suficiente.
+              </p>
+            </article>
+          </div>
+          <p class="fine-print">
+            O afiliado não desconta do criador. Cada fatia é independente.
+          </p>
+        </article>
+
+        <article class="guia-bloco guia-bloco--afiliado" id="guiaAfiliado" data-guide-panel hidden>
+          <div class="guia-bloco__head">
+            <span class="guia-badge">Seu papel</span>
+          </div>
+          <h3>Afiliado: encontre criadores, abra portas, cresça junto</h3>
+          <p>
+            O afiliado é a ponte entre o vizin.Os e quem já tem uma audiência. Você não
+            precisa criar conteúdo nem aparecer: precisa conhecer criadores, apresentar o
+            projeto com honestidade e registrar o contato para que ninguém seja abordado
+            duas vezes.
+          </p>
+
+          <h4>O que o painel de afiliado tem</h4>
+          <ul>
+            <li>
+              <strong>Base compartilhada de contatos:</strong> registre o criador e o
+              sistema impede duplicidade entre afiliados.
+            </li>
+            <li>
+              <strong>Verificação antes do contato:</strong> consulte como o criador é
+              conhecido para saber se ele já foi contatado.
+            </li>
+            <li>
+              <strong>Convite por e-mail:</strong> você preenche os dados do criador e a
+              VPS envia o convite com o seu link já creditado. O texto é do vizin.Os:
+              você não escreve a mensagem.
+            </li>
+            <li>
+              <strong>Limite de envios:</strong> 3 e-mails a cada 3 dias, por afiliado.
+            </li>
+            <li>
+              <strong>Saldo e saques:</strong> comissão total, disponível, em processamento,
+              já sacado e histórico, igual ao painel do criador.
+            </li>
+          </ul>
+
+          <h4>Regras para contato</h4>
+          <ul>
+            <li><strong>Pesquise antes:</strong> use a verificação da base antes de falar com qualquer criador.</li>
+            <li><strong>Nada de spam:</strong> contato humano, individual e contextualizado. Sem disparos em massa.</li>
+            <li><strong>Se já está na base, não insista:</strong> outro afiliado já fez esse trabalho. Respeite o histórico.</li>
+            <li><strong>Seja transparente:</strong> o convite do e-mail explica que existe uma parceria e que você recebe 20% por ter feito a ponte.</li>
+            <li><strong>Três e-mails a cada três dias:</strong> o limite vale para todos os afiliados e protege quem recebe as mensagens.</li>
+          </ul>
+        </article>
+
+        <article class="guia-bloco guia-bloco--criador" id="guiaCriador" data-guide-panel hidden>
+          <div class="guia-bloco__head">
+            <span class="guia-badge">Seu papel</span>
+          </div>
+          <h3>Criador: transforme sua audiência em renda</h3>
+          <p>
+            Você já sabe falar com o seu público. O vizin.Os só precisa que você apresente
+            o projeto do seu jeito. Não existe contrato engessado, agência burocrática ou
+            roteiro robótico: existe um código, um painel e uma comissão justa.
+          </p>
+
+          <h4>Como funciona o sistema de lucros</h4>
+          <p>
+            Você recebe um código exclusivo. Seu seguidor insere esse código no início da
+            primeira sessão, quando cria a conta no aplicativo. A partir daí:
+          </p>
+          <ul>
+            <li>
+              <strong>Vantagem para o usuário:</strong> ele ganha 15 dias com todos os
+              recursos da versão Plus desbloqueados, sem pagar nada, e 20% de desconto na
+              assinatura do Plus por 1 ano.
+            </li>
+            <li>
+              <strong>O seu lucro:</strong> você recebe 40% de todo valor pago por esse
+              usuário durante o período de 1 ano, contado a partir do dia em que ele criou
+              a conta.
+            </li>
+          </ul>
+          <p>
+            É um ganha-ganha. O seu público paga menos para ter a melhor experiência
+            possível do app, e você é recompensado por ter feito essa conexão acontecer.
+          </p>
+
+          <h4>Liberdade total para criar e divulgar</h4>
+          <p>
+            Nós sabemos construir o aplicativo, mas quem sabe falar com o seu público é
+            você. Não vamos te entregar um roteiro corporativo chato para ler de forma
+            engessada. Você tem liberdade criativa absoluta para apresentar o vizin.Os no
+            seu formato e na sua linguagem.
+          </p>
+          <p>Para dar um norte, aqui vão algumas recomendações do que costuma gerar conexão:</p>
+          <ul>
+            <li>
+              <strong>Toque na ferida:</strong> fale sobre o isolamento moderno, sobre como
+              as redes sociais nos deixaram ansiosos e como os apps de relacionamento
+              transformaram pessoas em produtos.
+            </li>
+            <li>
+              <strong>Mostre a saída:</strong> explique que o vizin.Os existe para fazer o
+              caminho inverso — tirar as pessoas do celular e juntar quem mora perto para
+              um café, um esporte ou um rolê sem compromisso.
+            </li>
+            <li>
+              <strong>Seja transparente:</strong> avise que, ao usar o seu código, eles
+              ganham 15 dias com o app completo desbloqueado e ainda ajudam a financiar o
+              seu canal por um ano inteiro.
+              As comunidades adoram apoiar criadores que jogam limpo com elas.
+            </li>
+          </ul>
+
+          <h4>As regras do jogo</h4>
+          <p>Somos contra a burocracia, mas precisamos manter a comunidade saudável. Pedimos apenas três coisas:</p>
+          <ol>
+            <li>
+              <strong>Não venda a ideia errada:</strong> deixe claro que não somos uma rede
+              social de feed viciante nem um “Tinder de bairro”. Somos uma ferramenta
+              focada em amizades reais e encontros presenciais.
+            </li>
+            <li>
+              <strong>Zero spam:</strong> faça uma divulgação orgânica, contextualizada e
+              verdadeira no seu conteúdo. Nada de disparos em massa ou links soltos em
+              comentários de outras pessoas.
+            </li>
+            <li>
+              <strong>Seja você mesmo:</strong> seja genuíno e verdadeiro com seu público
+              como sempre.
+            </li>
+          </ol>
+        </article>
+
+        <article class="guia-bloco" id="guiaTransparencia" data-guide-panel hidden>
+          <h3>Sem letras miúdas escondidas</h3>
+          <p>
+            O vizin.Os não cobra para criar código. O único custo é o seu tempo e a sua
+            reputação. Por isso, contato humano, consentimento e honestidade são regras do
+            programa — não sugestões.
+          </p>
+          <p>
+            Se precisar tirar dúvidas técnicas ou resolver qualquer questão sobre os
+            pagamentos, nossa equipe está a uma mensagem de distância em
+            <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>.
+          </p>
+          <p class="fine-print">
+            O vizin.Os é desenvolvido de forma autônoma e independente. Não existe uma
+            empresa por trás, não existem investidores e não existe nenhuma intenção
+            escondida de transformar você em produto. O app é 100% nacional e brasileiro.
+          </p>
+        </article>
+      </div>
+
+      <div class="guia-cross">
+        <div class="guia-cross__item hidden" data-guide-cta="creator">
+          <div>
+            <strong>Quer indicar criadores e ganhar 20%?</strong>
+            <p>Vire afiliado, encontre criadores e acompanhe tudo no seu painel.</p>
+          </div>
+          <button class="btn btn-primary" type="button" data-open-create="afiliado">Quero ser afiliado</button>
+        </div>
+        <div class="guia-cross__item hidden" data-guide-cta="afiliado">
+          <div>
+            <strong>Já tem audiência?</strong>
+            <p>Vire criador, use seu próprio código e ganhe 40% de cada indicação.</p>
+          </div>
+          <button class="btn btn-primary" type="button" data-open-create="creator">Quero ser criador</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-explore" aria-label="Continue explorando">
+        <h2 class="footer-explore__title">Continue explorando</h2>
+        <div class="explore-grid">
+          <a class="explore-card" href="/afiliados" aria-current="page">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Afiliados</span>
+          </a>
+          <a class="explore-card" href="/painel">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+            <span>Painel público</span>
+          </a>
+          <a class="explore-card" href="/moderacao">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.8-3.2 7.7-7 10-3.8-2.3-7-5.2-7-10V6z"/></svg>
+            <span>Moderação</span>
+          </a>
+          <a class="explore-card" href="/documento">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            <span>Documento técnico</span>
+          </a>
+          <a class="explore-card" href="/manifesto">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
+            <span>Manifesto</span>
+          </a>
+        </div>
+      </nav>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="vizin.Os, início">
+            <span class="brand-mark brand-mark--lg" aria-hidden="true">
+              <img src="/assets/icon-192.png" alt="" width="80" height="80" />
+            </span>
+            <span>vizin.Os</span>
+          </a>
+
+        </div>
+        <div class="footer-col">
+          <h3>Contato</h3>
+          <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> vizin.Os. Unindo comunidades, cara a cara.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="firstVisitModal" class="modal" hidden>
+    <div class="modal-backdrop" data-first-visit-close></div>
+    <div class="modal-card modal-card--notice" role="dialog" aria-modal="true" aria-label="Sobre o vizin.Os">
+      <button class="modal-close" type="button" aria-label="Fechar" data-first-visit-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <p>
+        O vizin.Os é desenvolvido de forma independente por uma única pessoa. Sem
+        empresa por trás, sem investidores, sem equipe — só eu e a vontade de ver
+        esse projeto dar certo.
+      </p>
+      <p>
+        Por questões financeiras, o app ainda não chegou no iPhone. O foco atual é
+        o Android, mas a vontade de expandir existe.
+      </p>
+      <p>
+        Se quiser ajudar o projeto a crescer, qualquer
+        <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a> é muito bem-vinda.
+      </p>
+      <p>
+        Espero de coração que você goste da proposta e que ela faça sentido pra
+        você. E se tiver qualquer ideia, crítica ou sugestão de como melhorar,
+        pode entrar em contato direto comigo em
+        <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+
+  <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/creators.js"></script>
+  <script defer src="/assets/app.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function setupSplitBar() {
+        document.querySelectorAll(".split-bar").forEach(function (bar) {
+          var segments = bar.querySelectorAll(".split-segment");
+          segments.forEach(function (seg) {
+            var share = seg.style.getPropertyValue("--share") || "0%";
+            var num = parseFloat(share.replace("%")) || 0;
+            seg.style.setProperty("--share-grow", num / 10);
+          });
+
+          if (reduceMotion || !("IntersectionObserver" in window)) {
+            bar.classList.add("is-visible");
+            return;
+          }
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                bar.classList.add("is-visible");
+                observer.disconnect();
+              }
+            });
+          }, { threshold: 0.4 });
+          observer.observe(bar);
+        });
+      }
+
+      function setupGuideAccordion() {
+        var buttons = document.querySelectorAll(".guia-sumario__btn");
+        var panels = document.querySelectorAll("[data-guide-panel]");
+
+        buttons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var targetId = btn.getAttribute("data-guide-target");
+            var targetPanel = document.getElementById(targetId);
+            if (!targetPanel) return;
+
+            // Close all panels
+            panels.forEach(function (panel) {
+              panel.hidden = true;
+            });
+            buttons.forEach(function (b) {
+              b.classList.remove("is-active");
+              b.setAttribute("aria-expanded", "false");
+            });
+
+            // Open target panel
+            targetPanel.hidden = false;
+            btn.classList.add("is-active");
+            btn.setAttribute("aria-expanded", "true");
+
+            // Smooth scroll to panel
+            targetPanel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+          });
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          setupSplitBar();
+          setupGuideAccordion();
+        });
+      } else {
+        setupSplitBar();
+        setupGuideAccordion();
+      }
+    })();
+  </script>
+</body>
+</html>

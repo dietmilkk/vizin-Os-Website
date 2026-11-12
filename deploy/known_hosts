@@ -1,0 +1,6 @@
+# Chave pública do host da VPS, fixada para o deploy por SSH.
+#
+# Confirme a chave antes de confiar nela:
+#   ssh-keyscan -t ed25519 188.166.156.109 | ssh-keygen -lf -
+#   # esperado: 256 SHA256:1hVuN4+v6adqqvDi2GkdGNMNqK9hvumi5MyZTYV3pOM 188.166.156.109 (ED25519)
+188.166.156.109 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB8wdRnbaZqBwnRcge0bNydOcFrf5D67PFNh5A2+7JG7

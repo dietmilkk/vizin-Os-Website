@@ -1,0 +1,29 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/criadores
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store
+
+/criadores/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store
+
+/assets/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.css
+  Cache-Control: public, max-age=3600
+
+/assets/*.js
+  Cache-Control: public, max-age=3600
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

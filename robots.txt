@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /afiliados
+Disallow: /criadores
+
+Sitemap: https://vizin-os.page.gd/sitemap.xml

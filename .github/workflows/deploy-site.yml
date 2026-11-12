@@ -1,0 +1,74 @@
+name: Publicar site
+
+# Publica o site estático na VPS sem precisar do computador local.
+# A chave privada da VPS fica no segredo VPS_SSH_KEY do repositório.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '**'
+      - '!tests/**'
+      - '!tmp-vps/**'
+
+concurrency:
+  group: publicar-site
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    name: Publicar em /var/www/vizinhanca.app
+    runs-on: ubuntu-latest
+    env:
+      VPS_HOST: 188.166.156.109
+      VPS_USER: root
+      SITE_DIR: /var/www/vizinhanca.app/
+      SITE_URL: https://site.188.166.156.109.sslip.io
+      # Dominio publico do site (hospedagem InfinityFree/page.gd). A VPS e a
+      # copia de trabalho; o dominio oficial aponta para o InfinityFree.
+    steps:
+      - name: Conferir o segredo da chave SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          if [ -z "$VPS_SSH_KEY" ]; then
+            echo "::error::Falta o segredo VPS_SSH_KEY neste repositório."
+            echo "Adicione em Settings > Secrets and variables > Actions > New repository secret."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - name: Preparar o SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          install -m 600 deploy/known_hosts ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_deploy -o BatchMode=yes -o ConnectTimeout=20 \
+            "$VPS_USER@$VPS_HOST" 'echo SSH ok'
+
+      - name: Publicar o site
+        run: |
+          rsync -az --delete \
+            --exclude '.git' --exclude '.github' --exclude 'deploy' \
+            --exclude 'tmp-vps' --exclude 'tests' --exclude 'tools' \
+            --exclude 'dist' --exclude 'README.md' --exclude 'prompt-afiliados.md' \
+            --exclude '.htaccess' --exclude 'tmp-*.py' \
+            --exclude '.deploy-infinityfree.env' --exclude '.env*' \
+            ./ "$VPS_USER@$VPS_HOST:$SITE_DIR"
+          ssh -i ~/.ssh/id_deploy "$VPS_USER@$VPS_HOST" \
+            "rm -f '$SITE_DIR/README.md' '$SITE_DIR/prompt-afiliados.md' '$SITE_DIR/.htaccess' '$SITE_DIR/.deploy-infinityfree.env'; rm -rf '$SITE_DIR/tools' '$SITE_DIR/tests' '$SITE_DIR/tmp-vps' '$SITE_DIR/dist'; rm -f '$SITE_DIR'/tmp-*.py '$SITE_DIR'/.env*; chown -R vizin:vizin '$SITE_DIR'"
+
+      - name: Conferir o site no ar
+        run: |
+          for path in / /painel /documento /afiliados /moderacao; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE_URL$path")"
+            printf '%-12s %s\n' "$path" "$code"
+            test "$code" = "200"
+          done

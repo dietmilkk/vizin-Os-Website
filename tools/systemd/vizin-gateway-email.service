@@ -1,0 +1,34 @@
+[Unit]
+Description=Gateway de e-mail do vizin.Os (PC -> VPS, tunel SSH reverso)
+Documentation=https://github.com/dietmilkk/vizin-Os-Website
+# A rede sobe depois do boot; o script espera 60s antes de comecar.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/user/Downloads/site/tools/rodar-gateway-email.sh
+Environment=ATRASO_INICIAL=60
+Environment=NICE=10
+
+# Recomeca se o tunel ou o gateway cairem (o script tambem tenta de novo).
+Restart=on-failure
+RestartSec=60
+
+# Uso minimo de recursos: prioridade baixa de CPU, teto de 25% de um nucleo
+# e teto de memoria. O gateway fica ocioso quase o tempo todo, entao o
+# consumo real fica em poucos MB.
+Nice=10
+CPUWeight=10
+CPUQuota=25%
+MemoryMax=512M
+
+# Ao parar o serviço, o tunel e o gateway morrem junto.
+KillMode=control-group
+TimeoutStopSec=20
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

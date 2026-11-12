@@ -1,0 +1,7 @@
+# URLs canônicas sem barra final
+# Estas regras são do Cloudflare Pages. Na VPS (Caddy) e no InfinityFree
+# (Apache) o mesmo resultado vem do servidor: as pastas respondem em
+# /documento/, /painel/, /afiliados/ e /moderacao/.
+/afiliados /afiliados/ 301
+/criadores /afiliados/ 301
+/criadores/ /afiliados/ 301

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# pre-commit — bloqueia o commit se houver segredo no que seria versionado.
+#
+# Ativado com:  git config core.hooksPath tools/hooks
+# (o `.gitignore` já impede que arquivo de credencial entre; este hook pega o
+#  segredo colado dentro de um arquivo normal, como um `.js` ou um `.py`).
+# ---------------------------------------------------------------------------
+set -euo pipefail
+
+RAIZ="$(git rev-parse --show-toplevel)"
+SCANNER="$RAIZ/tools/checar-segredos.py"
+
+if [ ! -f "$SCANNER" ]; then
+    exit 0
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "pre-commit: python3 nao encontrado — checagem de segredos ignorada." >&2
+    exit 0
+fi
+
+if ! python3 "$SCANNER" --staged; then
+    cat >&2 <<'MSG'
+
+Commit BLOQUEADO pelo pre-commit (tools/hooks/pre-commit).
+O que seria versionado contem segredo. Opcoes:
+  - tire o arquivo/linha do stage (git restore --staged <arquivo>)
+  - se o valor for de mentira, troque por um placeholder (exemplo/xxx/seu_token)
+  - se for segredo de verdade, gire-o e grave no arquivo local ignorado pelo .gitignore
+MSG
+    exit 1
+fi
+
+exit 0

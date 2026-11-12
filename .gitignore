@@ -1,0 +1,230 @@
+# ---------------------------------------------------------------------------
+# vizin.Os — site de apresentação
+#
+# Regra geral: nada de segredo, nada de dado de produção e nada de artefato
+# gerado entra no repositório. Tudo que é rebuildável (build, cache, pacote
+# de publicação) fica de fora; o que é configuração local fica no `.env`/`.local`
+# da máquina e nunca é versionado.
+# ---------------------------------------------------------------------------
+
+# --- Segredos e configuração local -----------------------------------------
+# Qualquer arquivo de ambiente entra fora, com uma unica excecao: o
+# `.env.example`, que existe justamente para ser versionado.
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+!.env.*.example
+*.env.local
+.envrc
+.secrets
+.secrets.*
+*.secret
+*.secrets
+*.pem
+*.pfx
+*.p12
+*.jks
+*.keystore
+*.key
+*.keys
+*.ppk
+*.asc
+*.gpg
+*.pgp
+*.kdbx
+# Chaves SSH/SSH de qualquer nome (a publica `.pub` continua versionada).
+id_ed25519*
+id_rsa*
+id_ecdsa*
+id_dsa*
+id_dsa*
+*.identity
+# `known_hosts` guarda a chave publica do host (nao e segredo) e e usada pelo
+# CI para o deploy por SSH — por isso continua versionada.
+known_hosts.old
+known_hosts.*
+.netrc
+._netrc
+.htpasswd
+.npmrc
+.pypirc
+.htaccess.local
+# Credenciais em JSON/YAML: service account do Google, arquivos do Terraform,
+# OpenStack, AWS CLI, Vercel, Netlify, Cloudflare e afins.
+credentials*.json
+*credentials*.json
+*credential*.json
+*credencial*.json
+*credenciais*.json
+service-account*.json
+*serviceAccount*.json
+service_account*.json
+*.tfvars
+*.tfvars.json
+.terraformrc
+terraform.tfstate
+terraform.tfstate.*
+*.tfstate
+*.tfstate.*
+config.tfstate*
+.aws/
+.netlify/
+.vercel/
+.wrangler/
+.firebase/
+.gcloud/
+# Token e sessao de navegador usados nos testes (Playwright/Chromium).
+storage_state*.json
+*storage-state*.json
+auth.json
+cookies*.json
+*cookies*.json
+# Certificados e credenciais de banco.
+*.crt
+*.cer
+*.der
+*.p7b
+.pgpass
+.my.cnf
+*.ovpn
+*.ppk
+*.rdp
+
+# --- Ferramentas de deploy (credenciais ficam na maquina) -------------------
+.deploy-*
+.deploy-*.env
+.deploy-infinityfree.env
+deploy/*.env
+deploy/*.key
+deploy/id_*
+deploy/*secret*
+deploy/*segredo*
+deploy/*senha*
+deploy/*token*
+deploy/*credential*
+*.local.env
+*_local.env
+
+# --- Pacotes gerados para publicar (nao vao para o repositorio) ------------
+dist/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# --- Node / front-end ------------------------------------------------------
+node_modules/
+.pnpm-store/
+.yarn/
+.vite/
+.cache/
+.esbuild/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# --- Testes e auditorias (saidas temporarias) ------------------------------
+.pytest_cache/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+tests/__pycache__/
+tests/lib/__pycache__/
+tools/__pycache__/
+*.eml
+*.mbox
+captures/
+screenshots/
+*.log
+*.pid
+# Estado do gateway de e-mail e do servico do systemd (rodam na maquina).
+# O arquivo em `tools/systemd/` e a UNIDADE versionada e precisa entrar no
+# repositorio — a regra abaixo so pega o estado de execucao.
+*.lock
+!yarn.lock
+!package-lock.json
+*.pid
+/vizin-gateway-email.log
+/vizin-gateway-email.pid
+/vizin-gateway-email.lock
+# Cache e saida de ferramentas de auditoria.
+*.tsv
+*.csv.tmp
+*.har
+*.rpt
+*.trace
+
+# --- Rascunho local (scripts temporarios de auditoria e patch) --------------
+tmp-vps/
+tmp-*
+tmp_*
+tmp.*
+*.tmp
+*.bak
+*.bak-*
+*.orig
+*.rej
+*.swp
+*.swo
+
+# --- Editores e sistema operacional ----------------------------------------
+.idea/
+.vscode/
+.vscode-server/
+*.iml
+.project
+.classpath
+.settings/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# Perfis e caches de aplicativo (podem conter sessoes e tokens).
+.zed/
+.local/share/
+.cache/
+
+# --- Dados de producao / backups -------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+dump*.sql
+*-dump.sql
+*.bak.sql
+backup*.sql
+*-backup.sql
+*-backup-*.sql
+backups/
