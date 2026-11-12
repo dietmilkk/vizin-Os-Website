@@ -359,28 +359,7 @@ button {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.desktop-nav a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 2px;
-  width: 0;
-  height: 1.5px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transform: translateX(-50%);
-  transition: width 0.25s ease;
-}
-
 .desktop-nav a:hover {
-  color: var(--text-muted);
-  transform: translateY(-1px);
-}
-
-.desktop-nav a:hover::after,
-.desktop-nav a:focus-visible::after {
-  width: 100%;
-}
 
 .header-actions {
   display: flex;
@@ -2799,11 +2778,6 @@ code {
   color: var(--text);
 }
 
-.desktop-nav a.is-active::after {
-  width: 100%;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 55%, transparent);
-}
-
 /* --------------------------------------------------------------- galeria */
 
 /* Abas: elevação no hover, "pop" ao ativar e brilho de clique. */
@@ -2965,7 +2939,6 @@ code {
   .site-header::before,
   .brand-mark,
   .desktop-nav a,
-  .desktop-nav a::after,
   .step-tab,
   .step-panel.is-active > img,
   .essay-body .underline::after,
@@ -3400,16 +3373,6 @@ code {
   }
 }
 
-/* Grupo de páginas no menu mobile */
-.mobile-nav .mobile-nav-group {
-  padding: var(--space-5) 0 var(--space-2);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
 /* ---------------------------------------------------------- refin mobile
    Tudo que melhora o uso da tela em telefones: nada de texto pequeno demais,
    alvos de toque confortaveis e espaco para o notch dos aparelhos. */
@@ -3821,9 +3784,14 @@ code {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 720px) {
+  /* No celular o bloco 07 perde a moldura: fica direto no fundo da pagina,
+     alinhado ao espacamento lateral do .container. */
   .home-closing {
-    padding: var(--space-7) var(--space-5);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
   }
 
   .home-pillar {

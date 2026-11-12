@@ -266,26 +266,7 @@
 
     /* ===== Navegação do header com indicador ativo ===== */
     .partners-nav a {
-      position: relative;
       transition: color 0.25s ease;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .partners-nav a::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: var(--primary);
-        border-radius: 2px;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-      .partners-nav a:hover::after {
-        transform: scaleX(1);
-      }
     }
 
 
@@ -673,9 +654,16 @@
       flex: none;
     }
     @media (max-width: 720px) {
+      /* No celular o guia perde o bloco decorativo: sem moldura, sem fundo e
+         sem padding proprio — o conteudo aproveita o espacamento lateral da
+         pagina (o .container do main) e os blocos continuam com a moldura
+         propria de card. */
       .guia-completo {
-        padding: var(--space-6) var(--space-5);
-        border-radius: var(--radius-lg);
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
       }
       .guia-grid {
         grid-template-columns: 1fr;
