@@ -82,8 +82,8 @@
 
         <h1>Unindo comunidades, cara a cara.</h1>
         <p>
-          Uma rede social hiperlocal para Android, feita para transformar interesses em
-          comum em encontros presenciais — não em mais um feed.
+          Um app Android de bairro para transformar interesses em comum em encontros presenciais,
+          sem feed, sem algoritmo e sem um servidor no meio das conversas.
         </p>
         <hr class="page-hero-divider">
       </div>
@@ -94,202 +94,165 @@
         <div class="tldr">
           <h2 id="resumo">Em resumo</h2>
           <ul>
-            <li>App Android em TypeScript sobre React Native, com banco local no aparelho.</li>
+            <li>App Android em TypeScript, feito com React Native (Expo). O iOS ainda não foi lançado.</li>
             <li>Feito para tirar as pessoas da tela: o objetivo é o encontro presencial, não o tempo de uso.</li>
-            <li>Identidade Ed25519 gerada no dispositivo — sem e-mail, telefone ou senha central.</li>
-            <li>Conteúdo cifrado com AES-256-GCM; segredos combinados com X25519.</li>
-            <li>Transporte entre pares por WebRTC, com gossip de fanout e saltos limitados.</li>
-            <li>O farol é um relay temporário de envelopes cifrados, com expiração curta.</li>
-            <li>Regiões por bairro, com raio máximo de 5 km: cada bairro pertence a uma única região e nenhum servidor decide o que você vê.</li>
+            <li>Conta criada com nome de usuário e senha. As chaves são geradas e guardadas no aparelho. Nenhum servidor guarda a senha.</li>
+            <li>Conteúdo cifrado com AES-256-GCM, e eventos assinados com Ed25519.</li>
+            <li>As mensagens viajam direto entre aparelhos. Quando ninguém está online, um farol guarda os envelopes cifrados por um período curto.</li>
+            <li>Regiões formadas por bairros, com raio máximo de 5 km. Cada bairro pertence a uma única região.</li>
+            <li>Moderação pela comunidade: denúncia, votação com quórum e decisão aplicada por membros. Reputação e score de convivência ajudam a medir a confiança.</li>
           </ul>
         </div>
 
         <h2>O que é o vizin.Os</h2>
         <p>
-          O vizin.Os é um aplicativo de comunidades de bairro. Em vez de disputar alcance
-          com o mundo inteiro, ele organiza a conversa na escala de quem está perto: o
-          bairro. A ideia é simples: juntar gente que curte as mesmas coisas para marcar
-          um café, uma caminhada, uma pelada — e sair da tela.
+          O vizin.Os é um aplicativo de comunidades de bairro. Em vez de disputar alcance com o
+          mundo inteiro, ele organiza a conversa na escala de quem está perto. A proposta é juntar
+          gente que gosta das mesmas coisas para marcar um café, uma caminhada ou um jogo, e depois
+          sair da tela.
         </p>
         <p>
-          A pessoa participa com um nome de usuário, um emoji e uma cor. Não há foto de
-          perfil, e-mail ou número de telefone. A conta é criada e guardada no próprio
-          aparelho. O app não tem feed público, não tem algoritmo de engajamento e não
-          vende dados.
+          A pessoa aparece com um nome de usuário, um emoji e uma cor. Não há foto obrigatória,
+          e-mail nem número de telefone. O app não tem feed público e não tem algoritmo que escolhe
+          o que você vê. A aba Social do menu ainda é só um aviso: o feed cronológico entre
+          conhecidos é o próximo passo, e nenhuma página promete esse recurso como pronto.
         </p>
         <p>
-          A escala local não é um detalhe de produto: ela muda o tipo de conversa, o tipo
-          de encontro e o tipo de confiança que se constrói. Quando todo mundo mora por
-          perto, a probabilidade de encontrar a mesma pessoa na padaria muda o cálculo de
-          como se fala com ela.
+          A escala local muda o tipo de conversa, o tipo de encontro e o tipo de confiança que se
+          constrói. Quando todo mundo mora por perto, a chance de cruzar com a mesma pessoa na
+          padaria muda a forma de falar com ela.
         </p>
 
         <h2>Por que ele existe</h2>
         <p>
-          As redes tradicionais são boas para notícias e entretenimento, mas ruins para
-          uma coisa básica: conhecer quem mora ao lado. A gente sabe o que aconteceu do
-          outro lado do planeta, mas não sabe o nome de quem mora no 302. O resultado é
-          solidão perto de casa, bairros sem vida e a sensação de que comunidade é algo
-          que só existe em outro lugar.
+          As redes tradicionais são boas para notícias e entretenimento, mas ruins para uma coisa
+          básica: conhecer quem mora ao lado. A gente sabe o que acontece do outro lado do planeta,
+          mas não sabe o nome de quem mora no apartamento de cima. O resultado é solidão perto de
+          casa e a sensação de que comunidade existe só em outro lugar.
         </p>
         <p>
-          Os apps de relacionamento tentaram resolver esse vazio transformando pessoas em
-          catálogo. A gente desliza, julga uma foto em um segundo e descarta. O vizin.Os
-          parte do contrário: menos vitrine, mais convivência. O objetivo não é prender a
-          atenção, é fazer o encontro acontecer na vida real.
-        </p>
-        <p>
-          Há também um problema de arquitetura, não só de comportamento. Quando tudo passa
-          por um servidor central, esse servidor vira o ponto onde o conteúdo pode ser
-          lido, filtrado, vendido ou perdido. O vizin.Os parte de outra pergunta: e se a
-          rede social fosse do tamanho do seu bairro — e o caminho entre duas pessoas não
-          precisasse passar por uma empresa?
+          Os apps de relacionamento transformaram pessoas em catálogo. O vizin.Os parte do contrário:
+          menos vitrine, mais convivência. O objetivo não é prender a atenção, e sim fazer o encontro
+          acontecer na vida real.
         </p>
 
         <h2 id="principios">Princípios de projeto</h2>
-        <p>
-          Quatro decisões explicam quase todo o resto do sistema.
-        </p>
+        <p>Quatro decisões explicam quase todo o resto do sistema.</p>
         <div class="doc-columns">
           <div>
             <h3>Local por padrão</h3>
             <p>
-              A menor unidade de rede é o bairro. Não existe alcance nacional, viralização
-              ou feed global — e isso é uma escolha, não uma limitação técnica.
+              A menor unidade de rede é o bairro. Não existe alcance nacional, viralização nem feed
+              global. Isso é uma escolha de produto.
             </p>
           </div>
           <div>
-            <h3>O aparelho é a conta</h3>
+            <h3>O aparelho guarda a conta</h3>
             <p>
-              Chaves nascem e ficam no dispositivo. Não há um banco central com a senha de
-              ninguém, nem um serviço que possa entregar a conta de alguém a terceiros.
+              As chaves nascem e ficam no dispositivo. Não existe um banco central com a senha de
+              ninguém, nem um serviço capaz de entregar a conta de alguém a terceiros.
             </p>
           </div>
           <div>
             <h3>O meio não lê</h3>
             <p>
-              Quem transporta um recado carrega um envelope lacrado. O conteúdo só existe
-              nas duas pontas, e o transporte é descartável por desenho.
+              Quem transporta um recado carrega um envelope lacrado. O conteúdo só é aberto nas duas
+              pontas, e o farol guarda o envelope por pouco tempo.
             </p>
           </div>
           <div>
             <h3>Regras perto de quem vive</h3>
             <p>
-              Moderação e mudanças de grupo passam por votação dos membros. Nenhum cargo é
-              permanente e nenhuma decisão vem de fora do bairro.
+              Denúncias e decisões de moderação passam por votação dos membros, com quórum mínimo.
+              Nenhum cargo é permanente: o poder de moderação depende de participação.
             </p>
           </div>
         </div>
 
         <h2 id="stack">Stack e escolhas de engenharia</h2>
         <p>
-          O app é escrito em TypeScript sobre React Native (Expo), com Android como
-          plataforma inicial. O estado vive em um banco SQLite local no aparelho — não
-          existe um banco central com o conteúdo das conversas.
+          O app é escrito em TypeScript com React Native (Expo) e roda no Android. O estado fica em
+          um banco SQLite no próprio aparelho. Não existe um banco central com o conteúdo das
+          conversas.
         </p>
         <p>
-          A decisão mais importante não é a linguagem, e sim o que <em>não</em> existe:
-          não há um servidor de aplicação no caminho das mensagens. O transporte é entre
-          pares; a infraestrutura só entra quando duas pessoas não estão online ao mesmo
-          tempo.
+          As mensagens seguem direto de um aparelho para o outro, por WebRTC, sempre que os dois
+          estão online. A infraestrutura entra em dois casos: o farol, que guarda envelopes cifrados
+          quando ninguém está online ao mesmo tempo; e a API de apoio, que cuida do registro de nomes
+          de usuário, das contas, dos pagamentos e das estatísticas públicas.
         </p>
         <p>
-          Essa escolha tem custo. Sem servidor de conteúdo, o app precisa resolver no
-          cliente coisas que normalmente ficam no backend: descoberta de pares, ordenação
-          de eventos, verificação de assinaturas, cálculo de reputação e controle de
-          duplicidade. É mais trabalho no aparelho e menos superfície para alguém no meio.
+          Essa escolha tem custo. Sem servidor de conteúdo, o aparelho precisa resolver tarefas que
+          normalmente ficam no backend: descoberta de pares, ordenação de eventos, verificação de
+          assinaturas, cálculo de reputação e controle de duplicidade. Em troca, sobra menos
+          superfície para alguém no meio.
         </p>
 
-        <h2>Identidade e criptografia</h2>
+        <h2 id="identidade">Identidade e criptografia</h2>
         <p>
-          A identidade é um par de chaves Ed25519 gerado no aparelho. A chave privada
-          nunca sai dele e não existe uma conta central guardando a senha de ninguém. Cada
-          evento publicado é assinado, e qualquer cliente que recebe o evento verifica a
+          A conta nasce de um nome de usuário e de uma senha. Dessa combinação saem duas chaves: uma
+          de assinatura (Ed25519) e uma de acordo (X25519). A senha nunca é enviada a nenhum
+          servidor. Cada evento publicado é assinado, e todo aparelho que recebe um evento confere a
           assinatura antes de aceitá-lo.
         </p>
         <p>
-          Para conversas, as partes combinam segredos com X25519 e cifram o conteúdo com
-          AES-256-GCM. Chaves de grupo são distribuídas por envelope cifrado, então quem
-          transporta o recado não tem como abrir o envelope. A criação de identidade inclui
-          uma prova de trabalho leve, que encarece a criação de contas em massa sem
-          atrapalhar uma pessoa de verdade.
+          O conteúdo de cada comunidade é cifrado com AES-256-GCM. A chave do grupo é entregue em um
+          envelope cifrado com X25519, então quem transporta o recado não consegue abri-lo. Para criar
+          a identidade, o app também resolve uma pequena prova de trabalho, que dificulta criar contas
+          em massa sem atrapalhar uma pessoa de verdade.
         </p>
         <p>
-          Nada disso é proprietário: são primitivas públicas e bem conhecidas, escolhidas
-          justamente para poderem ser questionadas por qualquer pessoa. A criptografia não
-          é um diferencial de marketing — é o que permite que o transporte seja descartável
-          sem virar um ponto de leitura.
+          Nada disso é proprietário. São primitivas públicas e conhecidas, escolhidas para poderem ser
+          questionadas por qualquer pessoa. Um backup de recuperação, no formato <code>VZKEY1</code>,
+          permite restaurar a conta em outro aparelho junto com a senha.
         </p>
 
         <h2>Como os eventos viajam</h2>
         <p>
-          Quando duas pessoas estão online, a conversa vai por um canal de dados WebRTC
-          direto entre os aparelhos. Os eventos se espalham por gossip com fanout limitado
-          e um teto de saltos, com deduplicação por identificador — o suficiente para a
-          informação circular sem virar tempestade de tráfego.
+          Quando duas pessoas estão online, a conversa segue por um canal de dados WebRTC direto
+          entre os aparelhos. Os eventos também se espalham por vizinhos: cada aparelho repassa
+          novidades para poucos contatos, com limite de saltos e com deduplicação. A informação chega
+          longe sem virar tempestade de tráfego.
         </p>
         <p>
-          Os pares também trocam vizinhos conhecidos entre si, de forma espaçada e
-          limitada, para a malha crescer além de quem já conversou recentemente. É o mesmo
-          princípio de uma rede de boatos bem comportada: cada nó fala com poucos, mas a
-          informação chega longe.
+          Quando ninguém está online, entra o <strong>farol</strong>. Ele guarda o envelope já cifrado
+          por um período curto, de até 48 horas, e depois apaga. Ele não tem a chave, não lê o
+          conteúdo e não decide o que pode passar. Funciona como um escaninho, não como uma alfândega.
         </p>
         <p>
-          Quando ninguém está online, entra o <strong>farol</strong>: um relay temporário
-          que guarda o envelope já cifrado por pouco tempo e depois apaga. Ele não tem a
-          chave, não lê o conteúdo e não decide o que pode passar. É um escaninho, não uma
-          alfândega.
-        </p>
-        <p>
-          O resultado prático é que a rede funciona em três regimes: direto (os dois
-          online), por vizinhos (gossip) e por farol (assíncrono). Nenhum deles exige que
-          uma empresa veja o conteúdo.
+          Na prática, a rede opera em três regimes: direto (os dois online), por vizinhos (repasse) e
+          por farol (assíncrono). Nenhum deles exige que uma empresa veja o conteúdo.
         </p>
 
-        <h2>Regiões e escala</h2>
+        <h2 id="regioes">Regiões e escala</h2>
         <p>
-          Cada região é um conjunto de bairros (municípios) montado de forma determinística:
-          a mesma entrada produz a mesma região em qualquer aparelho, sem coordenação
-          central. O critério combina população e distância, e nenhuma região passa de
-          5 km de raio.
+          Cada região é um conjunto de bairros (municípios do IBGE), montado de forma determinística.
+          A mesma entrada gera a mesma região em qualquer aparelho, sem coordenação central. O raio
+          máximo de uma região é de <strong>5 km</strong>.
         </p>
         <p>
-          O nome da região é a lista de todos os bairros que ela contém, separados por
-          vírgula; quando a região tem um bairro só, o nome é o nome desse bairro. Cada
-          bairro pertence a exatamente uma região — nenhum bairro se repete em outra
-          região e não existe sobreposição entre elas.
+          O nome da região é a lista de todos os bairros que ela contém, separados por vírgula. Quando
+          a região tem um bairro só, o nome é o nome desse bairro. Cada bairro pertence a exatamente
+          uma região, e nenhum bairro aparece em duas.
         </p>
         <p>
-          A localização no app é estritamente por bairro: o ponto do aparelho é convertido
-          no município mais próximo e é esse bairro que define a região. Um índice
-          geográfico por geohash ancora a descoberta de comunidades no mesmo alcance de
-          5 km, sem precisar guardar o endereço de ninguém. O app trabalha com bairro e
-          região, não com endereço.
-        </p>
-        <p>
-          Como o cálculo é determinístico, dois aparelhos que nunca se falaram chegam à
-          mesma região. Isso elimina a necessidade de um serviço central dizendo quem
-          pertence a onde — e elimina também a possibilidade de alguém reordenar as
-          regiões por interesse.
+          O app usa a localização apenas em primeiro plano, com cache de 1 hora. O ponto do aparelho
+          vira o município mais próximo, e é esse município que define a região. O app trabalha com
+          bairro e região, não com endereço.
         </p>
 
         <h2>Moderação e reputação</h2>
         <p>
-          Moderação é um evento assinado como qualquer outro. Denúncias e decisões passam
-          por votação dos membros, e o resultado é verificável por todos os clientes.
-          Reputação e score de convivência são calculados localmente a partir do histórico
-          que cada aparelho já tem.
+          A moderação é um evento assinado, como qualquer outro. Denúncias e decisões passam por
+          votação dos membros. Para denunciar, é preciso reputação 10. Para votar, é preciso nível 2 e
+          reputação 20. Cada voto vale a raiz quadrada da reputação de quem votou, e a decisão só
+          vale com quórum mínimo de votantes. Um score de convivência, de 0 a 100, resume o histórico
+          da pessoa em cada comunidade.
         </p>
         <p>
-          Banimentos podem atingir a credencial do dispositivo: um hash derivado da chave
-          criada no próprio aparelho. Não é IMEI, não é número de série e não é telefone —
-          e um aparelho novo simplesmente gera uma credencial nova.
-        </p>
-        <p>
-          Isso resolve um problema real das redes locais: banir uma conta é fácil, banir
-          alguém que cria outra conta em dois minutos não é. A credencial de dispositivo
-          encarece a reincidência sem transformar o aparelho em um identificador
-          permanente.
+          Banimentos podem atingir também a credencial do dispositivo, um código gerado pelo próprio
+          app. Não é IMEI, não é número de série e não é telefone. Uma reinstalação pode gerar uma
+          credencial nova, o que limita o efeito desse banimento.
         </p>
         <p>
           <a class="btn btn-secondary" href="/moderacao">Ler o manual de moderação</a>
@@ -297,101 +260,109 @@
 
         <h2>Attestation</h2>
         <p>
-          Para reduzir abuso automatizado, o app usa Play Integrity no Android e App Attest
-          no iOS. O resultado é um token de dispositivo assinado, com validade curta, que
-          atesta que a instalação é legítima.
+          Para reduzir abuso automatizado, o app usa Play Integrity no Android. No iOS, quando o app
+          chegar ao iPhone, a mesma função será feita com App Attest. O resultado é um token assinado,
+          com validade curta, que atesta que a instalação é legítima.
         </p>
         <p>
-          Attestation é um sinal de integridade, não um identificador permanente: não
-          sobrevive a uma reinstalação e não serve para rastrear uma pessoa entre
-          aparelhos. É uma camada a mais de custo para quem tenta automatizar abuso, não
-          uma prova de boa-fé.
+          A attestation é um sinal de integridade, não um identificador permanente. Ela não serve para
+          rastrear uma pessoa entre aparelhos, e uma reinstalação pode exigir nova verificação. É uma
+          camada de custo para quem tenta automatizar abuso, não uma garantia de boa-fé.
         </p>
 
         <h2>Ciclo de vida dos dados</h2>
-        <p>
-          Vale separar três coisas que costumam ser confundidas: o que fica no aparelho, o
-          que passa pelo transporte e o que fica na infraestrutura.
-        </p>
+        <p>Vale separar três lugares: o aparelho, o transporte e a infraestrutura.</p>
         <ul>
           <li>
-            <strong>No aparelho:</strong> identidade, chaves, histórico, reputação e
-            preferências. É a cópia principal e a única completa.
+            <strong>No aparelho:</strong> identidade, chaves, histórico de mensagens, reputação e
+            preferências. É a cópia principal e a única completa. As mensagens de cada comunidade
+            expiram localmente após o prazo do grupo, que é de 48 horas por padrão e pode ser ajustado
+            por comunidade, com mínimo de 1 hora.
           </li>
           <li>
-            <strong>No transporte:</strong> envelopes cifrados, com identificador e
-            assinatura. O conteúdo não é legível por quem repassa.
+            <strong>No transporte:</strong> envelopes cifrados, com identificador e assinatura. Quem
+            repassa não consegue ler o conteúdo.
           </li>
           <li>
-            <strong>Na infraestrutura:</strong> envelopes temporários no farol, com
-            expiração curta, e o mínimo necessário para descoberta de pares.
+            <strong>Na infraestrutura:</strong> envelopes temporários no farol, que expiram em até 48
+            horas, e o mínimo necessário para registrar nomes de usuário e descobrir pares. Quem fica
+            sem atividade por 7 dias deixa de aparecer na descoberta, e após 30 dias a conta é apagada
+            da API.
           </li>
         </ul>
         <p>
-          Contas inativas saem da rede: após uma semana sem atividade a conta fica
-          invisível para descoberta, e após um mês é apagada dos servidores. Apagar a
-          identidade no app remove as chaves e o histórico local — e, sem a chave, o que
-          sobrou no transporte é ilegível.
+          Apagar a identidade no app remove as chaves e o histórico local. Sem a chave, o que sobrou
+          no transporte fica ilegível.
         </p>
 
         <h2 id="privacidade">Privacidade e segurança</h2>
         <ul>
-          <li><strong>Sem telefone, sem e-mail, sem foto.</strong> A identidade é um nome, um emoji e uma cor.</li>
-          <li><strong>Chaves no aparelho.</strong> A conta não depende de um servidor central com a senha da pessoa.</li>
-          <li><strong>Mensagens protegidas.</strong> O conteúdo é cifrado e não é acessível à equipe.</li>
-          <li><strong>Farol temporário.</strong> Recados não ficam guardados para sempre.</li>
-          <li><strong>Contas inativas saem da rede.</strong> Após 7 dias sem atividade, a conta fica invisível; após 30 dias, é apagada dos servidores.</li>
-          <li><strong>Sem rastreamento publicitário.</strong> Não há publicidade comportamental baseada no que a pessoa conversa.</li>
+          <li><strong>Sem telefone, sem e-mail, sem foto obrigatória.</strong> A identidade pública é um nome de usuário, um emoji e uma cor.</li>
+          <li><strong>Chaves no aparelho.</strong> A conta não depende de um servidor com a senha da pessoa.</li>
+          <li><strong>Mensagens protegidas.</strong> O conteúdo é cifrado e a equipe não tem acesso a ele.</li>
+          <li><strong>Farol temporário.</strong> Os envelopes ficam guardados por até 48 horas.</li>
+          <li><strong>Anúncios.</strong> A versão gratuita mostra anúncios do AdMob. Quem assina o Plus não vê anúncios. Em versões de produção, o AdMob pode personalizar os anúncios com base no aparelho. O conteúdo das conversas não é usado para isso.</li>
+        </ul>
+        <p><strong>O que fica público, por desenho:</strong></p>
+        <ul>
+          <li>O perfil (nome de usuário, emoji e cor).</li>
+          <li>A chave pública de grupo e o registro de entrada em uma comunidade, com o nome e a descrição do grupo.</li>
+          <li>A criação e a atualização de região. Esse evento leva as coordenadas usadas naquele momento (ver limitações).</li>
+          <li>Anúncios publicados no app.</li>
         </ul>
 
         <h2 id="limitacoes">Limitações e riscos</h2>
-        <p>
-          Um documento honesto precisa dizer onde o desenho falha ou fica devendo.
-        </p>
+        <p>Um documento honesto precisa dizer onde o desenho falha ou fica devendo.</p>
         <div class="doc-columns">
           <div>
             <h3>Attestation não é garantia</h3>
             <p>
-              Root, cliente modificado ou emulador podem tentar contornar. O objetivo é
-              elevar o custo do abuso, não eliminar a possibilidade.
+              Root, cliente modificado ou emulador podem tentar contornar a verificação. O objetivo é
+              elevar o custo do abuso, não eliminá-lo.
             </p>
           </div>
           <div>
-            <h3>Rede depende de gente online</h3>
+            <h3>A rede depende de gente online</h3>
             <p>
-              Quanto menos vizinhos conectados, mais o farol trabalha. Bairros pequenos
-              sentem mais latência do que bairros densos.
+              Quanto menos vizinhos conectados ao mesmo tempo, mais o farol precisa trabalhar. Bairros
+              pequenos sentem mais atraso na entrega do que bairros densos.
             </p>
           </div>
           <div>
             <h3>Bloqueios de conexão existem</h3>
             <p>
-              Nenhuma rede é imune a bloqueio de operadora ou de rede local. A diferença é
-              que não há um servidor central lendo ou aprovando conteúdo.
+              Nenhuma rede é imune a bloqueio de operadora ou de rede local. A diferença é que não há um
+              servidor central lendo ou aprovando conteúdo.
             </p>
           </div>
           <div>
             <h3>Privacidade não é anonimato</h3>
             <p>
-              O app reduz exposição, mas não promete impunidade. Quem convive responde pelo
-              que faz, inclusive dentro da comunidade.
+              O app reduz a exposição, mas não promete impunidade. Quem convive responde pelo que faz,
+              inclusive dentro da comunidade.
             </p>
           </div>
         </div>
+        <p><strong>Lacunas conhecidas na versão atual:</strong></p>
+        <ul>
+          <li>As coordenadas usadas para criar a região ficam em texto público no evento de região. Isso está sendo tratado como lacuna de privacidade.</li>
+          <li>As propostas de mudança no grupo ainda são locais e não viajam entre aparelhos.</li>
+          <li>Pedidos de revisão de decisões já são aceitos pela rede, mas o app ainda não tem tela para enviá-los.</li>
+        </ul>
 
         <h2>O que o vizin.Os não é</h2>
         <ul>
           <li>Não é uma rede de alcance nacional nem um feed de viralização.</li>
-          <li>Não substitui serviços de emergência ou órgãos públicos.</li>
+          <li>Não substitui serviços de emergência nem órgãos públicos.</li>
           <li>Não promete anonimato absoluto: privacidade não elimina responsabilidade.</li>
-          <li>Não vende dados nem usa o conteúdo das conversas para anúncios.</li>
+          <li>Não vende dados e não usa o conteúdo das conversas para anúncios.</li>
         </ul>
 
         <h2>Glossário</h2>
         <dl class="glossary">
           <div>
             <dt>Ed25519</dt>
-            <dd>Assinatura digital usada para provar que um evento veio de quem diz ter vindo.</dd>
+            <dd>Assinatura digital usada para provar que um evento veio de quem diz ter enviado.</dd>
           </div>
           <div>
             <dt>X25519</dt>
@@ -403,69 +374,28 @@
           </div>
           <div>
             <dt>WebRTC</dt>
-            <dd>Tecnologia de conexão direta entre aparelhos, usada para o canal de dados.</dd>
-          </div>
-          <div>
-            <dt>Gossip</dt>
-            <dd>Estratégia em que cada nó repassa a novidade para poucos vizinhos, em ondas.</dd>
-          </div>
-          <div>
-            <dt>Geohash</dt>
-            <dd>Índice geográfico que transforma coordenadas em uma célula comparável.</dd>
-          </div>
-          <div>
-            <dt>Attestation</dt>
-            <dd>Atestação da loja de aplicativos de que a instalação é legítima.</dd>
-          </div>
-          <div>
-            <dt>Prova de trabalho</dt>
-            <dd>Cálculo custoso o bastante para encarecer criação de contas em massa.</dd>
+            <dd>Tecnologia de conexão direta entre aparelhos, usada para a conversa.</dd>
           </div>
           <div>
             <dt>Farol</dt>
-            <dd>Relay temporário que guarda envelopes cifrados por pouco tempo e apaga.</dd>
+            <dd>Serviço que guarda envelopes cifrados por um período curto, quando os dois lados não estão online.</dd>
           </div>
           <div>
-            <dt>PEX</dt>
-            <dd>Troca de vizinhos conhecidos entre pares, para a malha crescer sem servidor.</dd>
+            <dt>Quórum</dt>
+            <dd>Número mínimo de pessoas que precisam votar para que uma decisão valha.</dd>
+          </div>
+          <div>
+            <dt>Attestation</dt>
+            <dd>Verificação feita pela loja de aplicativos de que a instalação é legítima.</dd>
+          </div>
+          <div>
+            <dt>Score de convivência</dt>
+            <dd>Pontuação de 0 a 100 que resume a conduta de uma pessoa dentro da comunidade.</dd>
           </div>
         </dl>
 
-        <h2>Sustentação</h2>
         <p>
-          O app é gratuito. Para se manter, oferece um plano opcional, o <strong>vizin.Os
-          Plus</strong>, com mais encontros, envio prioritário e nenhum anúncio. Quem não
-          assina vê um anúncio discreto no topo da tela. Anúncios nunca aparecem dentro
-          das conversas.
-        </p>
-        <p>
-          A sustentação vem de quem usa — assinaturas e doações — e não de investidores.
-          Isso mantém o projeto independente e sem segundas intenções: ninguém compra
-          influência sobre o que o bairro pode dizer.
-        </p>
-
-        <h2>Estado atual</h2>
-        <p>
-          O vizin.Os está em desenvolvimento, começando pelo Android. As funções
-          principais já estão de pé: identidade local, comunidades por região, conversas,
-          encontros, áudios, imagens, moderação por votação, reputação e notificações.
-          A aba “Social” já aparece no app, mas por enquanto é só um aviso: o feed
-          cronológico, sem algoritmo e só com gente conhecida, ainda não existe. A versão
-          para iPhone está nos próximos passos.
-        </p>
-
-        <h2>Desenvolvimento autônomo e independente</h2>
-        <p>
-          O vizin.Os é desenvolvido de forma autônoma e independente. Não há empresa por
-          trás do projeto, não há investidores e não há uma meta de crescimento que
-          justifique abrir mão da privacidade de quem usa.
-        </p>
-        <p>
-          Essa escolha é técnica e política ao mesmo tempo. Sem investidores com segundas
-          intenções, não existe pressão para transformar conversas em publicidade, para
-          inflar o tempo de tela ou para vender dados a terceiros. O projeto cresce no
-          O projeto cresce no
-          ritmo de quem o mantém, e as decisões ficam com quem usa o app no dia a dia.
+          <a class="btn btn-secondary" href="/moderacao">Ler o manual de moderação</a>
         </p>
       </div>
     </section>

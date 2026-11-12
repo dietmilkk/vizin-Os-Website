@@ -343,9 +343,9 @@ button {
   object-fit: cover;
 }
 
-/* Wordmark sorteada a cada carregamento (assets/brand/wordmark-*.png).
-   As artes são brancas com transparência, então entram como máscara e
-   herdam a cor do texto — inclusive o hover da marca e o tema escuro. */
+/* Wordmark única (assets/brand/wordmark.png).
+   A arte é branca com transparência, então entra como máscara e herda a
+   cor do texto — inclusive o hover da marca e o tema escuro. */
 .brand-wordmark {
   display: block;
   flex: none;
@@ -370,6 +370,15 @@ button {
 
 .brand-wordmark--lg {
   --wordmark-h: 40px;
+}
+
+/* A wordmark ocupa o lugar do título em texto no hero. */
+.hero-brand-wordmark {
+  --wordmark-h: clamp(2.4rem, 6.5vw, 4.4rem);
+}
+
+.hero-brand-wordmark.is-ready {
+  max-width: 100%;
 }
 
 .desktop-nav {

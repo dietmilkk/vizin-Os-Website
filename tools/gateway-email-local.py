@@ -20,6 +20,12 @@ Configuracao (nada disso vai para o git):
     GMAIL_PASS=...      senha de app de 16 caracteres, sem espacos
     GATEWAY_PORT=8789   porta local (padrao)
 
+Retentativa (opcional, os padroes ja servem):
+
+    ENVIO_TENTATIVAS=5           tentativas por mensagem
+    ENVIO_ORCAMENTO=19           segundos no total (a VPS desiste em 20 s)
+    ENVIO_TIMEOUT_TENTATIVA=2.5  segundos por tentativa
+
 Uso:
     python3 tools/gateway-email-local.py
     python3 tools/gateway-email-local.py --testar   # manda um e-mail de teste
@@ -30,11 +36,8 @@ import email.utils
 import hmac
 import json
 import os
-import smtplib
-import ssl
 import sys
 import time
-import uuid
 from email.message import EmailMessage
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -45,6 +48,10 @@ HOST = os.environ.get("GATEWAY_HOST", "127.0.0.1").strip()
 PORT = int(os.environ.get("GATEWAY_PORT", "8789"))
 SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com").strip()
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
+
+# A entrega (SMTP + retentativa) e compartilhada com tools/puxar-fila-email.py.
+sys.path.insert(0, str(os.path.dirname(os.path.abspath(__file__))))
+from email_envio import FalhaEnvio, enviar_com_retry  # noqa: E402,F401
 
 
 def log(mensagem: str) -> None:
@@ -106,14 +113,19 @@ class GatewayHandler(BaseHTTPRequestHandler):
             assunto = carga.get("subject") or ""
             texto = carga.get("text") or ""
             resposta = carga.get("reply_to") or carga.get("replyTo")
-            identificador = self.enviar(remetente, destinatarios, assunto, texto, resposta)
+            identificador, tentativas = self.enviar(
+                remetente, destinatarios, assunto, texto, resposta
+            )
         except Exception as erro:  # noqa: BLE001
             log("falha no envio: %s: %s" % (type(erro).__name__, erro))
             self.responder(502, {"message": "%s: %s" % (type(erro).__name__, erro)})
             return
 
-        log("enviado para %s (assunto: %s)" % (", ".join(destinatarios), assunto[:60]))
-        self.responder(200, {"id": identificador, "message": "ok"})
+        log(
+            "enviado para %s (assunto: %s) em %d tentativa(s)"
+            % (", ".join(destinatarios), assunto[:60], tentativas)
+        )
+        self.responder(200, {"id": identificador, "message": "ok", "tentativas": tentativas})
 
     # --------------------------------------------------------------- envio
 
@@ -124,7 +136,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
         assunto: str,
         texto: str,
         resposta: str | None,
-    ) -> str:
+    ) -> tuple[str, int]:
         if not destinatarios:
             raise ValueError("nenhum destinatario")
         if not GMAIL_USER or not GMAIL_PASS:
@@ -142,12 +154,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
             mensagem["Reply-To"] = resposta
         mensagem.set_content(texto)
 
-        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=25) as servidor:
-            servidor.login(GMAIL_USER, GMAIL_PASS)
-            # O envelope MAIL FROM e a propria conta do Gmail: o servidor SMTP
-            # recusa um remetente que nao seja a conta autenticada.
-            servidor.send_message(mensagem, from_addr=GMAIL_USER)
-        return str(uuid.uuid4())
+        return enviar_com_retry(mensagem)
 
 
 def teste() -> int:
@@ -163,10 +170,11 @@ def teste() -> int:
         "Teste do gateway local: o PC conseguiu sair pelo SMTP do Gmail.\n"
         "Se voce leu isto, o caminho VPS -> tunel -> PC -> Gmail esta de pe."
     )
-    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=25) as servidor:
-        servidor.login(GMAIL_USER, GMAIL_PASS)
-        servidor.send_message(mensagem, from_addr=GMAIL_USER)
-    print("e-mail de teste enviado para %s" % GMAIL_USER)
+    identificador, tentativas = enviar_com_retry(mensagem)
+    print(
+        "e-mail de teste enviado para %s (id %s, %d tentativa(s))"
+        % (GMAIL_USER, identificador, tentativas)
+    )
     return 0
 
 

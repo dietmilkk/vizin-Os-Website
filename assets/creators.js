@@ -1095,10 +1095,13 @@
         .then(function (data) {
           $('outreachStatus').className = 'code-status is-ok';
           $('outreachStatus').setAttribute('data-estado', 'enviado');
-          $('outreachStatus').textContent =
-            'E-mail enviado para ' +
-            (data.recipient || email) +
-            '. O contato foi registrado na base.';
+          $('outreachStatus').textContent = data.queued
+            ? 'Convite na fila para ' +
+              (data.recipient || email) +
+              '. Ele sai assim que o computador que envia os e-mails estiver online.'
+            : 'E-mail enviado para ' +
+              (data.recipient || email) +
+              '. O contato foi registrado na base.';
           limpaCamposDoEnvio(camposNoEnvio);
           return loadAfiliadoDashboard();
         })

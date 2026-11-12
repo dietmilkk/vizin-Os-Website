@@ -14,11 +14,12 @@ Sem build, sem framework e sem dependências de runtime.
 
 | Arquivo | Público | Função |
 | --- | --- | --- |
-| `index.html` | Sim | Landing page em texto contínuo: a ilusão da conexão, o problema dos apps, o vizin.Os, privacidade e convite |
-| `documento/index.html` | Sim | Explicação detalhada em `/documento` para imprensa e mídia de tecnologia: identidade local, regiões por bairro (raio máximo de 5 km), criptografia, transporte entre pares e moderação — sem detalhes internos |
-| `afiliados/index.html` | **Não listado** | Hub único do programa de parceiros em `/afiliados`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
-| `moderacao/index.html` | Sim | Manual público em `/moderacao` sobre como a moderação funciona: denúncias, votação, banimentos, reputação e convivência |
-| `painel/index.html` | Sim | Painel público em `/painel`: estatísticas agregadas do serviço (dispositivos ativos, regiões, consumo do servidor, parceiros), sem nenhum dado pessoal |
+| `index.html` | Sim (`/`) | Landing page em texto contínuo: a ilusão da conexão, o problema dos apps, o vizin.Os, privacidade e convite |
+| `manifesto/index.html` | Sim (`/manifesto`) | Manifesto em texto corrido ("Uma conversa ao redor do fogo"), listado em “Continue explorando” e no sitemap |
+| `documento/index.html` | Sim (`/documento`) | Explicação para imprensa e para quem quer entender melhor: identidade local, criptografia, transporte entre pares, regiões por bairro (raio máximo de 5 km), moderação, limitações e glossário |
+| `afiliados/index.html` | **Não listado** (`noindex`) | Hub único do programa de parceiros em `/afiliados`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
+| `moderacao/index.html` | Sim (`/moderacao`) | Manual público da moderação: níveis, denúncias (3 → revisão; 5 → oculto e votação de 7 dias), votação ponderada por reputação, quórum, banimentos e score de convivência |
+| `painel/index.html` | Sim (`/painel`) | Painel público com estatísticas agregadas do serviço (dispositivos ativos, regiões, consumo do servidor, parceiros), sem nenhum dado pessoal |
 | `404.html` | — | Página de erro |
 
 A página `/afiliados` **não aparece no menu, no sitemap ou no rodapé**. Ela é
@@ -38,13 +39,29 @@ As páginas públicas descrevem o app do jeito que ele funciona hoje:
 
 - **Regiões (`/documento`)**: cada região é um conjunto de **bairros** (municípios do
   IBGE) montado no próprio aparelho. O nome da região é a **lista de todos os bairros**
-  que ela contém, separados por vírgula; cada bairro pertence a **exatamente uma**
-  região (nenhum bairro se repete) e o **raio máximo é de 5 km**. A localização é
-  estritamente por bairro: o ponto do aparelho vira o município mais próximo, e é ele
-  que define a região.
-- **Moderação (`/moderacao`)**: manual público enxuto, com denúncias, votação,
-  banimentos, reputação e score de convivência. É o resumo do que o app faz, não um
-  regulamento completo.
+  que ela contém, separados por vírgula (ou só o nome do bairro, se a região tiver um
+  só); cada bairro pertence a **exatamente uma** região (nenhum bairro se repete) e o
+  **raio máximo é de 5 km**. A localização é estritamente por bairro: o ponto do
+  aparelho vira o município mais próximo, e é ele que define a região.
+- **Moderação (`/moderacao`)**: o fluxo como o app aplica:
+  - **Denúncia**: só vale a de quem tem reputação ≥ 10, uma vez por pessoa e por
+    conteúdo, na mesma comunidade e dentro de uma janela de 24 h.
+  - **Escada**: 3 denúncias válidas colocam o conteúdo **em revisão**; a 5ª o **oculta**
+    e abre a **votação de 7 dias**, contados a partir dela.
+  - **Voto**: exige nível ≥ 2 e reputação ≥ 20. O peso do voto é a **raiz quadrada da
+    reputação**, e cada pessoa vota uma vez. Empate mantém o conteúdo. Sem votos, o
+    resultado é manter, mas nada é aplicado.
+  - **Quórum**: a decisão só vale com pelo menos **máx(3, ⌈20% dos membros⌉)** votantes.
+  - **Aplicação**: depois do prazo, um membro de **nível ≥ 2** aplica a decisão
+    manualmente no app. Não há conclusão automática.
+  - **Banimentos**: de **7 dias** (expira sozinho) ou **permanente** (só sai com uma
+    reversão explícita). O **banimento de dispositivo** acompanha a credencial gerada
+    pelo app, que não é IMEI nem número de série.
+  - **Score de convivência** (0–100): começa em **13**. Quando chega a **12 ou menos**,
+    a conta fica **suspensa** e não publica. Sobe com votos de confiança (+3), conteúdo
+    mantido (+4) e banimento desfeito (+35). Cai com votos de desconfiança (−5),
+    conteúdo ocultado (−8), suspensão de 7 dias (−18, que expira junto com ela) e
+    banimento permanente (−35).
 - **Social (em breve)**: a aba “Social” do app é só um **aviso**. O feed cronológico,
   sem algoritmo, ainda não existe — e nenhuma página do site promete a feature como
   disponível.
@@ -102,6 +119,8 @@ tests/lib/seed_stats.py     Cenário de dados compartilhado pelos testes do pain
 tests/test-painel-afiliado.py  Teste end-to-end do painel de afiliado (Playwright)
 tests/test-layout-afiliado.py  Teste de layout e responsividade do painel
 tests/test-guard-ip.py      Teste do bloqueio por IP no navegador (API simulada)
+tests/test-email-retry.py  Teste da retentativa de envio (sem rede)
+tests/test-puxar-fila.py   Teste do puxador da fila no PC (API falsa, sem rede)
 tests/test-usuario-real.py  Jornada completa de uso contra a produção
 tests/test-guia-acordeao.py Teste do guia em acordeão (um bloco por vez) e do rodapé minimalista
 tests/test-breadcrumb.py   Teste do breadcrumb onde ele existe (desktop e celular)
@@ -131,9 +150,12 @@ tools/deploy-vps.sh         Publica API e site na VPS, com backup do banco e ver
 tools/limpar-teste.sh       Limpa os dados de teste na VPS (libera o IP; aceita --ip)
 tools/limpar-teste-vps.ts   Script de limpeza executado na VPS (aceita --ip)
 tools/testar-envio-real.sh  Ciclo completo do teste de e-mail (SMTP de captura na VPS)
-tools/gateway-email-local.py Gateway de e-mail no PC (fala o formato do Resend e entrega via Gmail)
-tools/rodar-gateway-email.sh Sobe o gateway no PC, abre o túnel SSH e aponta a VPS para ele
-tools/apontar-gateway-local.py Aponta a API da VPS para o gateway do PC (token pelo stdin)
+tools/gateway-email-local.py Gateway HTTP antigo (testes manuais; entrega via Gmail)
+tools/email_envio.py       Entrega pelo Gmail com retentativa (compartilhado)
+tools/puxar-fila-email.py  Puxa a fila da VPS e entrega pelo Gmail (roda no PC)
+tools/testar-fila-email.py  Testa a fila de ponta a ponta (insere, espera o PC enviar, apaga)
+tools/rodar-gateway-email.sh Sobe o puxador da fila no PC (usado pelo systemd)
+tools/apontar-gateway-local.py Aponta a API da VPS para o gateway HTTP (legado, token pelo stdin)
 tools/ativar-gmail-smtp.py  Liga o transporte SMTP do Gmail na VPS (senha de app pelo stdin)
 tools/restaurar-mail-api.py  Volta ao transporte HTTPS (api) na VPS
 tools/make-images.py        Geração dos ícones
@@ -389,122 +411,155 @@ Como funciona:
 
 ### Envio de e-mail pelo afiliado (no ar)
 
-O fluxo de contato do afiliado é **só por e-mail**, com o envio feito pela VPS
-(SMTP do Gmail com senha de app ou API HTTPS). O afiliado preenche os dados do
-criador e a VPS monta e dispara o e-mail — o texto enviado **não fica visível
-nem é editável pelo afiliado**.
+O fluxo de contato do afiliado é **só por e-mail**. O afiliado preenche os
+dados do criador, a VPS monta a mensagem e a coloca em uma **fila**; o PC do
+dono busca a fila por HTTPS e entrega pelo Gmail. O texto enviado **não fica
+visível nem é editável pelo afiliado**.
 
 Regras:
 
 - **3 e-mails por afiliado a cada 3 dias**, contados no servidor (rolante).
-  Envio que falha não gasta cota.
-- Um e-mail por criador: o registro entra na base compartilhada e bloqueia o
-  contato duplicado, como hoje. A base tem uma regra de identidade só — o nome
-  popular normalizado.
+  O convite que entra na fila já reserva a vaga; falha definitiva devolve.
+- Um e-mail por criador: o contato é reservado no momento em que entra na fila
+  e bloqueia o contato duplicado. **Se a entrega falhar de vez, o criador volta
+  para a base** e outro afiliado pode tentar.
 - O modelo de e-mail é montado no servidor com o link de afiliado já embutido;
   o afiliado só personaliza os dados do criador.
 
-Estado e pendências (detalhes e diagnóstico de rede em
-[`app/docs/email-afiliados.md`](../app/docs/email-afiliados.md)):
+#### A fila de e-mail (VPS → PC → Gmail)
 
-- O fluxo completo já foi **testado de ponta a ponta num navegador real**
-  contra o site publicado: os 3 envios da janela, o `429` no 4º, o `409` de
-  criador repetido (por outro afiliado, sem gastar cota) e a prova de que o
-  texto do e-mail não existe no DOM nem no JS servido.
-- A VPS atual **não consegue sair por SMTP**: as portas 465 e 587 dão timeout
-  em todos os provedores testados (Gmail, Outlook, AWS SES, Brevo, Resend).
-  O bloqueio é da rede do datacenter, não do `ufw` — abrir as regras de saída
-  não resolveu. O transporte ativo é, portanto, o **HTTPS** (`MAIL_TRANSPORT=api`),
-  que funciona na porta 443.
-- Falta a **chave do provedor** (`MAIL_API_KEY` em `/etc/vizin/mail.env`) para
-  o envio real sair. O SMTP do Gmail fica pronto para ser ligado trocando
-  `MAIL_TRANSPORT=smtp` e a senha de app, assim que a rede liberar as portas.
-  **Como ativar:** com a chave do Resend em mãos, basta escrever
-  `MAIL_API_KEY=re_...` em `/etc/vizin/mail.env` (permissão `600`), reiniciar
-  a API (`systemctl restart vizin-api`) e conferir
-  `curl -s https://api.188.166.156.109.sslip.io/health` — o bloco `mail`
-  precisa mostrar `"configured": true`. Sem isso, a API responde
-  “provedor de e-mail não configurado no servidor” e nenhum e-mail sai.
-  O caminho completo (formulário → API → e-mail montado na VPS) já está
-  verificado: `tools/testar-envio-real.sh` sobe um servidor SMTP de captura na
-  VPS, aponta a API para ele e mostra as mensagens recebidas.
-- **SMTP do Gmail:** `tools/ativar-gmail-smtp.py` liga o transporte
-  (`MAIL_TRANSPORT=smtp`, `smtp.gmail.com:465`) com a senha de app, que entra
-  pelo **stdin** — a senha nunca passa por argv de processo nem pelo
-  repositório. Conferido na VPS em 11/11/2026: a senha fica aplicada e o
-  `/health` mostra `"transport": "smtp", "configured": true`, **mas a saída
-  SMTP continua bloqueada** (465/587/25 com timeout, handshake de verdade
-  com o Gmail dá timeout): nenhum e-mail sai enquanto a rede do datacenter não
-  liberar. Para desfazer, `tools/restaurar-mail-api.py` volta ao HTTPS (api).
-  Atenção: `tools/testar-envio-real.sh` termina restaurando `api` — rodar o
-  ciclo de captura desfaz esta configuração.
+```mermaid
+sequenceDiagram
+    participant A as Afiliado
+    participant V as API na VPS
+    participant F as Fila (mail_outbox)
+    participant P as PC do dono
+    participant G as Gmail
 
-#### O gateway de e-mail no PC (o caminho que funciona hoje)
-
-A VPS não sai por SMTP, mas sai por HTTPS na 443. E o transporte `api` da
-API é exatamente um `POST` no formato do Resend. A solução é fazer o **PC
-falar com o Gmail** e a VPS falar com o PC:
-
-```
-VPS (MAIL_TRANSPORT=api)  ──POST /emails──▶  gateway no PC  ──SMTP 465──▶  Gmail
-   127.0.0.1:8789            (túnel SSH reverso)   127.0.0.1:8789
+    A->>V: POST /hunters/outreach/email
+    V->>V: valida, reserva o criador e consome a cota
+    V->>F: guarda a mensagem
+    V-->>A: 202 {queued: true}
+    P->>V: POST /mail/queue/claim (Bearer)
+    V-->>P: lote já reclamado
+    P->>G: SMTP 465 (até 5 tentativas)
+    P->>V: POST /mail/queue/:id/result
 ```
 
-O túnel é um `ssh -R` aberto pelo próprio script: nada é exposto na
-internet, o gateway escuta só em `127.0.0.1` e o túnel também. **Não é
-preciso mudar a API, nem fazer deploy, nem criar fila** — a VPS continua
-falando o mesmo protocolo de sempre.
+O PC **não expõe porta nenhuma**: só faz conexões de saída para a API, na 443.
+A VPS não precisa alcançar o PC, então não há túnel SSH nem chave de deploy
+envolvida no envio.
 
-Para usar (no PC do dono, com a internet da VPS):
+O ciclo:
+
+1. o convite é validado e **entra na fila** (`mail_outbox`) com o texto já
+   montado; a API responde `202` na hora;
+2. o PC pede um lote (`POST /mail/queue/claim`). O lote vem **já reclamado**:
+   outro cliente não vê as mesmas mensagens;
+3. cada mensagem sai pelo SMTP do Gmail, com até 5 tentativas;
+4. o PC devolve o resultado (`sent`, `retry` ou `failed`);
+5. se o PC cair no meio do lote, o item reclamado **volta para a fila** depois
+   de 5 minutos. Depois de 8 reclamações o item vira falha definitiva e o
+   criador é liberado.
+
+Por que a fila: se o PC estiver desligado na hora do convite, **nada falha e
+nada se perde** — o e-mail espera. O afiliado recebe “convite na fila” em vez
+de um erro.
+
+Configuração na VPS (`/etc/vizin/mail.env`, permissão `600`):
 
 ```sh
-tools/rodar-gateway-email.sh
+MAIL_TRANSPORT=queue
+MAIL_QUEUE_TOKEN=<mesmo GATEWAY_TOKEN do PC>
 ```
 
-O script:
+Depois de reiniciar a `vizin-api`, o `/health` mostra
+`"transport": "queue", "configured": true` e as contagens da fila.
 
-1. lê (ou cria na primeira vez) `site/.deploy-gmail.env` — arquivo `600`,
-   **ignorado pelo git**, com `GMAIL_USER`, `GMAIL_PASS` e `GATEWAY_TOKEN`.
-   Na primeira execução ele pergunta a conta e a senha de app (a senha
-   aparece mascarada e vai para o arquivo, nunca para o git);
-2. sobe `tools/gateway-email-local.py` em `127.0.0.1:8789` (log em
-   `/tmp/vizin-gateway.log`);
-3. aponta a VPS para ele (`tools/apontar-gateway-local.py` grava
-   `MAIL_TRANSPORT=api`, `MAIL_API_URL=http://127.0.0.1:8789/emails` e
-   `MAIL_API_KEY=<token>` em `/etc/vizin/mail.env`, permissão `600`) e
-   reinicia a `vizin-api`;
-4. segura o túnel em primeiro plano. **Enquanto o comando estiver rodando, a
-   VPS envia e-mail pelo PC.** Ao sair (Ctrl+C), o gateway fecha.
+No PC, o mesmo script de sempre (`tools/rodar-gateway-email.sh`) agora roda o
+puxador `tools/puxar-fila-email.py`. Ele lê (ou cria na primeira vez)
+`site/.deploy-gmail.env` — arquivo `600`, **ignorado pelo git**, com
+`GMAIL_USER`, `GMAIL_PASS` e `GATEWAY_TOKEN`.
 
-O token entra pelo **stdin** (nunca por argv, que fica visível em `ps`) e o
-gateway só aceita pedido com o `Bearer` correto.
+Endpoints da fila (todos exigem `Authorization: Bearer <token>`):
 
-Enquanto o PC estiver desligado (ou o túnel cair), a VPS não consegue
-entregar: a API devolve erro de conexão, **a cota não é consumida** e o
-afiliado pode tentar de novo. É o mesmo comportamento de "envio que falha
-não gasta cota".
+| Rota | Para que serve |
+| --- | --- |
+| `POST /mail/queue/claim` | pega um lote já reclamado |
+| `POST /mail/queue/:id/result` | devolve `sent`, `retry` ou `failed` |
+| `GET /mail/queue/status` | contagem por estado (diagnóstico) |
 
-Para desfazer o apontamento e voltar ao provedor HTTPS de verdade
-(Resend/Brevo), na VPS: `python3 tools/restaurar-mail-api.py` e
-`systemctl restart vizin-api`.
+O token é comparado em tempo constante, o conteúdo fica no servidor e só vai
+para o PC autenticado. O gateway HTTP antigo (`tools/gateway-email-local.py`)
+continua no repositório para testes manuais, mas o serviço não o usa mais.
 
-> Atenção: `tools/testar-envio-real.sh` termina restaurando `MAIL_TRANSPORT=api`
-> com a URL do Resend — rodar o ciclo de captura **desfaz** o apontamento para
-> o gateway e é preciso rodar `tools/rodar-gateway-email.sh` de novo.
+#### Retentativa do envio
 
-**Conferido em 12/11/2026:** com o gateway no ar, os 3 e-mails da janela
-saíram de verdade (chegando na caixa `vizin.oos@gmail.com`), o `429` do 4º
-envio e o `409` de criador repetido funcionaram, e o texto do e-mail continua
-inexistente no DOM e no JS servido. O `tests/test-envio-email-real.py` roda
-esse caminho inteiro contra o site publicado (46/46 verificações).
+Se a entrega falhar, o PC tenta de novo **até 5 vezes**, com espera crescente
+(0,3 s → 0,6 s → 1,2 s → 2 s) e **tempo limite**: 2,5 s por tentativa e 19 s no
+total. Assim um lote não fica preso e o item não demora a voltar para a fila
+se a rede estiver ruim.
 
-Com o envio real (alguns segundos por e-mail, porque o Gmail entrega em
-~3 s), o formulário do afiliado não pode perder o que o afiliado já
-escreveu: `assets/creators.js` limpa **só** os campos que continuam com o
-valor que foi enviado, e o botão fica **desabilitado** durante o envio (um
-clique no meio do envio seria engolido em silêncio).
+Só erro **transitório** repete:
 
-#### Ligar o gateway sozinho, a cada boot do PC
+| Erro | Repete? |
+| --- | --- |
+| Queda de conexão, timeout, falha de TLS | sim |
+| Resposta `4xx` do Gmail (limite temporário, caixa cheia) | sim |
+| Senha de app inválida (`535`) | não |
+| Destinatário inexistente (`550`) | não |
+| Servidor não suporta o comando | não |
+
+Quando as 5 tentativas falham por erro transitório, o PC devolve `retry` e o
+item **volta para a fila**. A VPS tenta de novo no próximo ciclo (até 8
+reclamações). Erro permanente devolve `failed` na hora: a cota é liberada e o
+criador volta para a base.
+
+Ajuste fino por variável de ambiente (os padrões já servem):
+
+```sh
+ENVIO_TENTATIVAS=5            # tentativas por mensagem
+ENVIO_ORCAMENTO=19            # segundos no total
+ENVIO_TIMEOUT_TENTATIVA=2.5   # segundos por tentativa
+FILA_INTERVALO=15             # segundos entre consultas quando a fila está vazia
+FILA_LOTE=5                   # mensagens por lote
+```
+
+O teste `python3 tests/test-email-retry.py` confere as regras de retentativa
+sem tocar na rede (nada é enviado). O teste `bun test vps/tests/e2e-queue.test.ts`
+(no projeto do app) cobre a fila inteira: enfileirar, reclamar, repetir, falhar
+e a cota.
+
+Para conferir a fila de verdade (sem criar afiliado nem gastar cota):
+
+```sh
+python3 tools/testar-fila-email.py
+```
+
+Ele insere uma mensagem de teste em `mail_outbox` sem `hunter_id`, espera o PC
+entregar pelo Gmail e apaga a linha no fim. O destinatário padrão é a própria
+conta que envia; `--para outro@exemplo.com` muda isso.
+
+> Um timeout no meio do `DATA` pode gerar duplicata: se o Gmail aceitou a
+> mensagem e a resposta se perdeu, a repetição entrega de novo. É o
+> comportamento normal de e-mail (entrega *pelo menos uma vez*); a janela é
+> pequena e o benefício de não perder o envio é maior.
+
+**Conferido em 12/11/2026:** a fila foi exercitada de ponta a ponta com a API
+real (10/10 verificações) e o caminho de envio real já havia sido confirmado
+com o gateway (3 e-mails entregues na caixa `vizin.oos@gmail.com`, `429` no 4º
+e `409` de criador repetido).
+
+Com a fila, o formulário responde **na hora** (não espera o Gmail) e o texto
+“convite na fila” aparece no painel. O `assets/creators.js` continua limpando
+**só** os campos que o afiliado não alterou depois do clique.
+
+> ⚠️ `tools/testar-envio-real.sh`, `tools/ativar-gmail-smtp.py` e
+> `tools/restaurar-mail-api.py` mexem no transporte direto e **desfazem a
+> configuração da fila**. Se rodar um deles, volte com
+> `MAIL_TRANSPORT=queue` em `/etc/vizin/mail.env` e reinicie a `vizin-api`.
+
+#### Ligar a entrega sozinha, a cada boot do PC
 
 O `tools/rodar-gateway-email.sh` também roda **sozinho quando o PC liga**, sem
 ninguém precisar logar e abrir terminal. A unidade do systemd que faz isso é
@@ -524,12 +579,11 @@ O que a unidade garante:
 - **1 minuto de atraso** no começo (`Environment=ATRASO_INICIAL=60`), para não
   competir com o boot do sistema e com a rede ainda subindo;
 - **consumo mínimo**: `Nice=10`, `CPUQuota=25%`, `CPUWeight=10`,
-  `MemoryMax=512M` — o gateway ocioso usa ~16 MB de RAM;
-- **trava anti-duplicata** por `flock` (o script nunca abre dois gateways nem
-  dois túneis);
-- **sobrevive a queda**: `Restart=on-failure` com `RestartSec=60` e o próprio
-  script tenta reabrir o túnel SSH por ~5 min se a VPS ainda não responder;
-- **log com teto de 1 MB** (`/tmp/vizin-gateway.log`), para o `/tmp` não encher.
+  `MemoryMax=512M` — o puxador ocioso usa ~30 MB de RAM e quase nenhuma CPU;
+- **trava anti-duplicata** por `flock` (nunca dois puxadores ao mesmo tempo);
+- **sobrevive à queda**: `Restart=on-failure` com `RestartSec=60`; se a VPS
+  estiver fora do ar, o puxador tenta de novo com espera crescente (até 60 s);
+- **log no journal**, sem arquivo crescendo no `/tmp`.
 
 Para ver o que está acontecendo:
 

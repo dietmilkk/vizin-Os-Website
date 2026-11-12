@@ -1,5 +1,5 @@
 [Unit]
-Description=Gateway de e-mail do vizin.Os (PC -> VPS, tunel SSH reverso)
+Description=Entrega a fila de e-mail do vizin.Os (PC -> Gmail)
 Documentation=https://github.com/dietmilkk/vizin-Os-Website
 # A rede sobe depois do boot; o script espera 60s antes de comecar.
 After=network-online.target
@@ -10,8 +10,9 @@ Type=simple
 ExecStart=/home/user/Downloads/site/tools/rodar-gateway-email.sh
 Environment=ATRASO_INICIAL=60
 Environment=NICE=10
+Environment=MAIL_QUEUE_URL=https://api.188.166.156.109.sslip.io
 
-# Recomeca se o tunel ou o gateway cairem (o script tambem tenta de novo).
+# Recomeca se o puxador cair (rede, VPS fora do ar, etc.).
 Restart=on-failure
 RestartSec=60
 
