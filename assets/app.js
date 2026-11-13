@@ -133,7 +133,7 @@
   var wordmarkTargets = $$('[data-brand-wordmark]');
   if (wordmarkTargets.length) {
     var wordmarkSrc = '/assets/brand/wordmark.png';
-    var wordmarkRatio = 353 / 57;
+    var wordmarkRatio = 294 / 71;
     wordmarkTargets.forEach(function (target) {
       target.style.setProperty('--wordmark-ratio', String(wordmarkRatio));
       target.style.webkitMaskImage = 'url("' + wordmarkSrc + '")';

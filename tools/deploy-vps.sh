@@ -5,7 +5,7 @@
 #   tools/deploy-vps.sh --so-backend
 #   tools/deploy-vps.sh --so-site
 #
-# A chave SSH é procurada automaticamente (app/docs/deploy-vps.md):
+# A chave SSH é procurada automaticamente (app/docs/operacao/deploy-vps.md):
 #   app/.local/vps/id_ed25519  ->  /tmp/opencode/id_deploy_new  ->  ~/.ssh/id_ed25519
 # (ou defina SSH_KEY com o caminho de outro arquivo)
 #
@@ -117,13 +117,13 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   rsync -az --delete \
     --exclude '.git' --exclude '.github' --exclude 'deploy' \
     --exclude 'tmp-vps' --exclude 'tests' --exclude 'tools' \
-    --exclude 'dist' --exclude 'README.md' --exclude 'prompt-afiliados.md' \
+    --exclude 'dist' --exclude 'README.md' --exclude 'docs' \
     --exclude '.htaccess' --exclude 'tmp-*.py' \
     --exclude '.deploy-infinityfree.env' --exclude '.env*' \
     -e "$RSYNC_SSH" \
     "$ROOT/" "$SSH_USER@$SSH_HOST:$REMOTE_SITE_DIR"
   # Limpa o que sobrou de publicacoes antigas (o rsync nao apaga o que exclui).
-  "${SSH[@]}" "rm -f $REMOTE_SITE_DIR/README.md $REMOTE_SITE_DIR/prompt-afiliados.md $REMOTE_SITE_DIR/.htaccess $REMOTE_SITE_DIR/.deploy-infinityfree.env; rm -rf $REMOTE_SITE_DIR/tools $REMOTE_SITE_DIR/tests $REMOTE_SITE_DIR/tmp-vps $REMOTE_SITE_DIR/dist; rm -f $REMOTE_SITE_DIR/tmp-*.py $REMOTE_SITE_DIR/.env*"
+  "${SSH[@]}" "rm -f $REMOTE_SITE_DIR/README.md $REMOTE_SITE_DIR/.htaccess $REMOTE_SITE_DIR/.deploy-infinityfree.env; rm -rf $REMOTE_SITE_DIR/docs; rm -rf $REMOTE_SITE_DIR/tools $REMOTE_SITE_DIR/tests $REMOTE_SITE_DIR/tmp-vps $REMOTE_SITE_DIR/dist; rm -f $REMOTE_SITE_DIR/tmp-*.py $REMOTE_SITE_DIR/.env*"
   "${SSH[@]}" "chown -R vizin:vizin $REMOTE_SITE_DIR"
 
   echo "==> Conferindo o site"
@@ -133,7 +133,7 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   done
 
   echo "==> Conferindo que nada interno ficou exposto"
-  for path in /README.md /prompt-afiliados.md /tools/ /tests/ /dist/ /.deploy-infinityfree.env /.env; do
+  for path in /README.md /docs/ /tools/ /tests/ /dist/ /.deploy-infinityfree.env /.env; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$SITE_HOST$path")"
     printf '    %-24s %s\n' "$path" "$code"
     case "$code" in

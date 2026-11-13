@@ -58,12 +58,12 @@ jobs:
           rsync -az --delete \
             --exclude '.git' --exclude '.github' --exclude 'deploy' \
             --exclude 'tmp-vps' --exclude 'tests' --exclude 'tools' \
-            --exclude 'dist' --exclude 'README.md' --exclude 'prompt-afiliados.md' \
+            --exclude 'dist' --exclude 'README.md' --exclude 'docs' \
             --exclude '.htaccess' --exclude 'tmp-*.py' \
             --exclude '.deploy-infinityfree.env' --exclude '.env*' \
             ./ "$VPS_USER@$VPS_HOST:$SITE_DIR"
           ssh -i ~/.ssh/id_deploy "$VPS_USER@$VPS_HOST" \
-            "rm -f '$SITE_DIR/README.md' '$SITE_DIR/prompt-afiliados.md' '$SITE_DIR/.htaccess' '$SITE_DIR/.deploy-infinityfree.env'; rm -rf '$SITE_DIR/tools' '$SITE_DIR/tests' '$SITE_DIR/tmp-vps' '$SITE_DIR/dist'; rm -f '$SITE_DIR'/tmp-*.py '$SITE_DIR'/.env*; chown -R vizin:vizin '$SITE_DIR'"
+            "rm -f '$SITE_DIR/README.md' '$SITE_DIR/.htaccess' '$SITE_DIR/.deploy-infinityfree.env'; rm -rf '$SITE_DIR/docs'; rm -rf '$SITE_DIR/tools' '$SITE_DIR/tests' '$SITE_DIR/tmp-vps' '$SITE_DIR/dist'; rm -f '$SITE_DIR'/tmp-*.py '$SITE_DIR'/.env*; chown -R vizin:vizin '$SITE_DIR'"
 
       - name: Conferir o site no ar
         run: |

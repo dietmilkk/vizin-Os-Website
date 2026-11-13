@@ -134,4 +134,4 @@ estado ao recarregar e a ausência do texto do e-mail no navegador.
   24 horas. Se a consulta externa falhar, ninguém é bloqueado.
 - O backend é a autoridade: `POST /creators` e `POST /hunters` recusam com
   `403` e o código `IP_DENIED` ou `IP_BLOCKED_DUPLICATE`.
-- Runbook completo: [`app/docs/guarda-ip.md`](../app/docs/guarda-ip.md).
+- Runbook completo: [`app/docs/operacao/guarda-ip.md`](../../app/docs/operacao/guarda-ip.md).

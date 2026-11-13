@@ -30,8 +30,7 @@ também bloqueia `/afiliados` e `/criadores`.
 O antigo `/criadores` virou **apelido**: responde `301` para `/afiliados/`,
 que é a URL canônica — o mesmo vale nos três lugares onde o site roda
 (Caddy na VPS, `.htaccess` no InfinityFree e `_redirects` no Cloudflare Pages).
-A pasta `criadores/` no repositório está vazia de propósito — o HTML vive em
-`afiliados/index.html`.
+O HTML fica em `afiliados/index.html`; não existe pasta `criadores/` no repositório.
 
 ### O que as páginas públicas dizem sobre o app
 
@@ -108,7 +107,7 @@ _redirects                  Redireciona /afiliados e /criadores (Cloudflare Page
                             pastas e bloqueio de arquivos internos
 robots.txt                  Indexação (bloqueia /afiliados e /criadores)
 sitemap.xml                 Sitemap (sem /afiliados)
-prompt-afiliados.md         Prompt de função e regras da página /afiliados
+docs/prompt-afiliados.md    Prompt de função e regras da página /afiliados
 tests/pix.test.js           Testes do gerador PIX
 tests/painel.test.mjs       Teste do painel público: roda o panel.js real contra a API real
 tests/test-stats-publico.py Teste fim a fim do GET /stats/public (contrato + privacidade)
@@ -357,7 +356,7 @@ Outros pontos:
     `EFI_CLIENT_ID`/`EFI_CLIENT_SECRET` e o certificado `.pfx` da Efí em
     `/etc/vizin/api.env`. Sem isso o valor fica **reservado em `processing`**
     (o saldo já sai da conta), mas o Pix não é enviado. O runbook completo
-    está em [`app/docs/deploy-vps.md`](../app/docs/deploy-vps.md).
+    está em [`app/docs/operacao/deploy-vps.md`](../app/docs/operacao/deploy-vps.md).
 - Endpoints usados: `POST /creators`, `GET /creators/me`,
   `POST /creators/withdraw`, `POST /hunters`, `GET /hunters/me`,
   `POST /hunters/withdraw`, `GET /hunters/public`,
@@ -407,7 +406,7 @@ Como funciona:
   com `code: IP_DENIED` ou `code: IP_BLOCKED_DUPLICATE` se alguém contornar
   o navegador.
 - Runbook completo no projeto principal:
-  [`app/docs/guarda-ip.md`](../app/docs/guarda-ip.md).
+  [`app/docs/operacao/guarda-ip.md`](../app/docs/operacao/guarda-ip.md).
 
 ### Envio de e-mail pelo afiliado (no ar)
 
@@ -718,7 +717,7 @@ A única informação não numérica é o **@ (e o link público) do criador já
 contatado** — que é público por natureza e some sozinho após 6 meses.
 
 O contrato completo, as garantias de privacidade e o runbook de publicação
-estão em [`app/docs/painel-publico.md`](../app/docs/painel-publico.md).
+estão em [`app/docs/operacao/painel-publico.md`](../app/docs/operacao/painel-publico.md).
 
 ### Dois modos de coleta
 
@@ -1216,7 +1215,7 @@ O que ele cobre:
 >   própria VPS** (`app/vps/tools/smtp-sink.ts`), que fala o mesmo protocolo do
 >   Gmail (`STARTTLS` + `AUTH PLAIN` depois do handshake) e grava a mensagem
 >   recebida em disco. O procedimento completo está em
->   [`app/docs/email-afiliados.md`](../app/docs/email-afiliados.md#62-teste-real-de-ponta-a-ponta-navegador--vps--smtp).
+>   [`app/docs/operacao/email-afiliados.md`](../app/docs/operacao/email-afiliados.md#62-teste-real-de-ponta-a-ponta-navegador--vps--smtp).
 
 ### Jornada do cadastro e do link do painel
 
@@ -1279,7 +1278,7 @@ tools/deploy-infinityfree.sh             # publica e confere
 O `tools/deploy-infinityfree.py` (o `.sh` é um atalho para ele) faz um
 **espelho**: sobe os 28 arquivos públicos (páginas, `assets/`, `robots.txt`,
 `sitemap.xml`, `.htaccess`) e **apaga do servidor** tudo que não faz parte do
-site — `README.md`, `prompt-afiliados.md`, `tools/`, `tests/`, `tmp-vps/`,
+site — `README.md`, `docs/`, `tools/`, `tests/`, `tmp-vps/`,
 `deploy/`, `dist/` e qualquer sobra de publicações antigas. No fim ele chama o
 `conferir-dominio.py` e só termina com sucesso se o site estiver no ar, sem
 vazamento e com o painel pulling números da API.
@@ -1295,8 +1294,8 @@ tools/pacote-infinityfree.sh   # gera dist/vizin-os-page-gd.zip
 
 Depois, em <https://client.infinityfree.com>: **File Manager →
 `vizin-os.page.gd` → `htdocs` → Upload →** envie o `.zip` e extraia. **Apague**
-da pasta `htdocs` o que não deve ficar no ar: `README.md`, `prompt-afiliados.md`
-e as pastas `tools/`, `tests/` e `tmp-vps/` (se existirem de publicações
+da pasta `htdocs` o que não deve ficar no ar: `README.md` e as pastas `docs/`,
+`tools/`, `tests/` e `tmp-vps/` (se existirem de publicações
 antigas).
 
 ### Recuperar a senha do FTP (quando ela mudar)
@@ -1337,7 +1336,7 @@ SSH_KEY=/caminho/da/chave tools/deploy-vps.sh   # chave em outro lugar
 > `/tmp/opencode/id_deploy_new` e em `~/.ssh/id_ed25519` — ou use `SSH_KEY=`.
 
 O script também apaga da pasta pública o que não deve estar no ar
-(`README.md`, `prompt-afiliados.md`, `tools/`, `tests/`, `dist/`) e o Caddy
+(`README.md`, `docs/`, `tools/`, `tests/`, `dist/`) e o Caddy
 responde **404** para esses caminhos, mesmo que alguém peça por eles.
 
 ### Publicar nos dois destinos de uma vez (o jeito usado na prática)
@@ -1375,7 +1374,7 @@ O projeto na Vercel está ligado ao repositório `dietmilkk/vizin-Os-Website`:
 **cada push na `main` publica o site** em `https://vizin-os.vercel.app`. O
 site é estático, então não há build — o que está na `main` é o que vai ao ar.
 
-O `.vercelignore` do repositório mantém `tools/`, `tests/`, `README.md` e
+O `.vercelignore` do repositório mantém `docs/`, `tools/`, `tests/`, `README.md` e
 arquivos de configuração fora do ar (a Vercel serve a pasta do repositório
 inteira, então sem isso esses caminhos responderiam 200).
 
@@ -1414,7 +1413,7 @@ Abre as cinco páginas no Chromium e confere:
 - todo link interno responde;
 - os apelidos antigos (`/criadores` → `/afiliados/`) ainda levam ao lugar certo;
 - `robots.txt` e `sitemap.xml` falam do domínio certo;
-- **nenhum arquivo interno está exposto** (`README.md`, `prompt-afiliados.md`,
+- **nenhum arquivo interno está exposto** (`README.md`, `docs/`,
   `tools/`, `tests/`, `deploy/`, `dist/`, `.git/`, `.env`, `.htaccess`).
 
 São 48 verificações no domínio oficial e no mirror da VPS.
@@ -1434,7 +1433,7 @@ chave privada da VPS e rode o workflow pela aba **Actions**.
 
 O mesmo existe para a API, no repositório `vizin-Os`
 (`.github/workflows/deploy-vps.yml`). Detalhes em
-[`app/docs/painel-publico.md`](../app/docs/painel-publico.md#publicar).
+[`app/docs/operacao/painel-publico.md`](../app/docs/operacao/painel-publico.md#publicar).
 
 > **Ordem de publicação:** o site pode ir no ar antes da VPS. A página `/painel`
 > continua funcionando no **modo público** (status da API, latência, versão,
@@ -1442,7 +1441,7 @@ O mesmo existe para a API, no repositório `vizin-Os`
 > `/stats/public` não existir, avisando na tela que o detalhamento completo
 > ainda não foi publicado. Para o painel mostrar CPU, memória, contas e
 > parceiros, **a VPS precisa ser redeployada** — ver
-> [`app/docs/painel-publico.md`](../app/docs/painel-publico.md#publicar).
+> [`app/docs/operacao/painel-publico.md`](../app/docs/operacao/painel-publico.md#publicar).
 
 ## Acessibilidade e desempenho
 

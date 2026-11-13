@@ -4,7 +4,7 @@ O transporte ativo e o HTTPS (`MAIL_TRANSPORT=api`), porque a saida SMTP da
 VPS esta bloqueada pela rede do datacenter. Para voltar ao SMTP do Gmail, use
 `MAIL_TRANSPORT=smtp` com `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER` e `SMTP_PASS`
 (senha de app de 16 caracteres) — ou apague estas linhas e siga o runbook
-`app/docs/email-afiliados.md`.
+`app/docs/operacao/email-afiliados.md`.
 
 Uso na VPS:
     python3 tools/restaurar-mail-api.py

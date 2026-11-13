@@ -52,6 +52,8 @@
         <a href="#resumo">Resumo</a>
         <a href="#principios">Princípios</a>
         <a href="#stack">Stack</a>
+        <a href="#identidade">Identidade</a>
+        <a href="#regioes">Regiões</a>
         <a href="#privacidade">Privacidade</a>
         <a href="#limitacoes">Limitações</a>
       </nav>
@@ -69,6 +71,8 @@
     <a href="#resumo">Resumo</a>
     <a href="#principios">Princípios</a>
     <a href="#stack">Stack</a>
+    <a href="#identidade">Identidade</a>
+    <a href="#regioes">Regiões</a>
     <a href="#privacidade">Privacidade</a>
     <a href="#limitacoes">Limitações</a>
   </nav>
@@ -82,8 +86,8 @@
 
         <h1>Unindo comunidades, cara a cara.</h1>
         <p>
-          Um app Android de bairro para transformar interesses em comum em encontros presenciais,
-          sem feed, sem algoritmo e sem um servidor no meio das conversas.
+          Um app Android de bairro para reunir vizinhos em grupos locais e transformar conversas
+          em encontros presenciais, sem feed, sem algoritmo e sem um servidor no meio das conversas.
         </p>
         <hr class="page-hero-divider">
       </div>
@@ -108,8 +112,8 @@
         <p>
           O vizin.Os é um aplicativo de comunidades de bairro. Em vez de disputar alcance com o
           mundo inteiro, ele organiza a conversa na escala de quem está perto. A proposta é juntar
-          gente que gosta das mesmas coisas para marcar um café, uma caminhada ou um jogo, e depois
-          sair da tela.
+          gente que mora perto em grupos do bairro, para marcar um café, uma caminhada ou um jogo,
+          e depois sair da tela.
         </p>
         <p>
           A pessoa aparece com um nome de usuário, um emoji e uma cor. Não há foto obrigatória,
@@ -281,18 +285,23 @@
           </li>
           <li>
             <strong>No transporte:</strong> envelopes cifrados, com identificador e assinatura. Quem
-            repassa não consegue ler o conteúdo.
+            repassa não consegue ler o conteúdo. A sinalização entre aparelhos é apagada do farol
+            assim que o aparelho a processa; as mensagens de grupo ficam no farol até o prazo do
+            Beacon, de até 48 horas.
           </li>
           <li>
-            <strong>Na infraestrutura:</strong> envelopes temporários no farol, que expiram em até 48
-            horas, e o mínimo necessário para registrar nomes de usuário e descobrir pares. Quem fica
-            sem atividade por 7 dias deixa de aparecer na descoberta, e após 30 dias a conta é apagada
-            da API.
+            <strong>Na infraestrutura:</strong> o registro de nomes de usuário guarda o nome e a
+            chave pública da conta. Um sinal de presença, assinado pelo app em primeiro plano, marca
+            a conta como ativa. Por padrão, uma conta sem sinal por 7 dias fica invisível na
+            descoberta, e após 30 dias é apagada do servidor, com um marcador que impede recriar a
+            mesma conta.
           </li>
         </ul>
         <p>
-          Apagar a identidade no app remove as chaves e o histórico local. Sem a chave, o que sobrou
-          no transporte fica ilegível.
+          Apagar a conta no app pede a exclusão ao servidor, assinada pela chave da própria conta.
+          Só depois de o servidor confirmar, as chaves e o histórico do aparelho são apagados. Sem a
+          chave, o que sobrou no transporte fica ilegível. Na conta remota permanecem apenas um
+          marcador que impede recriar a mesma conta e os registros financeiros que a lei exige guardar.
         </p>
 
         <h2 id="privacidade">Privacidade e segurança</h2>
@@ -301,13 +310,13 @@
           <li><strong>Chaves no aparelho.</strong> A conta não depende de um servidor com a senha da pessoa.</li>
           <li><strong>Mensagens protegidas.</strong> O conteúdo é cifrado e a equipe não tem acesso a ele.</li>
           <li><strong>Farol temporário.</strong> Os envelopes ficam guardados por até 48 horas.</li>
-          <li><strong>Anúncios.</strong> A versão gratuita mostra anúncios do AdMob. Quem assina o Plus não vê anúncios. Em versões de produção, o AdMob pode personalizar os anúncios com base no aparelho. O conteúdo das conversas não é usado para isso.</li>
+          <li><strong>Anúncios.</strong> A versão gratuita mostra anúncios do AdMob, do Google. Quem assina o Plus não vê o banner. Em versões de produção, o AdMob pode personalizar os anúncios com base no aparelho. O conteúdo das conversas não é usado para isso.</li>
         </ul>
         <p><strong>O que fica público, por desenho:</strong></p>
         <ul>
           <li>O perfil (nome de usuário, emoji e cor).</li>
           <li>A chave pública de grupo e o registro de entrada em uma comunidade, com o nome e a descrição do grupo.</li>
-          <li>A criação e a atualização de região. Esse evento leva as coordenadas usadas naquele momento (ver limitações).</li>
+          <li>A criação de região, com o nome, a lista de bairros, a população e o centro público da região. Não leva a posição de ninguém.</li>
           <li>Anúncios publicados no app.</li>
         </ul>
 
@@ -345,7 +354,7 @@
         </div>
         <p><strong>Lacunas conhecidas na versão atual:</strong></p>
         <ul>
-          <li>As coordenadas usadas para criar a região ficam em texto público no evento de região. Isso está sendo tratado como lacuna de privacidade.</li>
+          <li>Eventos publicados antes desta versão podem conter a coordenada de quem criou a região. Esses eventos continuam válidos no histórico de quem já os recebeu.</li>
           <li>As propostas de mudança no grupo ainda são locais e não viajam entre aparelhos.</li>
           <li>Pedidos de revisão de decisões já são aceitos pela rede, mas o app ainda não tem tela para enviá-los.</li>
         </ul>
@@ -355,7 +364,7 @@
           <li>Não é uma rede de alcance nacional nem um feed de viralização.</li>
           <li>Não substitui serviços de emergência nem órgãos públicos.</li>
           <li>Não promete anonimato absoluto: privacidade não elimina responsabilidade.</li>
-          <li>Não vende dados e não usa o conteúdo das conversas para anúncios.</li>
+          <li>Não envia o conteúdo das conversas para anúncios nem para serviços de análise. O app não tem SDK de analytics.</li>
         </ul>
 
         <h2>Glossário</h2>

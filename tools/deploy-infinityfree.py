@@ -57,7 +57,7 @@ PUBLICOS_DIR = ["assets"]
 # Coisas que nunca devem ficar no ar (podem ter ficado de publicacoes antigas).
 REMOVER = [
     "README.md",
-    "prompt-afiliados.md",
+    "docs",
     "tools",
     "tests",
     "tmp-vps",

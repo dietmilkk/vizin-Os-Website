@@ -40,7 +40,7 @@ PAGINAS = ["/", "/painel/", "/documento/", "/afiliados/", "/moderacao/"]
 # Caminhos que nunca podem responder 200 em um site publico.
 INTERNOS = [
     "/README.md",
-    "/prompt-afiliados.md",
+    "/docs/",
     "/tools/",
     "/tests/",
     "/deploy/",

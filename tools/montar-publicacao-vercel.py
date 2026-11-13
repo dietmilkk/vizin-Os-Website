@@ -84,7 +84,7 @@ def main() -> int:
         ".github/\n"
         ".git\n"
         "README.md\n"
-        "prompt-afiliados.md\n"
+        "docs/\n"
         ".htaccess\n"
         ".deploy-*\n"
         ".env*\n",
