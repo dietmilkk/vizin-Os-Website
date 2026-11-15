@@ -142,20 +142,7 @@
     });
   }
 
-  /* link de download */
-  var download = $('#android-download');
-  if (download) {
-    if (config.androidUrl) {
-      download.href = config.androidUrl;
-      download.removeAttribute('target');
-    } else if (config.contactEmail) {
-      download.href =
-        'mailto:' +
-        config.contactEmail +
-        '?subject=' +
-        encodeURIComponent('Quero testar o vizin.Os');
-    }
-  }
+  /* O link de download é a página /download/, não a loja direto. */
 
   /* ano do rodapé */
   var year = $('#year');

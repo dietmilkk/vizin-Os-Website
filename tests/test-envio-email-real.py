@@ -48,8 +48,8 @@ TOKEN_CACHE_2 = "/tmp/vizin-teste-email-token-2.json"
 FRASES_DO_MODELO = [
     "Uber da vizinhança quer te ter como criador parceiro",
     "Estamos abrindo o programa de criadores",
-    "Seu público ganha 20% de desconto",
-    "Eu faço parte do programa de afiliados e recebo 20%",
+    "Seu público ganha 30% de desconto",
+    "Eu faço parte do programa de afiliados e recebo 10%",
 ]
 
 failures = []
@@ -70,7 +70,7 @@ def texto_da_cota(pagina) -> str:
     """Texto que explica a regra da cota de e-mail.
 
     O painel mostra a cota no proprio indicador de "E-mails enviados": o
-    contador ("1/3") e a mensagem dinamica no title do cartao. O paragrafo
+    contador ("0/1") e a mensagem dinamica no title do cartao. O paragrafo
     separado que existia antes foi removido, mas o teste roda contra o site
     publicado, entao os dois formatos sao aceitos.
     """
@@ -201,7 +201,7 @@ def main():
         status_429 = ""
         status_409 = ""
 
-        while usados < 3:
+        while usados < 1:
             usados += 1
             marca = str(int(time.time()))[-5:]
             nome = f"Criador Real {marca} {enviados}"
@@ -249,7 +249,7 @@ def main():
             pagina.wait_for_function(
                 "(n) => {"
                 "  var c = document.getElementById('afiliadoStatEmails');"
-                "  return c && c.textContent.trim() === n + '/3';"
+                "  return c && c.textContent.trim() === n + '/1';"
                 "}",
                 arg=f"{usados}",
                 timeout=45000,
@@ -265,7 +265,7 @@ def main():
                 ok,
             )
             stat = pagina.locator("#afiliadoStatEmails").inner_text().strip()
-            check(f"contador virou {usados}/3", stat == f"{usados}/3", stat)
+            check(f"contador virou {usados}/1", stat == f"{usados}/1", stat)
 
             lista = pagina.locator("#outreachList").inner_text()
             check(
@@ -276,7 +276,7 @@ def main():
             enviados += 1
 
         # --------------------------------------------------- 4. cota (429)
-        print("\n[4] Quarto envio: a janela de 3 dias barra (HTTP 429)")
+        print("\n[4] Segundo envio: a janela de 3 dias barra (HTTP 429)")
         pagina.locator("#outreachName").fill("Criador Excedente")
         pagina.locator("#outreachEmail").fill("vizin.oos@gmail.com")
         # "Como o criador é conhecido" e obrigatorio: o campo faz parte do
@@ -296,8 +296,8 @@ def main():
         pagina.wait_for_timeout(1500)
         status_429 = pagina.locator("#outreachError").inner_text().strip()
         check(
-            "aviso de cota no 4o envio",
-            "3 e-mails" in status_429 and "janela" in status_429,
+            "aviso de cota no 2o envio",
+            "e-mail desta janela" in status_429 and "libera" in status_429,
             status_429,
         )
         check(
@@ -305,7 +305,7 @@ def main():
             texto_da_cota(pagina).strip() != "",
         )
         stat = pagina.locator("#afiliadoStatEmails").inner_text().strip()
-        check("contador continua 3/3", stat == "3/3", stat)
+        check("contador continua 1/1", stat == "1/1", stat)
 
         # ---------------------------------------------- 5. duplicado (409)
         print("\n[5] Outro afiliado tenta contatar o mesmo criador (HTTP 409)")
@@ -319,7 +319,7 @@ def main():
             pagina.locator("#afiliadoHandle").inner_text(),
         )
         stat_2 = pagina.locator("#afiliadoStatEmails").inner_text().strip()
-        check("segundo afiliado com cota cheia", stat_2 == "0/3", stat_2)
+        check("segundo afiliado com cota cheia", stat_2 == "0/1", stat_2)
         pagina.locator("#outreachName").fill(nome_para_duplicado)
         pagina.locator("#outreachEmail").fill("vizin.oos@gmail.com")
         pagina.locator("#outreachContact").fill("@criador_duplicado")
@@ -342,7 +342,7 @@ def main():
             status_409,
         )
         stat_2 = pagina.locator("#afiliadoStatEmails").inner_text().strip()
-        check("duplicidade nao consumiu a cota do segundo afiliado", stat_2 == "0/3", stat_2)
+        check("duplicidade nao consumiu a cota do segundo afiliado", stat_2 == "0/1", stat_2)
 
         # ------------------------------- 6. o texto do e-mail nao chega ao navegador
         print("\n[6] O texto do e-mail nao existe no navegador")
@@ -370,7 +370,7 @@ def main():
         pagina.wait_for_timeout(4000)
         check("painel reabre", pagina.locator("#afiliadoDashboardView").is_visible())
         stat = pagina.locator("#afiliadoStatEmails").inner_text().strip()
-        check("cota persistida como 3/3", stat == "3/3", stat)
+        check("cota persistida como 1/1", stat == "1/1", stat)
         check(
             "contato continua na lista apos recarregar",
             "Criador Real" in pagina.locator("#outreachList").inner_text(),

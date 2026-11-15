@@ -33,13 +33,10 @@
   var currentMode = 'creator';
   var currentCode = '';
   /* Resultado da verificacao de IP (datacenter/VPN/duplicidade/fora do pais).
-     `taken` diz, por papel, se este endereco ja criou conta: quem tem
-     conta de afiliado ainda pode criar a de criador, e vice-versa. */
+     Duplicidade não é avisada aqui: a recusa só acontece no envio, com uma
+     mensagem genérica que não diz qual regra disparou. */
   var signupGuard = {
-    allowed: true,
     blocked: false,
-    reason: '',
-    taken: { creator: false, hunter: false },
   };
   var guardSettled = false;
   var afiliadoCode = '';
@@ -57,6 +54,24 @@
 
   function $(id) {
     return document.getElementById(id);
+  }
+
+  /** CPF válido de verdade: 11 dígitos com os dois dígitos verificadores. */
+  function isValidCpf(value) {
+    var digits = String(value || '').replace(/\D/g, '');
+    if (digits.length !== 11 || /(\d)\1{10}/.test(digits)) return false;
+    function digit(slice, start) {
+      var sum = 0;
+      var weight = start;
+      for (var i = 0; i < slice.length; i += 1) {
+        sum += Number(slice[i]) * weight;
+        weight -= 1;
+      }
+      var rest = (sum * 10) % 11;
+      return rest === 10 ? 0 : rest;
+    }
+    if (digit(digits.slice(0, 9), 10) !== Number(digits[9])) return false;
+    return digit(digits.slice(0, 10), 11) === Number(digits[10]);
   }
 
   function show(id) {
@@ -541,12 +556,7 @@
         if (done) return;
         done = true;
         window.clearTimeout(fallback);
-        signupGuard = {
-          allowed: data.allowed !== false,
-          blocked: data.blocked === true,
-          reason: data.reason || '',
-          taken: normalizeTaken(data),
-        };
+        signupGuard = { blocked: data.blocked === true };
         if (signupGuard.blocked) {
           goToNotFound();
           return;
@@ -562,56 +572,12 @@
       });
   }
 
-  /* ------------------------------------------------- aviso dentro da janela
+  /* ------------------------------------------------- recusa no envio
 
-     O aviso de IP duplicado aparece dentro do modal de criacao, no lugar do
-     erro generico. E um bloco pequeno, discreto, com o aviso do usuario.
-
-     A regra e por papel: um mesmo IP pode ter uma conta de criador e uma de
-     afiliado. O aviso so aparece no papel que este endereco ja ocupou. */
-
-  /* Normaliza o mapa de papeis ja usados por este endereco. Uma resposta
-     sem `taken` (API anterior) vale como aviso geral para os dois papeis. */
-  function normalizeTaken(data) {
-    var source = data && data.taken;
-    if (source && typeof source === 'object') {
-      var one = function (key) {
-        var info = source[key] || {};
-        return info.taken === true;
-      };
-      return { creator: one('creator'), hunter: one('hunter') };
-    }
-    var duplicate = Boolean(data && data.reason === 'IP_BLOCKED_DUPLICATE');
-    return { creator: duplicate, hunter: duplicate };
-  }
-
-  function takenFor(role) {
-    var taken = signupGuard.taken || {};
-    return role === 'afiliado' ? taken.hunter === true : taken.creator === true;
-  }
-
-  /* O aviso e curto e direto: o bloco ja avisa que e um aviso, e o papel
-     basta para a pessoa entender o que ja aconteceu. */
-  function avisoDeDuplicidade(isAfiliado) {
-    // A guarda é por papel: quem ja tem uma conta ainda pode criar a outra.
-    return isAfiliado
-      ? 'Você já criou uma conta de afiliado neste endereço. A conta de criador ainda está disponível.'
-      : 'Você já criou uma conta de criador neste endereço. A conta de afiliado ainda está disponível.';
-  }
-
-  function clearGuardWarning() {
-    var box = $('createWarning');
-    if (!box) return;
-    box.textContent = '';
-    box.classList.add('hidden');
-  }
-
-  function showGuardWarning(message) {
-    var box = $('createWarning');
-    if (!box) return;
-    box.textContent = message;
-    box.classList.remove('hidden');
-  }
+     Duplicidade (mesmo IP, CPF ou e-mail repetido) é recusada apenas no
+     envio, com uma única mensagem genérica vinda da API. Nada de aviso
+     prévio: a pessoa não pode descobrir qual regra disparou e trocar de
+     método para contornar a guarda. */
 
   /* ------------------------------------------------------------- modal */
 
@@ -626,12 +592,6 @@
     $('codeStatus').textContent = '';
     $('codeStatus').className = 'code-status';
     $('createError').textContent = '';
-    clearGuardWarning();
-    // O aviso so aparece no papel que este endereco ja ocupou: quem ja tem
-    // conta de afiliado ainda pode criar a de criador.
-    if (takenFor(isAfiliado ? 'afiliado' : 'creator')) {
-      showGuardWarning(avisoDeDuplicidade(isAfiliado));
-    }
     var codeInput = $('code');
     if (codeInput) {
       if (isAfiliado) codeInput.classList.add('hidden');
@@ -700,8 +660,8 @@
     window.history.replaceState(null, '', dashboardPath);
   }
 
-  function createAccount(code, isAfiliado, handle, allowRetry) {
-    var body = { handle: handle, code: code };
+  function createAccount(code, isAfiliado, handle, allowRetry, cpf, email) {
+    var body = { handle: handle, code: code, cpf: cpf, email: email };
     if (!isAfiliado && attributionCode) body.afiliado_code = attributionCode;
     return api(isAfiliado ? '/hunters' : '/creators', {
       method: 'POST',
@@ -713,7 +673,7 @@
       .catch(function (error) {
         var message = String(error.message || error);
         if (allowRetry && error.status === 409 && /handle/i.test(message)) {
-          return createAccount(code, isAfiliado, deriveHandle(code, true), false);
+          return createAccount(code, isAfiliado, deriveHandle(code, true), false, cpf, email);
         }
         throw error;
       });
@@ -723,7 +683,6 @@
     event.preventDefault();
     $('createError').textContent = '';
     $('codeStatus').textContent = '';
-    clearGuardWarning();
     var codeInput = $('code');
     var code = codeInput && !codeInput.classList.contains('hidden')
       ? String(codeInput.value || '').trim().toUpperCase()
@@ -739,11 +698,28 @@
       return;
     }
 
+    // CPF e e-mail: exigência dos bancos para segurança da conta e saques
+    // (prevenção à lavagem de dinheiro).
+    var cpfInput = $('createCpf');
+    var emailInput = $('createEmail');
+    var cpf = cpfInput ? String(cpfInput.value || '').replace(/\D/g, '') : '';
+    var email = emailInput ? String(emailInput.value || '').trim() : '';
+    if (!isValidCpf(cpf)) {
+      $('createError').textContent = 'Digite um CPF válido. Ele é obrigatório para a segurança da sua conta e para os saques (exigência dos bancos).';
+      if (cpfInput) cpfInput.focus();
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      $('createError').textContent = 'Digite um e-mail válido. Ele é obrigatório para a segurança da sua conta e para os saques (exigência dos bancos).';
+      if (emailInput) emailInput.focus();
+      return;
+    }
+
     withLoading($('createButton'), function () {
       // Quem ja tem conta usa o mesmo @ na segunda conta; quem esta criando
       // a primeira recebe um @ derivado do codigo escolhido.
       var handle = handleAtual || deriveHandle(code);
-      return createAccount(code, isAfiliado, handle, true).catch(function (error) {
+      return createAccount(code, isAfiliado, handle, true, cpf, email).catch(function (error) {
         var code409 = error.status === 409;
         var data = error.data || {};
         // Bloqueio por IP: datacenter, VPN, proxy, Tor ou fora do Brasil.
@@ -751,34 +727,13 @@
           goToNotFound();
           return null;
         }
-        // Ja existe uma conta deste papel criada com este endereco de IP.
-        if (data.code === 'IP_BLOCKED_DUPLICATE') {
-          signupGuard = {
-            allowed: false,
-            blocked: false,
-            reason: 'IP_BLOCKED_DUPLICATE',
-            taken: signupGuard.taken,
-          };
-          signupGuard.taken[isAfiliado ? 'hunter' : 'creator'] = true;
-          showGuardWarning(avisoDeDuplicidade(isAfiliado));
-          return null;
-        }
         if (isAfiliado && code409) {
+          // Código aleatório colidiu com um existente: outro sorteio e nova
+          // tentativa, tudo transparente para o afiliado.
           var retryCode = generateAffiliateCode();
           if (codeInput) codeInput.value = retryCode;
           return createAccount(retryCode, isAfiliado, deriveHandle(retryCode), true).catch(function (retryError) {
             var retryData = retryError.data || {};
-            if (retryData.code === 'IP_BLOCKED_DUPLICATE') {
-              signupGuard = {
-                allowed: false,
-                blocked: false,
-                reason: 'IP_BLOCKED_DUPLICATE',
-                taken: signupGuard.taken,
-              };
-              signupGuard.taken[isAfiliado ? 'hunter' : 'creator'] = true;
-              showGuardWarning(avisoDeDuplicidade(isAfiliado));
-              return null;
-            }
             if (retryData.code === 'IP_DENIED') {
               goToNotFound();
               return null;
@@ -787,7 +742,9 @@
             return null;
           });
         }
-        $('createError').textContent = String(error.message || error);
+        // Recusa de duplicidade (IP/CPF/e-mail) vem com a mensagem genérica
+        // da API; erros de formato chegam com a mensagem específica.
+        $('createError').textContent = String(data.error || error.message || error);
         return null;
       });
     });
@@ -876,15 +833,15 @@
     return window.location.origin + '/afiliados?a=' + encodeURIComponent(afiliadoCode);
   }
 
-  /* Cota de e-mail: 3 envios a cada 3 dias, contada no servidor.
-     O painel mostra o contador no proprio indicador ("1/3") e a regra fica no
+  /* Cota de e-mail: 1 envio a cada 3 dias, contada no servidor.
+     O painel mostra o contador no proprio indicador ("0/1") e a regra fica no
      texto do cartao; a mensagem dinamica entra como title + aria-label, para
      nao inventar um paragrafo a parte que o painel do criador nao tem. */
   function renderEmailQuota(quota) {
     var stat = $('afiliadoStatEmails');
     if (!stat) return;
     var card = $('afiliadoStatEmailsCard');
-    var limit = Number((quota && quota.limit) || 3);
+    var limit = Number((quota && quota.limit) || 1);
     var used = Number((quota && quota.used) || 0);
     var remaining = Number((quota && quota.remaining) || 0);
     stat.textContent = used + '/' + limit;
@@ -897,9 +854,8 @@
         ' nesta janela de 3 dias.';
     } else {
       mensagem =
-        'Você usou os ' +
-        limit +
-        ' e-mails da janela. O próximo envio libera em ' +
+        'Você usou o e-mail da janela. Escolha o próximo criador com cuidado: ' +
+        'pesquise bem antes de indicar. O próximo envio libera em ' +
         (quota && quota.next_at ? formatDateTime(quota.next_at) : '3 dias') +
         '.';
     }
@@ -1112,7 +1068,7 @@
           if (data.quota) renderEmailQuota(data.quota);
           if (error.status === 429) {
             $('outreachError').textContent =
-              'Você já usou os 3 e-mails desta janela' +
+              'Você já usou o e-mail desta janela' +
               (data.quota && data.quota.next_at
                 ? '. O próximo envio libera em ' + formatDateTime(data.quota.next_at) + '.'
                 : '.');

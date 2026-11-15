@@ -20,8 +20,8 @@ completo acima do rodapé.
 2. **O movimento (`#movimento`)** — o que é o projeto em um parágrafo, os três
    pilares (100% brasileiro, independente, anti-vigilância) e os links para o app,
    o documento técnico e o manual de moderação.
-3. **A divisão (`#divisao`)** — a barra e os quatro percentuais (20% usuário,
-   40% criador, 20% afiliado, 20% desenvolvimento) em uma linha de texto.
+3. **A divisão (`#divisao`)** — a barra e os quatro percentuais (30% usuário,
+   50% criador, 10% afiliado, 10% desenvolvimento) em uma linha de texto.
 4. **Participar (`#participar`)** — CTA final curto com os dois botões.
 
 **No painel do afiliado (fluxo em 4 grupos numerados):**
@@ -70,7 +70,7 @@ seis blocos, e dentro de cada bloco `H3` é o título e `H4` são as subseções
 11. **Dashboard** — criador (código, indicações, saldo, saques) e afiliado (link de afiliado em destaque, contatos na base, criadores recrutados, indicações, saldo, saques).
 12. **Envio do convite** — só por e-mail, disparado pela VPS, com o link de
    afiliado creditado e o texto montado no servidor (invisível para o
-   afiliado). Limite de 3 e-mails por afiliado a cada 3 dias.
+   afiliado). Limite de 1 e-mail por afiliado a cada 3 dias.
 13. **Atribuição** — link do afiliado (?a=<código>) salva o responsável no navegador (janela de 180 dias).
 14. **Base de contatos** — compartilhada entre afiliados; identifica o criador por como é popularmente conhecido (não por @), bloqueando o contato duplicado.
 
@@ -94,12 +94,12 @@ plataforma é apenas o contexto de onde o contato aconteceu.
 **Envio do contato (no ar):** o envio é **somente por e-mail**, disparado pela
 VPS (SMTP do Gmail com senha de app ou API HTTPS). O afiliado preenche os dados
 do criador e a VPS monta e envia o e-mail — o texto não fica visível nem é
-editável pelo afiliado. Limite: **3 e-mails por afiliado a cada 3 dias**,
+editável pelo afiliado. Limite: **1 e-mail por afiliado a cada 3 dias**,
 contado no servidor; envio que falha não gasta cota. Não há mais template
 copiável de e-mail nem de DM no painel: o registro do contato na base
 compartilhada acontece junto com o envio.
 
-- O painel mostra a cota no indicador **"E-mails enviados"** (`0/3`) e uma frase
+- O painel mostra a cota no indicador **"E-mails enviados"** (`0/1`) e uma frase
   com quantos e-mails ainda restam na janela (e quando a próxima cota abre).
 - Quando a janela acaba, o aviso é o de cota (**HTTP 429**). Quando o criador já
   foi contatado por outro afiliado, o aviso é o de contato duplicado (**HTTP

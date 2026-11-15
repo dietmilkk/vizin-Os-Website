@@ -6,7 +6,20 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = ["index.html", "manifesto/index.html", "documento/index.html", "afiliados/index.html", "moderacao/index.html", "painel/index.html", "404.html"]
+PAGES = [
+    "index.html",
+    "baixar/index.html",
+    "manifesto/index.html",
+    "documento/index.html",
+    "afiliados/index.html",
+    "moderacao/index.html",
+    "painel/index.html",
+    "doar/index.html",
+    "privacidade/index.html",
+    "termos/index.html",
+    "licenca/index.html",
+    "404.html",
+]
 
 # Caminhos que nunca existem no repositório: a hospedagem os serve em runtime.
 # A Vercel cria /_vercel/insights/* quando o Web Analytics é habilitado.

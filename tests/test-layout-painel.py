@@ -240,7 +240,7 @@ def main() -> int:
                 )
                 check(
                     f"{nome}: corpo usa a fonte do site",
-                    "Comfortaa" in page.evaluate("() => getComputedStyle(document.body).fontFamily"),
+                    "Inter" in page.evaluate("() => getComputedStyle(document.body).fontFamily"),
                     page.evaluate("() => getComputedStyle(document.body).fontFamily"),
                 )
 

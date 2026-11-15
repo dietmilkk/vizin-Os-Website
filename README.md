@@ -192,14 +192,15 @@ window.VIZINHANCA_CONFIG = Object.freeze({
 A página `/afiliados` apresenta o projeto e os dois programas no mesmo lugar:
 
 - **Criador**: escolhe um código (3–32 letras, números, `_` ou `-`), compartilha
-  com a audiência e recebe **40%** de cada pagamento confirmado por 1 ano.
+  com a audiência e recebe **50%** do valor de cada assinatura confirmada por 1 ano.
 - **Afiliado**: encontra criadores de conteúdo, apresenta o projeto, registra o
-  contato na base compartilhada e recebe **20%** dos pagamentos gerados pelos
-  criadores que recrutou.
+  contato na base compartilhada e recebe **10%** do valor das assinaturas geradas
+  pelos criadores que recrutou.
 - **Usuário indicado**: ganha **15 dias com todos os recursos Plus desbloqueados**,
-  sem pagar nada, e ainda **20% de desconto** no Plus por 1 ano.
-- **Desenvolvimento**: os **20%** restantes pagam os servidores, a estrutura e o
-  criador do app. Manter o espaço vivo é o que faz as pessoas aparecerem.
+  sem pagar nada, e ainda **30% de desconto** no Plus por 1 ano.
+- **Desenvolvimento**: os **10%** restantes pagam os servidores, a estrutura e o
+  criador do app. Manter o espaço vivo é o que faz as pessoas aparecerem. As três
+  fatias (50+10+10) cobrem exatamente o que o usuário paga após o desconto.
 
 Outros pontos:
 
@@ -259,8 +260,8 @@ Outros pontos:
     contatos registrados, criadores recrutados, indicações geradas, e-mails
     enviados, comissão total, disponível, em processamento e já sacado.
   - A **cota de e-mail** mora no próprio indicador "E-mails enviados": o
-    contador (`1/3`) e a mensagem da janela no `title`/`aria-label` do cartão.
-    Não há parágrafo separado para a regra — o texto fixo ("3 e-mails a cada
+    contador (`0/1`) e a mensagem da janela no `title`/`aria-label` do cartão.
+    Não há parágrafo separado para a regra — o texto fixo ("1 e-mail a cada
     3 dias") está na lista "Como funciona o envio".
   - O formulário de envio ocupa a largura inteira do cartão e a explicação
     ("Como funciona o envio") fica **abaixo** dele, separada por uma regra —
@@ -334,7 +335,7 @@ Outros pontos:
   painel — o navegador só manda os dados. O envio é **direto**: não existe
   etapa de verificação no formulário, o botão é só "Enviar e-mail". A proteção
   contra contato duplicado e contra abuso continua no servidor (a base
-  rejeita quem já foi contatado). O limite é de **3 e-mails por
+  rejeita quem já foi contatado). O limite é de **1 e-mail por
   afiliado a cada 3 dias**, contado no servidor; envio que falha não gasta
   cota. Os templates copiáveis de e-mail e DM saíram do painel.
 - Os saques de criadores e afiliados exigem chave Pix, **nome e CPF/CNPJ do
@@ -417,8 +418,10 @@ visível nem é editável pelo afiliado**.
 
 Regras:
 
-- **3 e-mails por afiliado a cada 3 dias**, contados no servidor (rolante).
+- **1 e-mail por afiliado a cada 3 dias**, contado no servidor (rolante).
   O convite que entra na fila já reserva a vaga; falha definitiva devolve.
+  O limite é baixo de propósito: pesquise bem o criador antes de indicar —
+  quanto melhor a escolha, melhores os lucros.
 - Um e-mail por criador: o contato é reservado no momento em que entra na fila
   e bloqueia o contato duplicado. **Se a entrega falhar de vez, o criador volta
   para a base** e outro afiliado pode tentar.
@@ -546,8 +549,8 @@ conta que envia; `--para outro@exemplo.com` muda isso.
 
 **Conferido em 12/11/2026:** a fila foi exercitada de ponta a ponta com a API
 real (10/10 verificações) e o caminho de envio real já havia sido confirmado
-com o gateway (3 e-mails entregues na caixa `vizin.oos@gmail.com`, `429` no 4º
-e `409` de criador repetido).
+com o gateway (e-mails entregues na caixa `vizin.oos@gmail.com`, `429` na cota
+esgotada e `409` de criador repetido).
 
 Com a fila, o formulário responde **na hora** (não espera o Gmail) e o texto
 “convite na fila” aparece no painel. O `assets/creators.js` continua limpando
@@ -1198,8 +1201,8 @@ O que ele cobre:
 | Passo | Resultado esperado |
 | --- | --- |
 | Abre o painel pelo link real | os dados do afiliado vêm da API |
-| Envia 3 e-mails | sucesso na tela, contador `1/3` → `3/3`, contato em "Contatos recentes" |
-| 4º envio | barrado com o aviso de cota (`429`) |
+| Envia 1 e-mail | sucesso na tela, contador `0/1` → `1/1`, contato em "Contatos recentes" |
+| 2º envio | barrado com o aviso de cota (`429`) |
 | Outro afiliado, mesmo criador | aviso de "já foi contatado" (`409`), **sem** gastar cota |
 | Inspeção do DOM e do JS | o modelo do e-mail **não** chega ao navegador |
 | Recarrega a página | a cota e o contato continuam lá |

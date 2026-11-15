@@ -269,7 +269,7 @@ def main():
         )
         status_text = page.inner_text("#outreachStatus")
         error_text = page.inner_text("#outreachError")
-        if "já usou os 3 e-mails" in error_text:
+        if "já usou o e-mail desta janela" in error_text:
             # Token reaproveitado de outra execucao: a cota da janela de 3
             # dias ja acabou. O painel precisa explicar quando libera.
             check("cota esgotada e explicada", "libera" in error_text.lower(), error_text)

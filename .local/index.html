@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff9f2">
+  <title>vizin.Os — gente por perto, encontros de verdade</title>
+  <meta name="description" content="O vizin.Os é um app gratuito e hiperlocal que conecta pessoas do seu bairro por interesses em comum para marcar encontros presenciais. Sem feed, sem likes e sem algoritmo.">
+  <meta name="author" content="vizin.Os">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vizin-os.vercel.app/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="vizin.Os">
+  <meta property="og:title" content="vizin.Os — gente por perto, encontros de verdade">
+  <meta property="og:description" content="App gratuito e hiperlocal para encontrar grupos do seu bairro por interesses em comum e marcar encontros presenciais. Sem feed, sem likes e sem algoritmo.">
+  <meta property="og:url" content="https://vizin-os.vercel.app/">
+  <meta property="og:image" content="https://vizin-os.vercel.app/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="vizin.Os: gente por perto, encontros de verdade.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="vizin.Os — gente por perto, encontros de verdade">
+  <meta name="twitter:description" content="App gratuito e hiperlocal para encontrar grupos do seu bairro por interesses em comum e marcar encontros presenciais. Sem feed, sem likes e sem algoritmo.">
+  <meta name="twitter:image" content="https://vizin-os.vercel.app/assets/og-image.png">
+
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "vizin.Os",
+    "applicationCategory": "SocialNetworkingApplication",
+    "operatingSystem": "Android",
+    "inLanguage": "pt-BR",
+    "description": "App gratuito e hiperlocal que conecta pessoas do seu bairro por interesses em comum para encontros presenciais.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+    "publisher": { "@type": "Organization", "name": "vizin.Os" }
+  }
+  </script>
+  <!-- Vercel Web Analytics: visitação e page views do site.
+       O script vive na rota /_vercel/insights/script.js, que só existe
+       quando o site é servido pela Vercel. No InfinityFree ele não existe
+       e nada é coletado (ver "Analytics de visitação" no README). -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="page-home">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header" id="topo">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="vizin.Os, início">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="assets/icon-192.png" alt="" width="40" height="40" />
+        </span>
+        <span class="brand-wordmark" data-brand-wordmark>
+          <span class="visually-hidden">vizin.Os</span>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a href="#o-que-e">O que é</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#financiamento">Financiamento</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm" href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">Ajude aqui</a>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobile" hidden>
+    <a href="#o-que-e">O que é o vizin.Os</a>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#financiamento">Como é financiado</a>
+    <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">Ajude aqui</a>
+  </nav>
+
+  <main id="conteudo">
+
+    <!-- ============================================================ hero -->
+    <section class="hero hero--home">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-brand hero-anim" style="--d: .08s">
+          <span class="brand-mark brand-mark--lg" aria-hidden="true">
+            <img src="assets/icon-192.png" alt="" width="80" height="80">
+          </span>
+          <h1 class="hero-brand-name brand-wordmark hero-brand-wordmark" data-brand-wordmark>
+            <span class="visually-hidden">vizin.Os</span>
+          </h1>
+          <p class="hero-tagline">Gente por perto. Encontros de verdade.</p>
+        </div>
+
+        <p class="hero-lead hero-lead--left hero-anim" style="--d: .18s">
+          App gratuito para descobrir grupos de quem mora perto e curte o que você curte —
+          e marcar um encontro de verdade, <span class="home-mark">fora da tela</span>.
+        </p>
+
+        <div class="hero-actions hero-actions--start hero-anim" style="--d: .28s">
+          <a class="btn btn-primary" id="android-download" href="/download/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Download
+          </a>
+          <a class="btn btn-secondary" href="#como-funciona">Ver como funciona</a>
+        </div>
+
+        <div class="hero-chips hero-chips--start hero-anim" style="--d: .38s" aria-label="O que o vizin.Os não tem">
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem feed</span>
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem algoritmo</span>
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem regras unilaterais</span>
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem investidores</span>
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem coleta de dados</span>
+          <span class="chip"><span class="chip-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Sem controle de bigtechs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== diferenciais -->
+    <section class="home-diff" id="diferenciais" aria-labelledby="diferenciais-titulo">
+      <div class="container">
+        <h2 class="visually-hidden" id="diferenciais-titulo">Diferenciais do vizin.Os</h2>
+      </div>
+    </section>
+
+    <!-- ===================================================== o que é -->
+    <section class="section" id="o-que-e" aria-labelledby="o-que-e-titulo">
+      <div class="container">
+        <div class="home-split">
+          <div class="home-split__head reveal">
+            <p class="home-kicker">01 · O ponto de partida</p>
+            <h2 id="o-que-e-titulo">O que é o vizin.Os</h2>
+          </div>
+          <div class="home-split__body prose reveal">
+            <p class="home-lead">
+              O vizin.Os é um app de comunidade hiperlocal. Ele conecta pessoas que moram
+              perto e compartilham interesses para que elas se encontrem presencialmente.
+            </p>
+            <p>
+              Você entra em um grupo da sua região, conversa com quem está lá e combina
+              encontros com lugar e horário. Não é uma rede social: não tem feed, like,
+              seguidor nem algoritmo escolhendo o que você vê.
+            </p>
+            <ol class="home-steps">
+              <li><span aria-hidden="true">1</span> Descubra ou crie um grupo por um interesse em comum.</li>
+              <li><span aria-hidden="true">2</span> Participe da conversa e confirme presença no encontro.</li>
+              <li><span aria-hidden="true">3</span> Combinem os detalhes, fechem o app e se encontrem de verdade.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== a proposta -->
+    <section class="section section-tint" id="como-funciona" aria-labelledby="a-proposta-titulo">
+      <div class="container">
+        <div class="home-split">
+          <div class="home-split__head reveal">
+            <p class="home-kicker">02 · Como funciona</p>
+            <h2 id="a-proposta-titulo">Descobrir, participar, encontrar</h2>
+          </div>
+          <div class="home-split__body prose reveal">
+            <p class="home-lead">
+              A tela serve para o primeiro “oi”. Depois, a vida acontece do lado de fora:
+              uma caminhada, um jogo, um café, uma troca de discos.
+            </p>
+            <p>
+              O vizin.Os existe para devolver às ruas o que a era do feed foi empurrando
+              para longe: gente de verdade, que mora perto, se encontrando sem filtro e
+              sem pressa.
+            </p>
+            <blockquote class="home-quote">
+              <p>
+                A tecnologia é só a ponte — nunca o destino. O app existe para tirar você
+                da tela e colocar você na rua.
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================== promessas -->
+    <section class="section" id="promessas" aria-labelledby="promessas-titulo">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="home-kicker">03 · Compromissos</p>
+          <h2 id="promessas-titulo">O que prometemos</h2>
+          <p>Quatro compromissos que não negociamos.</p>
+        </div>
+
+        <div class="home-promise-grid">
+          <article class="home-promise reveal" style="--i: 0">
+            <div class="home-promise__top">
+              <span class="home-promise__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="m5.6 5.6 2.1 2.1"/><path d="m16.3 16.3 2.1 2.1"/><path d="m18.4 5.6-2.1 2.1"/><path d="m7.7 16.3-2.1 2.1"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+              <span class="home-num" aria-hidden="true">01</span>
+            </div>
+            <h3>Conversar em grupos do bairro</h3>
+            <p>
+              Cada grupo é um espaço do seu bairro. Você entra, conversa e propõe encontros
+              — trilha, café, vinil, cinema, corrida, xadrez — sem escolher pessoas por foto
+              ou por um algoritmo.
+            </p>
+          </article>
+
+          <article class="home-promise reveal" style="--i: 1">
+            <div class="home-promise__top">
+              <span class="home-promise__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg>
+              </span>
+              <span class="home-num" aria-hidden="true">02</span>
+            </div>
+            <h3>Proteger sua privacidade como fundação</h3>
+            <p>
+              Nada de e-mail ou telefone para criar a conta, e as chaves ficam no seu
+              aparelho. O app usa serviços do Google (notificações, verificação do aparelho
+              e anúncios no plano gratuito); veja os detalhes no documento técnico.
+            </p>
+          </article>
+
+          <article class="home-promise reveal" style="--i: 2">
+            <div class="home-promise__top">
+              <span class="home-promise__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.8-.9L3 21l1.9-5a8.4 8.4 0 0 1-.9-3.8 8.4 8.4 0 0 1 8.4-8.4 8.4 8.4 0 0 1 8.6 8.7z"/><path d="M8.5 11.5h.01"/><path d="M12 11.5h.01"/><path d="M15.5 11.5h.01"/></svg>
+              </span>
+              <span class="home-num" aria-hidden="true">03</span>
+            </div>
+            <h3>Dar o álibi social</h3>
+            <p>
+              Você não precisa puxar assunto com um estranho na rua. O app te dá o
+              contexto: vocês dois topam o mesmo rolê. Isso muda tudo.
+            </p>
+          </article>
+
+          <article class="home-promise reveal" style="--i: 3">
+            <div class="home-promise__top">
+              <span class="home-promise__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/><path d="m3 3 18 18"/></svg>
+              </span>
+              <span class="home-num" aria-hidden="true">04</span>
+            </div>
+            <h3>Sumir da tela</h3>
+            <p>
+              O objetivo do vizin.Os é que você o feche. Que você marque o encontro,
+              desligue o celular e vá viver. Nosso sucesso é a sua ausência.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================== o que NÃO prometemos -->
+    <section class="section section-tint" id="nao-prometemos" aria-labelledby="nao-prometemos-titulo">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="home-kicker">04 · Honestidade</p>
+          <h2 id="nao-prometemos-titulo">O que NÃO prometemos</h2>
+          <p>Porque prometer demais é a forma mais rápida de decepcionar.</p>
+        </div>
+
+        <div class="home-no-grid">
+          <article class="home-no reveal" style="--i: 0">
+            <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos curar solidão sozinho</h3>
+            <p>
+              O app abre a porta. Quem atravessa é você. Quem calça o tênis, diz “bora?”
+              e aparece na quarta-feira é você. Nenhuma tecnologia substitui o seu passo.
+            </p>
+          </article>
+
+          <article class="home-no reveal" style="--i: 1">
+            <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos amigos instantâneos</h3>
+            <p>
+              As 200 horas de convivência que fazem um amigo de verdade não têm atalho.
+              Nunca tiveram. O vizin.Os entrega o primeiro encontro. O resto é convivência.
+            </p>
+          </article>
+
+          <article class="home-no reveal" style="--i: 2">
+            <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos substituir a vida real</h3>
+            <p>
+              Ele não quer ser seu feed, seu confidente, sua companhia de domingo à noite.
+              Ele quer ser o empurrão inicial para você encontrar companhia real.
+            </p>
+          </article>
+
+          <article class="home-no reveal" style="--i: 3">
+            <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos controle sobre o outro</h3>
+            <p>
+              As regras de convivência são votadas pela comunidade. Não somos uma empresa
+              ditando comportamento. Somos uma ferramenta à disposição de quem participa.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== fundamentos -->
+    <section class="section" id="fundamentos" aria-labelledby="fundamentos-titulo">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="home-kicker">05 · Como funciona</p>
+          <h2 id="fundamentos-titulo">Fundamentos de funcionamento</h2>
+          <p>O vizin.Os opera sobre quatro pilares inegociáveis.</p>
+        </div>
+
+        <div class="home-pillar-grid">
+          <article class="home-pillar reveal" style="--i: 0">
+            <span class="home-pillar__num" aria-hidden="true">1</span>
+            <div>
+              <h3>Grupos, não algoritmo</h3>
+              <p>
+                A conexão nasce de estar no mesmo grupo do bairro. Não existe marcação de
+                gostos nem busca de pessoas por interesse. Não há curadoria invisível
+                decidindo o que você vê.
+              </p>
+            </div>
+          </article>
+
+          <article class="home-pillar reveal" style="--i: 1">
+            <span class="home-pillar__num" aria-hidden="true">2</span>
+            <div>
+              <h3>Proximidade com privacidade</h3>
+              <p>
+                Raio aproximado de localização. Você sabe que a pessoa mora perto. O
+                endereço exato de ninguém aparece. A distância aproxima; a privacidade
+                protege.
+              </p>
+            </div>
+          </article>
+
+          <article class="home-pillar reveal" style="--i: 2">
+            <span class="home-pillar__num" aria-hidden="true">3</span>
+            <div>
+              <h3>Mensagens efêmeras</h3>
+              <p>
+                Conversa cifrada, que viaja direto entre os aparelhos. Quando a outra
+                pessoa está offline, o recado fica cifrado num farol por até 48 horas e
+                depois é apagado. O farol não tem a chave e não consegue ler o conteúdo.
+              </p>
+            </div>
+          </article>
+
+          <article class="home-pillar reveal" style="--i: 3">
+            <span class="home-pillar__num" aria-hidden="true">4</span>
+            <div>
+              <h3>Soberania local</h3>
+              <p>
+                Contas sem sinal de presença ficam invisíveis após 7 dias e são apagadas
+                do servidor após 30. As regras de convivência são votadas por quem participa.
+                Quem não participa não controla nada.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================== financiamento -->
+    <section class="section section-tint" id="financiamento" aria-labelledby="financiamento-titulo">
+      <div class="container">
+        <div class="home-split">
+          <div class="home-split__head reveal">
+            <p class="home-kicker">06 · Sustentação</p>
+            <h2 id="financiamento-titulo">Financiamento leve e transparente</h2>
+          </div>
+          <div class="home-split__body prose reveal">
+            <p class="home-lead">
+              O modelo financeiro também faz parte da proposta. O vizin.Os não tem
+              investidor nem anunciante tradicional: ele precisa se sustentar sem prender
+              você na tela.
+            </p>
+            <p>
+              O projeto é autônomo e não transforma comportamento em métrica de retenção.
+              Hoje, ele se mantém com três formas transparentes de apoio.
+            </p>
+          </div>
+        </div>
+
+        <div class="home-funding-grid">
+          <article class="home-funding reveal" style="--i: 0">
+            <span class="program-number">01</span>
+            <h3>Doações voluntárias</h3>
+            <p>
+              Quem usa o app, acredita no projeto e quer que ele continue existindo pode
+              contribuir livremente, no valor que puder. É a base mais pura do
+              financiamento coletivo: pessoas reais mantendo uma ferramenta real de pé.
+            </p>
+            <a class="home-funding__link" href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">Ajude aqui <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="home-funding reveal" style="--i: 1">
+            <span class="program-number">02</span>
+            <h3>Assinatura Plus opcional</h3>
+            <p>
+              Uma versão com recursos extras para quem quiser apoiar de forma recorrente.
+              Quem assina deixa de ver os anúncios do app. Você paga porque quer ver o
+              projeto continuar.
+            </p>
+          </article>
+
+          <article class="home-funding reveal" style="--i: 2">
+            <span class="program-number">03</span>
+            <h3>Divulgação voluntária com comissão</h3>
+            <p>
+              Criadores de conteúdo que genuinamente acreditam no projeto podem divulgar
+              o vizin.Os para suas comunidades e receber uma comissão justa por cada
+              pessoa que se cadastrar através do seu código. Não é publicidade
+              tradicional. É um modelo de parceria direta, sem agência, sem roteiro
+              engessado e com total liberdade criativa.
+            </p>
+            <a class="home-funding__link" href="/afiliados">Conheça mais <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== por que isso importa -->
+    <section class="section" id="importa" aria-labelledby="importa-titulo">
+      <div class="container">
+        <div class="home-closing reveal">
+          <p class="home-kicker">07 · A escolha</p>
+          <h2 id="importa-titulo">Por que isso importa</h2>
+          <div class="home-closing__body">
+            <p>
+              A forma como um projeto é financiado define o que ele se torna. O vizin.Os
+              escolheu depender de apoio real — de quem usa, de quem divulga com cuidado e
+              de quem quer apenas ajudar.
+            </p>
+            <p class="home-closing__highlight">
+              Se o projeto continuar existindo, é porque pessoas reais decidiram que vale
+              a pena manter uma ferramenta feita para te tirar da tela.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-explore" aria-label="Continue explorando">
+        <h2 class="footer-explore__title">Continue explorando</h2>
+        <div class="explore-grid">
+          <a class="explore-card" href="/afiliados">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Afiliados</span>
+          </a>
+          <a class="explore-card" href="/painel">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+            <span>Painel público</span>
+          </a>
+          <a class="explore-card" href="/moderacao">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            <span>Moderação</span>
+          </a>
+          <a class="explore-card" href="/documento">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            <span>Documento técnico</span>
+          </a>
+          <a class="explore-card" href="/manifesto">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
+            <span>Manifesto</span>
+          </a>
+        </div>
+      </nav>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="vizin.Os, início">
+            <span class="brand-mark brand-mark--lg" aria-hidden="true">
+              <img src="/assets/icon-192.png" alt="" width="80" height="80" />
+            </span>
+            <span class="brand-wordmark brand-wordmark--lg" data-brand-wordmark>
+              <span class="visually-hidden">vizin.Os</span>
+            </span>
+          </a>
+
+        </div>
+        <div class="footer-col">
+          <h3>Apoio</h3>
+          <a href="/doar/">Apoie o app</a>
+        </div>
+        <div class="footer-col">
+          <h3>Legal</h3>
+          <a href="/termos/">Termos de Uso</a>
+          <a href="/privacidade/">Privacidade</a>
+          <a href="/licenca/">Licença</a>
+        </div>
+        <div class="footer-col">
+          <h3>Contato</h3>
+          <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> vizin.Os. Gente por perto, encontros de verdade.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="firstVisitModal" class="modal" hidden>
+    <div class="modal-backdrop" data-first-visit-close></div>
+    <div class="modal-card modal-card--notice" role="dialog" aria-modal="true" aria-label="Sobre o vizin.Os">
+      <button class="modal-close" type="button" aria-label="Fechar" data-first-visit-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <p>
+        O vizin.Os é desenvolvido de forma independente por uma única pessoa. Sem
+        empresa por trás, sem investidores, sem equipe — só eu e a vontade de ver
+        esse projeto dar certo.
+      </p>
+      <p>
+        Por questões financeiras, o app ainda não chegou no iPhone. O foco atual é
+        o Android, mas a vontade de expandir existe.
+      </p>
+      <p>
+        Se quiser ajudar o projeto a crescer, qualquer
+        <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a> é muito bem-vinda.
+      </p>
+      <p>
+        Espero de coração que você goste da proposta e que ela faça sentido pra
+        você. E se tiver qualquer ideia, crítica ou sugestão de como melhorar,
+        pode entrar em contato direto comigo em
+        <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+
+  <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/app.js"></script>
+</body>
+</html>
