@@ -287,6 +287,15 @@
     return "Contato";
   }
 
+  /* Registros de teste semeado no passado ainda voltam da API. O painel não
+     mostra gancho de teste como se fosse criador real: a filtragem acontece
+     na entrada, e a lista vazia avisa que ninguém foi contatado. */
+  function contatoDeTeste(contact) {
+    var handle = String((contact && contact.handle) || "").toLowerCase();
+    var url = String((contact && contact.contact_url) || "").toLowerCase();
+    return /criador[-_\s]*real/.test(handle) || /criador\d{4,}/.test(url);
+  }
+
   function renderContacts(contacts) {
     if (!contactsEl) return;
     contactsEl.innerHTML = "";
@@ -294,6 +303,7 @@
     var rendered = 0;
     for (var i = 0; i < list.length; i += 1) {
       var contact = list[i] || {};
+      if (contatoDeTeste(contact)) continue;
       var handle = String(contact.handle || "").trim();
       if (!handle) continue;
       var chip = document.createElement("span");
@@ -350,8 +360,6 @@
     setFill("painelBarra24", a30 > 0 ? (a24 / a30) * 100 : 0);
     setFill("painelBarra7", a30 > 0 ? (a7 / a30) * 100 : 0);
     setFill("painelBarra30", a30 > 0 ? 100 : 0);
-
-    setText("painelRegioes", fmtInt(Array.isArray(network.regions) ? network.regions.length : 0));
     setText("painelBeacons", fmtInt(network.beacons));
     setText("painelUptime", fmtDuration(server.uptime_seconds));
     renderRegions(network.regions);
@@ -461,14 +469,6 @@
     regioes.sort();
 
     setText("painelBeacons", lista.length ? fmtInt(lista.length) : "—");
-    setText(
-      "painelRegioes",
-      regioes.length === 1 && regioes[0] === "*"
-        ? "Global"
-        : regioes.length
-          ? fmtInt(regioes.length)
-          : "—",
-    );
     renderRegions(regioes);
     limparVisuais();
 

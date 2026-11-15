@@ -12,27 +12,21 @@
   --text-muted: #6b5a50;
   /* Faint precisa passar em 4.5:1 sobre branco (AA). O tom antigo (#9c887c)
      parava em 3.3:1 e falhava em labels, dicas e notas de rodape. */
-  --text-faint: #7a6558;
-  --primary: #f0415f;
-  --primary-pressed: #d22f4c;
-  /* Variante de texto/botao do primary: sobre branco e com texto branco por
-     cima passa no AA (5.5:1), onde o primary vivo ficava em 3.7:1. */
-  --primary-ink: #c02240;
+  --text-faint: #9c887c;
+  --primary: #c52847;
+  --primary-pressed: #a91f3b;
+  --primary-ink: #c52847;
   --primary-soft: #ffe4e9;
   --on-primary: #ffffff;
   --accent: #ff8a3d;
   --accent-soft: #ffebd9;
-  /* Variantes escuras das cores de destaque, para texto pequeno sobre fundo
-     claro passar no contraste AA. */
+  /* Variantes de texto para ícones/pequenos rótulos sobre fundos claros. */
   --success-ink: #1b6b48;
   --accent-ink: #96520f;
   --danger: #c0392b;
-  /* `success` e `success-soft` tambem existem no tema escuro. Sem eles aqui o
-     fundo do selo de status e o valor "disponivel para saque" perdiam a cor
-     no tema claro. */
-  --success: #1b6b48;
-  --success-soft: #e2f1e8;
-  --danger-soft: #fcece9;
+  --success: #2e9e6b;
+  --success-soft: #e3f5ec;
+  --danger-soft: #fbe3df;
   --border: #f0dfd2;
   --border-strong: #e2cdbc;
   --shadow: #7a4a2e;
@@ -40,9 +34,8 @@
   --brand: var(--primary);
   --bg: var(--background);
   --ink: var(--text);
-  --font-display: "Bricolage Grotesque", "Comfortaa", system-ui, sans-serif;
-  --font-body: "Comfortaa", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-gradient: "Bricolage Grotesque", "Comfortaa", sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --flower-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cg%20fill%3D%27%23000%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%275.5%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%2718.2%27%20cy%3D%2710%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%2715.8%27%20cy%3D%2717%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%278.2%27%20cy%3D%2717%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%275.8%27%20cy%3D%2710%27%20r%3D%273.4%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2712%27%20r%3D%272.4%27%20fill%3D%27%23000%27%2F%3E%3C%2Fsvg%3E");
 
   --radius-sm: 12px;
@@ -79,10 +72,10 @@
   --lift: -1px;
   --press: 0.97;
   /* Sombra de elevação usada em hover de cards e botões. */
-  --shadow-card: 0 14px 30px color-mix(in srgb, var(--shadow) 7%, transparent);
-  --shadow-card-hover: 0 20px 42px color-mix(in srgb, var(--shadow) 12%, transparent);
-  --shadow-pop: 0 12px 26px color-mix(in srgb, var(--shadow) 15%, transparent);
-  --shadow-pop-hover: 0 18px 38px color-mix(in srgb, var(--shadow) 22%, transparent);
+  --shadow-card: 0 10px 24px color-mix(in srgb, var(--shadow) 5%, transparent);
+  --shadow-card-hover: 0 14px 30px color-mix(in srgb, var(--shadow) 8%, transparent);
+  --shadow-pop: 0 6px 16px color-mix(in srgb, var(--shadow) 10%, transparent);
+  --shadow-pop-hover: 0 10px 24px color-mix(in srgb, var(--shadow) 14%, transparent);
   /* Foco: anel suave em vez do outline seco. */
   --ring: 0 0 0 3px color-mix(in srgb, var(--primary) 24%, transparent);
 }
@@ -99,9 +92,8 @@
     --text-faint: #a08c7f;
     --primary: #ff5c77;
     --primary-pressed: #ff7c92;
-    /* No escuro o primary claro exige texto escuro por cima (AA). */
     --primary-ink: #ff5c77;
-    --on-primary: #1a0d10;
+    --on-primary: #161210;
     --primary-soft: #3a2026;
     --accent: #ffa45c;
     --accent-soft: #3a2a1c;
@@ -135,8 +127,8 @@ body {
   background: var(--background);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   /* Mobile: impede o iOS de inflar a fonte e tira o flash azul do tap. */
@@ -336,6 +328,11 @@ button {
   box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 32%, transparent);
 }
 
+.brand:hover .brand-wordmark,
+.brand:focus-visible .brand-wordmark {
+  color: var(--primary);
+}
+
 .brand-mark img {
   display: block;
   width: 100%;
@@ -349,11 +346,12 @@ button {
 .brand-wordmark {
   display: block;
   flex: none;
+  color: currentColor;
 }
 
 .brand-wordmark.is-ready {
   height: var(--wordmark-h, 26px);
-  width: calc(var(--wordmark-h, 26px) * var(--wordmark-ratio, 4.5));
+  width: calc(var(--wordmark-h, 26px) * 4.14);
   background-color: currentColor;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: left center;
@@ -372,9 +370,11 @@ button {
   --wordmark-h: 40px;
 }
 
+
 /* A wordmark ocupa o lugar do título em texto no hero. */
 .hero-brand-wordmark {
-  --wordmark-h: clamp(2.4rem, 6.5vw, 4.4rem);
+  --wordmark-h: clamp(2rem, 12vw, 4.4rem);
+  max-width: 100%;
 }
 
 .hero-brand-wordmark.is-ready {
@@ -553,6 +553,26 @@ button {
   flex: none;
 }
 
+/* Nenhum filho de botao se move sozinho: texto e icone ficam travados
+   dentro do botao (sem escala, sem giro, sem deslize). A resposta ao
+   ponteiro fica no botao inteiro, nunca no conteudo. */
+.btn > *,
+.btn-ghost > *,
+.modal-close > *,
+.menu-toggle > *,
+.chip > *,
+.explore-card > *,
+.code-box .btn > *,
+.link-field .btn > *,
+.participate-actions .btn > *,
+.guia-cross__item .btn > *,
+.creators-nav-links .btn > *,
+.header-actions .btn > *,
+.hero-actions .btn > * {
+  transform: none;
+  transition: none;
+}
+
 .btn-primary {
   background: var(--primary-ink);
   color: var(--on-primary);
@@ -664,6 +684,7 @@ button {
 
 
 .hero-brand-name {
+  max-width: 100%;
   font-size: clamp(2.8rem, 6.5vw, 4.6rem);
   letter-spacing: -0.04em;
   line-height: 1;
@@ -1074,19 +1095,24 @@ h3 {
 
 .footer-brand .brand {
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: var(--space-4);
 }
 
-/* No rodapé o ícone fica um pouco maior e o nome desce um pouco,
-   abrindo um respiro visual na marca. */
+/* No rodapé a marca e a wordmark mantêm a mesma linguagem do app. */
 .footer-brand .brand-mark--lg {
-  width: 96px;
-  height: 96px;
+  width: 72px;
+  height: 72px;
+  border-radius: 22%;
 }
 
-.footer-brand .brand > span:last-child {
-  transform: translateY(4px);
+.footer-brand .brand {
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.footer-brand .brand-wordmark--lg {
+  --wordmark-h: 44px;
 }
 
 .footer-col h3 {
@@ -1163,7 +1189,7 @@ h3 {
 }
 
 .page-hero {
-  padding: var(--space-10) 0 var(--space-8);
+  padding: var(--space-8) 0 var(--space-4);
 }
 
 .page-hero h1 {
@@ -1173,7 +1199,7 @@ h3 {
 
 .page-hero p {
   max-width: 700px;
-  margin: var(--space-5) 0 0;
+  margin: var(--space-4) 0 0;
   color: var(--text-muted);
   font-size: 1.08rem;
   line-height: 1.75;
@@ -1183,14 +1209,14 @@ h3 {
    Fica dentro do .container, entao herda a largura e o gutter da pagina. */
 .page-hero-divider {
   height: 1px;
-  margin: var(--space-9) 0 var(--space-8);
+  margin: var(--space-6) 0 var(--space-5);
   border: 0;
   background: var(--border);
 }
 
 @media (max-width: 720px) {
   .page-hero-divider {
-    margin: var(--space-7) 0 var(--space-7);
+    margin: var(--space-5) 0 var(--space-4);
   }
 }
 
@@ -1241,10 +1267,15 @@ h3 {
   text-decoration: none;
 }
 
-/* Botao dentro de prosa: a cor do botao manda, nao a do link. */
+/* Botao dentro de prosa: a cor do botao manda, nao a do link.
+   O btn-primary tem fundo vermelho, entao o texto precisa ser claro. */
 .prose a.btn,
 .prose a.btn-secondary {
   color: var(--primary-ink);
+}
+
+.prose a.btn-primary {
+  color: var(--on-primary);
 }
 
 .prose a:not(.btn)::after {
@@ -2827,6 +2858,27 @@ code {
 /* Link da seção visível no menu. */
 .desktop-nav a.is-active {
   color: var(--text);
+  font-weight: 600;
+  position: relative;
+}
+
+/* Detalhe extra do link ativo: sublinhado animado inferior. */
+.desktop-nav a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.desktop-nav a.is-active:hover::after {
+  transform: scaleX(1);
 }
 
 /* --------------------------------------------------------------- galeria */
@@ -3185,6 +3237,191 @@ code {
 .split-item--afiliado { border-top: 3px solid #8b5cf6; }
 .split-item--dev { border-top: 3px solid #1f7a5a; }
 
+/* Exemplo de distribuição: um fluxo simples, sem enfeite excessivo. */
+.flow-example {
+  margin-top: var(--space-7);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-alt));
+}
+
+.flow-example__head {
+  max-width: 72ch;
+}
+
+.flow-example__head h3 {
+  margin: 0;
+}
+
+.flow-example__head p {
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.flow-canvas {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(48px, 72px) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: center;
+  margin-top: var(--space-6);
+}
+
+.flow-source {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.flow-source__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.flow-source__value {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.flow-source__meta {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.flow-branches {
+  position: relative;
+  min-height: 190px;
+}
+
+.flow-branch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.flow-branch--user {
+  top: 12%;
+  background: #3b82f6;
+}
+
+.flow-branch--creator {
+  top: 38%;
+  background: #e63956;
+}
+
+.flow-branch--afiliado {
+  top: 64%;
+  background: #8b5cf6;
+}
+
+.flow-branch--dev {
+  top: 88%;
+  background: #1f7a5a;
+}
+
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.flow-card {
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-alt);
+}
+
+.flow-card__percent {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.flow-card__amount {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.flow-card__title {
+  display: block;
+  margin-top: var(--space-2);
+  font-weight: 600;
+}
+
+.flow-card__meta {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.flow-card--user { border-top: 3px solid #3b82f6; }
+.flow-card--creator { border-top: 3px solid #e63956; }
+.flow-card--afiliado { border-top: 3px solid #8b5cf6; }
+.flow-card--dev { border-top: 3px solid #1f7a5a; }
+
+.flow-why {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius);
+  background: var(--surface-alt);
+}
+
+.flow-why h4 {
+  margin: 0;
+}
+
+.flow-why p {
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.flow-example__note {
+  margin: var(--space-5) 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .flow-canvas {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .flow-branches {
+    display: none;
+  }
+
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-example {
+    padding: var(--space-5);
+  }
+}
+
 .fine-print {
   color: var(--text-faint);
   font-size: 0.82rem;
@@ -3408,6 +3645,14 @@ code {
 }
 
 @media (max-width: 720px) {
+  .footer-main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
   .footer-explore {
     margin-bottom: var(--space-7);
   }
@@ -3461,10 +3706,11 @@ code {
     align-items: center;
   }
 
-  /* Links dentro de texto: area de toque maior sem quebrar o paragrafo. */
-  .prose a,
-  .hero-manifesto p a,
-  .modal a {
+  /* Links dentro de texto: area de toque maior sem quebrar o paragrafo.
+     Botões ficam de fora: precisam manter o inline-flex do .btn. */
+  .prose a:not(.btn),
+  .hero-manifesto p a:not(.btn),
+  .modal a:not(.btn) {
     display: inline-block;
     padding: 4px 0;
   }
@@ -3837,6 +4083,8 @@ code {
 .hero--home .hero-inner {
   position: relative;
   z-index: 1;
+  max-width: none;
+  margin: 0;
 }
 
 .hero-eyebrow {
@@ -3952,7 +4200,6 @@ code {
 }
 
 .home-diff__item:hover .home-diff__icon {
-  transform: translateY(-2px) rotate(-4deg);
   background: color-mix(in srgb, var(--primary) 18%, var(--primary-soft));
 }
 
@@ -4026,7 +4273,6 @@ code {
 }
 
 .home-promise:hover .home-promise__icon {
-  transform: translateY(-2px) rotate(-4deg);
   background: color-mix(in srgb, var(--primary) 18%, var(--primary-soft));
 }
 
@@ -4170,6 +4416,48 @@ code {
   .hero-actions--start .btn {
     flex: 1 1 100%;
   }
+}
+
+/* ------------------------------------ alinhamento fino com o app vizin.Os
+   O app usa superficies quentes, sombra difusa curta e quase nenhum gradiente
+   decorativo. Estes ajustes aproximam o site dessa mesma sensacao no web. */
+.hero-glow {
+  opacity: 0.28;
+}
+
+.hero-brand .brand-mark {
+  width: 72px;
+  height: 72px;
+  border-radius: 22%;
+  box-shadow: var(--shadow-card);
+}
+
+.hero-brand-name {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+}
+
+h1 em,
+.creators-hero h1 em {
+  font-style: normal;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: currentColor;
+  color: var(--primary);
+}
+
+.creators-hero::before,
+.hero-orb {
+  display: none !important;
+}
+
+.creators-cta {
+  background: var(--primary) !important;
+  box-shadow: var(--shadow-pop) !important;
+}
+
+.creators-cta:hover {
+  box-shadow: var(--shadow-pop-hover) !important;
 }
 
 /* ------------------------------------------------------- movimento global

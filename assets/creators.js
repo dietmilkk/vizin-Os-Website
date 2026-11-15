@@ -138,6 +138,7 @@
     var guide = $('guiaCompleto');
     if (!guide) return;
     guide.classList.remove('hidden');
+    guide.classList.add('is-panel');
     setNavLinks(GUIDE_NAV);
 
     var target = role === 'afiliado' ? 'guiaAfiliado' : 'guiaCriador';
@@ -174,6 +175,7 @@
     setNavLinks(PUBLIC_NAV);
     var guide = $('guiaCompleto');
     if (!guide) return;
+    guide.classList.remove('is-panel');
     var cross = guide.querySelectorAll('[data-guide-cta]');
     Array.prototype.forEach.call(cross, function (item) {
       item.classList.add('hidden');
@@ -587,17 +589,17 @@
     currentMode = mode === 'afiliado' ? 'afiliado' : 'creator';
     var isAfiliado = currentMode === 'afiliado';
     $('createTitle').textContent = 'Criar conta';
-    $('createIntro').textContent = isAfiliado ? 'Geramos seu código.' : 'Defina seu código.';
     $('createButton').textContent = 'Criar';
     $('codeStatus').textContent = '';
     $('codeStatus').className = 'code-status';
     $('createError').textContent = '';
-    var codeInput = $('code');
-    if (codeInput) {
-      if (isAfiliado) codeInput.classList.add('hidden');
-      else codeInput.classList.remove('hidden');
+    var codeField = $('codeField');
+    if (codeField) {
+      if (isAfiliado) codeField.classList.add('hidden');
+      else codeField.classList.remove('hidden');
     }
-    $('code').value = '';
+    var codeInput = $('code');
+    if (codeInput) codeInput.value = '';
     hide('createdView');
     show('createView');
     if (isAfiliado) hide('afiliadoAttribution');
@@ -605,7 +607,7 @@
     if (!modal) return;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
-    var input = $('code');
+    var input = isAfiliado ? $('createCpf') : $('code');
     if (input) window.setTimeout(function () { input.focus(); }, 60);
   }
 
@@ -683,9 +685,10 @@
     event.preventDefault();
     $('createError').textContent = '';
     $('codeStatus').textContent = '';
+    var codeField = $('codeField');
     var codeInput = $('code');
-    var code = codeInput && !codeInput.classList.contains('hidden')
-      ? String(codeInput.value || '').trim().toUpperCase()
+    var code = codeField && !codeField.classList.contains('hidden')
+      ? String(codeInput && codeInput.value || '').trim().toUpperCase()
       : '';
     var isAfiliado = currentMode === 'afiliado';
     // Affiliates never pick a code: one is generated randomly for them.
@@ -705,12 +708,12 @@
     var cpf = cpfInput ? String(cpfInput.value || '').replace(/\D/g, '') : '';
     var email = emailInput ? String(emailInput.value || '').trim() : '';
     if (!isValidCpf(cpf)) {
-      $('createError').textContent = 'Digite um CPF válido. Ele é obrigatório para a segurança da sua conta e para os saques (exigência dos bancos).';
+      $('createError').textContent = 'Digite um CPF válido.';
       if (cpfInput) cpfInput.focus();
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      $('createError').textContent = 'Digite um e-mail válido. Ele é obrigatório para a segurança da sua conta e para os saques (exigência dos bancos).';
+      $('createError').textContent = 'Digite um e-mail válido.';
       if (emailInput) emailInput.focus();
       return;
     }
@@ -750,7 +753,16 @@
     });
   });
 
-  $('openDashboard').addEventListener('click', loadDashboard);
+  /* O painel abre em outra aba: a aba original continua mostrando o link
+     secreto da conta, que é a senha de acesso. */
+  $('openDashboard').addEventListener('click', function () {
+    var link = $('dashboardLink');
+    if (link && link.getAttribute('href') && link.getAttribute('href') !== '#') {
+      window.open(link.href, '_blank', 'noopener');
+      return;
+    }
+    loadDashboard();
+  });
 
   /* -------------------------------------------------------- dashboards */
 
@@ -798,8 +810,6 @@
         $('creatorCode').textContent = c.code;
         $('creatorError').textContent = '';
         $('statReferrals').textContent = data.referrals;
-        $('statCommission').textContent = brl(data.commission_cents);
-        $('statAvailable').textContent = brl(data.available_cents);
         $('withdrawAvailable').textContent = brl(data.available_cents);
         $('statPending').textContent = brl(data.pending_cents);
         $('statWithdrawn').textContent = brl(data.withdrawn_cents);

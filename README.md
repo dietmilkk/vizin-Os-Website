@@ -305,10 +305,14 @@ Outros pontos:
 - Dentro do guia, `H3` é o título do bloco e `H4` são as subseções — antes as
   subseções usavam `H3` e quebravam a hierarquia.
 - No painel, o bloco do papel atual (`#guiaAfiliado` ou `#guiaCriador`) recebe o
-  selo **"Seu papel"** e um convite cruzado para o outro papel. O menu do topo
-  troca as âncoras: na página pública aponta para `#divisao`, `#participar` e
-  `#guiaCompleto`; no painel, para `#guiaProjeto`, `#guiaPrograma` e
-  `#guiaDivisao`.
+  selo **"Seu papel"** e um convite cruzado para o outro papel. O título
+  **"Como funciona por dentro"** não aparece dentro do painel (classe
+  `is-panel`, adicionada por `showGuide()`). O menu do topo troca as âncoras: na
+  página pública aponta para `#divisao`, `#participar` e `#guiaCompleto`; no
+  painel, para `#guiaProjeto`, `#guiaPrograma` e `#guiaDivisao`.
+- No modal de confirmação, **"Abrir painel"** abre o link secreto em uma
+  **nova aba**; a aba original continua mostrando o link, que é a senha de
+  acesso à conta.
   - Esse menu **aparece no desktop** (a partir de 721px): era o único jeito de
     chegar no guia, que fica bem abaixo da dobra. Antes ele era escondido por
     uma regra no CSS (`.creators-page .desktop-nav { display: none }`) que
@@ -1128,8 +1132,8 @@ máquina.
 O `test-usuario-real.py` percorre o caminho inteiro **como um visitante**,
 num navegador limpo (sem cache nem cookies): abre a página pública, abre a
 janela de criação, **clica no botão** para criar a conta, confere a
-confirmação, entra no painel pelo “Abrir painel”, confere o link de
-afiliado, recarrega a página pelo link do painel, tenta criar uma segunda
+confirmação, entra no painel pelo “Abrir painel” (em nova aba), confere o link
+de afiliado, recarrega a página pelo link do painel, tenta criar uma segunda
 conta (que deve ser recusada com o aviso pequeno na janela) e por fim simula
 um IP de datacenter para conferir o 404 com **status 404 real**.
 
@@ -1225,8 +1229,8 @@ O que ele cobre:
 O `test-jornada-afiliado.py` percorre a jornada do visitante contra o site
 publicado: página pública → "Quero ser afiliado" → cria a conta (o código é
 gerado no navegador) → confere o **link do painel no modal** (inclusive a
-decoração em gradiente com o corpo menor) → "Abrir painel" → confere o
-link de afiliado no painel.
+decoração em gradiente com o corpo menor) → "Abrir painel" (que abre o painel
+em uma nova aba) → confere o link de afiliado no painel.
 
 ```bash
 python3 tests/test-jornada-afiliado.py

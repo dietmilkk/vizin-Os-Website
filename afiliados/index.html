@@ -540,6 +540,11 @@
       font-size: clamp(1.6rem, 3.2vw, 2.15rem);
       line-height: 1.15;
     }
+    /* Dentro do painel o guia já está no contexto da conta aberta: o título
+       "Como funciona por dentro" não precisa aparecer. */
+    .guia-completo.is-panel .guia-completo__head h2 {
+      display: none;
+    }
     .guia-completo__head p {
       margin: 0;
     }
@@ -668,8 +673,36 @@
       .guia-grid {
         grid-template-columns: 1fr;
       }
-      .guia-bloco {
-        padding: var(--space-5);
+      /* No celular o bloco do guia perde a moldura de card: o titulo maior
+         separa os assuntos sem a necessidade de uma caixa em volta. */
+      .guia-bloco,
+      .guia-bloco--afiliado,
+      .guia-bloco--criador,
+      .guia-bloco.is-current {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+      }
+      .guia-bloco h3 {
+        margin-top: 0;
+        font-size: clamp(1.4rem, 5.2vw, 1.7rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      /* Mesma troca no exemplo da divisao: sai o cartao externo e o titulo
+         ganha peso para marcar o inicio do assunto. */
+      .flow-example {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+      }
+      .flow-example__head h3 {
+        font-size: clamp(1.4rem, 5.2vw, 1.7rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
       }
       .guia-cross__item {
         flex-direction: column;
@@ -1065,12 +1098,6 @@
     <div id="partnerMarketing">
       <section class="creators-hero" id="creatorsHero" data-reveal>
 
-        <nav class="breadcrumb" aria-label="Você está aqui">
-          <a href="/">Início</a>
-          <span class="breadcrumb-sep" aria-hidden="true">/</span>
-          <span aria-current="page">Afiliados</span>
-        </nav>
-
         <div class="hero-orbs" aria-hidden="true">
           <span class="hero-orb hero-orb--1"></span>
           <span class="hero-orb hero-orb--2"></span>
@@ -1096,11 +1123,6 @@
       </section>
 
       <section class="creators-hero-mobile">
-        <nav class="breadcrumb" aria-label="Você está aqui">
-          <a href="/">Início</a>
-          <span class="breadcrumb-sep" aria-hidden="true">/</span>
-          <span aria-current="page">Afiliados</span>
-        </nav>
         <h1>Ajude sua região a se encontrar.</h1>
         <p class="hero-lead">
           Adote uma região, divulgue nas mídias locais e participe da receita que ela gerar.
@@ -1122,7 +1144,7 @@
           de localidades próximas.
         </p>
 
-        <div class="split-bar" role="img" aria-label="Divisão da receita: 30% para o usuário em desconto, 50% para o criador, 10% para o afiliado e 10% para desenvolvimento, estrutura e criador do app.">
+        <div class="split-bar" role="img" aria-label="Divisão da receita: 30% para o usuário em desconto, 50% para o criador, 10% para o afiliado e 10% para estrutura, servidores, manutenção e desenvolvimento.">
           <span class="split-segment split-user" style="--share: 30%">30%</span>
           <span class="split-segment split-creator" style="--share: 50%">50%</span>
           <span class="split-segment split-afiliado" style="--share: 10%">10%</span>
@@ -1145,33 +1167,33 @@
           <article class="split-item split-item--dev">
             <strong>10% desenvolvimento</strong>
             <p>
-              Estrutura, servidores, manutenção e o criador do app. É esta parte que mantém
-              o espaço de pé para o app crescer e ter gente suficiente.
+              Estrutura, servidores, manutenção e desenvolvimento.
             </p>
           </article>
         </div>
 
-        <div class="flow-example" role="img" aria-label="Exemplo hipotético de distribuição: para uma receita de R$ 1.000, R$ 300 viram desconto de usuário, R$ 500 vão para criadores, R$ 100 para afiliados e R$ 100 para desenvolvimento.">
+        <div class="flow-example" aria-labelledby="flowExampleTitle">
           <div class="flow-example__head">
-            <h3>Exemplo: 100 assinaturas confirmadas</h3>
+            <h3 id="flowExampleTitle">Exemplo: 100 assinaturas confirmadas</h3>
             <p>
               O valor varia conforme o plano e o ciclo de cobrança. Como exemplo, 100 assinaturas
               podem gerar cerca de <strong>R$ 1.000</strong> de receita processada.
             </p>
           </div>
-          <ol class="flow-example__track">
-            <li class="flow-node flow-node--source">
-              <span class="flow-node__label">Receita processada</span>
-              <strong class="flow-node__value">R$ 1.000</strong>
-              <small class="flow-node__meta">100 pagamentos confirmados</small>
-            </li>
-            <li class="flow-branches" aria-hidden="true">
+
+          <div class="flow-canvas">
+            <div class="flow-source">
+              <span class="flow-source__label">Receita processada</span>
+              <strong class="flow-source__value">R$ 1.000</strong>
+              <small class="flow-source__meta">100 pagamentos confirmados</small>
+            </div>
+            <div class="flow-branches" aria-hidden="true">
               <span class="flow-branch flow-branch--user"></span>
               <span class="flow-branch flow-branch--creator"></span>
               <span class="flow-branch flow-branch--afiliado"></span>
               <span class="flow-branch flow-branch--dev"></span>
-            </li>
-            <li class="flow-example__grid">
+            </div>
+            <div class="flow-grid">
               <article class="flow-card flow-card--user">
                 <span class="flow-card__percent">30%</span>
                 <strong class="flow-card__amount">R$ 300</strong>
@@ -1196,8 +1218,19 @@
                 <span class="flow-card__title">Desenvolvimento</span>
                 <small class="flow-card__meta">Servidores e manutenção</small>
               </article>
-            </li>
-          </ol>
+            </div>
+          </div>
+
+          <div class="flow-why">
+            <h4>Por que 10%?</h4>
+            <p>
+              Em um pagamento isolado, 10% parece pequeno. O modelo funciona por volume: um afiliado
+              acompanha vários criadores, cada criador pode trazer muitas pessoas e o desenvolvimento
+              recebe a mesma fatia de toda a base. A porcentagem é baixa por pagamento, mas a soma
+              pode se tornar relevante ao longo do tempo.
+            </p>
+          </div>
+
           <p class="flow-example__note">
             Números apenas para ilustrar a divisão. Não é renda fixa nem promessa de resultado.
           </p>
@@ -1206,12 +1239,6 @@
 
       <section class="form-card creators-guide participate-card" id="participar" data-reveal>
         <h2>Quero participar</h2>
-        <p>
-          Escolha o papel que faz sentido para você: <strong>criador</strong> divulga com o próprio
-          código; <strong>afiliado</strong> apresenta criadores ao programa. Dá para ter os dois,
-          e o painel acompanha cada indicação em tempo real.
-        </p>
-        <p class="fine-print">Sem promessa de enriquecimento: o ganho vem da receita real gerada pela região.</p>
         <div class="participate-actions">
           <button class="btn btn-primary" type="button" data-open-create="creator">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -1232,20 +1259,23 @@
           <button class="modal-close" type="button" aria-label="Fechar" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           <section id="createView">
             <h2 id="createTitle">Criar conta</h2>
-            <p class="muted create-intro" id="createIntro">Defina seu código.</p>
             <div id="afiliadoAttribution" class="afiliado-attribution hidden" role="status"></div>
             <div id="createWarning" class="create-warning hidden" role="status" aria-live="polite"></div>
             <form id="createForm">
-              <div class="field">
-                <input id="code" name="code" maxlength="32" aria-label="Código que você quer compartilhar" autocomplete="off">
+              <div class="field" id="codeField">
+                <label for="code">Código que você quer compartilhar</label>
+                <input id="code" name="code" maxlength="32" autocomplete="off">
+                <small class="field-hint">Use de 3 a 32 letras, números, _ ou -. Esse código identifica suas indicações.</small>
               </div>
               <div class="field">
-                <input id="createCpf" name="cpf" maxlength="14" inputmode="numeric" autocomplete="off" aria-label="Seu CPF">
-                <small class="field-hint">Pedimos seu CPF por exigência dos bancos: serve para a segurança da sua conta e para os saques dos seus lucros (prevenção à lavagem de dinheiro). Fica guardado só para isso.</small>
+                <label for="createCpf">Seu CPF</label>
+                <input id="createCpf" name="cpf" maxlength="14" inputmode="numeric" autocomplete="off">
+                <small class="field-hint">Pedimos seu CPF por exigência dos bancos, para os saques dos seus lucros e prevenção à lavagem de dinheiro.</small>
               </div>
               <div class="field">
-                <input id="createEmail" name="email" type="email" maxlength="200" autocomplete="email" aria-label="Seu e-mail">
-                <small class="field-hint">E-mail obrigatório por exigência dos bancos: segurança da conta, avisos e saques dos seus lucros (prevenção à lavagem de dinheiro).</small>
+                <label for="createEmail">Seu e-mail</label>
+                <input id="createEmail" name="email" type="email" maxlength="200" autocomplete="email">
+                <small class="field-hint">E-mail obrigatório para avisos e saques dos seus lucros.</small>
               </div>
               <p id="codeStatus" class="code-status" role="status" aria-live="polite"></p>
               <button class="btn btn-primary" id="createButton" type="submit">Criar</button>
@@ -1256,7 +1286,11 @@
           <section id="createdView" class="hidden">
             <h2 id="createdTitle">Pronto 🎉</h2>
             <p class="muted create-intro" id="createdIntro">Guarde o link: é a sua senha.</p>
-            <p class="muted panel-link"><a id="dashboardLink" href="#">abrir painel</a></p>
+            <p class="muted create-legal">
+              Ao criar sua conta você concorda com <a href="/termos/">Termos</a>,
+              <a href="/privacidade/">Privacidade</a> e <a href="/licenca/">Licença</a>.
+            </p>
+            <p class="muted panel-link"><a id="dashboardLink" href="#" target="_blank" rel="noopener">abrir painel</a></p>
             <button class="btn btn-primary" id="openDashboard" type="button">Abrir painel</button>
           </section>
         </div>
@@ -1288,8 +1322,6 @@
           <p id="creatorError" class="error" role="alert"></p>
           <div class="stats-grid">
             <div class="stat"><div class="label">Indicações</div><div class="value" id="statReferrals">0</div></div>
-            <div class="stat"><div class="label">Comissão total</div><div class="value" id="statCommission">R$ 0,00</div></div>
-            <div class="stat"><div class="label">Disponível para saque</div><div class="value ok" id="statAvailable">R$ 0,00</div></div>
             <div class="stat"><div class="label">Em processamento</div><div class="value" id="statPending">R$ 0,00</div></div>
             <div class="stat"><div class="label">Já sacado</div><div class="value" id="statWithdrawn">R$ 0,00</div></div>
           </div>
@@ -1308,15 +1340,15 @@
             </div>
             <div class="field">
               <label for="withdrawPix">Chave Pix para receber</label>
-              <input id="withdrawPix" maxlength="200">
+              <input id="withdrawPix" maxlength="200" readonly value="chave-pix@exemplo.com">
             </div>
             <div class="field">
               <label for="withdrawPixCpf">CPF ou CNPJ do titular</label>
-              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric">
+              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric" readonly value="12345678901">
             </div>
             <div class="field">
               <label for="withdrawEmail">E-mail para o comprovante</label>
-              <input id="withdrawEmail" type="email" maxlength="200">
+              <input id="withdrawEmail" type="email" maxlength="200" readonly value="usuario@exemplo.com">
             </div>
             <button class="btn btn-primary" id="withdrawButton" type="button">Sacar saldo disponível</button>
             <div id="withdrawError" class="error" role="alert"></div>
@@ -1384,8 +1416,6 @@
                   <div class="stat stat--accent"><div class="label">Criadores recrutados</div><div class="value" id="afiliadoStatCreators">0</div></div>
                   <div class="stat"><div class="label">Indicações geradas</div><div class="value" id="afiliadoStatReferrals">0</div></div>
                   <div class="stat" id="afiliadoStatEmailsCard"><div class="label">E-mails enviados</div><div class="value" id="afiliadoStatEmails">0/1</div></div>
-                  <div class="stat"><div class="label">Comissão total</div><div class="value" id="afiliadoStatCommission">R$ 0,00</div></div>
-                  <div class="stat"><div class="label">Disponível para saque</div><div class="value ok" id="afiliadoStatAvailable">R$ 0,00</div></div>
                   <div class="stat"><div class="label">Em processamento</div><div class="value" id="afiliadoStatPending">R$ 0,00</div></div>
                   <div class="stat"><div class="label">Já sacado</div><div class="value" id="afiliadoStatWithdrawn">R$ 0,00</div></div>
                 </div>
@@ -1531,11 +1561,6 @@
     <section id="guiaCompleto" class="guia-completo" aria-labelledby="guiaTitle" data-reveal>
       <div class="guia-completo__head">
         <h2 id="guiaTitle">Como funciona por dentro</h2>
-        <p class="muted">
-          A página pública mostra o essencial. Aqui ficam as regras, a divisão completa, o
-          passo a passo de cada papel e a proteção da base de contatos — e os números gerais
-          do serviço são públicos no <a href="/painel">painel público</a>.
-        </p>
       </div>
 
       <nav class="guia-sumario" aria-label="Sumário do guia">
@@ -1664,7 +1689,7 @@
             outras três fatias.
           </p>
 
-          <div class="split-bar" role="img" aria-label="Divisão da receita: 30% para o usuário em desconto, 50% para o criador, 10% para o afiliado e 10% para desenvolvimento, estrutura e criador do app.">
+          <div class="split-bar" role="img" aria-label="Divisão da receita: 30% para o usuário em desconto, 50% para o criador, 10% para o afiliado e 10% para estrutura, servidores, manutenção e desenvolvimento.">
             <span class="split-segment split-user" style="--share: 30%">30%</span>
             <span class="split-segment split-creator" style="--share: 50%">50%</span>
             <span class="split-segment split-afiliado" style="--share: 10%">10%</span>
@@ -1687,8 +1712,7 @@
             <article class="split-item split-item--dev">
               <strong>10% desenvolvimento</strong>
               <p>
-                Estrutura, servidores, manutenção e o criador do app. É esta parte que mantém
-                o espaço de pé para o app crescer e ter gente suficiente.
+                Estrutura, servidores, manutenção e desenvolvimento.
               </p>
             </article>
           </div>
@@ -1876,7 +1900,7 @@
             <span>Painel público</span>
           </a>
           <a class="explore-card" href="/moderacao">
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.8-3.2 7.7-7 10-3.8-2.3-7-5.2-7-10V6z"/></svg>
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
             <span>Moderação</span>
           </a>
           <a class="explore-card" href="/documento">
