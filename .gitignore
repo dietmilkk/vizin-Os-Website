@@ -115,6 +115,10 @@ dist/
 *.tgz
 *.7z
 
+# --- Pre-visualizacao local (prints, HTML e capturas de revisao) -------------
+# Saidas geradas na maquina para conferir o site: nada disso e publicado.
+.local/
+
 # --- Node / front-end ------------------------------------------------------
 node_modules/
 .pnpm-store/
