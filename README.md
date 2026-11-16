@@ -102,6 +102,9 @@ assets/apple-touch-icon.png
 site.webmanifest            Manifest PWA
 _headers                    Cabeçalhos de segurança e noindex dos criadores
 _redirects                  Redireciona /afiliados e /criadores (Cloudflare Pages)
+vercel.json                 Equivalente do _redirects para a Vercel: URLs sem
+                            extensão (cleanUrls), barra final removida e
+                            cabeçalhos de segurança
 .htaccess                   Equivalente do _redirects para hospedagem compartilhada
                             (InfinityFree): página 404 própria, sem listagem de
                             pastas e bloqueio de arquivos internos
