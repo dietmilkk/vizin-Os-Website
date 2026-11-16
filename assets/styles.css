@@ -2944,7 +2944,6 @@ code {
 
 /* ------------------------------------------------------ reduzir movimento */
 @media (prefers-reduced-motion: reduce) {
-  .site-header::before,
   .brand-mark,
   .step-tab,
   .step-panel.is-active > img,
