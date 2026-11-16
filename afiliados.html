@@ -1168,62 +1168,77 @@
 
         <div class="flow-example" aria-labelledby="flowExampleTitle">
           <div class="flow-example__head">
-            <h3 id="flowExampleTitle">Exemplo: 100 assinaturas confirmadas</h3>
+            <h3 id="flowExampleTitle">Ex: você conseguiu trazer 100 usuários para dentro do app</h3>
             <p>
-              O valor varia conforme o plano e o ciclo de cobrança. Como exemplo, 100 assinaturas
-              podem gerar cerca de <strong>R$ 1.000</strong> de receita processada.
+              O valor varia, mas como exemplo consideraremos <strong>R$ 9,87</strong> por cada
+              usuário que pagou a assinatura. <strong>9,87 × 100 = ~ R$ 1.000</strong>.
             </p>
           </div>
 
           <div class="flow-canvas">
-            <div class="flow-source">
-              <span class="flow-source__label">Receita processada</span>
-              <strong class="flow-source__value">R$ 1.000</strong>
-              <small class="flow-source__meta">100 pagamentos confirmados</small>
-            </div>
-            <div class="flow-branches" aria-hidden="true">
-              <span class="flow-branch flow-branch--user"></span>
-              <span class="flow-branch flow-branch--creator"></span>
-              <span class="flow-branch flow-branch--afiliado"></span>
-              <span class="flow-branch flow-branch--dev"></span>
-            </div>
-            <div class="flow-grid">
-              <article class="flow-card flow-card--user">
-                <span class="flow-card__percent">30%</span>
-                <strong class="flow-card__amount">R$ 300</strong>
-                <span class="flow-card__title">Usuários</span>
-                <small class="flow-card__meta">Desconto na assinatura</small>
-              </article>
-              <article class="flow-card flow-card--creator">
-                <span class="flow-card__percent">50%</span>
-                <strong class="flow-card__amount">R$ 500</strong>
-                <span class="flow-card__title">Criadores</span>
-                <small class="flow-card__meta">Comissão por indicação</small>
-              </article>
-              <article class="flow-card flow-card--afiliado">
-                <span class="flow-card__percent">10%</span>
-                <strong class="flow-card__amount">R$ 100</strong>
-                <span class="flow-card__title">Afiliados</span>
-                <small class="flow-card__meta">Comissão por recrutamento</small>
-              </article>
-              <article class="flow-card flow-card--dev">
-                <span class="flow-card__percent">10%</span>
-                <strong class="flow-card__amount">R$ 100</strong>
-                <span class="flow-card__title">Desenvolvimento</span>
-                <small class="flow-card__meta">Servidores e manutenção</small>
-              </article>
-            </div>
+            <svg class="flow-diagram" viewBox="0 0 1200 330" role="img" aria-labelledby="flowDiagramTitle flowDiagramDesc" focusable="false">
+              <title id="flowDiagramTitle">Da receita de R$ 1.000 até a divisão entre usuários, criadores, afiliados e desenvolvimento</title>
+              <desc id="flowDiagramDesc">Cem usuários geram cerca de R$ 1.000. Desse valor, 30% (R$ 300) viram desconto para os usuários, 50% (R$ 500) vão para os criadores de conteúdo, 10% (R$ 100) para os afiliados e 10% (R$ 100) para a desenvolvedora.</desc>
+
+              <!-- Origem: os usuários que pagaram a assinatura. -->
+              <rect x="40" y="128" width="160" height="36" rx="9" fill="#4a8df0"/>
+              <text x="120" y="151" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Usuários</text>
+
+              <path d="M40 178h158l26 66-26 66H40z" fill="#4a8df0"/>
+              <text x="119" y="230" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">1k/30% = R$300</text>
+              <text x="119" y="251" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="12">(desconto)</text>
+
+              <!-- Fluxo dos usuários: quatro faixas seguem para os criadores e uma vira desconto. -->
+              <path d="M226 168C340 168 405 208 438 221" fill="none" stroke="#c62d42" stroke-width="8" stroke-linecap="round"/>
+              <path d="M226 182C340 182 405 216 438 224" fill="none" stroke="#c62d42" stroke-width="8" stroke-linecap="round"/>
+              <path d="M226 196C340 196 405 222 438 227" fill="none" stroke="#c62d42" stroke-width="8" stroke-linecap="round"/>
+              <path d="M226 210C340 210 405 227 438 230" fill="none" stroke="#c62d42" stroke-width="8" stroke-linecap="round"/>
+              <path d="M226 224h164c20 0 28 30 44 44" fill="none" stroke="#f2c3cb" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="345" cy="283" r="5" fill="#f2c3cb"/>
+              <circle cx="365" cy="283" r="5" fill="#f2c3cb"/>
+              <circle cx="385" cy="283" r="5" fill="#f2c3cb"/>
+
+              <path d="M438 207l26 18-26 18z" fill="#c62d42"/>
+              <rect x="466" y="180" width="128" height="90" rx="9" fill="#c62d42"/>
+              <text x="530" y="219" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/50% = R$500</text>
+              <text x="530" y="242" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Criadores de Conteúdo</text>
+
+              <!-- Fluxo dos criadores para os afiliados. -->
+              <circle cx="506" cy="96" r="5" fill="#d9cbf8"/>
+              <circle cx="526" cy="96" r="5" fill="#d9cbf8"/>
+              <circle cx="546" cy="96" r="5" fill="#d9cbf8"/>
+              <circle cx="506" cy="140" r="5" fill="#d9cbf8"/>
+              <circle cx="526" cy="140" r="5" fill="#d9cbf8"/>
+              <circle cx="546" cy="140" r="5" fill="#d9cbf8"/>
+
+              <path d="M596 208C660 208 686 140 744 140" fill="none" stroke="#7c3aed" stroke-width="9" stroke-linecap="round"/>
+              <path d="M596 232C660 232 690 162 744 162" fill="none" stroke="#7c3aed" stroke-width="9" stroke-linecap="round"/>
+
+              <path d="M742 122l28 18-28 18z" fill="#7c3aed"/>
+              <rect x="770" y="110" width="150" height="90" rx="9" fill="#7c3aed"/>
+              <text x="849" y="149" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
+              <text x="849" y="172" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Afiliados</text>
+
+              <!-- Fluxo dos afiliados para o desenvolvimento. -->
+              <circle cx="944" cy="56" r="5" fill="#a9d8c7"/>
+              <circle cx="964" cy="56" r="5" fill="#a9d8c7"/>
+              <circle cx="984" cy="56" r="5" fill="#a9d8c7"/>
+              <circle cx="944" cy="104" r="5" fill="#a9d8c7"/>
+              <circle cx="964" cy="104" r="5" fill="#a9d8c7"/>
+              <circle cx="984" cy="104" r="5" fill="#a9d8c7"/>
+
+              <path d="M923 140C986 140 1010 88 1054 88" fill="none" stroke="#16795b" stroke-width="9" stroke-linecap="round"/>
+              <path d="M923 158C986 158 1010 106 1054 106" fill="none" stroke="#3f9c7f" stroke-width="9" stroke-linecap="round"/>
+              <path d="M923 176C976 176 998 210 1028 210S1054 160 1054 122" fill="none" stroke="#a9d8c7" stroke-width="9" stroke-linecap="round"/>
+
+              <path d="M1030 72l28 18-28 18z" fill="#16795b"/>
+              <rect x="1058" y="45" width="148" height="90" rx="9" fill="#16795b"/>
+              <text x="1136" y="84" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
+              <text x="1136" y="107" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Desenvolvedora</text>
+            </svg>
           </div>
 
-          <div class="flow-why">
-            <h4>Por que 10%?</h4>
-            <p>
-              Em um pagamento isolado, 10% parece pequeno. O modelo funciona por volume: um afiliado
-              acompanha vários criadores, cada criador pode trazer muitas pessoas e o desenvolvimento
-              recebe a mesma fatia de toda a base. A porcentagem é baixa por pagamento, mas a soma
-              pode se tornar relevante ao longo do tempo.
-            </p>
-          </div>
+          <p class="flow-scroll-hint" aria-hidden="true">Deslize para ver o fluxo completo →</p>
 
           <p class="flow-example__note">
             Números apenas para ilustrar a divisão. Não é renda fixa nem promessa de resultado.

@@ -3182,7 +3182,8 @@ code {
 .split-item--afiliado { border-top: 3px solid #8b5cf6; }
 .split-item--dev { border-top: 3px solid #1f7a5a; }
 
-/* Exemplo de distribuição: um fluxo simples, sem enfeite excessivo. */
+/* Exemplo de distribuição: diagrama de fluxo (usuários -> criadores ->
+   afiliados -> desenvolvimento), com as mesmas cores das barras acima. */
 .flow-example {
   margin-top: var(--space-7);
   padding: var(--space-6);
@@ -3205,140 +3206,21 @@ code {
   line-height: 1.6;
 }
 
+/* O diagrama é um SVG com viewBox fixo: escala sem perder a estrutura e,
+   no telefone, rola na horizontal em vez de espremer os textos. */
 .flow-canvas {
-  display: grid;
-  grid-template-columns: minmax(180px, 220px) minmax(48px, 72px) minmax(0, 1fr);
-  gap: var(--space-5);
-  align-items: center;
   margin-top: var(--space-6);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
-.flow-source {
-  padding: var(--space-5);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  text-align: center;
-  box-shadow: var(--shadow-card);
-}
-
-.flow-source__label {
+.flow-diagram {
   display: block;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.4;
-}
-
-.flow-source__value {
-  display: block;
-  margin-top: var(--space-2);
-  font-size: 1.5rem;
-  line-height: 1.2;
-  color: var(--text);
-}
-
-.flow-source__meta {
-  display: block;
-  margin-top: var(--space-2);
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-.flow-branches {
-  position: relative;
-  min-height: 190px;
-}
-
-.flow-branch {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 999px;
-}
-
-.flow-branch--user {
-  top: 12%;
-  background: #3b82f6;
-}
-
-.flow-branch--creator {
-  top: 38%;
-  background: #e63956;
-}
-
-.flow-branch--afiliado {
-  top: 64%;
-  background: #8b5cf6;
-}
-
-.flow-branch--dev {
-  top: 88%;
-  background: #1f7a5a;
-}
-
-.flow-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4);
-}
-
-.flow-card {
-  padding: var(--space-4);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-alt);
-}
-
-.flow-card__percent {
-  display: block;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.flow-card__amount {
-  display: block;
-  margin-top: var(--space-1);
-  font-size: 1.2rem;
-  line-height: 1.2;
-}
-
-.flow-card__title {
-  display: block;
-  margin-top: var(--space-2);
-  font-weight: 600;
-}
-
-.flow-card__meta {
-  display: block;
-  margin-top: 3px;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-
-.flow-card--user { border-top: 3px solid #3b82f6; }
-.flow-card--creator { border-top: 3px solid #e63956; }
-.flow-card--afiliado { border-top: 3px solid #8b5cf6; }
-.flow-card--dev { border-top: 3px solid #1f7a5a; }
-
-.flow-why {
-  margin-top: var(--space-6);
-  padding: var(--space-5);
-  border-left: 3px solid var(--primary);
-  border-radius: var(--radius);
-  background: var(--surface-alt);
-}
-
-.flow-why h4 {
-  margin: 0;
-}
-
-.flow-why p {
-  margin: var(--space-3) 0 0;
-  color: var(--text-muted);
-  line-height: 1.65;
+  width: 100%;
+  height: auto;
+  min-width: 720px;
 }
 
 .flow-example__note {
@@ -3348,18 +3230,26 @@ code {
   line-height: 1.55;
 }
 
+.flow-scroll-hint {
+  display: none;
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
 @media (max-width: 900px) {
   .flow-canvas {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
+    padding-bottom: var(--space-2);
   }
 
-  .flow-branches {
-    display: none;
+  .flow-diagram {
+    min-width: 1000px;
   }
 
-  .flow-grid {
-    grid-template-columns: 1fr;
+  .flow-scroll-hint {
+    display: block;
   }
 
   .flow-example {
