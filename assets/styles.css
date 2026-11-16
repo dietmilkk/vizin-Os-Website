@@ -381,25 +381,6 @@ button {
   max-width: 100%;
 }
 
-.desktop-nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-}
-
-.desktop-nav a {
-  position: relative;
-  padding-block: 6px;
-  color: color-mix(in srgb, var(--text-muted) 70%, var(--text-faint));
-  font-size: 0.86rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.desktop-nav a:hover {
-  color: var(--text-muted);
-}
 .header-actions {
   display: flex;
   align-items: center;
@@ -416,100 +397,6 @@ button {
 .header-actions .btn svg {
   width: 16px;
   height: 16px;
-}
-
-/* Programa de parceiros: a navegacao de secoes aparece no desktop. O
-   `creators.js` reescreve os links conforme a tela (pagina publica ou
-   painel), entao eles precisam ficar visiveis: e o unico atalho para o guia
-   completo, que hoje fica bem abaixo da dobra. No telefone (ate 720px) a
-   regra geral do `.desktop-nav` esconde a barra, e esta aqui nao pode
-   vence-la: por isso o `min-width`. */
-@media (min-width: 721px) {
-  .creators-page .desktop-nav {
-    display: flex;
-  }
-}
-
-.menu-toggle {
-  display: none;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  color: var(--text);
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--dur) var(--ease-out), background var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
-}
-
-.menu-toggle:hover {
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
-}
-
-.menu-toggle[aria-expanded="true"] {
-  transform: rotate(90deg);
-  background: var(--primary-soft);
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
-}
-
-.menu-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-
-.mobile-nav {
-  position: fixed;
-  inset: var(--header-h) 0 auto 0;
-  z-index: 49;
-  padding: var(--space-4) var(--gutter) var(--space-6);
-  background: var(--background);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(18px);
-}
-
-.mobile-nav[hidden] {
-  display: none;
-}
-
-.mobile-nav a {
-  display: block;
-  padding: var(--space-4) 0;
-  color: var(--text);
-  font-size: 1.05rem;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border);
-}
-
-.mobile-nav a:last-child {
-  border-bottom: 0;
-}
-
-/* ------------------------------------------------------ animações fofas */
-@media (prefers-reduced-motion: no-preference) {
-  .mobile-nav:not([hidden]) {
-    animation: menu-drop 0.25s ease both;
-  }
-
-  .mobile-nav:not([hidden]) a {
-    animation: menu-item-in 0.35s ease both;
-  }
-
-  .mobile-nav:not([hidden]) a:nth-child(2) { animation-delay: 0.03s; }
-  .mobile-nav:not([hidden]) a:nth-child(3) { animation-delay: 0.06s; }
-  .mobile-nav:not([hidden]) a:nth-child(4) { animation-delay: 0.09s; }
-  .mobile-nav:not([hidden]) a:nth-child(5) { animation-delay: 0.12s; }
-  .mobile-nav:not([hidden]) a:nth-child(6) { animation-delay: 0.15s; }
-}
-
-@keyframes menu-drop {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes menu-item-in {
-  from { opacity: 0; transform: translateX(-8px); }
-  to { opacity: 1; transform: none; }
 }
 
 /* --------------------------------------------------------------- buttons */
@@ -557,7 +444,6 @@ button {
 .btn > *,
 .btn-ghost > *,
 .modal-close > *,
-.menu-toggle > *,
 .chip > *,
 .explore-card > *,
 .code-box .btn > *,
@@ -2194,14 +2080,6 @@ code {
     font-size: 16px;
   }
 
-  .desktop-nav {
-    display: none;
-  }
-
-  .menu-toggle {
-    display: inline-flex;
-  }
-
   .header-actions .btn {
     display: none;
   }
@@ -2335,14 +2213,6 @@ code {
 
   body {
     font-size: 16px;
-  }
-
-  .desktop-nav {
-    display: none;
-  }
-
-  .menu-toggle {
-    display: inline-flex;
   }
 
   .header-actions .btn {
@@ -2913,30 +2783,6 @@ code {
 }
 
 /* Link da seção visível no menu. */
-.desktop-nav a.is-active {
-  color: var(--text);
-  font-weight: 600;
-  position: relative;
-}
-
-/* Detalhe extra do link ativo: sublinhado animado inferior. */
-.desktop-nav a.is-active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--primary);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.desktop-nav a.is-active:hover::after {
-  transform: scaleX(1);
-}
 
 /* --------------------------------------------------------------- galeria */
 
@@ -3098,7 +2944,6 @@ code {
 @media (prefers-reduced-motion: reduce) {
   .site-header::before,
   .brand-mark,
-  .desktop-nav a,
   .step-tab,
   .step-panel.is-active > img,
   .essay-body .underline::after,
@@ -4404,16 +4249,6 @@ code {
 }
 
 @media (max-width: 900px) {
-  /* A wordmark deixa a marca mais larga que o texto antigo. Na home, o menu
-     vira hambúrguer um pouco antes para o header não estourar. */
-  .page-home .desktop-nav {
-    display: none;
-  }
-
-  .page-home .menu-toggle {
-    display: inline-flex;
-  }
-
   .home-diff-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-6) var(--space-5);

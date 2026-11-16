@@ -10,40 +10,8 @@
     return Array.prototype.slice.call((scope || document).querySelectorAll(selector));
   };
 
-  /* menu mobile */
-  var menuToggle = $('#menu-toggle');
-  var mobileNav = $('#mobile-nav');
-
-  function closeMenu() {
-    if (!mobileNav || !menuToggle) return;
-    mobileNav.hidden = true;
-    menuToggle.setAttribute('aria-expanded', 'false');
-  }
-
-  if (menuToggle && mobileNav) {
-    menuToggle.addEventListener('click', function () {
-      var open = mobileNav.hidden;
-      mobileNav.hidden = !open;
-      menuToggle.setAttribute('aria-expanded', String(open));
-    });
-    $$('a', mobileNav).forEach(function (link) {
-      link.addEventListener('click', closeMenu);
-    });
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closeMenu();
-    });
-  }
-
-  /* cabeçalho: progresso de leitura e seção ativa */
+  /* cabeçalho: progresso de leitura */
   var header = $('.site-header');
-  var navLinks = $$('.desktop-nav a[href^="#"]');
-  var navTargets = navLinks
-    .map(function (link) {
-      var id = link.getAttribute('href');
-      var target = id && id.length > 1 ? $(id) : null;
-      return target ? { link: link, target: target } : null;
-    })
-    .filter(Boolean);
   var ticking = false;
 
   function onScroll() {
@@ -56,20 +24,6 @@
       /* Barra de progresso de leitura. */
       var max = Math.max(0, doc.scrollHeight - window.innerHeight);
       header.style.setProperty('--scroll-progress', String(max > 0 ? Math.min(1, y / max) : 0));
-    }
-
-    if (navTargets.length) {
-      var offset = (header ? header.offsetHeight : 0) + 28;
-      var current = null;
-      navTargets.forEach(function (item) {
-        if (item.target.getBoundingClientRect().top - offset <= 0) current = item;
-      });
-      navLinks.forEach(function (link) {
-        var active = current ? link === current.link : false;
-        link.classList.toggle('is-active', active);
-        if (active) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      });
     }
 
     ticking = false;
