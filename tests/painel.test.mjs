@@ -28,7 +28,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const APP_DIR = process.env.VIZIN_APP_DIR || join(ROOT, '..', 'app');
 const VPS_ENTRY = join(APP_DIR, 'vps', 'src', 'index.ts');
-const PANEL_HTML = join(ROOT, 'painel', 'index.html');
+const PANEL_HTML = join(ROOT, 'painel.html');
 const PANEL_JS = join(ROOT, 'assets', 'panel.js');
 
 const DAY = 86_400;
@@ -404,7 +404,7 @@ test('todo id lido pelo panel.js existe na página /painel', () => {
   ]);
   assert.ok(used.size > 10, 'o panel.js deveria ler vários ids');
   for (const id of used) {
-    assert.ok(ids.has(id), `o id "${id}" usado pelo panel.js não existe em painel/index.html`);
+    assert.ok(ids.has(id), `o id "${id}" usado pelo panel.js não existe em painel.html`);
   }
 });
 

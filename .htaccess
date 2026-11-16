@@ -31,6 +31,10 @@ ErrorDocument 404 /404.html
   # Apelido antigo do programa de parceiros.
   RewriteRule ^criadores/?$ /afiliados [R=301,L]
 
+  # A extensao .html nunca aparece na URL: quem acessa /painel.html cai na
+  # URL cannica /painel (308, igual ao Caddy da VPS).
+  RewriteRule ^([a-z-]+)\.html$ /$1 [R=308,L]
+
   # Pretty URL: /painel serve painel.html (o arquivo nao precisa aparecer).
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}.html -f

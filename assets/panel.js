@@ -469,6 +469,8 @@
     regioes.sort();
 
     setText("painelBeacons", lista.length ? fmtInt(lista.length) : "—");
+    // "Regiões" = quantos geohashes distintos os beacons públicos atendem.
+    setText("painelRegioes", regioes.length === 1 && regioes[0] === "*" ? "Global" : fmtInt(regioes.length));
     renderRegions(regioes);
     limparVisuais();
 

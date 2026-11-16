@@ -104,7 +104,7 @@ def abrir(page, query):
     requests = []
     responder(page, requests)
     page.goto(
-        f"http://127.0.0.1:{PORT}/afiliados/index.html{query}",
+        f"http://127.0.0.1:{PORT}/afiliados.html{query}",
         wait_until="domcontentloaded",
     )
     page.wait_for_timeout(900)
@@ -185,7 +185,7 @@ def main():
         requests = []
         responder(page, requests)
         page.goto(
-            f"http://127.0.0.1:{PORT}/afiliados/index.html",
+            f"http://127.0.0.1:{PORT}/afiliados.html",
             wait_until="domcontentloaded",
         )
         page.wait_for_timeout(700)

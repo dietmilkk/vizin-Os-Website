@@ -356,7 +356,7 @@ def main():
             check(f"campo de template {id_} nao existe", pagina.locator(f"#{id_}").count() == 0)
 
         # O JS servido tambem nao pode conter o modelo.
-        for arquivo in ("/assets/creators.js", "/afiliados/"):
+        for arquivo in ("/assets/creators.js", "/afiliados"):
             resposta = pagina.request.get(SITE + arquivo)
             corpo = resposta.text()
             achou = [f for f in FRASES_DO_MODELO if f in corpo]

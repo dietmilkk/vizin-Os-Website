@@ -21,6 +21,19 @@
 /privacidade/ /privacidade 301
 /termos/ /termos 301
 
+# A extensão .html nunca aparece na URL: quem acessa /painel.html cai na
+# URL canônica /painel (igual ao Caddy da VPS).
+/afiliados.html /afiliados 308
+/doar.html /doar 308
+/documento.html /documento 308
+/download.html /download 308
+/licenca.html /licenca 308
+/manifesto.html /manifesto 308
+/moderacao.html /moderacao 308
+/painel.html /painel 308
+/privacidade.html /privacidade 308
+/termos.html /termos 308
+
 # Rewrite da URL sem extensão para o arquivo (Cloudflare Pages: pretty URLs
 # já resolve /painel -> /painel.html nativamente; nada a fazer aqui).
 

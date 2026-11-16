@@ -19,15 +19,15 @@ from playwright.sync_api import sync_playwright
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099").rstrip("/")
 PAGINAS = [
     "/",
-    "/baixar/",
-    "/painel/",
-    "/documento/",
-    "/moderacao/",
-    "/afiliados/",
-    "/doar/",
-    "/privacidade/",
-    "/termos/",
-    "/licenca/",
+    "/download",
+    "/painel",
+    "/documento",
+    "/moderacao",
+    "/afiliados",
+    "/doar",
+    "/privacidade",
+    "/termos",
+    "/licenca",
     "/404.html",
 ]
 TOLERANCIA = 2  # px
