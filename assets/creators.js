@@ -30,6 +30,32 @@
   }
   if (afiliadoToken) creatorToken = '';
 
+  /* O token é a senha da conta financeira: nunca persiste na URL (fica fora
+     do histórico, do Referer e da sincronização entre dispositivos). Ele entra
+     em sessionStorage (morre com a aba) e nas chamadas via header Bearer — a
+     VPS aceita header e query durante a transição. */
+  var PANEL_SESSION_KEY = 'vizin.os.painel.token.v1';
+  try {
+    if (creatorToken || afiliadoToken) {
+      window.sessionStorage.setItem(
+        PANEL_SESSION_KEY,
+        JSON.stringify({ c: creatorToken, a: afiliadoToken }),
+      );
+      if (params.get('token') || params.get('afiliado_token') || panelToken) {
+        window.history.replaceState(null, '', '/afiliados');
+      }
+    } else {
+      var saved = window.sessionStorage.getItem(PANEL_SESSION_KEY);
+      if (saved) {
+        var parsed = JSON.parse(saved) || {};
+        creatorToken = creatorToken || parsed.c || '';
+        afiliadoToken = afiliadoToken || parsed.a || '';
+      }
+    }
+  } catch (e) {
+    /* sessionStorage indisponível: o fluxo segue com token em memória. */
+  }
+
   var currentMode = 'creator';
   var currentCode = '';
   /* Resultado da verificacao de IP (datacenter/VPN/duplicidade/fora do pais).
@@ -238,9 +264,21 @@
   }
 
   function api(path, options) {
+    var opts = options || {};
+    var headers = { 'content-type': 'application/json', accept: 'application/json' };
+    /* Token vai por header (não query): não vaza em histórico/Referer/logs. */
+    var bearer = creatorToken || afiliadoToken;
+    if (bearer && !params.get('token') && !params.get('afiliado_token') && !params.get('p')) {
+      headers.authorization = 'Bearer ' + bearer;
+      var cleanPath = path
+        .replace(/([?&])token=[^&]*/g, '$1')
+        .replace(/([?&])p=[^&]*/g, '$1')
+        .replace(/[?&]+$/, '');
+      path = cleanPath;
+    }
     return fetch(API + path, {
-      headers: { 'content-type': 'application/json', accept: 'application/json' },
-      ...(options || {}),
+      headers: headers,
+      ...opts,
     }).then(function (response) {
       return response.json().catch(function () { return {}; }).then(function (data) {
         if (!response.ok) {
@@ -589,7 +627,7 @@
     currentMode = mode === 'afiliado' ? 'afiliado' : 'creator';
     var isAfiliado = currentMode === 'afiliado';
     $('createTitle').textContent = 'Criar conta';
-    $('createButton').textContent = 'Criar';
+    $('createButton').textContent = 'Continuar';
     $('codeStatus').textContent = '';
     $('codeStatus').className = 'code-status';
     $('createError').textContent = '';
@@ -656,10 +694,11 @@
     $('dashboardLink').href = link;
     $('dashboardLink').textContent = link;
     $('createdTitle').textContent = 'Pronto 🎉';
-    $('createdIntro').textContent = 'Guarde o link, ele é a sua senha.';
+    $('createdIntro').textContent = 'Guarde o link, ele é a sua senha. A janela atual já está aberta — feche e reabra pelo link quando quiser.';
     hide('createView');
     show('createdView');
-    window.history.replaceState(null, '', dashboardPath);
+    /* A URL atual fica limpa: o token vai para sessionStorage (sessão da aba). */
+    window.history.replaceState(null, '', '/afiliados');
   }
 
   function createAccount(code, isAfiliado, handle, allowRetry, cpf, email) {
