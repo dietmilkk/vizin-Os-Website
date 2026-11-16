@@ -1,7 +1,29 @@
-# URLs canônicas sem barra final
+# Redirecionamentos permanentes.
+#
+# As páginas viveram em pastas com index.html (/painel/ etc.); desde a
+# reorganização são arquivos planos (/painel.html), e a URL pública sem
+# extensão (/painel) é resolvida por rewrite no servidor. As URLs antigas
+# com barra final continuam válidas para sempre via 301 abaixo (SEO e
+# links salvos).
+#
 # Estas regras são do Cloudflare Pages. Na VPS (Caddy) e no InfinityFree
-# (Apache) o mesmo resultado vem do servidor: as pastas respondem em
-# /documento/, /painel/, /afiliados/ e /moderacao/.
-/afiliados /afiliados/ 301
-/criadores /afiliados/ 301
-/criadores/ /afiliados/ 301
+# (Apache) o mesmo resultado vem do servidor.
+
+# Achatamento: pasta/página -> arquivo plano (URL sem extensão permanece a canônica).
+/afiliados/ /afiliados 301
+/doar/ /doar 301
+/documento/ /documento 301
+/download/ /download 301
+/licenca/ /licenca 301
+/manifesto/ /manifesto 301
+/moderacao/ /moderacao 301
+/painel/ /painel 301
+/privacidade/ /privacidade 301
+/termos/ /termos 301
+
+# Rewrite da URL sem extensão para o arquivo (Cloudflare Pages: pretty URLs
+# já resolve /painel -> /painel.html nativamente; nada a fazer aqui).
+
+# Apelido antigo do programa de parceiros.
+/criadores /afiliados 301
+/criadores/ /afiliados 301

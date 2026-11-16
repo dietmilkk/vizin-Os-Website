@@ -6,32 +6,32 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/manifesto/</loc>
+    <loc>https://vizin-os.vercel.app/manifesto</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/documento/</loc>
+    <loc>https://vizin-os.vercel.app/documento</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/moderacao/</loc>
+    <loc>https://vizin-os.vercel.app/moderacao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/painel/</loc>
+    <loc>https://vizin-os.vercel.app/painel</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/download/</loc>
+    <loc>https://vizin-os.vercel.app/download</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vizin-os.vercel.app/doar/</loc>
+    <loc>https://vizin-os.vercel.app/doar</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

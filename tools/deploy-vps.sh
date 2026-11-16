@@ -127,7 +127,7 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   "${SSH[@]}" "chown -R vizin:vizin $REMOTE_SITE_DIR"
 
   echo "==> Conferindo o site"
-  for path in / /painel /documento /moderacao /afiliados; do
+  for path in / /painel /documento /moderacao /afiliados /doar /download /manifesto /privacidade /termos /licenca; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$SITE_HOST$path")"
     printf '    %-12s %s\n' "$path" "$code"
   done

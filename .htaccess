@@ -2,23 +2,47 @@
 # Na VPS (Caddy) este arquivo e bloqueado e nunca e servido.
 #
 # O que faz:
-#  - mostra index.html como padrao de cada pasta (/painel, /afiliados, ...);
+#  - reescreve a URL sem extensao (/painel) para o arquivo plano (painel.html);
+#  - redireciona as URLs antigas de pasta (/painel/) para a nova sem extensao;
 #  - usa a pagina 404.html do proprio site em vez da pagina de erro do host;
-#  - bloqueia listagem de diretorios (nada de /assets/ ou /painel/ abertos);
+#  - bloqueia listagem de diretorios (nada de /assets/ aberto);
 #  - proibe leitura de arquivos internos (.env, .git, logs, backups).
 
 DirectoryIndex index.html
 Options -Indexes
 ErrorDocument 404 /404.html
 
-# Redirecionamento do apelido antigo (/criadores) para a página atual.
-# Nao se mexe na barra final: o proprio Apache cuida disso (mod_dir) e uma
-# regra invertida aqui criaria um laco de redirecionamento.
-Redirect 301 /criadores /afiliados/
-Redirect 301 /criadores/ /afiliados/
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # URL antiga com barra final (era pasta com index.html) -> URL sem extensao.
+  # O 301 preserva SEO e links salvos; vale para sempre.
+  RewriteRule ^afiliados/?$ /afiliados [R=301,L]
+  RewriteRule ^doar/?$ /doar [R=301,L]
+  RewriteRule ^documento/?$ /documento [R=301,L]
+  RewriteRule ^download/?$ /download [R=301,L]
+  RewriteRule ^licenca/?$ /licenca [R=301,L]
+  RewriteRule ^manifesto/?$ /manifesto [R=301,L]
+  RewriteRule ^moderacao/?$ /moderacao [R=301,L]
+  RewriteRule ^painel/?$ /painel [R=301,L]
+  RewriteRule ^privacidade/?$ /privacidade [R=301,L]
+  RewriteRule ^termos/?$ /termos [R=301,L]
+
+  # Apelido antigo do programa de parceiros.
+  RewriteRule ^criadores/?$ /afiliados [R=301,L]
+
+  # Pretty URL: /painel serve painel.html (o arquivo nao precisa aparecer).
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^([^./]+)/?$ $1.html [L]
+</IfModule>
+
+# Apelido antigo tambem fora do mod_rewrite (o mod_dir cuida da barra final;
+# uma regra invertida aqui criaria um laco de redirecionamento).
+Redirect 301 /criadores /afiliados
 
 # Arquivos internos: nao devem ser lidos nem pelo servidor.
-<FilesMatch "(^\.|^.*\.(md|log|sqlite|sqlite-wal|sqlite-shm|bak|sql|ini|sh|py)$)">
+<FilesMatch "(^\.|^.*\.(md|log|sqlite|sqlite-wal|sqlite-shm|bak|sql|ini|sh|py|ts|js\.map)$)">
   Require all denied
 </FilesMatch>
 
@@ -26,19 +50,4 @@ Redirect 301 /criadores/ /afiliados/
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-</IfModule>
-
-# Cache dos arquivos de imagem e fonte: podem ser guardados por um ano.
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-</IfModule>
-
-# Compressao do texto (o InfinityFree ja comprime, mas nao atrapalha repetir).
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
 </IfModule>

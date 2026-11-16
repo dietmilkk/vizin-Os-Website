@@ -406,6 +406,18 @@ button {
   gap: var(--space-3);
 }
 
+/* Botão do header: versão compacta, para não competir com a navegação. */
+.header-actions .btn {
+  min-height: 40px;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+}
+
+.header-actions .btn svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* Programa de parceiros: a navegacao de secoes aparece no desktop. O
    `creators.js` reescreve os links conforme a tela (pagina publica ou
    painel), entao eles precisam ficar visiveis: e o unico atalho para o guia
@@ -432,7 +444,6 @@ button {
 }
 
 .menu-toggle:hover {
-  transform: scale(1.04);
   border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
 }
 
@@ -516,41 +527,28 @@ button {
   font-weight: 600;
   line-height: 1.2;
   transition:
-    transform var(--dur) var(--ease-out),
-    background var(--dur) var(--ease-out),
-    border-color var(--dur) var(--ease-out),
-    color var(--dur) var(--ease-out),
-    box-shadow var(--dur) var(--ease-out);
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
 }
 
-.btn:hover {
-  transform: translateY(var(--lift));
-}
-
+/* Feedback dos botões é só visual (cor, borda, sombra): a cápsula não se
+   desloca nem encolhe, então ícone e texto dentro dela nunca se movem. */
+.btn:hover,
 .btn:active {
-  transform: translateY(0) scale(var(--press));
+  transform: none;
 }
 
-/* Feedback de clique: um toque limpo e leve para baixo, sem mola — a mesma
-   resposta sutil que o botão "Copiar" dá ao trocar o rótulo para "Copiado!". */
-@keyframes btn-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(var(--press)); }
-  100% { transform: scale(1); }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .btn.is-pressed {
-    animation: btn-pop 0.24s var(--ease-out);
-  }
-}
-
-/* O icone fica fixo dentro do botao: quem se move e o botao inteiro,
-   assim texto e icone nunca saem de eixo. */
+/* Nada dentro do botão se move: nem o ícone, nem o texto, nem a cápsula.
+   O feedback ao ponteiro é só cor, borda e sombra. */
 .btn svg {
   width: 19px;
   height: 19px;
   flex: none;
+  /* Icone nunca se move sozinho: sem escala, sem giro, sem deslize. */
+  transition: none;
+  transform: none;
 }
 
 /* Nenhum filho de botao se move sozinho: texto e icone ficam travados
@@ -571,6 +569,60 @@ button {
 .hero-actions .btn > * {
   transform: none;
   transition: none;
+}
+
+/* Atalhos de navegação - pílulas soltas, agrupadas e centralizadas, sem
+   caixa em volta: numeral discreto em primary-ink e hover com tinta de
+   primary mantêm a leitura de sumário. */
+.nav-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-3);
+  /* 468px + 60% */
+  width: min(749px, calc(100% - 2 * var(--gutter)));
+  margin: 0 auto;
+  text-align: center;
+  counter-reset: nav-shortcuts;
+}
+
+.nav-shortcuts a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    background var(--dur) var(--ease-out);
+}
+
+.nav-shortcuts a::before {
+  counter-increment: nav-shortcuts;
+  content: counter(nav-shortcuts, decimal-leading-zero);
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.nav-shortcuts a:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.nav-shortcuts a:active {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
 
 .btn-primary {
@@ -675,14 +727,6 @@ button {
   text-align: left;
 }
 
-.hero-brand .brand-mark {
-  width: 128px;
-  height: 128px;
-  border-radius: 36px;
-  box-shadow: 0 26px 52px -26px color-mix(in srgb, var(--primary) 55%, transparent);
-}
-
-
 .hero-brand-name {
   max-width: 100%;
   font-size: clamp(2.8rem, 6.5vw, 4.6rem);
@@ -767,6 +811,18 @@ h3 {
   justify-content: center;
   gap: var(--space-3);
   margin-top: var(--space-7);
+}
+
+/* Botão do hero: CTA principal da página, bem maior que o do header. */
+.hero-actions .btn {
+  min-height: 60px;
+  padding: var(--space-4) var(--space-7);
+  font-size: 1.05rem;
+}
+
+.hero-actions .btn svg {
+  width: 22px;
+  height: 22px;
 }
 
 .hero-chips {
@@ -1101,8 +1157,9 @@ h3 {
 
 /* No rodapé a marca e a wordmark mantêm a mesma linguagem do app. */
 .footer-brand .brand-mark--lg {
-  width: 72px;
-  height: 72px;
+  /* 72px -> 115px (+60%), alinhado com a marca do hero. */
+  width: 115px;
+  height: 115px;
   border-radius: 22%;
 }
 
@@ -4425,9 +4482,12 @@ code {
   opacity: 0.28;
 }
 
+/* A marca do hero vive só aqui: 115px (+60% sobre os 72px anteriores),
+     com o raio proporcional de 22% e a sombra difusa do app. A regra base
+     antiga (128px) foi removida para não haver duas fontes de verdade. */
 .hero-brand .brand-mark {
-  width: 72px;
-  height: 72px;
+  width: 115px;
+  height: 115px;
   border-radius: 22%;
   box-shadow: var(--shadow-card);
 }
