@@ -22,14 +22,19 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <style>
     <style>
-.download-section {
-      padding: var(--space-6) 0 var(--space-9);
+/* Sem subtitulo e sem divisor, o topo fica so com o titulo: os botoes
+   ficam mais perto dele. */
+.page-download .page-hero {
+      padding-bottom: 0;
+    }
+    .download-section {
+      padding: var(--space-5) 0 var(--space-10);
     }
     .store-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-4);
-      margin-top: var(--space-6);
+      margin-top: 0;
     }
     .store-card {
       display: flex;
@@ -172,9 +177,7 @@
   <main id="conteudo">
     <section class="page-hero">
       <div class="container">
-        <h1>Baixar o vizin.Os</h1>
-        <p>O app está disponível para Android. A versão para iPhone ainda não foi publicada.</p>
-        <hr class="page-hero-divider">
+        <h1>Download</h1>
       </div>
     </section>
 

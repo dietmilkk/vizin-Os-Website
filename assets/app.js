@@ -10,37 +10,6 @@
     return Array.prototype.slice.call((scope || document).querySelectorAll(selector));
   };
 
-  /* cabeçalho: progresso de leitura */
-  var header = $('.site-header');
-  var ticking = false;
-
-  function onScroll() {
-    var y = window.scrollY;
-    var doc = document.documentElement;
-
-    if (header) {
-      header.classList.toggle('is-scrolled', y > 12);
-
-      /* Barra de progresso de leitura. */
-      var max = Math.max(0, doc.scrollHeight - window.innerHeight);
-      header.style.setProperty('--scroll-progress', String(max > 0 ? Math.min(1, y / max) : 0));
-    }
-
-    ticking = false;
-  }
-
-  window.addEventListener(
-    'scroll',
-    function () {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(onScroll);
-      }
-    },
-    { passive: true },
-  );
-  onScroll();
-
   /* entrada suave */
   var revealItems = $$('.reveal');
   if (reduceMotion || !('IntersectionObserver' in window)) {
