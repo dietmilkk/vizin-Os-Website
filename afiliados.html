@@ -1176,65 +1176,92 @@
           </div>
 
           <div class="flow-canvas">
-            <svg class="flow-diagram" viewBox="0 0 1200 330" role="img" aria-labelledby="flowDiagramTitle flowDiagramDesc" focusable="false">
+            <svg class="flow-diagram" viewBox="0 34 1200 280" role="img" aria-labelledby="flowDiagramTitle flowDiagramDesc" focusable="false">
+              <defs>
+                <linearGradient id="flowDiscount" gradientUnits="userSpaceOnUse" x1="236" y1="0" x2="410" y2="0">
+                  <stop offset="0" stop-color="#c62d42"/>
+                  <stop offset="0.6" stop-color="#dc7183"/>
+                  <stop offset="1" stop-color="#f2c3cb"/>
+                </linearGradient>
+              </defs>
               <title id="flowDiagramTitle">Da receita de R$ 1.000 até a divisão entre usuários, criadores, afiliados e desenvolvimento</title>
-              <desc id="flowDiagramDesc">Cem usuários geram cerca de R$ 1.000. Desse valor, 30% (R$ 300) viram desconto para os usuários, 50% (R$ 500) vão para os criadores de conteúdo, 10% (R$ 100) para os afiliados e 10% (R$ 100) para a desenvolvedora.</desc>
+              <desc id="flowDiagramDesc">Cem usuários geram cerca de R$ 1.000. Desse valor, 30% (R$ 300) viram desconto para os usuários, 50% (R$ 500) vão para os criadores de conteúdo, 10% (R$ 100) para os afiliados e 10% (R$ 100) para a desenvolvedora. Os pontinhos indicam que mais linhas podem entrar em cada etapa.</desc>
 
-              <!-- Origem: os usuários que pagaram a assinatura. -->
-              <rect x="40" y="128" width="160" height="36" rx="9" fill="#4a8df0"/>
-              <text x="120" y="151" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Usuários</text>
+              <!-- Origem: usuários que pagaram a assinatura. -->
+              <rect x="40" y="118" width="170" height="34" rx="9" fill="#4a8df0"/>
+              <text x="125" y="141" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Usuários</text>
 
-              <path d="M40 178h158l26 66-26 66H40z" fill="#4a8df0"/>
-              <text x="119" y="230" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">1k/30% = R$300</text>
-              <text x="119" y="251" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="12">(desconto)</text>
+              <path d="M49 170H200L236 234L200 298H49C44.03 298 40 293.97 40 289V179C40 174.03 44.03 170 49 170Z" fill="#4a8df0"/>
+              <text x="122" y="228" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">1k/30% = R$300</text>
+              <text x="122" y="250" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="12">(desconto)</text>
 
-              <!-- Fluxo dos usuários: quatro faixas seguem para os criadores e uma vira desconto. -->
-              <path class="flow-line" d="M226 184H320C370 184 404 225 438 225" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M226 198H320C370 198 404 225 438 225" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M226 212H320C370 212 404 225 438 225" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M226 226H320C370 226 404 225 438 225" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M226 240H360C400 240 412 268 440 282" fill="none" stroke="#f2c3cb" stroke-linecap="round"/>
-              <circle cx="414" cy="296" r="5" fill="#f2c3cb"/>
-              <circle cx="436" cy="296" r="5" fill="#f2c3cb"/>
-              <circle cx="458" cy="296" r="5" fill="#f2c3cb"/>
+              <!-- Etapa vermelha: os pontinhos abaixo indicam novas entradas que
+                   podem se juntar ao desconto. -->
+              <circle cx="366" cy="304" r="5" fill="#f2c3cb"/>
+              <circle cx="388" cy="304" r="5" fill="#f2c3cb"/>
+              <circle cx="410" cy="304" r="5" fill="#f2c3cb"/>
 
-              <path d="M438 205L466 225 438 245Z" fill="#c62d42" stroke="#c62d42" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="466" y="180" width="134" height="90" rx="9" fill="#c62d42"/>
-              <text x="533" y="219" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/50% = R$500</text>
-              <text x="533" y="242" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">Criadores de Conteúdo</text>
+              <path class="flow-line" d="M236 194H344C392 194 414 206 442 206" fill="none" stroke="#c62d42" stroke-linecap="round"/>
+              <path class="flow-line" d="M236 208H356C400 208 420 210 442 210" fill="none" stroke="#c62d42" stroke-linecap="round"/>
+              <path class="flow-line" d="M236 222H368C408 222 426 216 442 216" fill="none" stroke="#c62d42" stroke-linecap="round"/>
+              <path class="flow-line" d="M236 236H380C416 236 430 222 442 222" fill="none" stroke="#c62d42" stroke-linecap="round"/>
+              <path class="flow-line" d="M236 250H318C350 250 356 284 376 292" fill="none" stroke="url(#flowDiscount)" stroke-linecap="round"/>
 
-              <!-- Fluxo dos criadores para os afiliados. -->
-              <circle cx="500" cy="100" r="5" fill="#d9cbf8"/>
-              <circle cx="522" cy="100" r="5" fill="#d9cbf8"/>
-              <circle cx="544" cy="100" r="5" fill="#d9cbf8"/>
-              <circle cx="500" cy="146" r="5" fill="#d9cbf8"/>
-              <circle cx="522" cy="146" r="5" fill="#d9cbf8"/>
-              <circle cx="544" cy="146" r="5" fill="#d9cbf8"/>
+              <path d="M442 192L472 214 442 236Z" fill="#c62d42" stroke="#c62d42" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="480" y="178" width="138" height="84" rx="9" fill="#c62d42"/>
+              <rect x="472" y="172" width="138" height="84" rx="9" fill="#c62d42"/>
+              <text x="541" y="211" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/50% = R$500</text>
+              <text x="541" y="233" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">Criadores de Conteúdo</text>
 
-              <path class="flow-line" d="M600 208H644C692 208 702 155 742 155" fill="none" stroke="#7c3aed" stroke-linecap="round"/>
-              <path class="flow-line" d="M600 232H644C692 232 702 155 742 155" fill="none" stroke="#7c3aed" stroke-linecap="round"/>
+              <!-- Etapa roxa: três grupos de pontinhos — um na altura da seta,
+                   um logo abaixo e outro mais embaixo, cada um com sua linha. -->
+              <circle cx="626" cy="150" r="5" fill="#d9cbf8"/>
+              <circle cx="648" cy="150" r="5" fill="#d9cbf8"/>
+              <circle cx="670" cy="150" r="5" fill="#d9cbf8"/>
+              <circle cx="626" cy="196" r="5" fill="#d9cbf8"/>
+              <circle cx="648" cy="196" r="5" fill="#d9cbf8"/>
+              <circle cx="670" cy="196" r="5" fill="#d9cbf8"/>
+              <circle cx="626" cy="250" r="5" fill="#d9cbf8"/>
+              <circle cx="648" cy="250" r="5" fill="#d9cbf8"/>
+              <circle cx="670" cy="250" r="5" fill="#d9cbf8"/>
 
-              <path d="M742 135L770 155 742 175Z" fill="#7c3aed" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="770" y="110" width="150" height="90" rx="9" fill="#7c3aed"/>
-              <text x="849" y="149" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
-              <text x="849" y="172" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Afiliados</text>
+              <path class="flow-line" d="M678 150H740" fill="none" stroke="#c4b5fd" stroke-linecap="round"/>
+              <path class="flow-line" d="M678 196H700C726 196 734 150 740 150" fill="none" stroke="#c4b5fd" stroke-linecap="round"/>
+              <path class="flow-line" d="M678 250H698C730 250 736 150 740 150" fill="none" stroke="#d9cbf8" stroke-linecap="round"/>
 
-              <!-- Fluxo dos afiliados para o desenvolvimento. -->
-              <circle cx="944" cy="48" r="5" fill="#a9d8c7"/>
-              <circle cx="966" cy="48" r="5" fill="#a9d8c7"/>
-              <circle cx="988" cy="48" r="5" fill="#a9d8c7"/>
-              <circle cx="944" cy="96" r="5" fill="#a9d8c7"/>
-              <circle cx="966" cy="96" r="5" fill="#a9d8c7"/>
-              <circle cx="988" cy="96" r="5" fill="#a9d8c7"/>
+              <path class="flow-line" d="M610 200H676C716 200 726 150 740 150" fill="none" stroke="#7c3aed" stroke-linecap="round"/>
+              <path class="flow-line" d="M610 228H676C722 228 730 150 740 150" fill="none" stroke="#8b5cf6" stroke-linecap="round"/>
 
-              <path class="flow-line" d="M920 145H950C990 145 1004 90 1030 90" fill="none" stroke="#16795b" stroke-linecap="round"/>
-              <path class="flow-line" d="M920 162H950C990 162 1004 90 1030 90" fill="none" stroke="#3f9c7f" stroke-linecap="round"/>
-              <path class="flow-line" d="M920 179H960C1000 179 1008 215 1025 215C1042 215 1040 130 1030 90" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
+              <path d="M740 128L770 150 740 172Z" fill="#7c3aed" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="778" y="114" width="140" height="84" rx="9" fill="#7c3aed"/>
+              <rect x="770" y="108" width="140" height="84" rx="9" fill="#7c3aed"/>
+              <text x="840" y="147" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
+              <text x="840" y="169" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Afiliados</text>
 
-              <path d="M1030 68L1058 90 1030 112Z" fill="#16795b" stroke="#16795b" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="1058" y="45" width="148" height="90" rx="9" fill="#16795b"/>
-              <text x="1136" y="84" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
-              <text x="1136" y="107" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Desenvolvedora</text>
+              <!-- Etapa verde: mesma regra de três grupos de pontinhos,
+                   com as linhas convergindo para o centro da seta. -->
+              <circle cx="928" cy="82" r="5" fill="#a9d8c7"/>
+              <circle cx="950" cy="82" r="5" fill="#a9d8c7"/>
+              <circle cx="972" cy="82" r="5" fill="#a9d8c7"/>
+              <circle cx="928" cy="128" r="5" fill="#a9d8c7"/>
+              <circle cx="950" cy="128" r="5" fill="#a9d8c7"/>
+              <circle cx="972" cy="128" r="5" fill="#a9d8c7"/>
+              <circle cx="928" cy="184" r="5" fill="#a9d8c7"/>
+              <circle cx="950" cy="184" r="5" fill="#a9d8c7"/>
+              <circle cx="972" cy="184" r="5" fill="#a9d8c7"/>
+
+              <path class="flow-line" d="M980 82H1026" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
+              <path class="flow-line" d="M980 128H996C1016 128 1020 82 1026 82" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
+              <path class="flow-line" d="M980 184H996C1022 184 1024 110 1026 82" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
+
+              <path class="flow-line" d="M910 136H948C988 136 998 82 1026 82" fill="none" stroke="#16795b" stroke-linecap="round"/>
+              <path class="flow-line" d="M910 164H948C992 164 1002 82 1026 82" fill="none" stroke="#3f9c7f" stroke-linecap="round"/>
+
+              <path d="M1026 60L1056 82 1026 104Z" fill="#16795b" stroke="#16795b" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="1064" y="46" width="132" height="84" rx="9" fill="#16795b"/>
+              <rect x="1056" y="40" width="132" height="84" rx="9" fill="#16795b"/>
+              <text x="1122" y="79" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">1k/10% = R$100</text>
+              <text x="1122" y="101" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-style="italic">Desenvolvedora</text>
             </svg>
           </div>
 
