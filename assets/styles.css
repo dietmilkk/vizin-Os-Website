@@ -3223,14 +3223,24 @@ code {
   min-width: 720px;
 }
 
-/* Traços (as "setas" do fluxo) afinam conforme a página encolhe. */
+/* Traços (as "setas" do fluxo) afinam conforme a página encolhe.
+   As linhas principais de cada etapa são mais grossas que as linhas de
+   entrada marcadas pelos pontinhos, como no mapa de referência. */
 .flow-line {
   stroke-width: 7;
+}
+
+.flow-line--main {
+  stroke-width: 10.5;
 }
 
 @media (max-width: 1200px) {
   .flow-line {
     stroke-width: 6;
+  }
+
+  .flow-line--main {
+    stroke-width: 9;
   }
 }
 
@@ -3238,11 +3248,19 @@ code {
   .flow-line {
     stroke-width: 5;
   }
+
+  .flow-line--main {
+    stroke-width: 8;
+  }
 }
 
 @media (max-width: 640px) {
   .flow-line {
     stroke-width: 4.5;
+  }
+
+  .flow-line--main {
+    stroke-width: 7;
   }
 }
 
