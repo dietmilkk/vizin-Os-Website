@@ -89,7 +89,8 @@ moderacao/index.html        Manual público de moderação em /moderacao
 painel/index.html           Painel público de estatísticas em /painel
 404.html                    Página de erro
 assets/styles.css           Design system papel quente + rosa, claro/escuro e responsivo
-assets/app.js               Menu mobile, reveal e link de download
+assets/app.js               Reveal, marca (wordmark) e link de download
+assets/fonts/               Inter e Fraunces servidas pelo próprio site (woff2)
 assets/creators.js          Programa de parceiros: cadastro, painéis, atribuição, envio de e-mail e contatos
 assets/config.js            URL da API, link do APK e contato
 assets/pix.js               Gerador de BR Code (Pix) usado nos saques
@@ -97,6 +98,7 @@ assets/panel.js             Painel público: busca /stats/public e atualiza a ca
 assets/galeria/             Imagens da galeria de etapas
 assets/favicon.png          Favicon
 assets/icon-192.png         Ícone PWA
+assets/icon-192.webp        Ícone usado nas páginas (leve; PNG fica para o PWA)
 assets/icon-512.png         Ícone PWA
 assets/apple-touch-icon.png
 site.webmanifest            Manifest PWA

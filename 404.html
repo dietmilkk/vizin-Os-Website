@@ -8,9 +8,9 @@
   <meta name="description" content="Página não encontrada do vizin.Os. O app que une pessoas e faz encontros reais de bairro.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/brand/wordmark.png" as="image">
   <link rel="stylesheet" href="/assets/styles.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
@@ -26,7 +26,7 @@
     <div class="container header-inner">
       <a class="brand" href="/">
         <span class="brand-mark" aria-hidden="true">
-          <img src="/assets/icon-192.png" alt="" width="40" height="40" />
+          <img src="/assets/icon-192.webp" alt="" width="40" height="40" />
         </span>
         <span class="brand-wordmark" data-brand-wordmark>
           <span class="visually-hidden">vizin.Os</span>
@@ -78,7 +78,7 @@
         <div class="footer-brand">
           <a class="brand" href="/" aria-label="vizin.Os, início">
             <span class="brand-mark brand-mark--lg" aria-hidden="true">
-              <img src="/assets/icon-192.png" alt="" width="115" height="115" />
+              <img src="/assets/icon-192.webp" alt="" width="115" height="115" loading="lazy" decoding="async">
             </span>
             <span class="brand-wordmark brand-wordmark--lg" data-brand-wordmark>
               <span class="visually-hidden">vizin.Os</span>
