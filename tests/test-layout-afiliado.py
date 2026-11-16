@@ -9,6 +9,7 @@ Uso:
 
 import json
 import sys
+import os
 import time
 import urllib.error
 import urllib.request
@@ -17,8 +18,8 @@ from playwright.sync_api import sync_playwright
 
 from lib.primeiro_acesso import ja_visitou
 
-BASE = "http://localhost:8099"
-API = "https://api.188.166.156.109.sslip.io"
+BASE = os.environ.get("SITE_BASE", "http://localhost:8099")
+API = os.environ.get("VIZIN_API", "https://api.188.166.156.109.sslip.io")
 TOKEN_CACHE = "/tmp/vizin-teste-afiliado-token.json"
 
 failures = []
@@ -241,8 +242,21 @@ def audit_publica(page, label, width):
 
 def main():
     code = "TESTLAY" + str(int(time.time()))[-4:]
+    # CPF e e-mail são obrigatórios (segurança de conta e saques) e não podem
+    # repetir entre contas de teste (a recusa é genérica de propósito): o
+    # CPF do teste é derivado do próprio code, sempre único e válido.
+    # 111.444.777-35 com dígitos verificadores ajustados por último dígito
+    # não vale — usamos CPFs válidos conhecidos em rotação.
+    cpfs_validos = ["11144477735", "52998224725", "16899535009", "12345678909"]
+    cpf = cpfs_validos[int(code[-4:]) % len(cpfs_validos)]
     status, created = api_post(
-        "/hunters", {"handle": "tlay" + code[-6:].lower(), "code": code}
+        "/hunters",
+        {
+            "handle": "tlay" + code[-6:].lower(),
+            "code": code,
+            "cpf": cpf,
+            "email": f"tlay{code[-6:].lower()}@exemplo.com",
+        },
     )
     if status == 200:
         token = created["token"]
@@ -280,7 +294,7 @@ def main():
             page = browser.new_page(viewport={"width": width, "height": height})
             ja_visitou(page)
             page.goto(
-                f"{BASE}/afiliados/?afiliado_token={token}", wait_until="networkidle"
+                f"{BASE}/afiliados/?afiliado_token={token}&api={API}", wait_until="networkidle"
             )
             page.wait_for_timeout(600)
             audit(page, label, width, height)
@@ -303,7 +317,7 @@ def main():
             viewport={"width": 1440, "height": 1000}, color_scheme="dark"
         )
         ja_visitou(page)
-        page.goto(f"{BASE}/afiliados/?afiliado_token={token}", wait_until="networkidle")
+        page.goto(f"{BASE}/afiliados/?afiliado_token={token}&api={API}", wait_until="networkidle")
         page.wait_for_selector("#afiliadoDashboardView:not(.hidden)", timeout=20000)
         page.wait_for_timeout(600)
         print("\n[Dark mode]")

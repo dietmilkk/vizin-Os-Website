@@ -119,11 +119,13 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
     --exclude 'tmp-vps' --exclude 'tests' --exclude 'tools' \
     --exclude 'dist' --exclude 'README.md' --exclude 'docs' \
     --exclude '.htaccess' --exclude 'tmp-*.py' \
-    --exclude '.deploy-infinityfree.env' --exclude '.env*' \
+    --exclude '.deploy-*' --exclude '.env*' \
     -e "$RSYNC_SSH" \
     "$ROOT/" "$SSH_USER@$SSH_HOST:$REMOTE_SITE_DIR"
   # Limpa o que sobrou de publicacoes antigas (o rsync nao apaga o que exclui).
-  "${SSH[@]}" "rm -f $REMOTE_SITE_DIR/README.md $REMOTE_SITE_DIR/.htaccess $REMOTE_SITE_DIR/.deploy-infinityfree.env; rm -rf $REMOTE_SITE_DIR/docs; rm -rf $REMOTE_SITE_DIR/tools $REMOTE_SITE_DIR/tests $REMOTE_SITE_DIR/tmp-vps $REMOTE_SITE_DIR/dist; rm -f $REMOTE_SITE_DIR/tmp-*.py $REMOTE_SITE_DIR/.env*"
+  # .deploy-* cobre o .deploy-gmail.env: sem isso, a senha do Gmail e o token
+  # do gateway iam para o webroot publico a cada deploy.
+  "${SSH[@]}" "rm -f $REMOTE_SITE_DIR/README.md $REMOTE_SITE_DIR/.htaccess $REMOTE_SITE_DIR/.deploy-infinityfree.env; rm -f $REMOTE_SITE_DIR/.deploy-*; rm -rf $REMOTE_SITE_DIR/docs; rm -rf $REMOTE_SITE_DIR/tools $REMOTE_SITE_DIR/tests $REMOTE_SITE_DIR/tmp-vps $REMOTE_SITE_DIR/dist; rm -f $REMOTE_SITE_DIR/tmp-*.py $REMOTE_SITE_DIR/.env*"
   "${SSH[@]}" "chown -R vizin:vizin $REMOTE_SITE_DIR"
 
   echo "==> Conferindo o site"
@@ -133,7 +135,7 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   done
 
   echo "==> Conferindo que nada interno ficou exposto"
-  for path in /README.md /docs/ /tools/ /tests/ /dist/ /.deploy-infinityfree.env /.env; do
+  for path in /README.md /docs/ /tools/ /tests/ /dist/ /.deploy-infinityfree.env /.deploy-gmail.env /.env; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$SITE_HOST$path")"
     printf '    %-24s %s\n' "$path" "$code"
     case "$code" in

@@ -39,12 +39,29 @@ def auditar(page, largura: int) -> list[str]:
         """(largura) => {
           const doc = document.documentElement;
           const fora = [];
+          const dentroDeRolagem = (el) => {
+            // Elemento dentro de um rolável horizontal intencional (ex.: o
+            // diagrama do fluxo em /afiliados) não é vazamento de página.
+            let pai = el.parentElement;
+            while (pai && pai !== document.body) {
+              const s = getComputedStyle(pai);
+              if (
+                (s.overflowX === 'auto' || s.overflowX === 'scroll') &&
+                pai.scrollWidth > pai.clientWidth
+              ) {
+                return true;
+              }
+              pai = pai.parentElement;
+            }
+            return false;
+          };
           document.querySelectorAll('body *').forEach((el) => {
             const r = el.getBoundingClientRect();
             if (r.width === 0 || r.height === 0) return;
             const estilo = getComputedStyle(el);
             if (estilo.position === 'fixed' || estilo.visibility === 'hidden') return;
             if (r.right > largura + 1 || r.left < -1) {
+              if (dentroDeRolagem(el)) return;
               fora.push({
                 tag: el.tagName,
                 cls: (el.className || '').toString().slice(0, 44),

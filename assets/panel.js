@@ -361,6 +361,12 @@
     setFill("painelBarra7", a30 > 0 ? (a7 / a30) * 100 : 0);
     setFill("painelBarra30", a30 > 0 ? 100 : 0);
     setText("painelBeacons", fmtInt(network.beacons));
+    // "Regiões" = quantos geohashes distintos a rede atende (stats.network).
+    var regioesAtivas = Array.isArray(network.regions) ? network.regions : [];
+    setText(
+      "painelRegioes",
+      regioesAtivas.length === 1 && regioesAtivas[0] === "*" ? "Global" : fmtInt(regioesAtivas.length),
+    );
     setText("painelUptime", fmtDuration(server.uptime_seconds));
     renderRegions(network.regions);
 
