@@ -1400,12 +1400,115 @@ h3 {
 }
 
 .manifesto-body h2 {
-  margin-top: var(--space-9);
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-top: var(--space-7);
+  font-size: clamp(1.18rem, 2.1vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
 }
 
 .manifesto-body h2:first-child {
   margin-top: 0;
+}
+
+.manifesto-body h3 {
+  margin: var(--space-6) 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.06rem, 1.8vw, 1.2rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.manifesto-body .fn {
+  font-size: 0.62em;
+  line-height: 0;
+  vertical-align: super;
+  letter-spacing: 0.01em;
+}
+
+.manifesto-body .fn + .fn {
+  margin-left: 2px;
+}
+
+.manifesto-body .fn a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.manifesto-body .fn a:hover,
+.manifesto-body .fn a:focus-visible {
+  text-decoration: underline;
+}
+
+.manifesto-body .manifesto-closing {
+  margin-top: var(--space-8);
+  color: var(--primary-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.8vw, 1.7rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+/* Referências do manifesto: lista numerada que casa com as chamadas no texto. */
+.manifesto-refs {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border);
+}
+
+.manifesto-refs h2 {
+  margin: 0 0 var(--space-6);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+.manifesto-refs__list {
+  margin: 0;
+  padding-left: var(--space-6);
+  display: grid;
+  gap: var(--space-6);
+}
+
+.manifesto-refs__list > li {
+  color: var(--text-muted);
+}
+
+.manifesto-refs__list > li::marker {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.manifesto-refs__title {
+  margin: 0 0 var(--space-2);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.manifesto-refs__list p {
+  margin: 0 0 var(--space-2);
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.manifesto-refs__list ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.manifesto-refs__list ul li {
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.manifesto-refs__list a {
+  color: var(--primary-ink);
+  text-decoration-color: color-mix(in srgb, var(--primary) 45%, transparent);
+  text-underline-offset: 2px;
 }
 
 /* ------------------------------------------- documento técnico (/documento) */
@@ -4289,6 +4392,80 @@ h1 em,
 .creators-cta:hover {
   box-shadow: var(--shadow-pop-hover) !important;
 }
+
+
+/* ------------------------------------------- previa do manifesto (home)
+   Cartao que mostra o comeco do manifesto e, ao expandir, carrega o texto
+   completo da pagina /manifesto dentro do proprio bloco. */
+.manifesto-preview {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.manifesto-preview h2 {
+  margin: var(--space-3) 0 var(--space-5);
+  font-size: clamp(1.55rem, 3.4vw, 2.15rem);
+  line-height: 1.2;
+}
+
+.manifesto-preview__lead {
+  margin: 0 0 var(--space-4);
+  color: var(--text-muted);
+  font-size: 1.06rem;
+  line-height: 1.75;
+}
+
+.manifesto-preview__body {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--border);
+  animation: manifesto-preview-in 320ms var(--ease-out) both;
+}
+
+.manifesto-preview__body[hidden] {
+  display: none;
+}
+
+.manifesto-preview__body .manifesto-body {
+  padding-top: var(--space-6);
+}
+
+.manifesto-preview__body .manifesto-closing {
+  margin-top: var(--space-7);
+}
+
+.manifesto-preview__body .manifesto-refs {
+  margin-top: var(--space-7);
+}
+
+.manifesto-preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+@keyframes manifesto-preview-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .manifesto-preview__actions .btn {
+    width: 100%;
+  }
+}
+
 
 /* ------------------------------------------------------- movimento global
    Toda animacao nova entra aqui e desliga inteira quando o usuario pede menos

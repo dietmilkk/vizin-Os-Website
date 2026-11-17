@@ -463,6 +463,72 @@
     });
   }
 
+  /* Previa expansivel do manifesto na home. O texto completo vem da propria
+     pagina /manifesto e so e buscado quando a pessoa pede para ler tudo. */
+  function setupManifestoPreview() {
+    var toggle = $('#manifestoPreviewToggle');
+    var body = $('#manifestoPreviewBody');
+    if (!toggle || !body) return;
+
+    var loaded = false;
+    var loading = false;
+    var sources = ['/manifesto', '/manifesto.html'];
+
+    function setLabel(expanded) {
+      toggle.textContent = expanded ? 'Recolher o manifesto' : 'Ler o manifesto inteiro';
+      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+
+    function expand() {
+      body.hidden = false;
+      setLabel(true);
+      if (loaded) return;
+      if (loading) return;
+      loading = true;
+
+      function trySource(index) {
+        if (index >= sources.length) {
+          loading = false;
+          body.innerHTML =
+            '<p class="manifesto-preview__lead">Não foi possível carregar o texto aqui agora. ' +
+            '<a href="/manifesto">Abra a página do manifesto</a> para ler tudo.</p>';
+          return;
+        }
+        fetch(sources[index], { credentials: 'same-origin' })
+          .then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.text();
+          })
+          .then(function (html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var essay = doc.querySelector('.manifesto-body');
+            if (!essay) throw new Error('manifesto ausente');
+            var refs = doc.querySelector('.manifesto-refs');
+            body.appendChild(document.importNode(essay, true));
+            if (refs) body.appendChild(document.importNode(refs, true));
+            loaded = true;
+            loading = false;
+          })
+          .catch(function () {
+            trySource(index + 1);
+          });
+      }
+
+      trySource(0);
+    }
+
+    toggle.addEventListener('click', function () {
+      var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        body.hidden = true;
+        setLabel(false);
+      } else {
+        expand();
+      }
+    });
+  }
+
+  setupManifestoPreview();
   drawAnimatedUnderlines();
   window.addEventListener('resize', drawAnimatedUnderlines);
 })();
