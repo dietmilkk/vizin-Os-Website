@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FFF9F2">
   <title>vizin.Os — moderação</title>
-  <meta name="description" content="Manual da moderação do vizin.Os: denúncias, votação, banimentos, reputação, score de convivência e como a comunidade se protege.">
+  <meta name="description" content="Como a moderação do vizin.Os funciona: denúncias, votação, banimentos e as regras de convivência que a própria comunidade decide.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vizin-os.vercel.app/moderacao">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="vizin.Os">
   <meta property="og:title" content="vizin.Os — moderação: como funciona">
-  <meta property="og:description" content="Como a comunidade se protege: denúncias, votação, banimentos e convivência.">
+  <meta property="og:description" content="Sem síndico e sem dono do app: como os vizinhos decidem juntos o que passa, o que sai e o que ainda falta.">
   <meta property="og:url" content="https://vizin-os.vercel.app/moderacao">
   <meta property="og:image" content="https://vizin-os.vercel.app/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="vizin.Os — moderação: como funciona">
-  <meta name="twitter:description" content="Como a comunidade se protege: denúncias, votação, banimentos e convivência.">
+  <meta name="twitter:description" content="Sem síndico e sem dono do app: como os vizinhos decidem juntos o que passa, o que sai e o que ainda falta.">
   <meta name="twitter:image" content="https://vizin-os.vercel.app/assets/og-image.png">
   <link rel="icon" href="/assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -53,209 +53,169 @@
   </header>
 
   <main id="conteudo">
-    <div class="container">
-    </div>
-
     <section class="page-hero">
       <div class="container">
-
         <h1>Moderação</h1>
-        <p>Como a comunidade decide: denúncias, votação, banimentos e os limites reais de hoje.</p>
+        <p>
+          Como os vizinhos cuidam do grupo — sem síndico, sem panelinha e sem dono do app
+          no comando.
+        </p>
         <hr class="page-hero-divider">
       </div>
     </section>
 
     <div class="nav-shortcuts" aria-label="Atalhos de navegação">
-      <a href="#principios">Princípios</a>
-      <a href="#niveis">Níveis</a>
+      <a href="#ideia">A ideia</a>
+      <a href="#voz">Quem tem voz</a>
       <a href="#convivencia">Convivência</a>
-      <a href="#votacao">Votação</a>
+      <a href="#decisao">Denúncia</a>
       <a href="#banimentos">Banimentos</a>
-      <a href="#faq">Dúvidas</a>
-      <a href="#limitacoes">Limitações</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a href="#falta">O que falta</a>
     </div>
 
     <section class="section-tight">
-      <div class="container prose prose--wide">
+      <div class="container prose prose--wide prose--leitura">
           <p>
-            Este é o manual público da moderação do vizin.Os. Ele descreve o que o app faz na
-            versão atual, regra por regra. Onde ainda existe lacuna, ela aparece em
-            <strong>Limitações</strong>, no fim da página.
+            Esta página explica como o grupo se protege. É curta de propósito: as regras
+            que importam cabem aqui. O que ainda está pela metade aparece no fim, sem letra
+            miúda.
           </p>
 
-          <h2 id="principios">Princípios</h2>
-          <ul>
-            <li><strong>A comunidade decide.</strong> Denúncias passam por votação dos membros. Uma pessoa sozinha não apaga o conteúdo de outra nem bane alguém pelo voto.</li>
-            <li><strong>Participação dá peso.</strong> Só vota quem tem nível 2 e reputação 20. O voto vale a raiz quadrada da reputação de quem votou, então o dobro de reputação não dá o dobro de força.</li>
-            <li><strong>Na dúvida, o conteúdo fica.</strong> Empate mantém o conteúdo, e nenhuma decisão vale sem um número mínimo de votantes (quórum).</li>
-          </ul>
-
-          <h2 id="niveis">Níveis e reputação</h2>
+          <h2 id="ideia">A ideia em três frases</h2>
           <p>
-            O <strong>nível</strong> mede a participação e libera recursos. A
-            <strong>reputação</strong> mede a confiança construída com o tempo e decide quem pode
-            denunciar e votar.
+            <strong>Quem decide é a comunidade.</strong> Uma denúncia vira votação, e uma
+            pessoa sozinha não apaga o conteúdo de outra.
           </p>
-          <table>
-            <thead>
-              <tr><th>Nível</th><th>A partir de</th><th>O que libera hoje</th></tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="Nível">1 · Novato</td><td data-label="A partir de">0 pontos</td><td data-label="O que libera hoje">Conversar e criar encontros</td></tr>
-              <tr><td data-label="Nível">2 · Participante</td><td data-label="A partir de">50 pontos</td><td data-label="O que libera hoje">Votar em denúncias (com reputação 20), avaliar pessoas, propor mudanças no grupo, aplicar decisões coletivas e compartilhar links</td></tr>
-              <tr><td data-label="Nível">3 · Ativo</td><td data-label="A partir de">200 pontos</td><td data-label="O que libera hoje">Enviar imagens, uma a cada 30 minutos. Também é exigido, junto com reputação 20, para entrar em grupos de 100 pessoas ou mais</td></tr>
-              <tr><td data-label="Nível">4 · Contribuidor</td><td data-label="A partir de">500 pontos</td><td data-label="O que libera hoje">Nenhuma permissão extra no código atual. É reconhecimento de participação</td></tr>
-              <tr><td data-label="Nível">5 · Guardião</td><td data-label="A partir de">1.000 pontos</td><td data-label="O que libera hoje">Banir pessoas diretamente, sem votação</td></tr>
-            </tbody>
-          </table>
-          <p>Os pontos somam dias como membro, mensagens, encontros de que você participou, imagens, links, encontros criados e votos.</p>
-          <p>A reputação tem três marcos:</p>
-          <ul>
-            <li><strong>10:</strong> pode denunciar conteúdo, e a denúncia conta.</li>
-            <li><strong>20:</strong> pode votar com peso. Para votar, também é preciso ser nível 2.</li>
-            <li><strong>50:</strong> recebe o rótulo de "Referência da comunidade". Hoje esse marco não concede poder de moderação por si só.</li>
-          </ul>
           <p>
-            A reputação sobe com encontros criados, reações recebidas, votos de moderação e convites
-            aceitos. Cai com denúncias válidas recebidas e com períodos de inatividade.
+            <strong>Participar dá peso.</strong> Só vota quem tem um mínimo de nível e
+            reputação, e o peso do voto cresce com a confiança — mas não dobra quando ela dobra.
+          </p>
+          <p>
+            <strong>Na dúvida, o conteúdo fica.</strong> Empate mantém, e nenhuma decisão
+            vale sem um número mínimo de votos.
           </p>
 
-          <h2 id="convivencia">Score de convivência</h2>
+          <h2 id="voz">Quem tem voz</h2>
           <p>
-            Além da reputação, cada pessoa tem um <strong>score de convivência</strong> de 0 a 100.
-            Ele começa em <strong>13</strong>, que é o mínimo para usar o app, e muda conforme a
-            comunidade reage à pessoa.
+            Existem duas réguas. O <strong>nível</strong> mede participação e libera
+            recursos. A <strong>reputação</strong> mede confiança e decide quem pode
+            denunciar e votar. Aparecer muito não é a mesma coisa que ser confiável — e é
+            de propósito.
           </p>
-          <table>
-            <thead>
-              <tr><th>O que aconteceu</th><th>Efeito no score</th></tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="O que aconteceu">Alguém confia em você</td><td data-label="Efeito no score">+3</td></tr>
-              <tr><td data-label="O que aconteceu">Alguém não confia em você</td><td data-label="Efeito no score">−5</td></tr>
-              <tr><td data-label="O que aconteceu">Seu conteúdo foi mantido após denúncia</td><td data-label="Efeito no score">+4</td></tr>
-              <tr><td data-label="O que aconteceu">Seu conteúdo foi ocultado</td><td data-label="Efeito no score">−8</td></tr>
-              <tr><td data-label="O que aconteceu">Você foi suspenso por 7 dias</td><td data-label="Efeito no score">−18, que deixa de contar quando a suspensão acaba</td></tr>
-              <tr><td data-label="O que aconteceu">Você foi banido permanentemente</td><td data-label="Efeito no score">−35</td></tr>
-              <tr><td data-label="O que aconteceu">Um banimento seu foi revertido</td><td data-label="Efeito no score">+35</td></tr>
-            </tbody>
-          </table>
           <p>
-            Com <strong>12 pontos ou menos</strong>, a conta fica suspensa em todas as comunidades:
-            não consegue publicar. O score é global, não é por grupo. As faixas são: de 13 a 24,
-            baixa confiança; de 25 a 39, atenção; de 40 a 59, neutro; de 60 a 79, boa convivência;
-            a partir de 80, muito confiável.
+            Todo mundo começa no nível 1 e pode conversar e criar encontros. Com 50 pontos
+            vem o nível 2: votar em denúncias (se a reputação for 20), propor mudanças e
+            aplicar decisões. Com 200, o nível 3 libera imagens, uma a cada meia hora, e a
+            entrada em grupos de 100 pessoas ou mais. O nível 4 (500 pontos) é
+            reconhecimento. O nível 5 (1.000) é Guardião e pode banir direto.
+          </p>
+          <p>
+            A reputação tem três marcos: 10 para denunciar, 20 para votar com peso e 50
+            para receber o rótulo de Referência da comunidade. Ela sobe com encontros,
+            reações, votos e convites aceitos; cai com denúncias válidas e com inatividade.
           </p>
 
-          <h2 id="votacao">Da denúncia à decisão</h2>
+          <h2 id="convivencia">O termômetro de convivência</h2>
+          <p>
+            Além da reputação, cada pessoa tem uma nota de convivência de 0 a 100. Ela começa em 13 — o
+            mínimo para usar o app — e muda conforme o grupo reage: confiança soma 3,
+            desconfiança tira 5, conteúdo mantido soma 4, conteúdo ocultado tira 8,
+            suspensão tira 18 e banimento tira 35.
+          </p>
+          <p>
+            Com 12 ou menos, a conta fica suspensa em todos os grupos e não publica. As
+            faixas vão de baixa confiança (13 a 24) a muito confiável (80 ou mais).
+          </p>
+
+          <h2 id="decisao">Do aviso à decisão</h2>
+          <p>O caminho tem quatro passos. Nenhum deles apaga nada por conta própria.</p>
           <ol>
             <li>
-              <strong>Denúncia.</strong> Os motivos são spam ou venda, assédio, discurso de ódio,
-              informação falsa, violência ou outro. Só denuncia quem tem reputação 10. Cada pessoa
-              denuncia um mesmo conteúdo uma única vez, e só contam as denúncias das últimas 24 horas.
+              <strong>Alguém denuncia.</strong> Os motivos são spam, assédio, ódio, mentira
+              ou violência. Só denuncia quem tem reputação 10, uma vez por conteúdo. Só
+              contam as denúncias das últimas 24 horas.
             </li>
             <li>
-              <strong>Revisão e ocultação.</strong> Com <strong>3</strong> denúncias válidas, o
-              conteúdo entra em revisão. Com <strong>5</strong>, ele fica oculto e a votação começa.
-              O prazo de 7 dias conta a partir da 5ª denúncia.
+              <strong>O conteúdo entra em revisão</strong> com 3 denúncias. Com 5, ele sai
+              do ar e a votação abre.
             </li>
             <li>
-              <strong>Votação de 7 dias.</strong> Vota quem tem nível 2 e reputação 20. Cada pessoa
-              vota uma vez, e o voto vale a raiz quadrada da reputação de quem votou.
+              <strong>A votação dura 7 dias.</strong> Vota quem é nível 2, tem reputação 20
+              e ainda não votou naquele caso.
             </li>
             <li>
-              <strong>Decisão.</strong> Depois dos 7 dias, um membro de nível 2 ou mais aciona
-              "Aplicar decisão". O app não aplica nada sozinho. A decisão só vale se votaram pelo
-              menos <strong>o maior valor entre 3 pessoas e 20% dos membros</strong>. Sem quórum,
-              nada é aplicado e o conteúdo continua oculto.
+              <strong>No fim, alguém aplica a decisão.</strong> Ela vale se votaram pelo
+              menos 3 pessoas e 20% do grupo. Sem esse mínimo, nada muda e o conteúdo
+              continua oculto.
             </li>
           </ol>
-          <p>As quatro opções de voto são:</p>
-          <table>
-            <thead>
-              <tr><th>Opção de voto</th><th>O que acontece</th></tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="Opção de voto">Manter conteúdo</td><td data-label="O que acontece">A denúncia é descartada e o conteúdo volta a aparecer</td></tr>
-              <tr><td data-label="Opção de voto">Ocultar conteúdo</td><td data-label="O que acontece">O conteúdo some do chat e a pessoa continua no grupo</td></tr>
-              <tr><td data-label="Opção de voto">Banir por 7 dias</td><td data-label="O que acontece">Suspensão temporária, que termina sozinha</td></tr>
-              <tr><td data-label="Opção de voto">Banir permanentemente</td><td data-label="O que acontece">A pessoa fica banida até uma reversão explícita</td></tr>
-            </tbody>
-          </table>
-          <p>Empate entre opções mantém o conteúdo.</p>
-
-          <h2>O que acontece quando a votação abre</h2>
           <p>
-            No momento em que a 5ª denúncia válida chega, o conteúdo denunciado fica oculto como
-            prova. <strong>Tudo o que a mesma pessoa publicou naquele grupo também sai do chat, e os
-            encontros que ela criou são apagados.</strong> Se a decisão for manter, só o conteúdo
-            denunciado volta. O resto não volta sozinho.
+            As opções são manter, ocultar, suspender por 7 dias ou banir de vez. Empate
+            mantém o conteúdo.
+          </p>
+          <p>
+            Um detalhe importante: quando a votação abre, tudo o que a mesma pessoa
+            publicou naquele grupo sai do ar também, e os encontros que ela criou são
+            apagados. Se a decisão for manter, só o conteúdo denunciado volta.
           </p>
 
           <h2 id="banimentos">Banimentos</h2>
-          <ul>
-            <li><strong>7 dias:</strong> a pessoa não publica no grupo por uma semana. Ao fim, o banimento e a penalidade no score expiram sozinhos.</li>
-            <li><strong>Permanente:</strong> não expira. Só termina com uma reversão explícita, que devolve 35 pontos ao score.</li>
-            <li><strong>Dispositivo:</strong> quando a conta tem uma credencial de dispositivo registrada, o banimento também vale para esse aparelho. A credencial é gerada pelo próprio app. Não é IMEI nem número de série, e uma reinstalação pode gerar uma nova.</li>
-          </ul>
           <p>
-            Ao publicar, a rede verifica nesta ordem: suspensão pelo score, depois dispositivo banido,
-            depois banimento no grupo. Manter ou ocultar um conteúdo nunca desbane ninguém, porque são
-            decisões sobre o conteúdo, não sobre a pessoa.
-          </p>
-          <p><strong>Quem pode banir direto, sem votação:</strong></p>
-          <ul>
-            <li>Um <strong>Guardião</strong> (nível 5), em qualquer grupo.</li>
-            <li>O <strong>criador do grupo</strong>, enquanto o grupo tiver menos de 10 membros.</li>
-          </ul>
-          <p>Nesses casos, a ação é assinada e publicada no grupo, com a mesma força de uma decisão coletiva.</p>
-
-          <p><strong>Trava anti-invasão para contas recentes:</strong></p>
-          <ul>
-            <li>Uma conta com <strong>menos de 15 dias</strong> no grupo pode ser <strong>suspensa por 7 dias direto por qualquer membro</strong>, sem votação — o botão aparece na própria mensagem.</li>
-            <li>Se a conta recente <strong>já foi suspensa</strong> uma vez, o <strong>banimento permanente</strong> também fica disponível direto para qualquer membro.</li>
-            <li>Nos primeiros <strong>24 horas</strong> de casa, a conta nem vota em moderação: o voto é recusado. Ela ainda conversa e denuncia normalmente.</li>
-          </ul>
-          <p>
-            A regra é conferida por cada aparelho, sozinho: se o alvo é recente (e já suspenso, no
-            caso do banimento), a ação vale em todos os aparelhos que receberam os eventos — não
-            depende de cargo nem de aprovação externa.
-          </p>
-
-          <h2>Grupos grandes e mudanças no grupo</h2>
-          <p>
-            Grupos com <strong>100 pessoas ou mais</strong> deixam de aceitar qualquer um. Para entrar,
-            é preciso ser nível 3 e ter reputação 20. O grupo central da região é a exceção: fica
-            sempre aberto.
+            O banimento de 7 dias passa sozinho. O permanente só termina com uma reversão explícita. Se a
+            conta tiver um código ligado ao aparelho, o banimento vale para ele também — mas
+            reinstalar o app pode gerar um código novo.
           </p>
           <p>
-            Nome, emoji e descrição do grupo são decididos em conjunto. Qualquer membro propõe uma
-            mudança, que fica aberta por <strong>7 dias</strong>. Ela é aprovada quando votam pelo
-            menos metade dos membros (com mínimo de duas pessoas). Quem propõe já conta o próprio voto.
-            Aplicar a mudança exige nível 2.
+            Duas pessoas podem banir sem votação: um Guardião (nível 5), em qualquer grupo,
+            e o criador de um grupo com menos de 10 membros.
+          </p>
+          <p>
+            A trava anti-invasão é para contas novas: com menos de 15 dias no grupo,
+            qualquer membro pode suspender por 7 dias direto; se a conta já foi suspensa,
+            pode ser banida de vez. Nas primeiras 24 horas, conta nova não vota em
+            moderação.
           </p>
 
-          <h2 id="faq">Perguntas frequentes</h2>
-          <p><strong>Uma pessoa sozinha consegue banir alguém?</strong><br />Não por votação. Só o criador de um grupo pequeno (menos de 10 membros) e os Guardiões (nível 5) podem agir direto. A exceção é a trava anti-invasão: conta com menos de 15 dias pode ser suspensa por qualquer membro e, depois de suspensa, banida de vez.</p>
-          <p><strong>Conta nova consegue derrubar alguém?</strong><br />Não. Denunciar exige reputação 10, e votar exige nível 2 e reputação 20 — e, nos primeiros 24 horas de casa, nem votar em moderação a conta consegue.</p>
-          <p><strong>E se ninguém votar?</strong><br />Nada é aplicado. O conteúdo continua oculto até a comunidade decidir.</p>
-          <p><strong>Quem pode ver as decisões?</strong><br />Toda decisão é um evento assinado e publicado no grupo. Qualquer aparelho que recebe o evento verifica a assinatura antes de aceitá-lo.</p>
+          <h2>Grupos grandes e mudanças</h2>
+          <p>
+            Grupos com 100 pessoas ou mais só aceitam nível 3 com reputação 20. O grupo
+            central da região é sempre aberto.
+          </p>
+          <p>
+            Nome, emoji e descrição são decididos juntos. Qualquer membro propõe, a votação
+            fica aberta por 7 dias e passa com metade dos membros (mínimo de duas pessoas).
+            Aplicar exige nível 2.
+          </p>
 
-          <h2 id="limitacoes">Limitações conhecidas</h2>
+          <h2 id="duvidas">Dúvidas rápidas</h2>
+          <p>
+            <strong>Uma pessoa sozinha bane alguém?</strong><br />
+            Pela votação, não. Só Guardiões e criadores de grupos pequenos agem direto —
+            além da trava anti-invasão.
+          </p>
+          <p>
+            <strong>Conta nova derruba alguém?</strong><br />
+            Não. Denunciar exige reputação 10; votar, nível 2 e reputação 20; e nas
+            primeiras 24 horas nem voto em moderação existe.
+          </p>
+          <p>
+            <strong>E se ninguém votar?</strong><br />
+            Nada acontece. O conteúdo fica oculto até o grupo decidir.
+          </p>
+
+          <h2 id="falta">O que ainda falta</h2>
           <ul>
-            <li><strong>Sem servidor central.</strong> A moderação roda entre aparelhos. Apagar algo no seu celular não apaga a cópia que outra pessoa já recebeu.</li>
-            <li><strong>Decisão manual.</strong> Depois do prazo, alguém precisa acionar a aplicação. Não há aplicação automática.</li>
-            <li><strong>Apelação.</strong> A rede já aceita pedidos de revisão, mas o app ainda não tem tela para enviá-los.</li>
-            <li><strong>Mudanças no grupo são locais.</strong> Hoje as propostas de nome, emoji e descrição não viajam entre os aparelhos. Por enquanto, a votação funciona só no aparelho de quem a registrou.</li>
-            <li><strong>Banimento de dispositivo é parcial.</strong> Quem reinstala o app ou usa outro aparelho pode ganhar uma credencial nova.</li>
-            <li><strong>Áudio sem trava de nível.</strong> Enviar áudio não tem exigência de nível no código atual.</li>
+            <li>A decisão não é automática: alguém precisa aplicá-la depois do prazo.</li>
+            <li>Pedidos de revisão já são aceitos pela rede, mas ainda não têm tela no app.</li>
+            <li>Mudanças de nome, emoji e descrição ainda valem só no aparelho de quem propôs.</li>
+            <li>Banimento de aparelho é parcial: reinstalar pode gerar um código novo.</li>
+            <li>Áudio ainda não exige nível para enviar.</li>
           </ul>
 
-          <hr />
           <p>
-            A moderação funciona em conjunto, sem um dono. A melhor defesa continua sendo a
-            <strong>participação</strong>: quanto mais gente ativa e confiável, mais difícil fica
-            manipular o grupo.
+            No fim, moderação não é cargo: é hábito. Quanto mais gente ativa e confiável
+            participa, mais difícil fica manipular o grupo.
           </p>
       </div>
     </section>

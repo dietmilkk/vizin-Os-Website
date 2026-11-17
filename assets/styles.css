@@ -4467,6 +4467,55 @@ h1 em,
 }
 
 
+/* Leitura longa: coluna estreita, texto maior e mais respiro entre blocos.
+   Vale para as páginas que explicam o app por texto (documento e moderação). */
+.page-documento .prose--leitura,
+.page-moderacao .prose--leitura {
+  max-width: 740px;
+}
+
+.page-documento .prose--leitura p,
+.page-documento .prose--leitura li,
+.page-moderacao .prose--leitura p,
+.page-moderacao .prose--leitura li {
+  font-size: 1.06rem;
+  line-height: 1.95;
+}
+
+.page-documento .prose--leitura p,
+.page-moderacao .prose--leitura p {
+  margin-top: var(--space-5);
+}
+
+.page-documento .prose--leitura h2,
+.page-moderacao .prose--leitura h2 {
+  margin-top: var(--space-9);
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+  line-height: 1.25;
+}
+
+.page-documento .prose--leitura h3,
+.page-moderacao .prose--leitura h3 {
+  margin-top: var(--space-7);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.page-documento .prose--leitura ol,
+.page-moderacao .prose--leitura ol {
+  margin: var(--space-5) 0 0;
+  padding-left: var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.page-documento .prose--leitura ol li,
+.page-moderacao .prose--leitura ol li {
+  margin: 0;
+}
+
 /* ------------------------------------------------------- movimento global
    Toda animacao nova entra aqui e desliga inteira quando o usuario pede menos
    movimento no sistema. Nada de piscar, nada de deslizar. */
