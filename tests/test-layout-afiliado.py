@@ -244,18 +244,26 @@ def main():
     code = "TESTLAY" + str(int(time.time()))[-4:]
     # CPF e e-mail são obrigatórios (segurança de conta e saques) e não podem
     # repetir entre contas de teste (a recusa é genérica de propósito): o
-    # CPF do teste é derivado do próprio code, sempre único e válido.
-    # 111.444.777-35 com dígitos verificadores ajustados por último dígito
-    # não vale — usamos CPFs válidos conhecidos em rotação.
-    cpfs_validos = ["11144477735", "52998224725", "16899535009", "12345678909"]
-    cpf = cpfs_validos[int(code[-4:]) % len(cpfs_validos)]
+    # CPF do teste é sempre único: os 4 últimos dígitos do code entram na
+    # base (com dígitos verificadores recalculados), então nunca repete.
+    def digitos_cpf(nove: str) -> str:
+        def digito(slice_, peso):
+            soma = sum(int(c) * p for c, p in zip(slice_, range(peso, 1, -1)))
+            resto = (soma * 10) % 11
+            return "0" if resto == 10 else str(resto)
+        d1 = digito(nove, 10)
+        d2 = digito(nove + d1, 11)
+        return nove + d1 + d2
+
+    base = str(int(code[-4:])).zfill(4) + str(int(time.time()) % 100000).zfill(5)
+    cpf = digitos_cpf(base)
     status, created = api_post(
         "/hunters",
         {
             "handle": "tlay" + code[-6:].lower(),
             "code": code,
             "cpf": cpf,
-            "email": f"tlay{code[-6:].lower()}@exemplo.com",
+            "email": f"tlay{cpf}@exemplo.com",
         },
     )
     if status == 200:
