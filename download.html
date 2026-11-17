@@ -21,7 +21,6 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="/assets/styles.css">
   <style>
-    <style>
 /* Sem subtitulo e sem divisor, o topo fica so com o titulo: os botoes
    ficam mais perto dele. */
 .page-download .page-hero {
@@ -124,6 +123,12 @@
       background: var(--surface);
       box-shadow: var(--shadow-card);
     }
+    /* Versão futura: mesmo tratamento visual do cartão "em breve". */
+    .release--soon {
+      border-style: dashed;
+      background: transparent;
+      box-shadow: none;
+    }
     .release__head {
       display: flex;
       align-items: baseline;
@@ -216,26 +221,52 @@
 
         <h2 class="versions-title">Versões e atualizações</h2>
         <div class="releases">
+          <article class="release release--soon">
+            <div class="release__head">
+              <h3 class="release__version">0.9.0</h3>
+              <span class="release__date">Em breve</span>
+            </div>
+            <ul class="release__changes">
+              <li>Novo modelo de alcance pessoal: raio ajustável pela própria pessoa, com sugestão automática pela densidade da região.</li>
+              <li>Contagem aproximada de gente e de grupos dentro do seu alcance, direto no perfil.</li>
+              <li>Correções de segurança e desempenho no caminho até a versão 1.0.0.</li>
+            </ul>
+          </article>
+
+          <article class="release">
+            <div class="release__head">
+              <h3 class="release__version">0.8.0</h3>
+              <span class="release__date">Versão atual</span>
+            </div>
+            <ul class="release__changes">
+              <li>Encontros completos: chat do encontro, "como foi?" depois do rolê (🔥 Incrível, 👍 Bom, 😴 Fraco), encontros de última hora ("Tô descendo") e categorias fixas com filtro por distância e categoria.</li>
+              <li>Denúncia de grupo inteiro: qualquer membro denuncia o grupo com provas (as últimas mensagens legíveis vão anexadas), e os aparelhos da região ficam sabendo.</li>
+              <li>Trava anti-invasão: conta com menos de 24 horas no grupo não vota em moderação; conta com menos de 15 dias pode ser suspensa direto por qualquer membro e, depois de suspensa, banida de vez.</li>
+              <li>Rede mais rápida e resiliente: aviso de mensagem nova em tempo real (sem polling), repasse entre vizinhos com limite de saltos, sincronização que baixa só o que falta e troca de peers entre aparelhos.</li>
+              <li>Correções de segurança e desempenho.</li>
+            </ul>
+          </article>
+
           <article class="release">
             <div class="release__head">
               <h3 class="release__version">0.7.1</h3>
-              <span class="release__date">Versão atual</span>
+              <span class="release__date">Versão anterior</span>
             </div>
             <ul class="release__changes">
               <li>Refinamento completo do fluxo de primeiro acesso.</li>
               <li>Onboarding mais claro com região, backup e boas-vindas simplificados.</li>
               <li>Correções de foco, contraste e alinhamento em toda a interface.</li>
+              <li>Correções de segurança e desempenho.</li>
             </ul>
           </article>
 
           <article class="release">
             <div class="release__head">
               <h3 class="release__version">0.7.0</h3>
-              <span class="release__date">Versão anterior</span>
+              <span class="release__date">Beta inicial</span>
             </div>
             <ul class="release__changes">
-              <li>Base das comunidades locais e encontros presenciais.</li>
-              <li>Conversas cifradas com faróis de apoio e moderação comunitária.</li>
+              <li>Estágio beta: primeira base pública do app — comunidades do bairro, conversas e encontros.</li>
             </ul>
           </article>
         </div>
