@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff9f2">
+  <title>vizin.Os — Praça Romana</title>
+  <meta name="description" content="Um espaço público para propor ideias e sugestões. O vizin.Os cresce de acordo com o que quem usa realmente quer: proponha, vote e acompanhe o que já foi implementado.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vizin-os.vercel.app/praca-romana">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="vizin.Os">
+  <meta property="og:title" content="vizin.Os — Praça Romana">
+  <meta property="og:description" content="Um espaço público para propor ideias e sugestões. Um app construído junto com quem usa — propostas com votos, comentários e uma aba do que já saiu do papel.">
+  <meta property="og:url" content="https://vizin-os.vercel.app/praca-romana">
+  <meta property="og:image" content="https://vizin-os.vercel.app/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="vizin.Os — Praça Romana">
+  <meta name="twitter:description" content="Um espaço público para propor ideias e sugestões. Um app construído junto com quem usa.">
+  <meta name="twitter:image" content="https://vizin-os.vercel.app/assets/og-image.png">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/brand/wordmark.png" as="image" crossorigin>
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+/* ==================================================== Praça Romana ======
+   Fórum público de ideias: abas (em discussão / já implementadas),
+   filtro por tag, ordenação, votos e comentários. Tudo com as variáveis
+   do design system — funciona claro e escuro sem regra extra. */
+
+.page-praca main {
+  padding-bottom: var(--space-8);
+}
+
+.praca-section {
+  padding: var(--space-5) 0 var(--space-8);
+}
+
+/* ------------------------------------------------------------- toolbar */
+.praca-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.praca-tabs {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.praca-tab {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.praca-tab:hover {
+  color: var(--text);
+}
+
+.praca-tab.is-active {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+
+.praca-tab .praca-tab-count {
+  margin-left: 6px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+.praca-toolbar-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.praca-select {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.praca-select:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* ---------------------------------------------------------------- tags */
+.praca-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.praca-tag-chip {
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.praca-tag-chip:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.praca-tag-chip.is-active {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 36%, var(--border));
+  color: var(--primary-ink);
+}
+
+/* --------------------------------------------------------------- avisos */
+.praca-banner {
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.praca-status {
+  margin: var(--space-5) 0 0;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
+/* ----------------------------------------------------------------- lista */
+.praca-list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.praca-post {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+.praca-post:hover {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Coluna de votos: seta, número, seta. Nunca se estica. */
+.praca-votes {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 44px;
+}
+
+.praca-vote-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.praca-vote-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.praca-vote-btn:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  color: var(--primary-ink);
+}
+
+.praca-vote-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.praca-vote-btn.is-up {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  color: var(--primary-ink);
+}
+
+.praca-vote-btn.is-down {
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 36%, var(--border));
+  color: var(--danger);
+}
+
+.praca-vote-btn[disabled] {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.praca-score {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.praca-score.is-negative {
+  color: var(--danger);
+}
+
+/* Corpo do cartão. */
+.praca-post-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.praca-post-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.praca-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.praca-badge-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--success-soft);
+  color: var(--success-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.praca-badge-done svg {
+  width: 12px;
+  height: 12px;
+}
+
+.praca-post-title {
+  margin: var(--space-2) 0 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.praca-post-title:hover {
+  color: var(--primary-ink);
+}
+
+.praca-post-title:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 6px;
+}
+
+.praca-post-excerpt {
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.praca-post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+  color: var(--text-faint);
+  font-size: 0.8rem;
+}
+
+.praca-post-meta .praca-meta-sep {
+  opacity: 0.6;
+}
+
+.praca-post-meta button.praca-meta-link {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.praca-post-meta button.praca-meta-link:hover {
+  color: var(--primary-ink);
+}
+
+.praca-mine {
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------- estados da lista */
+.praca-empty {
+  margin-top: var(--space-5);
+  padding: var(--space-8) var(--space-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+
+.praca-empty svg {
+  width: 34px;
+  height: 34px;
+  color: var(--text-faint);
+}
+
+.praca-empty h3 {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.praca-empty p {
+  margin: var(--space-2) auto 0;
+  max-width: 460px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.praca-skeleton {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.praca-skeleton .sk {
+  border-radius: 8px;
+  background: var(--surface-sunken);
+  animation: praca-pulse 1.2s ease-in-out infinite;
+}
+
+.praca-skeleton .sk-votes {
+  width: 44px;
+  height: 84px;
+  flex: none;
+}
+
+.praca-skeleton .sk-lines {
+  flex: 1;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.praca-skeleton .sk-line {
+  height: 14px;
+}
+
+.praca-skeleton .sk-line:last-child {
+  width: 55%;
+}
+
+@keyframes praca-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.praca-more {
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+/* ------------------------------------------------------------- modais */
+.praca-modal-card {
+  width: min(100%, 680px);
+  padding: var(--space-6);
+}
+
+.praca-modal-card h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+}
+
+.praca-modal-sub {
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.praca-form-error {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.praca-notice {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.praca-modal-card .praca-submit {
+  width: 100%;
+  margin-top: var(--space-5);
+}
+
+.praca-modal-note {
+  margin: var(--space-4) 0 0;
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+/* Interruptor entrar / criar conta. */
+.praca-auth-switch {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin-top: var(--space-4);
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+}
+
+.praca-auth-switch button {
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.praca-auth-switch button.is-active {
+  background: var(--surface);
+  color: var(--primary-ink);
+  box-shadow: var(--shadow-pop);
+}
+
+/* Formulário de comentário. */
+.praca-comment-form textarea {
+  min-height: 76px;
+}
+
+/* ------------------------------------------------------- modal detalhe */
+.praca-detail-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.praca-detail-title {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.praca-detail-body {
+  margin: var(--space-3) 0 0;
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.praca-detail-note {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--success-soft);
+  color: var(--success-ink);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+/* Votos horizontais no topo do detalhe. */
+.praca-detail-votes {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.praca-detail-score {
+  min-width: 34px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------- comentários */
+.praca-comments {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-5);
+}
+
+.praca-comments h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.praca-comment-list {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.praca-comment {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-alt);
+}
+
+.praca-comment-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.praca-comment-head .praca-comment-author {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.praca-comment-body {
+  margin: var(--space-2) 0 0;
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.praca-comment .praca-comment-del {
+  margin-left: auto;
+  border: 0;
+  padding: 2px 0 2px 8px;
+  background: none;
+  color: var(--text-faint);
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.praca-comment .praca-comment-del:hover {
+  color: var(--danger);
+}
+
+.praca-comment-form {
+  margin-top: var(--space-5);
+}
+
+.praca-comment-form .praca-submit {
+  margin-top: var(--space-3);
+  width: auto;
+  min-width: 180px;
+}
+
+.praca-login-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------- responsivo */
+@media (max-width: 560px) {
+  .praca-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .praca-tabs {
+    justify-content: stretch;
+  }
+
+  .praca-tab {
+    flex: 1;
+    padding: 0 var(--space-2);
+  }
+
+  .praca-toolbar-right {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .praca-select {
+    min-width: 0;
+  }
+
+  .praca-post {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .praca-votes {
+    width: 40px;
+  }
+
+  .praca-vote-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .praca-modal-card {
+    padding: var(--space-5);
+  }
+
+  .praca-detail-head {
+    flex-direction: column-reverse;
+  }
+
+  .praca-detail-votes {
+    align-self: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .praca-skeleton .sk {
+    animation: none;
+  }
+}
+  </style>
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="page-praca">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="vizin.Os, início">
+        <span class="brand-mark" aria-hidden="true"><img src="/assets/icon-192.webp" alt="" width="40" height="40"></span>
+        <span class="brand-wordmark" data-brand-wordmark><span class="visually-hidden">vizin.Os</span></span>
+      </a>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="praca-auth-btn" type="button">Entrar</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="page-hero">
+      <div class="container">
+        <h1>Praça Romana</h1>
+        <p>Um espaço público para propor ideias e sugestões.</p>
+        <hr class="page-hero-divider">
+      </div>
+    </section>
+
+    <section class="praca-section">
+      <div class="container">
+        <div class="praca-toolbar">
+          <div class="praca-tabs" role="tablist" aria-label="Estado das propostas">
+            <button class="praca-tab is-active" role="tab" aria-selected="true" data-tab="open" type="button">Em discussão</button>
+            <button class="praca-tab" role="tab" aria-selected="false" data-tab="done" type="button">Já implementadas</button>
+          </div>
+          <div class="praca-toolbar-right">
+            <label class="visually-hidden" for="praca-sort">Ordenar propostas</label>
+            <select class="praca-select" id="praca-sort">
+              <option value="top">Mais populares</option>
+              <option value="new">Mais recentes</option>
+            </select>
+            <button class="btn btn-primary btn-sm" id="praca-new-btn" type="button">Nova proposta</button>
+          </div>
+        </div>
+
+        <div class="praca-tags" id="praca-tags" aria-label="Filtrar por tag">
+          <button class="praca-tag-chip is-active" data-tag="" type="button">Todas as tags</button>
+          <button class="praca-tag-chip" data-tag="ideia" type="button">Ideia</button>
+          <button class="praca-tag-chip" data-tag="recurso" type="button">Recurso novo</button>
+          <button class="praca-tag-chip" data-tag="melhoria" type="button">Melhoria</button>
+          <button class="praca-tag-chip" data-tag="bug" type="button">Problema (bug)</button>
+          <button class="praca-tag-chip" data-tag="outro" type="button">Outro</button>
+        </div>
+
+        <div class="praca-banner" id="praca-banner" hidden></div>
+        <p class="praca-status" id="praca-status" hidden></p>
+
+        <div class="praca-list" id="praca-list"></div>
+
+        <div class="praca-more">
+          <button class="btn btn-secondary" id="praca-more-btn" type="button" hidden>Ver mais propostas</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================== modal: conta -->
+  <div id="praca-auth-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-praca-close></div>
+    <div class="modal-card praca-modal-card" role="dialog" aria-modal="true" aria-labelledby="praca-auth-title">
+      <button class="modal-close" type="button" aria-label="Fechar" data-praca-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2 id="praca-auth-title">Entre na Praça</h2>
+      <p class="praca-modal-sub">Só um apelido e uma senha — sem e-mail, sem telefone, sem cadastro longo.</p>
+      <p class="praca-notice" id="praca-auth-notice" hidden></p>
+
+      <div id="praca-auth-logged" hidden>
+        <p class="praca-modal-sub">Você está na Praça como <strong id="praca-auth-who"></strong>. Suas propostas, votos e comentários ficam guardados nesta conta.</p>
+        <button class="btn btn-primary praca-submit" id="praca-logout-btn" type="button">Sair da conta</button>
+      </div>
+
+      <div class="praca-auth-switch" role="group" aria-label="Entrar ou criar conta">
+        <button type="button" data-auth-mode="login" class="is-active">Entrar</button>
+        <button type="button" data-auth-mode="register">Criar conta</button>
+      </div>
+
+      <form id="praca-auth-form" novalidate>
+        <div class="field">
+          <label for="praca-auth-user">Apelido</label>
+          <input id="praca-auth-user" name="username" type="text" autocomplete="username" maxlength="20" placeholder="ex.: ana.paula" required>
+        </div>
+        <div class="field">
+          <label for="praca-auth-pass">Senha</label>
+          <input id="praca-auth-pass" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="mínimo 8 caracteres" required>
+        </div>
+        <p class="praca-form-error" id="praca-auth-error" hidden></p>
+        <button class="btn btn-primary praca-submit" id="praca-auth-submit" type="submit">Entrar</button>
+      </form>
+      <p class="praca-modal-note" id="praca-auth-note">A senha é guardada com criptografia (argon2) e não dá para recuperá-la: se esquecer, crie outra conta com um apelido novo.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ modal: nova proposta -->
+  <div id="praca-new-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-praca-close></div>
+    <div class="modal-card praca-modal-card" role="dialog" aria-modal="true" aria-labelledby="praca-new-title-h">
+      <button class="modal-close" type="button" aria-label="Fechar" data-praca-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2 id="praca-new-title-h">Nova proposta</h2>
+      <p class="praca-modal-sub">Explique a ideia, o problema que ela resolve e por que ajudaria quem usa o app. Clareza vale votos.</p>
+
+      <form id="praca-new-form" novalidate>
+        <div class="field">
+          <label for="praca-new-title">Título <span aria-hidden="true">(até 120 caracteres)</span></label>
+          <input id="praca-new-title" name="title" type="text" maxlength="120" placeholder="ex.: filtro de encontros por categoria" required>
+        </div>
+        <div class="field">
+          <label for="praca-new-tag">Tag</label>
+          <select id="praca-new-tag" name="tag">
+            <option value="ideia">Ideia</option>
+            <option value="recurso">Recurso novo</option>
+            <option value="melhoria">Melhoria</option>
+            <option value="bug">Problema (bug)</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="praca-new-body">Proposta <span aria-hidden="true">(10 a 4000 caracteres)</span></label>
+          <textarea id="praca-new-body" name="body" rows="8" maxlength="4000" placeholder="Conte o detalhe: como funcionaria, quem usaria e o que muda no app." required></textarea>
+        </div>
+        <p class="praca-form-error" id="praca-new-error" hidden></p>
+        <button class="btn btn-primary praca-submit" id="praca-new-submit" type="submit">Publicar proposta</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================ modal: detalhe/proposta -->
+  <div id="praca-detail-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-praca-close></div>
+    <div class="modal-card praca-modal-card" role="dialog" aria-modal="true" aria-label="Detalhe da proposta">
+      <button class="modal-close" type="button" aria-label="Fechar" data-praca-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div id="praca-detail-content"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-explore" aria-label="Continue explorando">
+        <h2 class="footer-explore__title">Continue explorando</h2>
+        <div class="explore-grid">
+          <a class="explore-card" href="/afiliados">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Afiliados</span>
+          </a>
+          <a class="explore-card" href="/praca-romana">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
+            <span>Praça Romana</span>
+          </a>
+          <a class="explore-card" href="/moderacao">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            <span>Moderação</span>
+          </a>
+          <a class="explore-card" href="/documento">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            <span>Documento técnico</span>
+          </a>
+          <a class="explore-card" href="/manifesto">
+            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
+            <span>Manifesto</span>
+          </a>
+        </div>
+      </nav>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="vizin.Os, início">
+            <span class="brand-mark brand-mark--lg" aria-hidden="true">
+              <img src="/assets/icon-192.webp" alt="" width="115" height="115" loading="lazy" decoding="async">
+            </span>
+            <span class="brand-wordmark brand-wordmark--lg" data-brand-wordmark>
+              <span class="visually-hidden">vizin.Os</span>
+            </span>
+          </a>
+        </div>
+        <div class="footer-col">
+          <h3>Contato</h3>
+          <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> vizin.Os. Gente por perto, encontros de verdade.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/app.js"></script>
+  <script defer src="/assets/praca.js"></script>
+</body>
+</html>
