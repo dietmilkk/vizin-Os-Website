@@ -56,6 +56,11 @@ As páginas públicas descrevem o app do jeito que ele funciona hoje:
   - **Banimentos**: de **7 dias** (expira sozinho) ou **permanente** (só sai com uma
     reversão explícita). O **banimento de dispositivo** acompanha a credencial gerada
     pelo app, que não é IMEI nem número de série.
+  - **Trava anti-invasão**: conta com menos de **24 h** de casa não vota em moderação;
+    conta com menos de **15 dias** pode ser suspensa por 7 dias direto por qualquer
+    membro e, depois de suspensa, banida permanentemente pela mesma via rápida.
+  - **Denúncia de grupo**: qualquer membro denuncia o grupo inteiro (motivos próprios,
+    até 50 mensagens legíveis anexadas como prova) para o relé da VPS/painel avaliar.
   - **Score de convivência** (0–100): começa em **13**. Quando chega a **12 ou menos**,
     a conta fica **suspensa** e não publica. Sobe com votos de confiança (+3), conteúdo
     mantido (+4) e banimento desfeito (+35). Cai com votos de desconfiança (−5),
