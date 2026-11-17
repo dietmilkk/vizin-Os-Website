@@ -331,12 +331,6 @@
 
   <main id="conteudo">
 
-    <section class="page-hero">
-      <div class="container">
-        <h1>Painel público</h1>
-        <p>Números agregados do serviço, atualizados no navegador. Sem dado pessoal.</p>
-        <hr class="page-hero-divider">
-      </div>
     </section>
 
     <section class="section-tight" aria-label="Estado da coleta">
@@ -363,7 +357,7 @@
             <div class="label">Beacons no ar</div>
             <div class="value" id="painelBeacons">—</div>
           </div>
-          <div class="stat stat--span2">
+          <div class="stat stat--span2" id="painelRegioesCard">
             <div class="label">Regiões com gente ativa</div>
             <div class="value" id="painelRegioes">—</div>
           </div>
@@ -397,8 +391,6 @@
             </div>
           </div>
         </div>
-        <p class="panel-regioes-titulo">Cobertura por região</p>
-        <div class="panel-regioes" id="painelRegioesLista"></div>
       </div>
     </section>
 
@@ -460,18 +452,6 @@
             <div class="label">Novas contas em 7 dias</div>
             <div class="value" id="painelNovas7d">—</div>
           </div>
-          <div class="stat stat--span2">
-            <div class="label">Usernames reservados</div>
-            <div class="value" id="painelUsernames">—</div>
-            <div class="barra-trilho barra-trilho--mini" aria-hidden="true"><span class="barra-fill" id="painelBarraUsernames"></span></div>
-            <p class="stat-sub" id="painelUsernamesLegenda">—</p>
-          </div>
-          <div class="stat stat--span2">
-            <div class="label">Backups de cofre</div>
-            <div class="value" id="painelCofres">—</div>
-            <div class="barra-trilho barra-trilho--mini" aria-hidden="true"><span class="barra-fill" id="painelBarraCofres"></span></div>
-            <p class="stat-sub" id="painelCofresLegenda">—</p>
-          </div>
           <div class="stat stat--span4 stat--barras">
             <div class="label">Ativos por período</div>
             <div class="barras">
@@ -512,10 +492,6 @@
           <div class="stat">
             <div class="label">Afiliados</div>
             <div class="value" id="painelAfiliados">—</div>
-          </div>
-          <div class="stat">
-            <div class="label">Comissões + saques</div>
-            <div class="value" id="painelProgramaTotal">—</div>
           </div>
           <div class="stat">
             <div class="label">Indicações ativas</div>
@@ -599,6 +575,15 @@
       </div>
     </div>
   </footer>
+
+  <div id="selecionarRegiaoModal" class="modal" hidden>
+    <div class="modal-backdrop" data-selecionar-regiao-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Selecionar região">
+      <button class="modal-close" type="button" aria-label="Fechar" data-selecionar-regiao-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2>Regiões com gente ativa</h2>
+      <div id="selecionarRegiaoLista" class="panel-regioes"></div>
+    </div>
+  </div>
 
   <div id="firstVisitModal" class="modal" hidden>
     <div class="modal-backdrop" data-first-visit-close></div>

@@ -31,6 +31,14 @@
   var regionsEl = document.getElementById("painelRegioesLista");
   var contactsEl = document.getElementById("painelContatosLista");
   var loading = false;
+  var regioesCardEl = document.getElementById("painelRegioesCard");
+  var ultimasRegioes = [];
+
+  if (regioesCardEl) {
+    regioesCardEl.addEventListener("click", function () {
+      abrirSeletorRegioes();
+    });
+  }
 
   /* ------------------------------------------------------------------ */
   /* Formatação                                                          */
@@ -368,6 +376,7 @@
       regioesAtivas.length === 1 && regioesAtivas[0] === "*" ? "Global" : fmtInt(regioesAtivas.length),
     );
     setText("painelUptime", fmtDuration(server.uptime_seconds));
+    ultimasRegioes = Array.isArray(network.regions) ? network.regions.slice() : [];
     renderRegions(network.regions);
 
     // Memória: total (RSS) no cartão e fatia do heap dentro dele no medidor.
@@ -473,6 +482,7 @@
       if (geohash && regioes.indexOf(geohash) === -1) regioes.push(geohash);
     }
     regioes.sort();
+    ultimasRegioes = regioes.slice();
 
     setText("painelBeacons", lista.length ? fmtInt(lista.length) : "—");
     // "Regiões" = quantos geohashes distintos os beacons públicos atendem.
@@ -499,6 +509,33 @@
       errorEl.hidden = false;
     }
     if (statusTextEl) statusTextEl.textContent = "Sem dados no momento";
+  }
+
+  /** Abre o seletor de regiões com gente ativa a partir do cartão clicável. */
+  function abrirSeletorRegioes() {
+    var modal = document.getElementById("selecionarRegiaoModal");
+    var lista = document.getElementById("selecionarRegiaoLista");
+    if (!modal) return;
+    if (lista) {
+      lista.innerHTML = "";
+      var fontes = ultimasRegioes.length ? ultimasRegioes.slice() : ["*"];
+      for (var i = 0; i < fontes.length; i += 1) {
+        var chip = document.createElement("span");
+        chip.className = "panel-regiao";
+        chip.title = "Geohash da região com atividade";
+        chip.textContent = fontes[i] === "*" ? "Global (todas as regiões)" : fontes[i];
+        lista.appendChild(chip);
+      }
+    }
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    var alvo = modal.querySelector("[data-selecionar-regiao-close]");
+    if (alvo) {
+      alvo.addEventListener("click", function () {
+        modal.hidden = true;
+        document.body.style.overflow = "";
+      });
+    }
   }
 
   /** Traduz a falha da busca em uma mensagem que diz o que fazer. */
