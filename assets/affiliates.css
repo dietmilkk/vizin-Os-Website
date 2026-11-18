@@ -358,9 +358,36 @@
   gap: clamp(36px, 6vw, 80px);
 }
 
+.aff-flow-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 3.5vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+}
+
+.aff-flow__badge {
+  align-self: flex-start;
+  margin-bottom: var(--space-5);
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.aff-flow__badge--affiliate {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+
 .aff-flow__title {
-  margin-bottom: var(--space-7);
-  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--border);
 }
 
@@ -376,12 +403,12 @@
 
 .aff-flow__title h3 {
   font-family: var(--font-display);
-  font-size: 1.7rem;
+  font-size: 1.65rem;
 }
 
 .aff-steps {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -416,7 +443,7 @@
   display: block;
   margin-bottom: var(--space-2);
   color: var(--text);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
 }
 
 .aff-steps p {
@@ -424,6 +451,12 @@
   color: var(--text-muted);
   font-size: 0.9rem;
   line-height: 1.7;
+}
+
+@media (max-width: 960px) {
+  .aff-flows {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------------------------------------------------------------- dinheiro */
@@ -553,7 +586,47 @@
   line-height: 1.65;
 }
 
-/* ----------------------------------------------------------------- regras */
+/* ---------------------------------------------------------------- por que */
+.aff-why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.aff-why-card {
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.aff-why-card svg {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--primary-ink);
+}
+
+.aff-why-card strong {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.aff-why-card p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .aff-why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- regras */
 .aff-rules {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -700,23 +773,118 @@
   margin: 0;
 }
 
-/* ------------------------------------------------------------- guia interno */
-.affiliates-page #guiaCompleto {
-  margin-top: var(--space-9);
+/* ------------------------------------------------------------- flow cards */
+.aff-flow-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 3.5vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
 }
 
-.affiliates-page #guiaCompleto.hidden {
-  display: none;
+.aff-flow__badge {
+  align-self: flex-start;
+  margin-bottom: var(--space-5);
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-/* ------------------------------------------------------- painel do afiliado */
-/* O bloco do link nasce com flex-basis de 460px (largura) no desktop. Quando
-   o .creator-head vira coluna, esse valor passaria a valer como ALTURA e
-   deixaria um vazio enorme dentro da caixa tracejada. */
-@media (max-width: 720px) {
-  .creator-head .affiliate-code {
-    flex: 1 1 auto;
-    min-width: 0;
+.aff-flow__badge--affiliate {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+
+.aff-flow__title {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.aff-flow__title span {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--primary-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase.
+}
+
+.aff-flow__title h3 {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+}
+
+.aff-steps {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: aff-step;
+}
+
+.aff-steps li {
+  position: relative;
+  min-height: 44px;
+  padding-left: 58px;
+  counter-increment: aff-step;
+}
+
+.aff-steps li::before {
+  content: counter(aff-step, decimal-leading-zero);
+  position: absolute;
+  top: -3px;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface);
+  color: var(--primary-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.aff-steps strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.aff-steps p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 960px) {
+  .aff-flows {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------ why cards */
+.aff-why-card svg {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--primary-ink);
+}
+
+@media (max-width: 960px) {
+  .aff-why-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -775,127 +943,5 @@
 
   .aff-values__head {
     display: none;
-  }
-
-  .aff-values__row:not(.aff-values__head) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .aff-values__row:not(.aff-values__head) strong {
-    grid-column: 1 / -1;
-    padding: var(--space-4) var(--space-5);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.95rem;
-  }
-
-  .aff-values__row:not(.aff-values__head) span {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: var(--space-4) var(--space-5);
-    font-size: 0.95rem;
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(2) {
-    border-left: 0;
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(4) {
-    border-top: 1px solid var(--border);
-    border-left: 0;
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(5) {
-    border-top: 1px solid var(--border);
-  }
-
-  .aff-values__row:not(.aff-values__head) span::before {
-    color: var(--text-faint);
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(2)::before {
-    content: "Preço cheio";
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(3)::before {
-    content: "Usuário paga";
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(4)::before {
-    content: "Criador";
-  }
-
-  .aff-values__row:not(.aff-values__head) span:nth-child(5)::before {
-    content: "Afiliado";
-  }
-
-  .aff-cta {
-    grid-template-columns: 1fr;
-  }
-
-  .aff-cta__actions {
-    width: 100%;
-  }
-
-  .aff-cta__actions .btn {
-    width: 100%;
-  }
-}
-
-@media (max-width: 560px) {
-  .aff-actions {
-    flex-direction: column;
-  }
-
-  .aff-actions .btn {
-    width: 100%;
-  }
-
-  .aff-hero__card {
-    padding: var(--space-5);
-  }
-
-  .aff-splitbar {
-    height: 56px;
-  }
-
-  .aff-splitbar span {
-    font-size: 0.7rem;
-  }
-
-  .aff-splitlabels {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .aff-rules {
-    grid-template-columns: 1fr;
-  }
-
-  .aff-role {
-    padding: var(--space-6) var(--space-5);
-  }
-
-  .aff-steps li {
-    padding-left: 50px;
-  }
-}
-
-@media (max-width: 400px) {
-  /* Em telas estreitas o selo do topo nao pode quebrar em duas linhas: ele
-     encolhe um pouco e divide a linha com a marca. */
-  .affiliates-page .site-header .badge {
-    padding-inline: 0.6rem;
-    font-size: 0.72rem;
-    white-space: nowrap;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .partners-nav a {
-    transition: none;
   }
 }
