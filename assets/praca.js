@@ -16,18 +16,17 @@
 
   var TAG_LABELS = {
     ideia: 'Ideia',
-    recurso: 'Recurso novo',
     melhoria: 'Melhoria',
     bug: 'Problema (bug)',
     outro: 'Outro',
   };
 
+  var SORT_LABELS = { top: 'Mais populares', new: 'Mais recentes' };
+
   var ICONS = {
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>',
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
-    forum:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>',
   };
 
   var state = {
@@ -62,6 +61,20 @@
     if (className) node.className = className;
     if (text != null) node.textContent = text;
     return node;
+  }
+
+  /** Selo "adm" da conta de administração, ao lado do apelido. */
+  function seloAdm() {
+    return el('span', 'praca-badge-adm', 'adm');
+  }
+
+  /** "por @apelido" + selo, quando for a administração. */
+  function autorComSelo(username, admin, prefixo) {
+    var caixa = el('span', 'praca-autor');
+    if (prefixo) caixa.appendChild(el('span', null, prefixo));
+    caixa.appendChild(el('span', 'praca-autor__nome', '@' + username));
+    if (admin) caixa.appendChild(seloAdm());
+    return caixa;
   }
 
   function relativeTime(ts) {
@@ -149,7 +162,11 @@
     renderAuthState();
     return apiRequest('/forum/session')
       .then(function (data) {
-        storeSession({ token: stored.token, username: data.username || stored.username });
+        storeSession({
+          token: stored.token,
+          username: data.username || stored.username,
+          admin: data.admin === true,
+        });
         return true;
       })
       .catch(function (error) {
@@ -158,13 +175,22 @@
       });
   }
 
-  function requireLogin(notice, action) {
+  function requireLogin(action) {
     pendingAction = action || null;
-    setAuthNotice(notice || '');
     openAuthModal();
   }
 
   function afterLogin() {
+    // O detalhe pode ter sido aberto no modo "entre para comentar": com a
+    // conta aberta, ele precisa virar formulário de comentário.
+    if (!$('#praca-detail-modal').hidden) {
+      var postId = $('#praca-detail-content').getAttribute('data-id');
+      if (postId) {
+        apiRequest('/forum/posts/' + encodeURIComponent(postId)).then(function (detail) {
+          renderDetail(detail);
+        });
+      }
+    }
     if (!pendingAction) return;
     var action = pendingAction;
     pendingAction = null;
@@ -199,6 +225,41 @@
     authMode = state.session ? 'logged' : authMode;
     renderAuthModal();
     openModal($('#praca-auth-modal'), state.session ? $('#praca-logout-btn') : $('#praca-auth-user'));
+  }
+
+  /* --------------------------------------------------- menu de ordenação --- */
+
+  function setSortUI() {
+    var label = $('#praca-sort-label');
+    if (label) label.textContent = SORT_LABELS[state.sort] || state.sort;
+    $$('.praca-menu-option').forEach(function (option) {
+      option.setAttribute('aria-selected', option.getAttribute('data-sort') === state.sort ? 'true' : 'false');
+    });
+  }
+
+  function closeSortMenu() {
+    var menu = $('#praca-sort-menu');
+    var list = $('#praca-sort-list');
+    var button = $('#praca-sort-btn');
+    if (!menu || !list || !button) return;
+    menu.classList.remove('is-open');
+    list.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleSortMenu(force) {
+    var menu = $('#praca-sort-menu');
+    var list = $('#praca-sort-list');
+    var button = $('#praca-sort-btn');
+    if (!menu || !list || !button) return;
+    var open = typeof force === 'boolean' ? force : Boolean(list.hidden);
+    menu.classList.toggle('is-open', open);
+    list.hidden = !open;
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      var selected = $('.praca-menu-option[aria-selected="true"]', list) || $('.praca-menu-option', list);
+      if (selected) selected.focus();
+    }
   }
 
   function openNewModal() {
@@ -248,17 +309,20 @@
     });
   }
 
+  /** Chip discreto com a conta atual: só aparece com sessão aberta;
+      clicar abre o modal da conta (onde fica o "Sair"). */
   function renderAuthState() {
-    var button = $('#praca-auth-btn');
-    if (!button) return;
-    button.textContent = state.session ? '@' + state.session.username : 'Entrar';
-  }
-
-  function setAuthNotice(text) {
-    var notice = $('#praca-auth-notice');
-    if (!notice) return;
-    notice.hidden = !text;
-    notice.textContent = text || '';
+    var account = $('#praca-account-btn');
+    if (!account) return;
+    if (state.session) {
+      account.textContent = '';
+      account.appendChild(el('span', null, '@' + state.session.username));
+      if (state.session.admin) account.appendChild(seloAdm());
+      account.hidden = false;
+    } else {
+      account.hidden = true;
+      account.textContent = '';
+    }
   }
 
   function renderAuthModal() {
@@ -359,7 +423,7 @@
     body.appendChild(el('p', 'praca-post-excerpt', excerpt(post.body, 180)));
 
     var meta = el('div', 'praca-post-meta');
-    meta.appendChild(el('span', null, 'por @' + post.username));
+    meta.appendChild(autorComSelo(post.username, post.admin, 'por '));
     meta.appendChild(el('span', 'praca-meta-sep', '·'));
     meta.appendChild(el('span', null, relativeTime(post.created_at)));
     meta.appendChild(el('span', 'praca-meta-sep', '·'));
@@ -394,7 +458,6 @@
     var list = $('#praca-list');
     list.textContent = '';
     var empty = el('div', 'praca-empty');
-    empty.innerHTML = ICONS.forum;
     var title = el('h3');
     var text = el('p');
     if (state.tab === 'done') {
@@ -525,7 +588,7 @@
 
   function vote(postId, value, contextEl) {
     if (!state.session) {
-      requireLogin('Entre com sua conta para votar nas propostas.', {
+      requireLogin({
         type: 'vote',
         postId: postId,
         value: value,
@@ -560,7 +623,7 @@
       .catch(function (error) {
         if (error.status === 401) {
           storeSession(null);
-          requireLogin('Sua sessão expirou; entre de novo para votar.', {
+          requireLogin({
             type: 'vote',
             postId: postId,
             value: value,
@@ -594,6 +657,7 @@
       var item = el('div', 'praca-comment');
       var head = el('div', 'praca-comment-head');
       head.appendChild(el('span', 'praca-comment-author', '@' + comment.username));
+      if (comment.admin) head.appendChild(seloAdm());
       head.appendChild(el('span', null, relativeTime(comment.created_at)));
       if (comment.mine) {
         var del = el('button', 'praca-comment-del');
@@ -639,7 +703,7 @@
       button.type = 'button';
       button.textContent = 'Entrar';
       button.addEventListener('click', function () {
-        requireLogin('Entre para comentar nesta proposta.');
+        requireLogin(null);
       });
       cta.appendChild(button);
       wrap.appendChild(cta);
@@ -669,9 +733,11 @@
     head.appendChild(voteBox(post, true));
     content.appendChild(head);
 
-    content.appendChild(
-      el('p', 'praca-post-meta', 'por @' + post.username + ' · ' + relativeTime(post.created_at)),
-    );
+    var metaDetalhe = el('p', 'praca-post-meta');
+    metaDetalhe.appendChild(autorComSelo(post.username, post.admin, 'por '));
+    metaDetalhe.appendChild(el('span', 'praca-meta-sep', '·'));
+    metaDetalhe.appendChild(el('span', null, relativeTime(post.created_at)));
+    content.appendChild(metaDetalhe);
 
     if (post.status === 'done') {
       var note = el('p', 'praca-detail-note');
@@ -712,7 +778,7 @@
 
   function openNewOrLogin() {
     if (!state.session) {
-      requireLogin('Entre com sua conta para publicar uma proposta.', { type: 'new-post' });
+      requireLogin({ type: 'new-post' });
       return;
     }
     openNewModal();
@@ -739,8 +805,8 @@
         form.reset();
         state.tab = 'open';
         state.sort = 'new';
-        $('#praca-sort').value = 'new';
         syncTabs();
+        setSortUI();
         setStatus('Proposta publicada! Ela já está na lista — agora é hora de os votos falarem.');
         loadStatus();
         reload();
@@ -749,7 +815,7 @@
         if (error.status === 401) {
           storeSession(null);
           closeTopModal();
-          requireLogin('Sua sessão expirou; entre de novo para publicar.', { type: 'new-post' });
+          requireLogin({ type: 'new-post' });
         } else {
           showFormError('#praca-new-error', error.message);
         }
@@ -781,7 +847,7 @@
       body: { username: username, password: password },
     })
       .then(function (data) {
-        storeSession({ token: data.token, username: data.username });
+        storeSession({ token: data.token, username: data.username, admin: data.admin === true });
         form.reset();
         closeTopModal();
         afterLogin();
@@ -841,10 +907,30 @@
       });
     });
 
-    // ordenação
-    $('#praca-sort').addEventListener('change', function (event) {
-      state.sort = event.target.value;
-      reload();
+    // ordenação: menu customizado
+    $('#praca-sort-btn').addEventListener('click', function () {
+      toggleSortMenu();
+    });
+    $$('.praca-menu-option').forEach(function (option) {
+      option.addEventListener('click', function () {
+        state.sort = option.getAttribute('data-sort');
+        setSortUI();
+        closeSortMenu();
+        $('#praca-sort-btn').focus();
+        reload();
+      });
+    });
+    $('#praca-sort-list').addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+      event.preventDefault();
+      var options = $$('.praca-menu-option', $('#praca-sort-list'));
+      var index = options.indexOf(document.activeElement);
+      var next = event.key === 'ArrowDown' ? Math.min(index + 1, options.length - 1) : Math.max(index - 1, 0);
+      if (options[next]) options[next].focus();
+    });
+    document.addEventListener('click', function (event) {
+      var menu = $('#praca-sort-menu');
+      if (menu && !menu.contains(event.target)) closeSortMenu();
     });
 
     // nova proposta
@@ -855,8 +941,18 @@
       loadPosts(true);
     });
 
-    // header: entrar / conta
-    $('#praca-auth-btn').addEventListener('click', openAuthModal);
+    // conta: chip da sessão atual
+    $('#praca-account-btn').addEventListener('click', openAuthModal);
+
+    // senha: mostrar/ocultar
+    $('#praca-pass-toggle').addEventListener('click', function () {
+      var input = $('#praca-auth-pass');
+      var button = $('#praca-pass-toggle');
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      button.setAttribute('aria-pressed', show ? 'true' : 'false');
+      button.setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha');
+    });
 
     // delegação na lista: voto e abrir proposta
     $('#praca-list').addEventListener('click', function (event) {
@@ -924,7 +1020,14 @@
       });
     });
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closeTopModal();
+      if (event.key !== 'Escape') return;
+      var list = $('#praca-sort-list');
+      if (list && !list.hidden) {
+        closeSortMenu();
+        $('#praca-sort-btn').focus();
+        return;
+      }
+      closeTopModal();
     });
   }
 
@@ -996,6 +1099,7 @@
     bind();
     renderAuthState();
     syncTabs();
+    setSortUI();
     renderSkeletons(4);
     restoreSession().then(function () {
       if (pendingAction && state.session) afterLogin();

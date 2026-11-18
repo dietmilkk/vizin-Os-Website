@@ -40,3 +40,9 @@
 # Apelido antigo do programa de parceiros.
 /criadores /afiliados 301
 /criadores/ /afiliados 301
+
+# A página da comunidade já se chamou "Praça Romana": o endereço antigo
+# continua funcionando e leva para a nova.
+/praca-romana /comunidade 301
+/praca-romana/ /comunidade 301
+/praca-romana.html /comunidade 308

@@ -123,9 +123,9 @@
   ];
 
   var PUBLIC_NAV = [
-    ['A divisão', 'divisao'],
+    ['Como funciona', 'como-funciona'],
+    ['Dinheiro', 'divisao'],
     ['Participar', 'participar'],
-    ['O guia', 'guiaCompleto'],
   ];
 
   function setNavLinks(links) {
@@ -703,7 +703,7 @@
 
   function createAccount(code, isAfiliado, handle, allowRetry, cpf, email) {
     var body = { handle: handle, code: code, cpf: cpf, email: email };
-    if (!isAfiliado && attributionCode) body.afiliado_code = attributionCode;
+    if (!isAfiliado && attributionCode) body.hunter_code = attributionCode;
     return api(isAfiliado ? '/hunters' : '/creators', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -855,10 +855,16 @@
         if ($('withdrawPixCpf') && !$('withdrawPixCpf').value) {
           $('withdrawPixCpf').value = c.pix_cpf_cnpj || '';
         }
+        if ($('withdrawPix') && !$('withdrawPix').value) {
+          $('withdrawPix').value = c.pix_key || '';
+        }
+        if ($('withdrawEmail') && !$('withdrawEmail').value) {
+          $('withdrawEmail').value = c.email || '';
+        }
         pixNomeTitular.creator = c.pix_name || c.name || '';
-        if (data.afiliado) {
+        if (data.hunter) {
           $('creatorAfiliadoNote').textContent =
-            'Você foi convidado pelo afiliado @' + data.afiliado.handle + '.';
+            'Você foi convidado pelo afiliado @' + data.hunter.handle + '.';
           show('creatorAfiliadoNote');
         } else {
           hide('creatorAfiliadoNote');

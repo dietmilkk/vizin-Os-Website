@@ -31,6 +31,8 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+from lib.servidor_site import servir_site
+
 sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
 from seed_stats import (  # noqa: E402
     CONTAS_ATIVAS_1H,
@@ -158,13 +160,14 @@ def main() -> int:
             api_data = json.loads(response.read().decode("utf-8"))
 
         print(f"API de teste: {api_url}")
-        print(f"Site: {BASE}\n")
+        # O site é servido por este teste (rota /painel sem extensão).
+        site_port = free_port()
+        httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
+        print(f"Site: {site_base}\n")
 
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch()
             context = browser.new_context(viewport={"width": 1280, "height": 900})
-            # Aponta a API do site para a VPS local sem editar o repositório.
-            context.route("**/assets/config.js", apontar_para_api_local)
             page = context.new_page()
 
             console_errors: list[str] = []
@@ -185,7 +188,7 @@ def main() -> int:
             page.on("pageerror", lambda error: console_errors.append(str(error)))
 
             print("Carga da página (navegador de verdade)")
-            page.goto(f"{BASE}/painel", wait_until="networkidle")
+            page.goto(f"{site_base}/painel?api={api_url}", wait_until="networkidle")
             page.wait_for_function(
                 "() => document.getElementById('painelStatusTexto')"
                 "?.textContent?.startsWith('Atualizado')",
@@ -304,7 +307,7 @@ def main() -> int:
             )
             mobile.route("**/assets/config.js", apontar_para_api_local)
             mobile_page = mobile.new_page()
-            mobile_page.goto(f"{BASE}/painel", wait_until="networkidle")
+            mobile_page.goto(f"{site_base}/painel?api={api_url}", wait_until="networkidle")
             mobile_page.wait_for_function(
                 "() => document.getElementById('painelStatusTexto')"
                 "?.textContent?.startsWith('Atualizado')",

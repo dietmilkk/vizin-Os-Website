@@ -27,8 +27,10 @@ PAGINAS = [
     "/404.html",
 ]
 
-MOBILE = {"width": 390, "height": 844}
-PEQUENO = {"width": 320, "height": 640}
+from playwright.sync_api import ViewportSize
+
+MOBILE: ViewportSize = {"width": 390, "height": 844}
+PEQUENO: ViewportSize = {"width": 320, "height": 640}
 
 problemas: list[str] = []
 

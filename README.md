@@ -20,6 +20,7 @@ Sem build, sem framework e sem dependências de runtime.
 | `afiliados/index.html` | **Não listado** (`noindex`) | Hub único do programa de parceiros em `/afiliados`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
 | `moderacao/index.html` | Sim (`/moderacao`) | Manual público da moderação: níveis, denúncias (3 → revisão; 5 → oculto e votação de 7 dias), votação ponderada por reputação, quórum, banimentos e score de convivência |
 | `painel/index.html` | Sim (`/painel`) | Painel público com estatísticas agregadas do serviço (dispositivos ativos, regiões, consumo do servidor, parceiros), sem nenhum dado pessoal |
+| `praca-romana.html` | Sim (`/praca-romana`) | Praça Romana: fórum público de ideias e sugestões — contas leves (apelido + senha), propostas com votos (popularidade), comentários, tags e a aba “Já implementadas” |
 | `404.html` | — | Página de erro |
 
 A página `/afiliados` **não aparece no menu, no sitemap ou no rodapé**. Ela é
@@ -100,6 +101,7 @@ assets/creators.js          Programa de parceiros: cadastro, painéis, atribuiç
 assets/config.js            URL da API, link do APK e contato
 assets/pix.js               Gerador de BR Code (Pix) usado nos saques
 assets/panel.js             Painel público: busca /stats/public e atualiza a cada 60 s
+assets/praca.js             Praça Romana: contas, propostas, votos e comentários (fórum)
 assets/galeria/             Imagens da galeria de etapas
 assets/favicon.png          Favicon
 assets/icon-192.png         Ícone PWA
@@ -194,8 +196,47 @@ window.VIZINHANCA_CONFIG = Object.freeze({
 - **`androidUrl`**: o botão “Quero testar no Android” aponta para a Google Play
   Store.
 - **`apiUrl`**: usado pela página de criadores/afiliados para gerar códigos,
-  consultar comissões, gerenciar contatos e solicitar saques.
+  consultar comissões, gerenciar contatos e solicitar saques — e pela Praça
+  Romana para contas, propostas, votos e comentários.
 - **`contactEmail`**: contato exibido no rodapé e nas páginas públicas.
+
+## Praça Romana (fórum público de ideias)
+
+Página em `/praca-romana` (arquivo `praca-romana.html`): um fórum simples e
+limpo onde qualquer pessoa cria uma conta — só apelido e senha, sem e-mail e
+sem telefone — e publica propostas para o app. Cada proposta tem **tag**,
+**votos** (para cima/para baixo, que medem a popularidade) e **comentários**.
+A aba “Já implementadas” reúne as propostas que o criador do projeto marcou
+como feitas (é o registro público do que a praça pediu e conquistou).
+
+O fórum é servido pela API da VPS (`vps/src/forum.ts`), que cria as tabelas
+`forum_users`, `forum_sessions`, `forum_posts`, `forum_votes` e
+`forum_comments` no mesmo SQLite do resto do serviço:
+
+| Rota | O que faz |
+| --- | --- |
+| `GET /forum/status` | Sonda da página (conta de propostas em discussão e implementadas) |
+| `POST /forum/register` | Cria a conta (apelido 3–20, senha 8–128) e devolve o token |
+| `POST /forum/login` | Entra e devolve o token da sessão |
+| `POST /forum/logout` | Invalida a sessão |
+| `GET /forum/session` | Confere a sessão salva no navegador |
+| `GET /forum/posts` | Lista (`status=open\|done`, `tag=`, `sort=top\|new`, `limit`, `offset`) |
+| `POST /forum/posts` | Publica uma proposta (exige sessão) |
+| `GET /forum/posts/:id` | Proposta + comentários |
+| `POST /forum/posts/:id/vote` | Vota (`value` = 1, -1 ou 0 para tirar o voto) |
+| `POST /forum/posts/:id/comments` | Comenta (exige sessão) |
+| `DELETE /forum/posts/:id`, `DELETE /forum/comments/:id` | Apaga o próprio conteúdo (ou qualquer um, com token de painel) |
+| `POST /forum/admin/status` | Marca uma proposta como implementada (`status`, `note`) |
+
+Senhas são guardadas com **argon2id** (`Bun.password`) e as sessões são tokens
+opacos guardados como hash SHA-256, com validade de 30 dias. O token de
+painel (`FORUM_ADMIN_TOKEN`, com fallback para `MOD_PANEL_TOKEN`) é o que
+permite marcar propostas como implementadas e apagar conteúdo de terceiros.
+
+Tags aceitas: `ideia`, `melhoria`, `bug`, `outro`.
+
+Quando a API não responde, a página avisa que a Praça está fora do ar e não
+quebra: o resto do site continua funcionando normalmente.
 
 ## Página de criadores e afiliados
 

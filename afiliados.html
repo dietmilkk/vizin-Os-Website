@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" content="#FFF9F2">
-  <title>vizin.Os — adote uma região e divulgue o app</title>
-  <meta name="description" content="Programa de parceiros do vizin.Os: adote uma região próxima, divulgue o app nas mídias digitais locais e participe da receita que a região gerar. Sem pirâmide, sem taxa para entrar e sem promessa de renda fixa.">
+  <title>vizin.Os — Criadores e afiliados</title>
+  <meta name="description" content="Programa de criadores e afiliados do vizin.Os: escolha seu papel, veja como funciona, entenda a divisão do Plus e acompanhe comissões e saques.">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <link rel="icon" href="/assets/favicon.png" type="image/png">
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/brand/wordmark.png" as="image" crossorigin>
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/affiliates.css">
   <script>
     /* Antes de carregar o conteudo, a pagina e checada contra IP de datacenter,
        VPN ou fora do Brasil. Enquanto a checagem nao termina, nada aparece. */
@@ -1073,7 +1074,7 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="creators-page">
+<body class="creators-page affiliates-page">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="vizin.Os, início">
@@ -1084,205 +1085,150 @@
           <span class="visually-hidden">vizin.Os</span>
         </span>
       </a>
-      <span class="badge">Programa de parceiros</span>
+      <span class="badge">Criadores e afiliados</span>
     </div>
   </header>
 
   <main class="container">
-    <div id="partnerMarketing">
-      <section class="creators-hero" id="creatorsHero" data-reveal>
-
-        <div class="hero-orbs" aria-hidden="true">
-          <span class="hero-orb hero-orb--1"></span>
-          <span class="hero-orb hero-orb--2"></span>
-          <span class="hero-orb hero-orb--3"></span>
+    <div id="partnerMarketing" class="affiliate-marketing">
+      <section class="aff-hero" id="creatorsHero" aria-labelledby="aff-title">
+        <div class="aff-hero__copy">
+          <p class="aff-eyebrow">Criadores e afiliados</p>
+          <h1 id="aff-title">Divulgue o vizin.Os. Escolha como ganhar.</h1>
+          <p class="aff-hero__lead">
+            Use seu código para indicar pessoas à sua audiência ou recrute criadores para o programa. Nos dois caminhos, você acompanha resultados e saques pelo mesmo painel.
+          </p>
+          <div class="aff-actions">
+            <button class="btn btn-primary" type="button" data-open-create="creator">Quero ser criador</button>
+            <button class="btn btn-secondary" type="button" data-open-create="afiliado">Quero ser afiliado</button>
+          </div>
+          <p class="aff-assurance">Grátis para entrar. Sem meta obrigatória. Comissão somente por compras aprovadas.</p>
+          <div id="afiliadoBanner" class="afiliado-banner hidden" role="status"></div>
         </div>
-        <h1>Ajude sua região a se encontrar.</h1>
-        <p class="hero-lead">
-          Adote uma região próxima, divulgue o vizin.Os nas mídias digitais locais e participe
-          da receita que essa região gerar. Simples assim.
-        </p>
-        <p>
-          <strong>Qualquer pessoa pode participar.</strong> Sem entrevista, sem currículo, sem
-          meta mínima e sem pagar para entrar. Você cuida de uma região — não precisa morar
-          nela nem ser um único bairro.
-        </p>
-        <p>
-          <strong>Como funciona:</strong> escolha a região → divulgue em páginas, grupos e perfis
-          locais → gere resultado → receba conforme a receita atribuída à região. Tudo aparece
-          no painel e o saque é via PIX.
-        </p>
 
-        <div id="afiliadoBanner" class="afiliado-banner hidden" role="status"></div>
+        <aside class="aff-hero__card" aria-label="Resumo da divisão da receita">
+          <div class="aff-hero__card-head">
+            <strong>Divisão do Plus</strong>
+            <span>Preço de referência</span>
+          </div>
+          <div class="aff-splitbar" role="img" aria-label="30 por cento de desconto ao usuário, 50 por cento ao criador, 10 por cento ao afiliado e 10 por cento à operação.">
+            <span class="aff-share--user">30%</span>
+            <span class="aff-share--creator">50%</span>
+            <span class="aff-share--affiliate">10%</span>
+            <span class="aff-share--project">10%</span>
+          </div>
+          <div class="aff-splitlabels" aria-hidden="true">
+            <div><strong>Usuário</strong><span>desconto</span></div>
+            <div><strong>Criador</strong><span>comissão</span></div>
+            <div><strong>Afiliado</strong><span>comissão</span></div>
+            <div><strong>Operação</strong><span>estrutura</span></div>
+          </div>
+          <p class="aff-hero__note">O usuário paga 70% do preço cheio; essa quantia é repartida entre as três comissões.</p>
+        </aside>
       </section>
 
-      <section class="creators-hero-mobile">
-        <h1>Ajude sua região a se encontrar.</h1>
-        <p class="hero-lead">
-          Adote uma região, divulgue nas mídias locais e participe da receita que ela gerar.
-        </p>
-        <p>
-          <strong>Entrada livre:</strong> sem entrevista, currículo, meta ou pagamento para entrar.
-        </p>
-        <p>
-          <strong>Próximo passo:</strong> escolher região → divulgar → acompanhar no painel → sacar via PIX.
-        </p>
+      <section class="aff-section" id="como-funciona" aria-labelledby="aff-roles-title">
+        <div class="aff-section__head">
+          <h2 id="aff-roles-title">Escolha seu papel.</h2>
+          <p>Você pode começar em um e criar o outro depois. As duas contas usam o mesmo e-mail.</p>
+        </div>
+
+        <div class="aff-roles">
+          <article class="aff-role">
+            <span class="aff-role__tag">Se você tem audiência</span>
+            <h3>Criador</h3>
+            <p>Crie seu código, divulgue para o seu público e acompanhe cada indicação.</p>
+            <ul>
+              <li><strong>50%</strong> do preço de referência em cada compra aprovada enquanto a indicação estiver válida.</li>
+              <li>Quem usa seu código ganha <strong>15 dias de Plus</strong> e 30% de desconto no checkout iniciado em até 365 dias.</li>
+              <li>Saldo e saques por Pix no seu painel.</li>
+            </ul>
+            <button class="btn btn-primary" type="button" data-open-create="creator">Criar conta de criador</button>
+          </article>
+
+          <article class="aff-role aff-role--affiliate">
+            <span class="aff-role__tag">Se você encontra criadores</span>
+            <h3>Afiliado</h3>
+            <p>Apresente o projeto a criadores e receba quando eles gerarem compras.</p>
+            <ul>
+              <li><strong>10%</strong> do preço de referência nas compras aprovadas dos usuários do criador que você recrutou.</li>
+              <li>Envie um convite pelo painel a cada <strong>3 dias</strong>, já com seu link creditado.</li>
+              <li>Acompanhe contatos, comissões e saques em um só lugar.</li>
+            </ul>
+            <button class="btn btn-secondary" type="button" data-open-create="afiliado">Criar conta de afiliado</button>
+          </article>
+        </div>
       </section>
 
-      <section class="form-card creators-guide" id="divisao" data-reveal>
-        <h2>O que não é este programa</h2>
-        <p>
-          Não é pirâmide, não é dinheiro fácil e não exige pagamento para entrar. Também não
-          promete renda fixa: a comissão depende de resultado real, atribuído à região que você
-          ajudou a divulgar. Nada de espalhar link em todo lugar — o foco são mídias digitais
-          de localidades próximas.
-        </p>
-
-        <div class="split-bar" role="img" aria-label="Divisão da receita: 30% para o usuário em desconto, 50% para o criador, 10% para o afiliado e 10% para estrutura, servidores, manutenção e desenvolvimento.">
-          <span class="split-segment split-user" style="--share: 30%">30%</span>
-          <span class="split-segment split-creator" style="--share: 50%">50%</span>
-          <span class="split-segment split-afiliado" style="--share: 10%">10%</span>
-          <span class="split-segment split-dev" style="--share: 10%">10%</span>
+      <section class="aff-section aff-section--tint" id="passo-a-passo" aria-labelledby="aff-flow-title">
+        <div class="aff-section__head">
+          <h2 id="aff-flow-title">O caminho é simples.</h2>
+          <p>Cada etapa fica registrada no painel, do primeiro contato à comissão.</p>
         </div>
 
-        <div class="split-grid">
-          <article class="split-item split-item--user">
-            <strong>30% usuário</strong>
-            <p>Desconto na assinatura do Plus durante o primeiro ano.</p>
-          </article>
-          <article class="split-item split-item--creator">
-            <strong>50% criador</strong>
-            <p>Comissão por cada usuário que entrar com o código do criador.</p>
-          </article>
-          <article class="split-item split-item--afiliado">
-            <strong>10% afiliado</strong>
-            <p>Comissão por cada criador que o afiliado trouxe para o programa.</p>
-          </article>
-          <article class="split-item split-item--dev">
-            <strong>10% desenvolvimento</strong>
-            <p>
-              Estrutura, servidores, manutenção e desenvolvimento.
-            </p>
-          </article>
-        </div>
-
-        <div class="flow-example" aria-labelledby="flowExampleTitle">
-          <div class="flow-example__head">
-            <h3 id="flowExampleTitle">Ex: você conseguiu trazer 100 usuários para dentro do app</h3>
-            <p>
-              Valor varia, mas como exemplo, consideraremos, R$ 9,87 por cada usuário que pagou
-              a assinatura, R$ 9,87 x 100 =~ R$ 1.000.
-            </p>
+        <div class="aff-flows">
+          <div>
+            <div class="aff-flow__title">
+              <span>Criador</span>
+              <h3>Do código à comissão</h3>
+            </div>
+            <ol class="aff-steps">
+              <li><strong>Crie seu código</strong><p>Escolha um código de 3 a 32 caracteres.</p></li>
+              <li><strong>Divulgue</strong><p>Compartilhe o código no seu conteúdo ou com sua audiência.</p></li>
+              <li><strong>O usuário registra o código</strong><p>A indicação fica válida por 365 dias.</p></li>
+              <li><strong>Receba e saque</strong><p>Pagamentos aprovados geram comissão; solicite o saldo por Pix.</p></li>
+            </ol>
           </div>
 
-          <div class="flow-canvas">
-            <svg class="flow-diagram" viewBox="0 34 1200 280" role="img" aria-labelledby="flowDiagramTitle flowDiagramDesc" focusable="false">
-              <defs>
-                <linearGradient id="flowDiscount" gradientUnits="userSpaceOnUse" x1="236" y1="0" x2="410" y2="0">
-                  <stop offset="0" stop-color="#c62d42"/>
-                  <stop offset="0.6" stop-color="#dc7183"/>
-                  <stop offset="1" stop-color="#f2c3cb"/>
-                </linearGradient>
-              </defs>
-              <title id="flowDiagramTitle">Da receita de R$ 1.000 até a divisão entre usuários, criadores, afiliados e desenvolvimento</title>
-              <desc id="flowDiagramDesc">Cem usuários geram cerca de R$ 1.000. Desse valor, 30% (R$ 300) viram desconto para os usuários, 50% (R$ 500) vão para os criadores de conteúdo, 10% (R$ 100) para os afiliados e 10% (R$ 100) para a desenvolvedora. Os pontinhos indicam que mais linhas podem entrar em cada etapa.</desc>
-
-              <!-- Origem: usuários que pagaram a assinatura. -->
-              <rect x="40" y="118" width="170" height="34" rx="9" fill="#4a8df0"/>
-              <text x="125" y="141" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Usuários</text>
-
-              <path d="M49 170H200L236 234L200 298H49C44.03 298 40 293.97 40 289V179C40 174.03 44.03 170 49 170Z" fill="#4a8df0"/>
-              <text x="122" y="228" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">1k/30% = R$300</text>
-              <text x="122" y="250" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="12">(desconto)</text>
-
-              <!-- Etapa vermelha: os pontinhos abaixo indicam novas entradas que
-                   podem se juntar ao desconto. -->
-              <circle cx="366" cy="304" r="5" fill="#f2c3cb"/>
-              <circle cx="388" cy="304" r="5" fill="#f2c3cb"/>
-              <circle cx="410" cy="304" r="5" fill="#f2c3cb"/>
-
-              <path class="flow-line" d="M236 194H344C392 194 414 206 442 206" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M236 208H356C400 208 420 210 442 210" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M236 222H368C408 222 426 216 442 216" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M236 236H380C416 236 430 222 442 222" fill="none" stroke="#c62d42" stroke-linecap="round"/>
-              <path class="flow-line" d="M236 250H318C350 250 356 284 376 292" fill="none" stroke="url(#flowDiscount)" stroke-linecap="round"/>
-
-              <path d="M442 192L472 214 442 236Z" fill="#c62d42" stroke="#c62d42" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="482" y="180" width="138" height="84" rx="9" fill="#b0243a"/>
-              <rect x="472" y="172" width="138" height="84" rx="9" fill="#c62d42"/>
-              <text x="541" y="203" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">1k/50% =</text>
-              <text x="541" y="224" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">R$500</text>
-              <text x="541" y="245" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">Criadores de Cont.</text>
-
-              <!-- Etapa roxa: três grupos de pontinhos — um na altura da seta,
-                   um logo abaixo e outro mais embaixo, cada um com sua linha. -->
-              <circle cx="636" cy="150" r="5" fill="#d9cbf8"/>
-              <circle cx="658" cy="150" r="5" fill="#d9cbf8"/>
-              <circle cx="680" cy="150" r="5" fill="#d9cbf8"/>
-              <circle cx="636" cy="196" r="5" fill="#d9cbf8"/>
-              <circle cx="658" cy="196" r="5" fill="#d9cbf8"/>
-              <circle cx="680" cy="196" r="5" fill="#d9cbf8"/>
-              <circle cx="636" cy="250" r="5" fill="#d9cbf8"/>
-              <circle cx="658" cy="250" r="5" fill="#d9cbf8"/>
-              <circle cx="680" cy="250" r="5" fill="#d9cbf8"/>
-
-              <path class="flow-line" d="M688 150H720C732 150 736 134 740 134" fill="none" stroke="#c4b5fd" stroke-linecap="round"/>
-              <path class="flow-line" d="M688 196H704C732 196 736 166 740 166" fill="none" stroke="#c4b5fd" stroke-linecap="round"/>
-              <path class="flow-line" d="M688 250H696C730 250 736 172 740 172" fill="none" stroke="#d9cbf8" stroke-linecap="round"/>
-
-              <path class="flow-line flow-line--main" d="M610 200H672C716 200 726 146 740 146" fill="none" stroke="#7c3aed" stroke-linecap="round"/>
-              <path class="flow-line flow-line--main" d="M610 228H676C722 228 730 156 740 156" fill="none" stroke="#8b5cf6" stroke-linecap="round"/>
-
-              <path d="M740 128L770 150 740 172Z" fill="#7c3aed" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="780" y="116" width="140" height="84" rx="9" fill="#6f2ed6"/>
-              <rect x="770" y="108" width="140" height="84" rx="9" fill="#7c3aed"/>
-              <text x="840" y="138" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">1k/10% =</text>
-              <text x="840" y="159" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">R$100</text>
-              <text x="840" y="181" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">Afiliados</text>
-
-              <!-- Etapa verde: mesma regra de três grupos de pontinhos,
-                   com as linhas convergindo para o centro da seta. -->
-              <circle cx="936" cy="82" r="5" fill="#a9d8c7"/>
-              <circle cx="958" cy="82" r="5" fill="#a9d8c7"/>
-              <circle cx="980" cy="82" r="5" fill="#a9d8c7"/>
-              <circle cx="936" cy="128" r="5" fill="#a9d8c7"/>
-              <circle cx="958" cy="128" r="5" fill="#a9d8c7"/>
-              <circle cx="980" cy="128" r="5" fill="#a9d8c7"/>
-              <circle cx="936" cy="184" r="5" fill="#a9d8c7"/>
-              <circle cx="958" cy="184" r="5" fill="#a9d8c7"/>
-              <circle cx="980" cy="184" r="5" fill="#a9d8c7"/>
-
-              <path class="flow-line" d="M988 82H1010C1018 82 1022 66 1026 66" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
-              <path class="flow-line" d="M988 128H1006C1018 128 1022 98 1026 98" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
-              <path class="flow-line" d="M988 184H1004C1020 184 1022 104 1026 104" fill="none" stroke="#a9d8c7" stroke-linecap="round"/>
-
-              <path class="flow-line flow-line--main" d="M910 146H960C1000 146 1010 80 1026 80" fill="none" stroke="#16795b" stroke-linecap="round"/>
-              <path class="flow-line flow-line--main" d="M910 172H962C1004 172 1014 90 1026 90" fill="none" stroke="#3f9c7f" stroke-linecap="round"/>
-
-              <path d="M1026 60L1056 82 1026 104Z" fill="#16795b" stroke="#16795b" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="1066" y="48" width="126" height="84" rx="9" fill="#136b50"/>
-              <rect x="1056" y="40" width="126" height="84" rx="9" fill="#16795b"/>
-              <text x="1119" y="70" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">1k/10% =</text>
-              <text x="1119" y="91" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">R$100</text>
-              <text x="1119" y="113" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">Desenvolvedora</text>
-            </svg>
+          <div>
+            <div class="aff-flow__title">
+              <span>Afiliado</span>
+              <h3>Do convite à comissão</h3>
+            </div>
+            <ol class="aff-steps">
+              <li><strong>Crie sua conta</strong><p>Seu código e seu link de afiliado são gerados automaticamente.</p></li>
+              <li><strong>Convide um criador</strong><p>O painel verifica a base compartilhada e envia o e-mail com seu link.</p></li>
+              <li><strong>O criador entra pelo link</strong><p>Ele cria a conta no mesmo navegador em até 180 dias; o vínculo fica salvo.</p></li>
+              <li><strong>Receba e saque</strong><p>As compras aprovadas dos usuários desse criador geram sua comissão.</p></li>
+            </ol>
           </div>
-
-          <p class="flow-scroll-hint" aria-hidden="true">Deslize para ver o fluxo completo →</p>
         </div>
       </section>
 
-      <section class="form-card creators-guide participate-card" id="participar" data-reveal>
-        <h2>Quero participar</h2>
-        <div class="participate-actions">
-          <button class="btn btn-primary" type="button" data-open-create="creator">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-            Quero ser criador
-          </button>
-          <button class="btn btn-secondary" type="button" data-open-create="afiliado">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M8 11h6M11 8v6"/></svg>
-            Quero ser afiliado
-          </button>
+      <section class="aff-section" id="divisao" aria-labelledby="aff-money-title">
+        <div class="aff-section__head">
+          <h2 id="aff-money-title">Entenda os valores.</h2>
+          <p>No exemplo, o Plus custa R$ 9,90 e o usuário recebe 30% de desconto.</p>
+        </div>
+
+        <div class="aff-money-grid">
+          <div class="aff-money-equation">
+            <span>Uma compra aprovada</span>
+            <strong>R$ 6,93</strong>
+            <p>É esse valor pago que o sistema distribui entre criador, afiliado e operação.</p>
+          </div>
+          <div class="aff-money-list">
+            <div><strong>R$ 4,95</strong><span>Criador · 50%</span><p>Valor equivalente a 50% do preço cheio.</p></div>
+            <div><strong>R$ 0,99</strong><span>Afiliado · 10%</span><p>Quando a compra vem de um criador recrutado por você.</p></div>
+            <div><strong>R$ 0,99</strong><span>Operação · 10%</span><p>Financia infraestrutura, manutenção e desenvolvimento.</p></div>
+            <div><strong>365 dias</strong><span>Validade</span><p>Período em que a indicação mantém seus benefícios e comissões.</p></div>
+          </div>
+        </div>
+
+        <p class="aff-values__note">
+          Percentuais calculados sobre o preço cheio e arredondados para baixo a cada pagamento. O trial não gera comissão. O programa não garante vendas ou renda; valores são brutos eOs impostos aplicáveis ficam a cargo do parceiro.
+        </p>
+      </section>
+
+      <section class="aff-cta" id="participar" aria-labelledby="aff-cta-title">
+        <div>
+          <p class="aff-eyebrow">Comece agora</p>
+          <h2 id="aff-cta-title">Crie sua conta e veja seu painel.</h2>
+          <p>Escolha seu papel, confirme seus dados e comece a acompanhar o programa.</p>
+        </div>
+        <div class="aff-cta__actions">
+          <button class="btn btn-primary" type="button" data-open-create="creator">Quero ser criador</button>
+          <button class="btn btn-secondary" type="button" data-open-create="afiliado">Quero ser afiliado</button>
         </div>
       </section>
     </div>
@@ -1375,15 +1321,15 @@
             </div>
             <div class="field">
               <label for="withdrawPix">Chave Pix para receber</label>
-              <input id="withdrawPix" maxlength="200" readonly value="chave-pix@exemplo.com">
+              <input id="withdrawPix" maxlength="200" placeholder="Informe sua chave Pix">
             </div>
             <div class="field">
               <label for="withdrawPixCpf">CPF ou CNPJ do titular</label>
-              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric" readonly value="12345678901">
+              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric" placeholder="Somente números">
             </div>
             <div class="field">
               <label for="withdrawEmail">E-mail para o comprovante</label>
-              <input id="withdrawEmail" type="email" maxlength="200" readonly value="usuario@exemplo.com">
+              <input id="withdrawEmail" type="email" maxlength="200" placeholder="seu@email.com">
             </div>
             <button class="btn btn-primary" id="withdrawButton" type="button">Sacar saldo disponível</button>
             <div id="withdrawError" class="error" role="alert"></div>
@@ -1451,7 +1397,9 @@
                   <div class="stat stat--accent"><div class="label">Criadores recrutados</div><div class="value" id="afiliadoStatCreators">0</div></div>
                   <div class="stat"><div class="label">Indicações geradas</div><div class="value" id="afiliadoStatReferrals">0</div></div>
                   <div class="stat" id="afiliadoStatEmailsCard"><div class="label">E-mails enviados</div><div class="value" id="afiliadoStatEmails">0/1</div></div>
-                  <div class="stat"><div class="label">Em processamento</div><div class="value" id="afiliadoStatPending">R$ 0,00</div></div>
+                  <div class="stat"><div class="label">Comissão total</div><div class="value" id="afiliadoStatCommission">R$ 0,00</div></div>
+                  <div class="stat stat--accent"><div class="label">Disponível para saque</div><div class="value" id="afiliadoStatAvailable">R$ 0,00</div></div>
+                  <div class="stat"><div class="label">Saque em andamento</div><div class="value" id="afiliadoStatPending">R$ 0,00</div></div>
                   <div class="stat"><div class="label">Já sacado</div><div class="value" id="afiliadoStatWithdrawn">R$ 0,00</div></div>
                 </div>
               </div>
@@ -1930,9 +1878,9 @@
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             <span>Afiliados</span>
           </a>
-          <a class="explore-card" href="/praca-romana">
+          <a class="explore-card" href="/comunidade">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
-            <span>Praça Romana</span>
+            <span>Comunidade</span>
           </a>
           <a class="explore-card" href="/moderacao">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>

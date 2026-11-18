@@ -21,6 +21,8 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+from lib.servidor_site import servir_site
+
 ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = Path(os.environ.get("VIZIN_APP_DIR", ROOT.parent / "app")).resolve()
 VPS_ENTRY = APP_DIR / "vps" / "src" / "index.ts"
@@ -108,11 +110,9 @@ def main() -> int:
         wait_for_health(port, process)
         subprocess.run(["python3", str(SEED_SCRIPT), str(data_dir / "vizin.sqlite")], check=True, capture_output=True)
         api_url = f"http://127.0.0.1:{port}"
-
-        def apontar_para_api_local(route):
-            response = route.fetch()
-            corpo = response.text().replace("apiUrl: 'https://api.188.166.156.109.sslip.io'", f"apiUrl: '{api_url}'")
-            route.fulfill(response=response, body=corpo, headers={**response.headers, "content-type": "application/javascript; charset=utf-8"})
+        # O site é servido por este teste (rota /painel sem extensão).
+        site_port = free_port()
+        httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
 
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch()
@@ -124,9 +124,8 @@ def main() -> int:
             ]:
                 print(f"\n{nome} ({viewport['width']}px)")
                 context = browser.new_context(viewport=viewport, is_mobile=mobile, has_touch=mobile)
-                context.route("**/assets/config.js", apontar_para_api_local)
                 page = context.new_page()
-                page.goto(f"{BASE}/painel", wait_until="networkidle")
+                page.goto(f"{site_base}/painel?api={api_url}", wait_until="networkidle")
                 page.wait_for_function(
                     "() => document.getElementById('painelStatusTexto')?.textContent?.startsWith('Atualizado')",
                     timeout=20_000,
