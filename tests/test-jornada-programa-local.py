@@ -69,7 +69,11 @@ def main() -> int:
                 # Uma aba nova a cada passo: a sessao da conta anterior fica
                 # na aba antiga (como no navegador de verdade).
                 pagina = contexto.new_page()
-                pagina.goto(f"{site_base}{rota}?api={api_base}", wait_until="domcontentloaded")
+                separador = "&" if "?" in rota else "?"
+                pagina.goto(
+                    f"{site_base}{rota}{separador}api={api_base}",
+                    wait_until="domcontentloaded",
+                )
                 pagina.wait_for_timeout(900)
 
             def abrir_painel(link: str):
@@ -200,30 +204,37 @@ def main() -> int:
             print("\n[6] Afiliado registra o contato de um criador")
             pagina.fill("#outreachName", "Carlos")
             pagina.fill("#outreachEmail", "carlos@example.com")
+            pagina.fill("#outreachContact", "@carloscria")
             plataforma = pagina.locator("#outreachPlatform")
             if plataforma.count():
                 plataforma.select_option(index=1)
             pagina.click("#outreachButton")
             pagina.wait_for_timeout(1800)
             estado = pagina.get_attribute("#outreachStatus", "data-estado") or ""
-            check("envio do convite confirmado", estado in ("enviado", "erro"), estado)
+            check("envio do convite confirmado", estado == "enviado", estado or pagina.inner_text("#outreachError"))
             check(
                 "contato aparece na lista",
                 "Carlos" in pagina.inner_text("#outreachList"),
                 pagina.inner_text("#outreachList")[:100],
+            )
+            check(
+                "cota de contatos conta o envio",
+                pagina.inner_text("#afiliadoStatOutreach").strip() not in ("", "0"),
+                pagina.inner_text("#afiliadoStatOutreach"),
             )
 
             print("\n[7] O link com o codigo do afiliado atribui o criador")
             codigo_afiliado = link_divulga.split("=")[-1] if "=" in link_divulga else ""
             if codigo_afiliado:
                 abrir(f"/afiliados?a={codigo_afiliado}")
+                guardado = pagina.evaluate(
+                    "() => (window.localStorage.getItem('vizin.os.afiliado.v1')"
+                    " || window.localStorage.getItem('vizin-os.afiliado.v1') || '')"
+                )
                 check(
                     "a atribuicao fica registrada",
-                    pagina.evaluate(
-                        "() => (window.localStorage.getItem('vizin.os.afiliado.v1')"
-                        " || window.localStorage.getItem('vizin-os.afiliado.v1') || '')"
-                    ).find(codigo_afiliado) >= 0,
-                    codigo_afiliado,
+                    codigo_afiliado in guardado,
+                    f"{guardado!r} (codigo {codigo_afiliado!r})",
                 )
             else:
                 check("link de divulgacao tem parametro", False, link_divulga)

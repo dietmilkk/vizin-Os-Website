@@ -668,6 +668,17 @@
     $('dashboardLink').textContent = link;
     $('createdTitle').textContent = 'Pronto 🎉';
     $('createdIntro').textContent = 'Guarde o link, ele é a sua senha. A janela atual já está aberta — feche e reabra pelo link quando quiser.';
+    /* O codigo e o dado que a pessoa vai compartilhar: aparece logo aqui,
+       para nao precisar abrir o painel para descobrir. */
+    var codeBox = $('createdCode');
+    if (codeBox) {
+      $('createdCodeValue').textContent = entity.code;
+      $('createdCodeLabel').textContent = isAfiliado ? 'Seu código de afiliado' : 'Seu código de criador';
+      $('createdCodeHint').textContent = isAfiliado
+        ? 'Ele identifica a sua indicação nos cadastros.'
+        : 'É ele que identifica as suas indicações.';
+      codeBox.classList.remove('hidden');
+    }
     hide('createView');
     show('createdView');
     /* A URL atual fica limpa: o token vai para sessionStorage (sessão da aba). */

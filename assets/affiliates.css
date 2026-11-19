@@ -283,7 +283,6 @@
 }
 
 .aff-role__tag {
-  align-self: flex-start;
   margin-bottom: var(--space-6);
   padding: 6px 11px;
   border-radius: 999px;
