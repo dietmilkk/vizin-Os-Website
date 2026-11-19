@@ -310,9 +310,9 @@
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page-painel">
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href="#content">Pular para o conteúdo</a>
 
-  <header class="site-header" id="topo">
+  <header class="site-header" id="top">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="vizin.Os, início">
         <span class="brand-mark" aria-hidden="true">
@@ -329,7 +329,7 @@
     </div>
   </header>
 
-  <main id="conteudo">
+  <main id="content">
 
     </section>
 
@@ -360,6 +360,7 @@
           <div class="stat stat--span2" id="painelRegioesCard">
             <div class="label">Regiões com gente ativa</div>
             <div class="value" id="painelRegioes">—</div>
+            <div id="painelRegioesLista" class="panel-regioes"></div>
           </div>
           <div class="stat stat--span2">
             <div class="label">Servidor no ar há</div>
@@ -449,6 +450,18 @@
             <div class="value" id="painelNovas24h">—</div>
           </div>
           <div class="stat stat--span2">
+            <div class="label">Contas com username</div>
+            <div class="value" id="painelUsernames">—</div>
+            <div class="barra-trilho barra-trilho--mini" aria-hidden="true"><span class="barra-fill" id="painelBarraUsernames"></span></div>
+            <p class="stat-sub" id="painelUsernamesLegenda">—</p>
+          </div>
+          <div class="stat stat--span2">
+            <div class="label">Cofres salvos</div>
+            <div class="value" id="painelCofres">—</div>
+            <div class="barra-trilho barra-trilho--mini" aria-hidden="true"><span class="barra-fill" id="painelBarraCofres"></span></div>
+            <p class="stat-sub" id="painelCofresLegenda">—</p>
+          </div>
+          <div class="stat stat--span2">
             <div class="label">Novas contas em 7 dias</div>
             <div class="value" id="painelNovas7d">—</div>
           </div>
@@ -504,6 +517,10 @@
           <div class="stat">
             <div class="label">Saques pagos</div>
             <div class="value" id="painelSaques">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Total movimentado</div>
+            <div class="value" id="painelProgramaTotal">—</div>
           </div>
         </div>
         <div class="stats-grid stats-grid--bento">
@@ -603,7 +620,8 @@
         o Android, mas a vontade de expandir existe.
       </p>
       <p>
-        Se quiser ajudar o projeto a crescer, qualquer
+        Se quiser participar de perto, acesse a
+        <a href="/comunidade">página de Comunidade</a> e ajude a decidir o rumo do app. Se quiser apoiar o projeto a crescer, qualquer
         <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a> é muito bem-vinda.
       </p>
       <p>

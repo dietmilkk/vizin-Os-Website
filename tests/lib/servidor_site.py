@@ -12,6 +12,7 @@ Uso:
 import functools
 import http.server
 import os
+import socket
 import socketserver
 import threading
 
@@ -19,13 +20,21 @@ import threading
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Rotas sem extensão -> arquivo real.
+# Espelha o rewrite de producao (.htaccess / _redirects): toda URL publica
+# sem extensao resolve para o .html correspondente.
 PAGES = {
-    "/painel": "painel.html",
     "/": "index.html",
-    "/moderacao": "moderacao.html",
-    "/praca-romana": "praca-romana.html",
     "/afiliados": "afiliados.html",
+    "/comunidade": "comunidade.html",
+    "/doar": "doar.html",
     "/documento": "documento.html",
+    "/download": "download.html",
+    "/licenca": "licenca.html",
+    "/manifesto": "manifesto.html",
+    "/moderacao": "moderacao.html",
+    "/painel": "painel.html",
+    "/privacidade": "privacidade.html",
+    "/termos": "termos.html",
 }
 
 
@@ -49,6 +58,9 @@ def servir_site(port, pages=None):
     class Handler(_Handler):
         def translate_path(self, path):
             clean = path.split("?")[0].split("#")[0]
+            # Aceita a rota com barra final ("/afiliados/") como a sem barra.
+            if clean.endswith("/") and clean[:-1] in PAGES:
+                clean = clean[:-1]
             if pages and clean in pages:
                 clean = "/" + pages[clean]
             elif clean in PAGES:
@@ -56,6 +68,23 @@ def servir_site(port, pages=None):
             return http.server.SimpleHTTPRequestHandler.translate_path(self, clean)
 
     socketserver.TCPServer.allow_reuse_address = True
-    httpd = socketserver.TCPServer(("127.0.0.1", port), Handler)
+
+    class DualStackServer(socketserver.ThreadingTCPServer):
+        """Escuta em IPv4 e IPv6 (localhost pode resolver para qualquer um)."""
+
+        address_family = socket.AF_INET6
+
+        def server_bind(self):
+            try:
+                self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+            except OSError:
+                pass
+            return super().server_bind()
+
+    try:
+        httpd = DualStackServer(("::", port), Handler)
+    except OSError:
+        httpd = socketserver.ThreadingTCPServer(("0.0.0.0", port), Handler)
+    httpd.daemon_threads = True
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     return httpd, f"http://127.0.0.1:{port}"

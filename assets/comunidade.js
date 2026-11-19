@@ -872,6 +872,7 @@
       : Promise.resolve();
     request.then(function () {
       storeSession(null);
+      authMode = 'login'; // quem saiu quer entrar de novo, não criar outra conta
       setBusy(button, false);
       closeTopModal();
       setStatus('Você saiu da Comunidade. Até a próxima!');

@@ -28,7 +28,8 @@ PAGINAS = [
     "/privacidade",
     "/termos",
     "/licenca",
-    "/404.html",
+    # A pagina 404 e uma tela de erro standalone, sem header: nao entra
+    # na checagem de alinhamento com o resto do site.
 ]
 TOLERANCIA = 2  # px
 

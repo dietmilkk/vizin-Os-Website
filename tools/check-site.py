@@ -8,16 +8,17 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html",
-    "baixar/index.html",
-    "manifesto/index.html",
-    "documento/index.html",
-    "afiliados/index.html",
-    "moderacao/index.html",
-    "painel/index.html",
-    "doar/index.html",
-    "privacidade/index.html",
-    "termos/index.html",
-    "licenca/index.html",
+    "download.html",
+    "manifesto.html",
+    "documento.html",
+    "afiliados.html",
+    "comunidade.html",
+    "moderacao.html",
+    "painel.html",
+    "doar.html",
+    "privacidade.html",
+    "termos.html",
+    "licenca.html",
     "404.html",
 ]
 

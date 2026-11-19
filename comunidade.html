@@ -649,25 +649,66 @@
 }
 
 /* ------------------------------------------------------------- modais */
+/* Espaçamento reformulado: respiro maior no cartão, hierarquia clara
+   (título → texto → alternador → campos → erro → ação → nota) e grupos
+   separados por fatias consistentes em vez de empilhados colados. */
 .comunidade-modal-card {
-  width: min(100%, 680px);
-  padding: var(--space-6);
+  width: min(100%, 640px);
+  padding: clamp(var(--space-6), 4vw, var(--space-8));
+  /* O botão de fechar é absoluto (canto superior direito) e ocupa a faixa
+     superior do cartão: o padding-top reserva a altura do botão (36px)
+     mais uma folga, para o título não colidir em nenhuma largura. */
+  padding-top: max(var(--space-7), 44px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
 .comunidade-modal-card h2 {
   margin: 0;
+  margin-top: var(--space-3);
+  padding-right: var(--space-7);
   font-size: clamp(1.5rem, 3vw, 1.9rem);
+  line-height: 1.25;
+}
+
+/* No topo do cartão o botão de fechar é absoluto: no celular o título
+   reserva mais espaço à direita para não dividir linha com ele. */
+@media (max-width: 560px) {
+  .comunidade-modal-card h2 {
+    padding-right: 52px;
+  }
 }
 
 .comunidade-modal-sub {
-  margin: var(--space-2) 0 0;
+  margin: 0;
   color: var(--text-muted);
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+/* Grupos do formulário (campos, erro + botão, nota) respiram entre si. */
+.comunidade-modal-card form,
+.comunidade-modal-card [id^="comunidade-auth-err"],
+.comunidade-modal-card .comunidade-modal-note {
+  margin: 0;
+}
+
+.comunidade-modal-card form > .field {
+  margin-top: 0;
+}
+
+.comunidade-modal-card form > .field + .field {
+  margin-top: var(--space-5);
+}
+
+/* Respiro entre o último campo e a ação (botão/erro). */
+.comunidade-modal-card form > .field:last-of-type {
+  margin-bottom: var(--space-6);
 }
 
 .comunidade-form-error {
-  margin: var(--space-3) 0 0;
+  margin: 0;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--danger-soft);
@@ -677,7 +718,7 @@
 }
 
 .comunidade-notice {
-  margin: var(--space-3) 0 0;
+  margin: 0;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
@@ -688,21 +729,28 @@
 
 .comunidade-modal-card .comunidade-submit {
   width: 100%;
-  margin-top: var(--space-5);
+  margin: 0;
+}
+
+/* Nota e erro sempre com respiro próprio após o botão. */
+.comunidade-modal-card form > .comunidade-modal-note,
+.comunidade-modal-card form > .comunidade-form-error,
+.comunidade-modal-card form > .comunidade-notice {
+  margin: var(--space-5) 0 0;
 }
 
 .comunidade-modal-note {
-  margin: var(--space-4) 0 0;
+  margin: 0;
   color: var(--text-faint);
   font-size: 0.8rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* Interruptor entrar / criar conta. */
 .comunidade-auth-switch {
   display: inline-flex;
   gap: var(--space-1);
-  margin-top: var(--space-4);
+  margin: 0;
   padding: var(--space-1);
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -920,8 +968,10 @@
     height: 34px;
   }
 
+  /* Padding-top segue a regra geral (cobre o botão de fechar absoluto). */
   .comunidade-modal-card {
     padding: var(--space-5);
+    padding-top: max(var(--space-7), 44px);
   }
 
   .comunidade-detail-head {
@@ -943,7 +993,7 @@
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page-comunidade">
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href="#content">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="vizin.Os, início">
@@ -953,7 +1003,7 @@
     </div>
   </header>
 
-  <main id="conteudo">
+  <main id="content">
     <section class="page-hero">
       <div class="container">
         <h1>Comunidade</h1>
@@ -1137,7 +1187,6 @@
   </footer>
 
   <script defer src="/assets/config.js"></script>
-  <script defer src="/assets/creators.js"></script>
   <script defer src="/assets/app.js"></script>
   <script defer src="/assets/comunidade.js"></script>
 </body>

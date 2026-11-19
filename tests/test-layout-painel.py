@@ -24,7 +24,9 @@ from playwright.sync_api import sync_playwright
 from lib.servidor_site import servir_site
 
 ROOT = Path(__file__).resolve().parent.parent
-APP_DIR = Path(os.environ.get("VIZIN_APP_DIR", ROOT.parent / "app")).resolve()
+# A raiz do repositorio: a pasta "vps" (servidor da API) fica ao lado da
+# pasta do app mobile, dentro do mesmo repositorio.
+APP_DIR = Path(os.environ.get("VIZIN_APP_DIR", ROOT.parent)).resolve()
 VPS_ENTRY = APP_DIR / "vps" / "src" / "index.ts"
 SEED_SCRIPT = Path(__file__).resolve().parent / "lib" / "seed_stats.py"
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099").rstrip("/")

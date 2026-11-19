@@ -59,8 +59,9 @@
   var currentMode = 'creator';
   var currentCode = '';
   /* Resultado da verificacao de IP (datacenter/VPN/duplicidade/fora do pais).
-     Duplicidade não é avisada aqui: a recusa só acontece no envio, com uma
-     mensagem genérica que não diz qual regra disparou. */
+     Bloqueio (datacenter/VPN/fora do pais) leva a 404. Duplicidade NAO bloqueia:
+     a pagina abre e o aviso aparece dentro da janela de criacao, no fim do
+     formulario — a pessoa so descobre a regra quando vai concluir o cadastro. */
   var signupGuard = {
     blocked: false,
   };
@@ -140,58 +141,16 @@
     });
   }
 
-  /* O guia completo funciona como um acordeao: cada botao de "Neste guia"
-     abre um unico bloco de conteudo. O bloco do papel atual ja nasce aberto. */
-  function openGuideBlock(id) {
-    var guide = $('guiaCompleto');
-    if (!guide || !id) return;
-    var buttons = guide.querySelectorAll('[data-guide-target]');
-    Array.prototype.forEach.call(buttons, function (button) {
-      var active = button.getAttribute('data-guide-target') === id;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-expanded', active ? 'true' : 'false');
-    });
-    var blocks = guide.querySelectorAll('.guia-bloco');
-    Array.prototype.forEach.call(blocks, function (block) {
-      var active = block.id === id;
-      block.hidden = !active;
-      block.classList.toggle('is-open', active);
-      block.classList.add('is-visible');
-    });
-  }
-
+  /* O guia em acordeao saiu quando a pagina publica foi reescrita: a
+     explicacao agora mora nas secoes "Escolha seu papel" e "Como o valor
+     e dividido". As funcoes abaixo sao do modelo antigo e nao tem mais
+     elemento para funcionar — nao as religue sem o HTML correspondente. */
   function showGuide(role) {
-    var guide = $('guiaCompleto');
-    if (!guide) return;
-    guide.classList.remove('hidden');
-    guide.classList.add('is-panel');
     setNavLinks(GUIDE_NAV);
-
-    var target = role === 'afiliado' ? 'guiaAfiliado' : 'guiaCriador';
-    var blocks = guide.querySelectorAll('.guia-bloco');
-    Array.prototype.forEach.call(blocks, function (block) {
-      block.classList.toggle('is-current', block.id === target);
-    });
-    openGuideBlock(target);
-
-    var cross = guide.querySelectorAll('[data-guide-cta]');
-    Array.prototype.forEach.call(cross, function (item) {
-      var visible = item.getAttribute('data-guide-cta') === role;
-      item.classList.toggle('hidden', !visible);
-    });
   }
 
   function setupGuideAccordion() {
-    var guide = $('guiaCompleto');
-    if (!guide) return;
-    var buttons = guide.querySelectorAll('[data-guide-target]');
-    Array.prototype.forEach.call(buttons, function (button) {
-      button.addEventListener('click', function () {
-        openGuideBlock(button.getAttribute('data-guide-target'));
-      });
-    });
-    var first = buttons.length ? buttons[0].getAttribute('data-guide-target') : '';
-    if (first) openGuideBlock(first);
+    return;
   }
 
   /* A página pública mantém o guia visível: ele só volta ao estado inicial
@@ -199,18 +158,6 @@
      página pública. */
   function resetGuide() {
     setNavLinks(PUBLIC_NAV);
-    var guide = $('guiaCompleto');
-    if (!guide) return;
-    guide.classList.remove('is-panel');
-    var cross = guide.querySelectorAll('[data-guide-cta]');
-    Array.prototype.forEach.call(cross, function (item) {
-      item.classList.add('hidden');
-    });
-    var blocks = guide.querySelectorAll('.guia-bloco');
-    Array.prototype.forEach.call(blocks, function (block) {
-      block.classList.remove('is-current');
-    });
-    openGuideBlock('guiaProjeto');
   }
 
   function brl(cents) {
@@ -601,6 +548,12 @@
           goToNotFound();
           return;
         }
+        // A guarda pode responder "não bloqueado, mas este IP já criou conta".
+        // A pagina abre normally; o aviso aparece DENTRO da janela de criacao
+        // quando a pessoa chegar no fim do formulario (nao antes: a pessoa
+        // nao deve descobrir qual regra disparou so de abrir a pagina).
+        signupGuard.duplicate = data.allowed === false && data.reason === 'IP_BLOCKED_DUPLICATE';
+        signupGuard.message = typeof data.message === 'string' ? data.message : '';
         releaseGuard();
       })
       .catch(function () {
@@ -631,13 +584,33 @@
     $('codeStatus').textContent = '';
     $('codeStatus').className = 'code-status';
     $('createError').textContent = '';
+    // Aviso de "este IP ja criou conta": fica DENTRO da janela de criacao,
+    // pequeno e explicativo, sem ocupar a janela inteira.
+    var aviso = $('createWarning');
+    if (aviso) {
+      if (signupGuard && signupGuard.duplicate) {
+        aviso.textContent = signupGuard.message ||
+          'Voce ja criou uma conta. Se tentar de novo, esta conta fica sem acesso a anterior.';
+        aviso.classList.remove('hidden');
+      } else {
+        aviso.textContent = '';
+        aviso.classList.add('hidden');
+      }
+    }
     var codeField = $('codeField');
+    var codeInput = $('code');
     if (codeField) {
       if (isAfiliado) codeField.classList.add('hidden');
       else codeField.classList.remove('hidden');
     }
-    var codeInput = $('code');
-    if (codeInput) codeInput.value = '';
+    /* O afiliado nao escolhe codigo: ele e gerado aqui. O campo fica
+       oculto, entao nao pode continuar como "obrigatorio" — com required
+       o navegador bloqueia o envio do formulario inteiro e a pessoa nao
+       consegue criar a conta. */
+    if (codeInput) {
+      codeInput.value = '';
+      codeInput.required = !isAfiliado;
+    }
     hide('createdView');
     show('createView');
     if (isAfiliado) hide('afiliadoAttribution');
@@ -701,8 +674,11 @@
     window.history.replaceState(null, '', '/afiliados');
   }
 
-  function createAccount(code, isAfiliado, handle, allowRetry, cpf, email) {
+  function createAccount(code, isAfiliado, handle, allowRetry, cpf, email, name) {
     var body = { handle: handle, code: code, cpf: cpf, email: email };
+    // O nome da pessoa vai para a conta: e ele que identifica o titular
+    // do Pix nos saques (o @ e so o identificador publico).
+    if (name) body.name = name;
     if (!isAfiliado && attributionCode) body.hunter_code = attributionCode;
     return api(isAfiliado ? '/hunters' : '/creators', {
       method: 'POST',
@@ -718,6 +694,12 @@
         }
         throw error;
       });
+  }
+
+  // O script roda em todas as páginas do site (para atribuição de afiliado);
+  // o formulário de cadastro só existe em /afiliados. Nas outras, nada a fazer.
+  if (!$('createForm')) {
+    return;
   }
 
   $('createForm').addEventListener('submit', function (event) {
@@ -761,7 +743,9 @@
       // Quem ja tem conta usa o mesmo @ na segunda conta; quem esta criando
       // a primeira recebe um @ derivado do codigo escolhido.
       var handle = handleAtual || deriveHandle(code);
-      return createAccount(code, isAfiliado, handle, true, cpf, email).catch(function (error) {
+      var nameInput = $('createName');
+      var nome = nameInput ? String(nameInput.value || '').trim() : '';
+      return createAccount(code, isAfiliado, handle, true, cpf, email, nome).catch(function (error) {
         var code409 = error.status === 409;
         var data = error.data || {};
         // Bloqueio por IP: datacenter, VPN, proxy, Tor ou fora do Brasil.
@@ -786,6 +770,21 @@
         }
         // Recusa de duplicidade (IP/CPF/e-mail) vem com a mensagem genérica
         // da API; erros de formato chegam com a mensagem específica.
+        // Quando o IP já criou conta, o aviso aparece DENTRO da janela de
+        // criação (com a orientação do próprio produto), e não como erro
+        // genérico no rodapé do formulário.
+        if (data.code === 'IP_BLOCKED_DUPLICATE' || data.reason === 'IP_BLOCKED_DUPLICATE') {
+          var aviso = $('createWarning');
+          if (aviso) {
+            aviso.textContent = String(
+              data.message ||
+                'Você já criou uma conta. Se tentar de novo, esta conta fica sem acesso à anterior.',
+            );
+            aviso.classList.remove('hidden');
+          }
+          $('createError').textContent = '';
+          return null;
+        }
         $('createError').textContent = String(data.error || error.message || error);
         return null;
       });

@@ -36,10 +36,13 @@
 
 .aff-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-  gap: clamp(40px, 5vw, 72px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
   padding: clamp(56px, 7vw, 96px) 0 clamp(64px, 8vw, 104px);
+}
+
+.aff-money-card {
+  max-width: 720px;
+  margin-bottom: var(--space-6);
 }
 
 .aff-eyebrow {
@@ -193,7 +196,7 @@
   margin-top: var(--space-1);
   padding-left: 15px;
   color: var(--text-faint);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -286,7 +289,7 @@
   border-radius: 999px;
   background: var(--surface-alt);
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -374,7 +377,7 @@
   border-radius: 999px;
   background: var(--surface-alt);
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -395,7 +398,7 @@
   display: block;
   margin-bottom: var(--space-2);
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -435,7 +438,7 @@
   border-radius: 13px;
   background: var(--surface);
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
 }
 
@@ -460,6 +463,50 @@
 }
 
 /* ---------------------------------------------------------------- dinheiro */
+.aff-money-panel {
+  padding: clamp(24px, 3.5vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: 0 28px 70px -46px color-mix(in srgb, var(--shadow) 48%, transparent);
+}
+
+.aff-money-panel__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.aff-money-panel__head strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.aff-money-panel__head span {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aff-money-body {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+  gap: var(--space-5);
+  align-items: stretch;
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .aff-money-body {
+    grid-template-columns: 1fr;
+  }
+}
+
 .aff-money-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
@@ -478,7 +525,7 @@
   display: block;
   margin-bottom: var(--space-7);
   color: color-mix(in srgb, var(--background) 68%, transparent);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -563,7 +610,7 @@
 
 .aff-values__head span {
   color: var(--text-faint);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -647,7 +694,7 @@
   display: block;
   margin-bottom: var(--space-5);
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -739,9 +786,8 @@
 /* -------------------------------------------------------------------- CTA */
 .aff-cta {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-8);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
   margin-top: 0;
   padding: clamp(32px, 5vw, 60px);
   border: 1px solid var(--border);
@@ -764,12 +810,13 @@
 
 .aff-cta__actions {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-3);
 }
 
 .aff-cta__actions .btn {
-  width: 220px;
+  flex: 1 1 220px;
+  max-width: 320px;
   margin: 0;
 }
 
@@ -790,7 +837,7 @@
   border-radius: 999px;
   background: var(--surface-alt);
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -811,7 +858,7 @@
   display: block;
   margin-bottom: var(--space-2);
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase.
@@ -851,7 +898,7 @@
   border-radius: 13px;
   background: var(--surface);
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
 }
 
@@ -875,6 +922,29 @@
   }
 }
 
+.aff-pillars {
+  margin: var(--space-6) 0 0;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.aff-rules-note {
+  max-width: 860px;
+  margin: var(--space-6) auto 0;
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 /* ------------------------------------------------------------ why cards */
 .aff-why-card svg {
   display: block;
@@ -890,15 +960,6 @@
 
 /* -------------------------------------------------------------- responsivo */
 @media (max-width: 960px) {
-  .aff-hero {
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-  }
-
-  .aff-hero__card {
-    max-width: 640px;
-  }
-
   .aff-section__head,
   .aff-money-grid,
   .aff-faq {

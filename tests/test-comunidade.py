@@ -222,12 +222,24 @@ def main():
         esperar_fechado("#comunidade-auth-modal", 5000)
         page.click("#comunidade-new-btn")
         page.wait_for_selector("#comunidade-auth-modal:not([hidden])", timeout=5000)
+        # o modal reabre em 'Criar conta' se a ultima visita foi de cadastro:
+        # um usuário real clicaria em 'Entrar'. O logout já devolve o modo
+        # 'Entrar' — aqui garantimos o clique como dupla proteção.
+        if page.locator('.comunidade-auth-switch button[data-auth-mode="login"]').get_attribute("class"):
+            pass
+        page.click('.comunidade-auth-switch button[data-auth-mode="login"]')
         page.fill("#comunidade-auth-user", "maidsupremacy")
         page.fill("#comunidade-auth-pass", "maid-supremacia")
         page.click("#comunidade-auth-submit")
-        esperar_fechado("#comunidade-auth-modal", 15000)
+        try:
+            esperar_fechado("#comunidade-auth-modal", 15000)
+        except Exception:
+            print("DEBUG erro do modal:", page.locator("#comunidade-auth-error").inner_text())
+            print("DEBUG chip:", page.evaluate("document.querySelector('#comunidade-account-btn')?.innerText"))
+            print("DEBUG localStorage:", page.evaluate("window.localStorage.getItem('vizin.os.comunidade.v1')"))
+            raise
         page.wait_for_selector("#comunidade-account-btn .comunidade-badge-adm", timeout=5000)
-        if "adm" not in page.inner_text("#comunidade-account-btn"):
+        if "adm" not in page.inner_text("#comunidade-account-btn").lower():
             falhas.append("o chip da conta de administracao nao mostra o selo 'adm'")
 
         # 7c. a administração publica e o selo aparece na lista e no detalhe

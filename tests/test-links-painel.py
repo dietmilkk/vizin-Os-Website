@@ -16,6 +16,7 @@ Uso:
 
 import http.server
 import json
+import os
 import socketserver
 import threading
 import time
@@ -23,7 +24,7 @@ import time
 from playwright.sync_api import sync_playwright
 
 PORT = 8123
-ROOT = "/home/user/Downloads/site"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 API = "https://api.188.166.156.109.sslip.io"
 
 TOKEN_CRIADOR = "C7KQ9XZ2M4P8R3TU"
@@ -66,6 +67,7 @@ def responder(page, requests, token_criador=TOKEN_CRIADOR, token_afiliado=TOKEN_
         url = route.request.url
         method = route.request.method
         requests.append(url)
+        status = 200
 
         if method == "POST" and url.endswith("/creators"):
             body = {
@@ -80,15 +82,34 @@ def responder(page, requests, token_criador=TOKEN_CRIADOR, token_afiliado=TOKEN_
                 "afiliado": {"id": "2", "name": "Bia", "handle": "bia99", "code": "BIA99"},
                 "token": token_afiliado,
             }
-        elif "/creators/me" in url or "/hunters/me" in url:
-            body = {"ok": False, "error": "token invalido (mock)"}
+        elif "/creators/me" in url:
+            # Token invalido: a API real responde 401, e o front so tenta o
+            # outro painel quando recebe 401/403.
+            if token_criador in url:
+                body = {
+                    "ok": True,
+                    "creator": {"id": "1", "name": "Ana", "handle": "ana10", "code": "ANA10"},
+                }
+            else:
+                status = 401
+                body = {"ok": False, "error": "token invalido (mock)"}
+        elif "/hunters/me" in url:
+            if token_afiliado in url:
+                body = {
+                    "ok": True,
+                    "hunter": {"id": "2", "name": "Bia", "handle": "bia99", "code": "BIA99"},
+                    "afiliado": {"id": "2", "name": "Bia", "handle": "bia99", "code": "BIA99"},
+                }
+            else:
+                status = 401
+                body = {"ok": False, "error": "token invalido (mock)"}
         elif url.endswith("/signup-guard"):
             body = {"ok": True, "allowed": True}
         else:
             body = {"ok": True}
 
         route.fulfill(
-            status=200,
+            status=status,
             content_type="application/json",
             body=json.dumps(body),
         )
@@ -102,7 +123,16 @@ def api_calls(requests, kind):
 
 def abrir(page, query):
     requests = []
+    # page.route empilha handlers: sem limpar, o handler antigo continua
+    # respondendo e a lista de chamadas fica com misturas de execucoes.
+    page.unroute(f"{API}/**")
     responder(page, requests)
+    # Sessao salva (sessionStorage/localStorage) tem prioridade sobre a URL:
+    # um usuario que ja entrou continua logado. Cada cenario do teste
+    # comeca limpo, como uma aba nova.
+    page.evaluate(
+        "() => { try { localStorage.clear(); sessionStorage.clear(); } catch (e) {} }"
+    )
     page.goto(
         f"http://127.0.0.1:{PORT}/afiliados.html{query}",
         wait_until="domcontentloaded",
@@ -189,9 +219,20 @@ def main():
             wait_until="domcontentloaded",
         )
         page.wait_for_timeout(700)
-        page.click('[data-open-create="creator"]')
+        # A janela de primeira visita aparece na primeira navegacao: um usuario
+        # real fecha antes de clicar. O mesmo vale para o teste.
+        if page.locator("#firstVisitModal").is_visible():
+            page.click('.modal-close[data-first-visit-close]')
+            page.wait_for_timeout(300)
+        page.click('[data-open-create="creator"]:visible')
         page.wait_for_timeout(400)
+        # O formulario pede codigo, nome, CPF e e-mail: um usuario real
+        # preenche tudo antes de continuar (CPF e e-mail sao exigidos pelos
+        # bancos para os saques).
         page.fill("#code", "ANA10")
+        page.fill("#createName", "Ana")
+        page.fill("#createCpf", "52998224725")
+        page.fill("#createEmail", "ana@example.com")
         page.click("#createButton")
         page.wait_for_timeout(900)
 
@@ -202,8 +243,11 @@ def main():
             href,
         )
         check(
-            "URL da barra de enderecos tambem fica curta",
-            f"?p={TOKEN_CRIADOR}" in (page.url or ""),
+            "URL da barra de enderecos fica canonica e sem o token",
+            # O token e a senha da conta: nao pode ficar na barra de
+            # enderecos (histórico/Referer). A URL volta para /afiliados.
+            (page.url or "").rstrip("/").endswith("/afiliados")
+            and "?p=" not in (page.url or ""),
             page.url,
         )
         check(

@@ -57,9 +57,9 @@
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page-home">
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href="#content">Pular para o conteúdo</a>
 
-  <header class="site-header" id="topo">
+  <header class="site-header" id="top">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="vizin.Os, início">
         <span class="brand-mark" aria-hidden="true">
@@ -79,7 +79,7 @@
     </div>
   </header>
 
-  <main id="conteudo">
+  <main id="content">
 
     <!-- ============================================================ hero -->
     <section class="hero hero--home">
@@ -90,7 +90,7 @@
             <img src="assets/icon-192.webp" alt="" width="115" height="115" loading="lazy" decoding="async">
           </span>
           <h1 class="hero-brand-name brand-wordmark hero-brand-wordmark" data-brand-wordmark>
-            <span class="visually-hidden">vizin.Os</span>
+            <span class="visually-hidden">vizin.Os — Gente por perto. Encontros de verdade.</span>
           </h1>
           <p class="hero-tagline">Gente por perto. Encontros de verdade.</p>
         </div>
@@ -118,7 +118,7 @@
 
 
     <!-- ===================================================== o que é -->
-    <section class="section" id="o-que-e" aria-labelledby="o-que-e-titulo">
+    <section class="section section-tint" id="what-it-is" aria-labelledby="o-que-e-titulo">
       <div class="container">
         <div class="home-split">
           <div class="home-split__head reveal">
@@ -140,29 +140,6 @@
               <li><span aria-hidden="true">2</span> Participe da conversa e confirme presença no encontro.</li>
               <li><span aria-hidden="true">3</span> Combinem os detalhes, fechem o app e se encontrem de verdade.</li>
             </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================================================== a proposta -->
-    <section class="section section-tint" id="como-funciona" aria-labelledby="a-proposta-titulo">
-      <div class="container">
-        <div class="home-split">
-          <div class="home-split__head reveal">
-            <p class="home-kicker">02 · Como funciona</p>
-            <h2 id="a-proposta-titulo">Descobrir, participar, encontrar</h2>
-          </div>
-          <div class="home-split__body prose reveal">
-            <p class="home-lead">
-              A tela serve para o primeiro “oi”. Depois, a vida acontece do lado de fora:
-              uma caminhada, um jogo, um café, uma troca de discos.
-            </p>
-            <p>
-              O vizin.Os existe para devolver às ruas o que a era do feed foi empurrando
-              para longe: gente de verdade, que mora perto, se encontrando sem filtro e
-              sem pressa.
-            </p>
             <blockquote class="home-quote">
               <p>
                 A tecnologia é só a ponte — nunca o destino. O app existe para tirar você
@@ -174,40 +151,12 @@
       </div>
     </section>
 
-    <!-- ====================================================== o manifesto -->
-    <section class="section" id="manifesto" aria-labelledby="manifesto-preview-titulo">
-      <div class="container">
-        <div class="manifesto-preview reveal" id="manifestoPreview">
-          <p class="home-kicker">08 · O manifesto</p>
-          <h2 id="manifesto-preview-titulo">A tecnologia que nos isolou também pode ser a ponte de volta</h2>
-          <p class="manifesto-preview__lead">
-            A hiperconexão global trouxe um efeito colateral silencioso: o isolamento de
-            vizinhança. Tornou-se simples acompanhar a rotina de pessoas do outro lado do
-            planeta, mas cada vez mais difícil descobrir quem mora a alguns quarteirões e
-            compartilha dos mesmos interesses. Estamos cercados, mas sozinhos.
-          </p>
-          <p class="manifesto-preview__lead">
-            O vizin.Os nasce como antídoto a essa lógica: uma ferramenta focada no mundo
-            físico, desenhada para ser fechada assim que o encontro for combinado. Sua
-            métrica de sucesso não é tempo de tela, mas passos dados para fora da porta.
-          </p>
-          <div class="manifesto-preview__body" id="manifestoPreviewBody" hidden></div>
-          <div class="manifesto-preview__actions">
-            <button class="btn btn-secondary" type="button" id="manifestoPreviewToggle" aria-expanded="false" aria-controls="manifestoPreviewBody" data-manifesto-load>
-              Ler o manifesto inteiro
-            </button>
-            <a class="btn btn-primary" href="/manifesto">Abrir a página do manifesto</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ====================================================== promessas -->
     <section class="section" id="promessas" aria-labelledby="promessas-titulo">
       <div class="container">
         <div class="section-head reveal">
-          <p class="home-kicker">03 · Compromissos</p>
-          <h2 id="promessas-titulo">O que prometemos</h2>
+          <p class="home-kicker">02 · Compromissos</p>
+          <h2 id="promises-title">O que prometemos</h2>
           <p>Quatro compromissos que não negociamos.</p>
         </div>
 
@@ -221,9 +170,9 @@
             </div>
             <h3>Conversar em grupos do bairro</h3>
             <p>
-              Cada grupo é um espaço do seu bairro. Você entra, conversa e propõe encontros
-              — trilha, café, vinil, cinema, corrida, xadrez — sem escolher pessoas por foto
-              ou por um algoritmo.
+              Cada grupo é um espaço do seu bairro. Você entra, conversa e propõe
+              encontros — trilha, café, vinil, corrida — sem escolher ninguém por foto
+              ou por algoritmo.
             </p>
           </article>
 
@@ -237,8 +186,7 @@
             <h3>Proteger sua privacidade como fundação</h3>
             <p>
               Nada de e-mail ou telefone para criar a conta, e as chaves ficam no seu
-              aparelho. O app usa serviços do Google (notificações, verificação do aparelho
-              e anúncios no plano gratuito); veja os detalhes no documento técnico.
+              aparelho. Os detalhes técnicos estão no documento do projeto.
             </p>
           </article>
 
@@ -251,8 +199,8 @@
             </div>
             <h3>Dar o álibi social</h3>
             <p>
-              Você não precisa puxar assunto com um estranho na rua. O app te dá o
-              contexto: vocês dois topam o mesmo rolê. Isso muda tudo.
+              Você não precisa puxar assunto com um estranho na rua. O app dá o
+              contexto: vocês dois topam o mesmo rolê.
             </p>
           </article>
 
@@ -265,8 +213,8 @@
             </div>
             <h3>Sumir da tela</h3>
             <p>
-              O objetivo do vizin.Os é que você o feche. Que você marque o encontro,
-              desligue o celular e vá viver. Nosso sucesso é a sua ausência.
+              O objetivo é que você feche o app: marque o encontro, desligue o celular
+              e vá viver. Nosso sucesso é a sua ausência.
             </p>
           </article>
         </div>
@@ -277,8 +225,8 @@
     <section class="section section-tint" id="nao-prometemos" aria-labelledby="nao-prometemos-titulo">
       <div class="container">
         <div class="section-head reveal">
-          <p class="home-kicker">04 · Honestidade</p>
-          <h2 id="nao-prometemos-titulo">O que NÃO prometemos</h2>
+          <p class="home-kicker">03 · Honestidade</p>
+          <h2 id="no-promises-title">O que NÃO prometemos</h2>
           <p>Porque prometer demais é a forma mais rápida de decepcionar.</p>
         </div>
 
@@ -286,32 +234,32 @@
           <article class="home-no reveal" style="--i: 0">
             <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos curar solidão sozinho</h3>
             <p>
-              O app abre a porta. Quem atravessa é você. Quem calça o tênis, diz “bora?”
-              e aparece na quarta-feira é você. Nenhuma tecnologia substitui o seu passo.
+              O app abre a porta. Quem calça o tênis, diz “bora” e aparece na quarta
+              é você. Nenhuma tecnologia substitui o seu passo.
             </p>
           </article>
 
           <article class="home-no reveal" style="--i: 1">
             <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos amigos instantâneos</h3>
             <p>
-              As 200 horas de convivência que fazem um amigo de verdade não têm atalho.
-              Nunca tiveram. O vizin.Os entrega o primeiro encontro. O resto é convivência.
+              As horas de convivência que fazem um amigo de verdade não têm atalho.
+              O vizin.Os entrega o primeiro encontro. O resto é convivência.
             </p>
           </article>
 
           <article class="home-no reveal" style="--i: 2">
             <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos substituir a vida real</h3>
             <p>
-              Ele não quer ser seu feed, seu confidente, sua companhia de domingo à noite.
-              Ele quer ser o empurrão inicial para você encontrar companhia real.
+              Ele não quer ser seu feed nem sua companhia de domingo à noite. Quer ser
+              o empurrão inicial para você encontrar companhia real.
             </p>
           </article>
 
           <article class="home-no reveal" style="--i: 3">
             <h3><span class="home-no-mark" aria-hidden="true">×</span> Não prometemos controle sobre o outro</h3>
             <p>
-              As regras de convivência são votadas pela comunidade. Não somos uma empresa
-              ditando comportamento. Somos uma ferramenta à disposição de quem participa.
+              As regras de convivência são votadas pela comunidade. Não ditamos
+              comportamento: somos ferramenta de quem participa.
             </p>
           </article>
         </div>
@@ -322,9 +270,9 @@
     <section class="section" id="fundamentos" aria-labelledby="fundamentos-titulo">
       <div class="container">
         <div class="section-head reveal">
-          <p class="home-kicker">05 · Como funciona</p>
-          <h2 id="fundamentos-titulo">Fundamentos de funcionamento</h2>
-          <p>O vizin.Os opera sobre quatro pilares inegociáveis.</p>
+          <p class="home-kicker">04 · Como funciona</p>
+          <h2 id="fundamentals-title">Fundamentos de funcionamento</h2>
+          <p>Quatro pilares inegociáveis de funcionamento.</p>
         </div>
 
         <div class="home-pillar-grid">
@@ -333,9 +281,8 @@
             <div>
               <h3>Grupos, não algoritmo</h3>
               <p>
-                A conexão nasce de estar no mesmo grupo do bairro. Não existe marcação de
-                gostos nem busca de pessoas por interesse. Não há curadoria invisível
-                decidindo o que você vê.
+                A conexão nasce de estar no mesmo grupo do bairro. Não há curadoria
+                invisível decidindo o que você vê.
               </p>
             </div>
           </article>
@@ -345,9 +292,8 @@
             <div>
               <h3>Proximidade com privacidade</h3>
               <p>
-                Raio aproximado de localização. Você sabe que a pessoa mora perto. O
-                endereço exato de ninguém aparece. A distância aproxima; a privacidade
-                protege.
+                Raio aproximado de localização: você sabe que a pessoa mora perto, mas
+                o endereço exato de ninguém aparece.
               </p>
             </div>
           </article>
@@ -357,9 +303,9 @@
             <div>
               <h3>Mensagens efêmeras</h3>
               <p>
-                Conversa cifrada, que viaja direto entre os aparelhos. Quando a outra
-                pessoa está offline, o recado fica cifrado num farol por até 48 horas e
-                depois é apagado. O farol não tem a chave e não consegue ler o conteúdo.
+                Conversa cifrada, que viaja direto entre os aparelhos. Offline, o recado
+                fica cifrado num farol por até 48 horas e depois é apagado — o farol não
+                tem a chave.
               </p>
             </div>
           </article>
@@ -369,9 +315,8 @@
             <div>
               <h3>Soberania local</h3>
               <p>
-                Contas sem sinal de presença ficam invisíveis após 7 dias e são apagadas
-                do servidor após 30. As regras de convivência são votadas por quem participa.
-                Quem não participa não controla nada.
+                Contas sem atividade ficam invisíveis após 7 dias e são apagadas após 30.
+                As regras são votadas por quem participa.
               </p>
             </div>
           </article>
@@ -379,34 +324,31 @@
       </div>
     </section>
 
-    <!-- ================================================ praça romana -->
-    <section class="section section-tint" id="praca" aria-labelledby="praca-titulo">
+    <!-- ================================================== comunidade -->
+    <section class="section section-tint" id="community" aria-labelledby="comunidade-titulo">
       <div class="container">
         <div class="home-split">
           <div class="home-split__head reveal">
-            <p class="home-kicker">06 · Praça Romana</p>
-            <h2 id="praca-titulo">Feito junto com quem usa</h2>
+            <p class="home-kicker">05 · Comunidade</p>
+            <h2 id="comunidade-titulo">Feito junto com quem usa</h2>
           </div>
           <div class="home-split__body prose reveal">
             <p class="home-lead">
-              O vizin.Os não tem investidor esperando retorno: a direção do app vem de quem
-              o usa no dia a dia. A <span class="home-mark">Comunidade</span> é onde essa
-              conversa acontece — um fórum público de ideias e sugestões.
+              A direção do app vem de quem usa. A <span class="home-mark">Comunidade</span>
+              é o fórum público onde essa conversa acontece.
             </p>
             <p>
-              Lá, qualquer pessoa cria uma conta e publica propostas: ideias novas,
-              melhorias, problemas. Cada proposta recebe votos da comunidade — o grau de
-              popularidade define a fila — e comentários que afinam a discussão. O que
-              sai do papel ganha uma aba própria de implementadas: um registro público do
-              que a comunidade pediu e conquistou. O app cresce pelos desejos de quem o usa,
-              não pelos desejos de investidores.
+              Lá, qualquer pessoa publica propostas — ideias, melhorias, problemas — e
+              recebe votos e comentários. A popularidade define a fila, e o que sai do
+              papel ganha uma aba de implementadas: registro público do que a comunidade
+              pediu e conquistou.
             </p>
             <ol class="home-steps">
               <li><span aria-hidden="true">1</span> Proponha uma ideia, melhoria ou reporte um problema.</li>
               <li><span aria-hidden="true">2</span> Vote e comente nas propostas de todo mundo.</li>
               <li><span aria-hidden="true">3</span> Acompanhe as mais populares virarem app de verdade.</li>
             </ol>
-            <p class="praca-home-cta">
+            <p class="comunidade-home-cta">
               <a class="btn btn-primary" href="/comunidade">Abrir a Comunidade</a>
             </p>
           </div>
@@ -415,22 +357,21 @@
     </section>
 
     <!-- =================================================== financiamento -->
-    <section class="section" id="financiamento" aria-labelledby="financiamento-titulo">
+    <section class="section" id="funding" aria-labelledby="financiamento-titulo">
       <div class="container">
         <div class="home-split">
           <div class="home-split__head reveal">
-            <p class="home-kicker">07 · Sustentação</p>
+            <p class="home-kicker">06 · Sustentação</p>
             <h2 id="financiamento-titulo">Financiamento leve e transparente</h2>
           </div>
           <div class="home-split__body prose reveal">
             <p class="home-lead">
-              O modelo financeiro também faz parte da proposta. O vizin.Os não tem
-              investidor nem anunciante tradicional: ele precisa se sustentar sem prender
-              você na tela.
+              O modelo financeiro faz parte da proposta: o app precisa se sustentar sem
+              prender você na tela.
             </p>
             <p>
-              O projeto é autônomo e não transforma comportamento em métrica de retenção.
-              Hoje, ele se mantém com três formas transparentes de apoio.
+              Sem transformar comportamento em métrica de retenção, o projeto se mantém
+              com três formas transparentes de apoio.
             </p>
           </div>
         </div>
@@ -440,9 +381,8 @@
             <span class="program-number">01</span>
             <h3>Doações voluntárias</h3>
             <p>
-              Quem usa o app, acredita no projeto e quer que ele continue existindo pode
-              contribuir livremente, no valor que puder. É a base mais pura do
-              financiamento coletivo: pessoas reais mantendo uma ferramenta real de pé.
+              Contribuição livre, no valor que puder. A base mais pura do financiamento
+              coletivo: pessoas reais mantendo uma ferramenta real de pé.
             </p>
             <a class="home-funding__link" href="/doar">Ajude aqui <span aria-hidden="true">→</span></a>
           </article>
@@ -451,9 +391,8 @@
             <span class="program-number">02</span>
             <h3>Assinatura Plus opcional</h3>
             <p>
-              Uma versão com recursos extras para quem quiser apoiar de forma recorrente.
-              Quem assina deixa de ver os anúncios do app. Você paga porque quer ver o
-              projeto continuar.
+              Recursos extras para quem apoia de forma recorrente. Quem assina deixa de
+              ver anúncios e mantém o projeto de pé.
             </p>
           </article>
 
@@ -461,32 +400,64 @@
             <span class="program-number">03</span>
             <h3>Divulgação voluntária com comissão</h3>
             <p>
-              Criadores de conteúdo que genuinamente acreditam no projeto podem divulgar
-              o vizin.Os para suas comunidades e receber uma comissão justa por cada
-              pessoa que se cadastrar através do seu código. Não é publicidade
-              tradicional. É um modelo de parceria direta, sem agência, sem roteiro
-              engessado e com total liberdade criativa.
+              Criadores que acreditam no projeto divulgam para suas comunidades e
+              recebem comissão por cada pessoa que entra com seu código. Não é
+              publicidade tradicional: é parceria direta, sem agência e com liberdade
+              criativa.
             </p>
             <a class="home-funding__link" href="/afiliados">Conheça mais <span aria-hidden="true">→</span></a>
           </article>
         </div>
       </div>
+    </section>
+
+    <!-- ====================================================== o manifesto -->
+    <section class="section section-tint" id="manifesto" aria-labelledby="manifesto-preview-titulo">
+      <div class="container">
+        <div class="manifesto-preview reveal" id="manifestoPreview">
+          <p class="home-kicker">07 · O manifesto</p>
+          <h2 id="manifesto-preview-title">A tecnologia que nos isolou também pode ser a ponte de volta</h2>
+          <p class="manifesto-preview__lead">
+            A hiperconexão global teve um efeito colateral silencioso: o isolamento de
+            vizinhança. É fácil acompanhar a rotina de alguém do outro lado do planeta e
+            difícil descobrir quem mora a alguns quarteirões. Estamos cercados, mas sozinhos.
+          </p>
+          <p class="manifesto-preview__lead">
+            O vizin.Os nasce como antídoto: uma ferramenta focada no mundo físico,
+            desenhada para ser fechada assim que o encontro for combinado. O sucesso não é
+            tempo de tela, mas passos dados para fora da porta.
+          </p>
+          <div class="manifesto-preview__body" id="manifestoPreviewBody" hidden></div>
+          <div class="manifesto-preview__actions">
+            <button class="btn btn-secondary" type="button" id="manifestoPreviewToggle" aria-expanded="false" aria-controls="manifestoPreviewBody" data-manifesto-load>
+              Ler o manifesto inteiro
+            </button>
+            <a class="btn btn-primary" href="/manifesto">Abrir a página do manifesto</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============================================== por que isso importa -->
-    <section class="section section-tint" id="importa" aria-labelledby="importa-titulo">
+    <section class="section" id="importa" aria-labelledby="importa-titulo">
       <div class="container">
         <div class="home-closing reveal">
-          <p class="home-kicker">09 · A escolha</p>
+          <p class="home-kicker">08 · A escolha</p>
           <h2 id="importa-titulo">Por que isso importa</h2>
           <div class="home-closing__body">
             <p>
               A forma como um projeto é financiado define o que ele se torna. O vizin.Os
-              escolheu depender de apoio real — de quem usa, de quem divulga com cuidado e
-              de quem quer apenas ajudar.
+              escolheu o apoio real: de quem usa, de quem divulga com cuidado e de quem
+              quer apenas ajudar.
             </p>
             <p class="home-closing__highlight">
               Se o projeto continuar existindo, é porque pessoas reais decidiram que vale
               a pena manter uma ferramenta feita para te tirar da tela.
             </p>
+            <div class="home-closing__actions">
+              <a class="btn btn-primary" href="/download">Baixar o vizin.Os</a>
+              <a class="home-closing__link" href="/comunidade">Ou entre na Comunidade e ajude a decidir o rumo do app</a>
+            </div>
           </div>
         </div>
       </div>
@@ -558,7 +529,8 @@
         o Android, mas a vontade de expandir existe.
       </p>
       <p>
-        Se quiser ajudar o projeto a crescer, qualquer
+        Se quiser participar de perto, acesse a
+        <a href="/comunidade">página de Comunidade</a> e ajude a decidir o rumo do app. Se quiser apoiar o projeto a crescer, qualquer
         <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a> é muito bem-vinda.
       </p>
       <p>

@@ -10,7 +10,12 @@
   var api = 'https://api.188.166.156.109.sslip.io';
   try {
     var override = new URLSearchParams(window.location.search).get('api');
-    if (override && /^https:\/\//.test(override)) api = override.replace(/\/+$/, '');
+    if (override) {
+      // Produção (https) é sempre aceita. HTTP só vale para loopback, que é
+      // onde os testes locais rodam a API — nenhum segredo passa por aqui.
+      var local = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(override);
+      if (/^https:\/\//i.test(override) || local) api = override.replace(/\/+$/, '');
+    }
   } catch (err) {
     // Sem query disponível: fica a API de produção.
   }

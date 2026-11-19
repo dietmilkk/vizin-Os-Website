@@ -26,7 +26,9 @@ import vm from 'node:vm';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
-const APP_DIR = process.env.VIZIN_APP_DIR || join(ROOT, '..', 'app');
+// A pasta "vps" (servidor da API) fica ao lado da pasta do app mobile,
+// dentro do mesmo repositorio.
+const APP_DIR = process.env.VIZIN_APP_DIR || join(ROOT, '..');
 const VPS_ENTRY = join(APP_DIR, 'vps', 'src', 'index.ts');
 const PANEL_HTML = join(ROOT, 'painel.html');
 const PANEL_JS = join(ROOT, 'assets', 'panel.js');

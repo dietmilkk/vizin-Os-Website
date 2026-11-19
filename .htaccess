@@ -31,8 +31,7 @@ ErrorDocument 404 /404.html
   # Apelido antigo do programa de parceiros.
   RewriteRule ^criadores/?$ /afiliados [R=301,L]
 
-  # A pagina da comunidade ja se chamou "Praca Romana": o endereco antigo
-  # continua funcionando e leva para a nova.
+  # Endereco antigo da Comunidade: continua funcionando e leva para a nova.
   RewriteRule ^praca-romana/?$ /comunidade [R=301,L]
   RewriteRule ^praca-romana\.html$ /comunidade [R=308,L]
 
