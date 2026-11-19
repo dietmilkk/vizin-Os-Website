@@ -3,8 +3,12 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/criadores", "destination": "/afiliados", "permanent": true },
-    { "source": "/criadores/:path*", "destination": "/afiliados", "permanent": true }
+    { "source": "/afiliados", "destination": "/membros", "permanent": true },
+    { "source": "/afiliados/:path*", "destination": "/membros", "permanent": true },
+    { "source": "/manifesto", "destination": "/essencia", "permanent": true },
+    { "source": "/manifesto/:path*", "destination": "/essencia", "permanent": true },
+    { "source": "/criadores", "destination": "/membros", "permanent": true },
+    { "source": "/criadores/:path*", "destination": "/membros", "permanent": true }
   ],
   "headers": [
     {
@@ -36,7 +40,14 @@
       ]
     },
     {
-      "source": "/criadores/(.*)",
+      "source": "/membros",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/membros/(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
         { "key": "Cache-Control", "value": "no-store" }

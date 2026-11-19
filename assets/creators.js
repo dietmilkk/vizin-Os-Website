@@ -42,7 +42,7 @@
         JSON.stringify({ c: creatorToken, a: afiliadoToken }),
       );
       if (params.get('token') || params.get('afiliado_token') || panelToken) {
-        window.history.replaceState(null, '', '/afiliados');
+        window.history.replaceState(null, '', '/membros');
       }
     } else {
       var saved = window.sessionStorage.getItem(PANEL_SESSION_KEY);
@@ -74,7 +74,6 @@
   // O @ da conta aberta agora. Quem ja tem uma conta usa o mesmo @ ao criar
   // a outra: a pessoa continua sendo a mesma, com os dois papeis.
   var handleAtual = '';
-  var afiliadoLink = '';
   var afiliadoAttributionName = '';
   var attributionCode = '';
   var storedAttribution = readAttribution();
@@ -662,7 +661,7 @@
       creatorToken = data.token;
       afiliadoToken = '';
     }
-    var dashboardPath = '/afiliados?p=' + encodeURIComponent(data.token);
+    var dashboardPath = '/membros?p=' + encodeURIComponent(data.token);
     var link = window.location.origin + dashboardPath;
     $('dashboardLink').href = link;
     $('dashboardLink').textContent = link;
@@ -677,12 +676,12 @@
       $('createdCodeHint').textContent = isAfiliado
         ? 'Ele identifica a sua indicação nos cadastros.'
         : 'É ele que identifica as suas indicações.';
-      codeBox.classList.remove('hidden');
+      codeBox.removeAttribute('hidden');
     }
     hide('createView');
     show('createdView');
     /* A URL atual fica limpa: o token vai para sessionStorage (sessão da aba). */
-    window.history.replaceState(null, '', '/afiliados');
+    window.history.replaceState(null, '', '/membros');
   }
 
   function createAccount(code, isAfiliado, handle, allowRetry, cpf, email, name) {
@@ -708,7 +707,7 @@
   }
 
   // O script roda em todas as páginas do site (para atribuição de afiliado);
-  // o formulário de cadastro só existe em /afiliados. Nas outras, nada a fazer.
+  // o formulário de cadastro só existe em /membros. Nas outras, nada a fazer.
   if (!$('createForm')) {
     return;
   }
@@ -893,11 +892,6 @@
       });
   }
 
-  function buildAfiliadoLink() {
-    if (!afiliadoCode) return '';
-    return window.location.origin + '/afiliados?a=' + encodeURIComponent(afiliadoCode);
-  }
-
   /* Cota de e-mail: 1 envio a cada 3 dias, contada no servidor.
      O painel mostra o contador no proprio indicador ("0/1") e a regra fica no
      texto do cartao; a mensagem dinamica entra como title + aria-label, para
@@ -951,9 +945,6 @@
         afiliadoHandle = h.handle;
         handleAtual = h.handle;
         currentCode = h.code;
-        afiliadoLink = buildAfiliadoLink();
-        $('afiliadoName').textContent = h.name;
-        $('afiliadoHandle').textContent = '@' + h.handle;
         $('afiliadoError').textContent = '';
         $('afiliadoStatOutreach').textContent = data.outreach_count;
         $('afiliadoStatCreators').textContent = data.recruited_creators;
@@ -967,8 +958,6 @@
           $('afiliadoWithdrawPixCpf').value = h.pix_cpf_cnpj || '';
         }
         pixNomeTitular.afiliado = h.pix_name || h.name || '';
-        var linkInput = $('afiliadoLink');
-        if (linkInput && !linkInput.value) linkInput.value = afiliadoLink;
         renderEmailQuota(data.email_quota);
 
         renderList($('outreachList'), data.recent_outreach, 'Nenhum contato registrado ainda.', contactRow);
@@ -982,8 +971,6 @@
         renderList($('afiliadoWithdrawalList'), data.withdrawals, 'Nenhum saque solicitado.', withdrawalRow);
       })
       .catch(function (error) {
-        $('afiliadoName').textContent = 'Link inválido';
-        $('afiliadoHandle').textContent = 'Confira o link do painel ou gere um novo código.';
         $('afiliadoError').textContent = String(error.message || error);
       });
   }
@@ -1085,6 +1072,7 @@
       plataforma: $('outreachPlatform').value,
       contato: $('outreachContact').value,
     };
+    var exclusao = ($('outreachMotivo').value || '').trim();
     // O texto do e-mail vive no servidor: o afiliado so manda os dados do
     // criador. O modelo e montado pela VPS.
     var payload = {
@@ -1093,6 +1081,7 @@
       email: email,
       platform: $('outreachPlatform').value,
       contact_url: contact,
+      motivo: exclusao,
     };
     if (name.length < 2) {
       $('outreachError').textContent = 'Informe como o criador é conhecido.';
@@ -1104,6 +1093,13 @@
     }
     if (!email) {
       $('outreachError').textContent = 'Informe o e-mail do criador.';
+      return;
+    }
+    /* Bloco obrigatório: o motivo da seleção e a escolha do criador fazem
+       parte do envio. Sem a explicação o convite não sai — o texto vai direto
+       no e-mail, no tópico que o modelo do e-mail define. */
+    if (exclusao.length < 10) {
+      $('outreachError').textContent = 'Explique o motivo da seleção e a escolha do criador.';
       return;
     }
     withLoading($('outreachButton'), function () {
@@ -1192,14 +1188,6 @@
   $('copyDashboardCode').addEventListener('click', function () {
     copy(currentCode, $('copyDashboardCode'));
   });
-  /* O painel do link do afiliado pode ser removido do HTML sem quebrar o
-     restante do script: so registramos o botao quando ele existe. */
-  var copyAfiliadoLink = $('copyAfiliadoLink');
-  if (copyAfiliadoLink) {
-    copyAfiliadoLink.addEventListener('click', function () {
-      copy(afiliadoLink || buildAfiliadoLink(), copyAfiliadoLink);
-    });
-  }
 
   /* feedback de clique nos botões: pop elástico (ver .btn.is-pressed no CSS) */
   if (!reduceMotion) {

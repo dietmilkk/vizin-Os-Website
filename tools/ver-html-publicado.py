@@ -18,7 +18,7 @@ def main() -> int:
         pagina.goto(f"{BASE}/painel/", wait_until="networkidle")
         pagina.wait_for_timeout(2500)
 
-        for rota in ("/", "/painel/", "/afiliados/", "/documento/", "/moderacao/", "/404.html"):
+        for rota in ("/", "/painel/", "/membros/", "/documento/", "/moderacao/", "/404.html"):
             html = pagina.evaluate(
                 "async (u) => { const r = await fetch(u, {cache: 'no-store'}); return await r.text(); }",
                 f"{BASE}{rota}",

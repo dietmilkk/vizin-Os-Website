@@ -1,4 +1,4 @@
-"""Confere, como quem usa, a pagina de afiliados depois da reformulacao.
+"""Confere, como quem usa, a pagina de Membros depois da reformulacao.
 
 O guia em acordeao saiu: a explicacao agora esta em secoes sempre
 visiveis (escolha do papel, como funciona, divisao do valor). Este teste
@@ -48,7 +48,7 @@ def main() -> int:
         erros: list[str] = []
         pagina.on("pageerror", lambda e: erros.append(str(e)))
 
-        pagina.goto(f"{BASE}/afiliados", wait_until="load")
+        pagina.goto(f"{BASE}/membros", wait_until="load")
         pagina.wait_for_timeout(900)
 
         # A janela de primeira visita aparece na primeira navegacao: um
@@ -139,7 +139,7 @@ def main() -> int:
         print(f"  - {falha}")
     if falhas:
         return 1
-    print("A pagina de afiliados se explica sozinha, do jeito que o usuario precisa.")
+    print("A pagina de Membros se explica sozinha, do jeito que o usuario precisa.")
     return 0
 
 

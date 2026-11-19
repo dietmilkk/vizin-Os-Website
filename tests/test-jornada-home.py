@@ -5,9 +5,9 @@ Confere o caminho real de uma pessoa, na ordem em que ela encontra:
 1. a janela de primeira visita aparece e fecha;
 2. o hero diz o que o app e, com o botao de download;
 3. as secoes estao em ordem de leitura (o que e -> compromissos ->
-   honestidade -> fundamentos -> comunidade -> sustento -> manifesto ->
+   honestidade -> fundamentos -> comunidade -> sustento -> essência ->
    escolha) e nenhuma delas fica colada na outra sem separacao visual;
-4. o bloco de manifesto expande o texto completo quando pedido;
+4. o bloco de A Essência expande o texto completo quando pedido;
 5. a secao de comunidade tem o atalho para /comunidade;
 6. o rodape leva para as paginas principais;
 7. em celular nao ha rolagem horizontal.
@@ -89,7 +89,7 @@ def main() -> int:
         )
         esperados = [
             "what-it-is", "promessas", "nao-prometemos", "fundamentos",
-            "community", "funding", "manifesto", "importa",
+            "community", "funding", "essencia", "importa",
         ]
         ids = [s["id"] for s in secoes if s["id"] in esperados]
         check("ordem das secoes", ids == esperados, str(ids))
@@ -111,15 +111,15 @@ def main() -> int:
                 coladas.append(f"{anterior['id']}->{atual['id']}")
         check("nenhuma secao colada na seguinte", not coladas, str(coladas))
 
-        print("\n[4] O manifesto abre quando pedido")
-        check("bloco do manifesto existe", pagina.locator("#manifestoPreview").count() == 1)
-        corpo = pagina.locator("#manifestoPreviewBody")
-        check("texto do manifesto vem escondido", not corpo.is_visible())
-        pagina.click("#manifestoPreviewToggle")
+        print("\n[4] A Essência abre quando pedido")
+        check("bloco de A Essência existe", pagina.locator("#essenciaPreview").count() == 1)
+        corpo = pagina.locator("#essenciaPreviewBody")
+        check("texto de A Essência vem escondido", not corpo.is_visible())
+        pagina.click("#essenciaPreviewToggle")
         pagina.wait_for_timeout(1200)
-        check("manifesto expande", corpo.is_visible())
+        check("A Essência expande", corpo.is_visible())
         check(
-            "manifesto tem o texto completo",
+            "A Essência tem o texto completo",
             len(corpo.inner_text().strip()) > 300,
             str(len(corpo.inner_text().strip())),
         )
@@ -134,8 +134,8 @@ def main() -> int:
             pagina.locator('a.explore-card[href="/comunidade"]').count() == 1,
         )
         check(
-            "manifesto no rodape",
-            pagina.locator('a.explore-card[href="/manifesto"]').count() == 1,
+            "A Essência no rodape",
+            pagina.locator('a.explore-card[href="/essencia"]').count() == 1,
         )
 
         print("\n[6] Celular sem rolagem horizontal")

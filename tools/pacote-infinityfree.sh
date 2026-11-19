@@ -29,7 +29,7 @@ PUBLICOS=(
   ".htaccess"
   "assets"
   "painel/index.html"
-  "afiliados/index.html"
+  "membros/index.html"
   "documento/index.html"
   "moderacao/index.html"
 )

@@ -162,7 +162,7 @@ def main():
         # ------------------------------------------------------- 1. abrir
         print("\n[1] Abrir o painel pelo link do afiliado")
         pagina.goto(
-            f"{SITE}/afiliados/?afiliado_token={token}", wait_until="domcontentloaded"
+            f"{SITE}/membros/?afiliado_token={token}", wait_until="domcontentloaded"
         )
         pagina.wait_for_timeout(4000)
         check("painel do afiliado visivel", pagina.locator("#afiliadoDashboardView").is_visible())
@@ -310,7 +310,7 @@ def main():
         # ---------------------------------------------- 5. duplicado (409)
         print("\n[5] Outro afiliado tenta contatar o mesmo criador (HTTP 409)")
         pagina.goto(
-            f"{SITE}/afiliados/?afiliado_token={token_2}", wait_until="domcontentloaded"
+            f"{SITE}/membros/?afiliado_token={token_2}", wait_until="domcontentloaded"
         )
         pagina.wait_for_timeout(4000)
         check(
@@ -356,7 +356,7 @@ def main():
             check(f"campo de template {id_} nao existe", pagina.locator(f"#{id_}").count() == 0)
 
         # O JS servido tambem nao pode conter o modelo.
-        for arquivo in ("/assets/creators.js", "/afiliados"):
+        for arquivo in ("/assets/creators.js", "/membros"):
             resposta = pagina.request.get(SITE + arquivo)
             corpo = resposta.text()
             achou = [f for f in FRASES_DO_MODELO if f in corpo]
@@ -365,7 +365,7 @@ def main():
         # ------------------------------------------ 7. recarregar e persistir
         print("\n[7] Recarregar o painel: o estado continua")
         pagina.goto(
-            f"{SITE}/afiliados/?afiliado_token={token}", wait_until="domcontentloaded"
+            f"{SITE}/membros/?afiliado_token={token}", wait_until="domcontentloaded"
         )
         pagina.wait_for_timeout(4000)
         check("painel reabre", pagina.locator("#afiliadoDashboardView").is_visible())

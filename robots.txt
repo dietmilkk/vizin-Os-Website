@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /afiliados
-Disallow: /criadores
 
 Sitemap: https://vizin-os.vercel.app/sitemap.xml

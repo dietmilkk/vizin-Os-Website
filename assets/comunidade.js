@@ -15,10 +15,10 @@
   var PAGE_SIZE = 25;
 
   var TAG_LABELS = {
-    ideia: 'Ideia',
-    melhoria: 'Melhoria',
-    bug: 'Problema (bug)',
-    outro: 'Outro',
+    ideia: 'Ideias',
+    melhoria: 'Melhorias',
+    bug: 'Problemas (bugs)',
+    outro: 'Outros',
   };
 
   var SORT_LABELS = { top: 'Mais populares', new: 'Mais recentes' };
@@ -454,7 +454,9 @@
     var list = $('#comunidade-list');
     list.textContent = '';
     var empty = el('div', 'comunidade-empty');
-    var title = el('h3');
+    /* h2: este texto fica logo abaixo do h1 da pagina, entao nao pode
+       pular um nivel na hierarquia de titulos. */
+    var title = el('h2');
     var text = el('p');
     if (state.tab === 'done') {
       title.textContent = 'Nada implementado ainda';

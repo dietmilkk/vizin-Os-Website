@@ -35,7 +35,7 @@ from playwright.sync_api import sync_playwright
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
 DOMINIO_CANONICO = (sys.argv[2] if len(sys.argv) > 2 else "vizin-os.page.gd").rstrip("/")
 
-PAGINAS = ["/", "/painel/", "/documento/", "/afiliados/", "/moderacao/"]
+PAGINAS = ["/", "/painel/", "/documento/", "/membros/", "/essencia/", "/moderacao/"]
 
 # Caminhos que nunca podem responder 200 em um site publico.
 INTERNOS = [
@@ -51,8 +51,8 @@ INTERNOS = [
     "/.htaccess",
 ]
 
-# Apelidos antigos que devem continuar levando para a pagina atual.
-ALIAS = {"/criadores": "/afiliados/"}
+# Nao ha mais apelidos de nomes antigos: cada pagina tem um unico endereco
+# canonico (/membros, /essencia, /comunidade).
 
 falhas: list[str] = []
 verificacoes = 0
@@ -184,17 +184,6 @@ def main() -> int:
             status = navegar(pagina, url)
             print(f"  {href:<28} {status}")
             check(f"link {href} responde", status is not None and status < 400, str(status))
-
-        print("\nApelidos antigos")
-        for antigo, novo in ALIAS.items():
-            status = navegar(pagina, BASE + antigo)
-            final = pagina.url
-            print(f"  {antigo:<14} {status} -> {final}")
-            check(
-                f"{antigo} leva para {novo}",
-                status is not None and status < 400 and final.rstrip("/").endswith(novo.rstrip("/")),
-                f"{status} -> {final}",
-            )
 
         print("\nArquivos de SEO")
         for caminho, esperado in (("/robots.txt", DOMINIO_CANONICO), ("/sitemap.xml", DOMINIO_CANONICO)):

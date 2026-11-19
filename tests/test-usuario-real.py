@@ -3,7 +3,7 @@
 Percorre o caminho inteiro como um visitante faria, em um navegador limpo
 (sem cache nem cookies de execucoes anteriores):
 
-1. abre a pagina publica /afiliados e confere o conteudo;
+1. abre a pagina publica /membros e confere o conteudo;
 2. abre a janela de criacao de conta de afiliado;
 3. cria a conta de verdade (clica no botao) e confere a confirmacao;
 4. entra no painel pelo botao "Ir para o painel" e confere os numeros;
@@ -93,10 +93,10 @@ def main():
         pagina.route(f"{API}/hunters", carimba_handle)
 
         # ---------------------------------------------------------- 1. pagina
-        print("\n[1] Pagina publica /afiliados")
-        pagina.goto(f"{SITE}/afiliados/", wait_until="domcontentloaded")
+        print("\n[1] Pagina publica /membros")
+        pagina.goto(f"{SITE}/membros/", wait_until="domcontentloaded")
         pagina.wait_for_timeout(3500)
-        check("url correta", "/afiliados" in pagina.url, pagina.url)
+        check("url correta", "/membros" in pagina.url, pagina.url)
         check("titulo do programa", "criadores" in pagina.title().lower(), pagina.title())
         check("hero visivel", pagina.locator("h1").first.is_visible())
         for secao in ("divisao", "participar"):
@@ -182,9 +182,11 @@ def main():
         pagina.locator("#openDashboard").click()
         pagina.wait_for_timeout(5000)
         check("painel aberto", pagina.locator("#afiliadoDashboardView").is_visible())
-        check("link de afiliado em destaque", pagina.locator("#copyAfiliadoLink").count() == 1)
-        link_afiliado = pagina.locator("#afiliadoLink").input_value()
-        check("link de afiliado preenchido", "?a=" in link_afiliado, link_afiliado)
+        check(
+            "link de afiliado removido do painel",
+            pagina.locator("#afiliadoLink").count() == 0
+            and pagina.locator("#copyAfiliadoLink").count() == 0,
+        )
         check("sem erros de JavaScript ate aqui", not erros_js, "; ".join(erros_js))
 
         # ------------------------------------------- 5. recarregar com o link
@@ -211,7 +213,7 @@ def main():
         )
 
         # mesma coisa pela interface: o aviso tem que aparecer na janela
-        pagina.goto(f"{SITE}/afiliados/", wait_until="domcontentloaded")
+        pagina.goto(f"{SITE}/membros/", wait_until="domcontentloaded")
         pagina.wait_for_timeout(3500)
         pagina.locator("[data-open-create='afiliado']").first.click()
         pagina.wait_for_timeout(700)
@@ -260,7 +262,7 @@ def main():
         )
 
         # os dois papeis avisam a partir de agora
-        pagina.goto(f"{SITE}/afiliados/", wait_until="domcontentloaded")
+        pagina.goto(f"{SITE}/membros/", wait_until="domcontentloaded")
         pagina.wait_for_timeout(3500)
         pagina.locator("[data-open-create='afiliado']").first.click()
         pagina.wait_for_timeout(700)
@@ -291,7 +293,7 @@ def main():
             )
 
         pagina.route(f"{API}/signup-guard", bloqueia)
-        pagina.goto(f"{SITE}/afiliados/", wait_until="domcontentloaded")
+        pagina.goto(f"{SITE}/membros/", wait_until="domcontentloaded")
         pagina.wait_for_timeout(4000)
         check("vai para a pagina de erro", "/404.html" in pagina.url, pagina.url)
         check("conteudo do programa nao aparece", not pagina.locator("#createModal").is_visible())

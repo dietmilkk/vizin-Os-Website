@@ -12,7 +12,7 @@ with sync_playwright() as playwright:
     erros = []
     pagina.on("pageerror", lambda e: erros.append(str(e)))
 
-    pagina.goto(f"{BASE}/afiliados/", wait_until="networkidle")
+    pagina.goto(f"{BASE}/membros/", wait_until="networkidle")
     pagina.wait_for_timeout(1500)
 
     dados = pagina.evaluate(

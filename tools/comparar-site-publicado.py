@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGINAS = {
     "/": "index.html",
     "/painel/": "painel/index.html",
-    "/afiliados/": "afiliados/index.html",
+    "/membros/": "membros/index.html",
     "/documento/": "documento/index.html",
     "/moderacao/": "moderacao/index.html",
     "/404.html": "404.html",

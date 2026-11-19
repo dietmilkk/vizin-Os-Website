@@ -8,8 +8,8 @@ Instagram, etc.) são ignoradas — só o que é servido por nós é verificado.
 O navegador é usado de verdade porque a hospedagem pública (InfinityFree /
 page.gd) coloca uma verificação de JavaScript antes de mostrar a página: um
 `curl` puro veria apenas a tela de verificação e todas as URLs pareceriam
-quebradas. Também por isso os redirecionamentos são conferidos no servidor
-(`/criadores` -> `/afiliados/`), e não simulados aqui.
+quebradas. Cada página tem um único endereço canônico: não há mais
+redirecionamentos de nomes antigos para conferir.
 
 Uso:
     python3 tools/check-links.py https://vizin-os.page.gd

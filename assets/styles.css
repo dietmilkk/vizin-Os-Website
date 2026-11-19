@@ -1015,7 +1015,7 @@ h3 {
 .page-painel main,
 .page-documento main,
 .page-moderacao main,
-.page-manifesto main,
+.page-essencia main,
 .creators-page main,
 .page-404 main {
   padding-bottom: var(--space-8);
@@ -1382,24 +1382,24 @@ h3 {
   margin: 0 auto;
 }
 
-/* ------------------------------------------------- manifesto (/manifesto) */
-/* O manifesto é um texto longo de leitura: a coluna fica estreita o bastante
+/* ------------------------------------------------- A Essência (/essencia) */
+/* A Essência é um texto longo de leitura: a coluna fica estreita o bastante
    para o olho descansar, e o hero alinha na mesma grade das outras páginas. */
-.page-manifesto .page-hero h1 {
+.page-essencia .page-hero h1 {
   max-width: 900px;
 }
 
-.page-manifesto .page-hero p {
+.page-essencia .page-hero p {
   max-width: 760px;
 }
 
-.manifesto-body {
+.essencia-body {
   max-width: var(--max);
   margin: 0 auto;
   padding-top: var(--space-6);
 }
 
-.manifesto-body h2 {
+.essencia-body h2 {
   margin-top: var(--space-7);
   font-size: clamp(1.18rem, 2.1vw, 1.4rem);
   font-weight: 600;
@@ -1407,11 +1407,11 @@ h3 {
   line-height: 1.3;
 }
 
-.manifesto-body h2:first-child {
+.essencia-body h2:first-child {
   margin-top: 0;
 }
 
-.manifesto-body h3 {
+.essencia-body h3 {
   margin: var(--space-6) 0 0;
   font-family: var(--font-display);
   font-weight: 600;
@@ -1421,29 +1421,29 @@ h3 {
   color: var(--text);
 }
 
-.manifesto-body .fn {
+.essencia-body .fn {
   font-size: 0.62em;
   line-height: 0;
   vertical-align: super;
   letter-spacing: 0.01em;
 }
 
-.manifesto-body .fn + .fn {
+.essencia-body .fn + .fn {
   margin-left: 2px;
 }
 
-.manifesto-body .fn a {
+.essencia-body .fn a {
   color: var(--primary);
   font-weight: 600;
   text-decoration: none;
 }
 
-.manifesto-body .fn a:hover,
-.manifesto-body .fn a:focus-visible {
+.essencia-body .fn a:hover,
+.essencia-body .fn a:focus-visible {
   text-decoration: underline;
 }
 
-.manifesto-body .manifesto-closing {
+.essencia-body .essencia-closing {
   margin-top: var(--space-8);
   color: var(--primary-ink);
   font-family: var(--font-display);
@@ -1452,60 +1452,60 @@ h3 {
   line-height: 1.45;
 }
 
-/* Referências do manifesto: lista numerada que casa com as chamadas no texto. */
-.manifesto-refs {
+/* Referências da Essência: lista numerada que casa com as chamadas no texto. */
+.essencia-refs {
   max-width: var(--max);
   margin: 0 auto;
   padding-top: var(--space-8);
   border-top: 1px solid var(--border);
 }
 
-.manifesto-refs h2 {
+.essencia-refs h2 {
   margin: 0 0 var(--space-6);
   font-size: clamp(1.4rem, 3vw, 1.8rem);
 }
 
-.manifesto-refs__list {
+.essencia-refs__list {
   margin: 0;
   padding-left: var(--space-6);
   display: grid;
   gap: var(--space-6);
 }
 
-.manifesto-refs__list > li {
+.essencia-refs__list > li {
   color: var(--text-muted);
 }
 
-.manifesto-refs__list > li::marker {
+.essencia-refs__list > li::marker {
   color: var(--primary);
   font-weight: 600;
 }
 
-.manifesto-refs__title {
+.essencia-refs__title {
   margin: 0 0 var(--space-2);
   color: var(--text);
   font-weight: 600;
 }
 
-.manifesto-refs__list p {
+.essencia-refs__list p {
   margin: 0 0 var(--space-2);
   font-size: 0.97rem;
   line-height: 1.6;
 }
 
-.manifesto-refs__list ul {
+.essencia-refs__list ul {
   margin: 0;
   padding-left: var(--space-5);
   display: grid;
   gap: var(--space-1);
 }
 
-.manifesto-refs__list ul li {
+.essencia-refs__list ul li {
   font-size: 0.94rem;
   line-height: 1.55;
 }
 
-.manifesto-refs__list a {
+.essencia-refs__list a {
   color: var(--primary-ink);
   text-decoration-color: color-mix(in srgb, var(--primary) 45%, transparent);
   text-underline-offset: 2px;
@@ -2598,7 +2598,7 @@ code {
   /* Centraliza sem transform: translate em ancestral quebra o sticky. */
   margin-left: calc((100% - min(920px, calc(100vw - var(--gutter) * 2))) / 2);
   /* Substitui o antigo .step-gallery-stage: contem as margens para o espaco
-     acima do manifesto ser sempre respeitado (sem colapso de margens). */
+     acima da Essência ser sempre respeitado (sem colapso de margens). */
   display: flow-root;
 }
 
@@ -3054,15 +3054,15 @@ code {
   .essay-body .marked,
   .essay-body .accent,
   .essay-body .gradient-text,
-  .hero-manifesto,
-  .hero-manifesto a {
+  .hero-essencia,
+  .hero-essencia a {
     transition: none;
   }
 
   .step-tab.is-active,
   .header-actions .btn-primary::after,
   .essay-actions .btn-primary::after,
-  .hero-manifesto-flower,
+  .hero-essencia-flower,
   .hero-brand .brand-mark,
   .hero-brand-name,
   .hero-tagline {
@@ -3649,7 +3649,7 @@ code {
   /* Links dentro de texto: area de toque maior sem quebrar o paragrafo.
      Botões ficam de fora: precisam manter o inline-flex do .btn. */
   .prose a:not(.btn),
-  .hero-manifesto p a:not(.btn),
+  .hero-essencia p a:not(.btn),
   .modal a:not(.btn) {
     display: inline-block;
     padding: 4px 0;
@@ -3688,9 +3688,9 @@ code {
     display: none;
   }
 
-  /* O manifesto e uma nota de autonomia que ja aparece no modal de boas-vindas
+  /* A Essência e uma nota de autonomia que ja aparece no modal de boas-vindas
      e na pagina de afiliados: no telefone ela so custa uma tela inteira. */
-  .hero-manifesto {
+  .hero-essencia {
     display: none;
   }
 
@@ -4020,6 +4020,21 @@ code {
 }
 
 /* ------------------------------------------------- home: hero e ritmo */
+
+/* Painel publico: titulo e linha de apoio no topo da pagina. */
+.panel-page-title {
+  font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.panel-page-lead {
+  max-width: 620px;
+  margin-top: var(--space-3);
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
 .hero--home {
   position: relative;
   isolation: isolate;
@@ -4104,7 +4119,7 @@ code {
   transform: translateY(-2px);
 }
 
-/* Destaque pintado no texto, no mesmo espírito do ensaio (/manifesto). */
+/* Destaque pintado no texto, no mesmo espírito do ensaio (/essencia). */
 .home-mark {
   color: var(--text);
   font-weight: 600;
@@ -4414,10 +4429,10 @@ h1 em,
 }
 
 
-/* ------------------------------------------- previa do manifesto (home)
-   Cartao que mostra o comeco do manifesto e, ao expandir, carrega o texto
-   completo da pagina /manifesto dentro do proprio bloco. */
-.manifesto-preview {
+/* ------------------------------------------- previa da Essência (home)
+   Cartao que mostra o comeco da Essência e, ao expandir, carrega o texto
+   completo da pagina /essencia dentro do proprio bloco. */
+.essencia-preview {
   max-width: 900px;
   margin: 0 auto;
   padding: clamp(28px, 5vw, 56px);
@@ -4427,49 +4442,49 @@ h1 em,
   box-shadow: var(--shadow-card);
 }
 
-.manifesto-preview h2 {
+.essencia-preview h2 {
   margin: var(--space-3) 0 var(--space-5);
   font-size: clamp(1.55rem, 3.4vw, 2.15rem);
   line-height: 1.2;
 }
 
-.manifesto-preview__lead {
+.essencia-preview__lead {
   margin: 0 0 var(--space-4);
   color: var(--text-muted);
   font-size: 1.06rem;
   line-height: 1.75;
 }
 
-.manifesto-preview__body {
+.essencia-preview__body {
   margin-top: var(--space-6);
   border-top: 1px solid var(--border);
-  animation: manifesto-preview-in 320ms var(--ease-out) both;
+  animation: essencia-preview-in 320ms var(--ease-out) both;
 }
 
-.manifesto-preview__body[hidden] {
+.essencia-preview__body[hidden] {
   display: none;
 }
 
-.manifesto-preview__body .manifesto-body {
+.essencia-preview__body .essencia-body {
   padding-top: var(--space-6);
 }
 
-.manifesto-preview__body .manifesto-closing {
+.essencia-preview__body .essencia-closing {
   margin-top: var(--space-7);
 }
 
-.manifesto-preview__body .manifesto-refs {
+.essencia-preview__body .essencia-refs {
   margin-top: var(--space-7);
 }
 
-.manifesto-preview__actions {
+.essencia-preview__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-6);
 }
 
-@keyframes manifesto-preview-in {
+@keyframes essencia-preview-in {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -4481,7 +4496,7 @@ h1 em,
 }
 
 @media (max-width: 560px) {
-  .manifesto-preview__actions .btn {
+  .essencia-preview__actions .btn {
     width: 100%;
   }
 }

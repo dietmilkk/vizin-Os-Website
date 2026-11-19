@@ -248,10 +248,10 @@ def main() -> int:
                 # Foco visível num elemento interativo do conteúdo (o
                 # painel não tem mais botão manual de atualizar: ele se
                 # atualiza sozinho a cada minuto).
-                page.focus("main a.btn[href='/afiliados']")
+                page.focus("main a.btn[href='/membros']")
                 contorno = page.evaluate(
                     """() => {
-                        const c = getComputedStyle(document.querySelector("main a.btn[href='/afiliados']"));
+                        const c = getComputedStyle(document.querySelector("main a.btn[href='/membros']"));
                         return {
                             contorno: `${c.outlineStyle} ${c.outlineWidth} ${c.outlineColor}`,
                             cor: c.outlineColor,

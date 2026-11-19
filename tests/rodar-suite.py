@@ -1,7 +1,7 @@
 """Roda a suite do site (Playwright) com um servidor local proprio.
 
 Os testes do site assumem um servidor em http://localhost:8099 (rotas sem
-extensao, como /painel e /afiliados). Este runner sobe esse servidor e
+extensao, como /painel e /membros). Este runner sobe esse servidor e
 executa cada teste, permitindo rodar tudo com um comando:
 
     python3 site/tests/rodar-suite.py
@@ -29,11 +29,15 @@ SUITE = [
     ("test-breadcrumb.py", {"/": "index.html"}),
     ("test-puxar-fila.py", {"/": "index.html"}),
     ("test-jornada-home.py", {"/": "index.html"}),
-    ("test-guia-acordeao.py", {"/afiliados": "afiliados.html"}),
-    ("test-guard-ip.py", {"/": "index.html", "/afiliados": "afiliados.html", "/404.html": "404.html"}),
+    ("test-guia-acordeao.py", {"/membros": "membros.html"}),
+    ("test-guard-ip.py", {"/": "index.html", "/membros": "membros.html", "/404.html": "404.html"}),
     ("test-layout-painel.py", {"/painel": "painel.html"}),
     ("test-painel-publico.py", {"/painel": "painel.html"}),
     ("test-comunidade-local.py", {}),
+    ("test-jornada-programa-local.py", {}),
+    ("test-layout-afiliado.py", {"/membros": "membros.html"}),
+    ("test-integridade-site.py", {}),
+    ("test-css-saude.py", {}),
     ("alinhamento-paginas.py", {}),
     ("auditoria-mobile.py", {}),
     ("test-links-painel.py", {}),
@@ -41,14 +45,13 @@ SUITE = [
 
 # Precisa da API real ou de rede externa: nao rodam local.
 PULADOS = {
-    "test-layout-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
     "test-painel-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
     "test-painel-producao.py": "aponta para a API de producao",
     "test-jornada-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
     "test-envio-email-real.py": "envia e-mail de verdade",
 }
 
-# O guia completo saiu de /afiliados (a pagina foi reescrita) e o JS/CSS
+# O guia completo saiu de /membros (a pagina foi reescrita) e o JS/CSS
 # morto foi removido: o teste agora confere a estrutura nova e passa.
 REGRESSAO_CONHECIDA: dict[str, str] = {}
 
@@ -59,6 +62,13 @@ def porta_livre() -> int:
         return int(sock.getsockname()[1])
 
 
+def _porta_ocupada(porta: int) -> bool:
+    """A porta ainda esta em uso por outro processo?"""
+    with socket.socket() as sock:
+        sock.settimeout(0.2)
+        return sock.connect_ex(("127.0.0.1", porta)) == 0
+
+
 def main() -> int:
     porta = porta_livre()
     httpd, base = servir_site(porta, {})
@@ -66,22 +76,37 @@ def main() -> int:
     env = {**os.environ, "SITE_BASE": base, "VIZIN_APP_DIR": str(TESTS_DIR.parent.parent)}
     print(f"Servidor do site: {base}\n")
 
+    # API do programa de parceiros em memoria: o teste de layout do painel
+    # precisa de uma conta real para conferir a geometria do painel.
+    sys.path.insert(0, str(TESTS_DIR / "lib"))
+    from api_programa_mock import servir_api
+
+    porta_api = porta_livre()
+    httpd_api, api_base = servir_api(porta_api)
+    env["VIZIN_API"] = api_base
+    print(f"API do programa (mock): {api_base}\n")
+
     falhas: list[str] = []
     # Os testes do site assumem http://localhost:8099 (estao fixos no codigo
     # deles). Por isso o runner usa essa porta: um servidor na porta que os
-    # testes esperam, sem depender de nenhum processo externo.
+    # testes esperam, sem depender de nenhum processo externo. Se outro
+    # processo estiver com ela, o runner usa uma porta livre e avisa.
     porta = 8099
+    if _porta_ocupada(porta):
+        porta = porta_livre()
+        print(f"Atencao: 8099 esta em uso; os testes rodarao na porta {porta}.\n")
     for arquivo, rotas in SUITE:
-        # Cada teste roda com seu proprio servidor (porta livre): assim as
-        # rotas sem extensao (/painel, /afiliados) funcionam como em producao.
-        if True:
-            porta_teste = porta
-        httpd, base = servir_site(porta_teste, rotas)
+        # Cada teste roda com seu proprio servidor: assim as rotas sem
+        # extensao (/painel, /membros) funcionam como em producao.
+        httpd, base = servir_site(porta, rotas)
         time.sleep(0.4)
         env["SITE_BASE"] = base
         print(f"== {arquivo}")
+        # A URL do site vai como argumento (e no ambiente): os testes leem
+        # de um dos dois, e alguns so aceitam argumento.
+        comando = [sys.executable, str(TESTS_DIR / arquivo), base]
         resultado = subprocess.run(
-            [sys.executable, str(TESTS_DIR / arquivo)],
+            comando,
             capture_output=True,
             text=True,
             timeout=300,
@@ -99,6 +124,12 @@ def main() -> int:
             httpd.server_close()
         except Exception:  # noqa: BLE001
             pass
+        # A porta precisa estar livre antes do proximo teste: o SO segura a
+        # conexao por alguns segundos depois do servidor fechar.
+        for _ in range(40):
+            if not _porta_ocupada(porta):
+                break
+            time.sleep(0.25)
         time.sleep(0.3)
 
     for arquivo, motivo in PULADOS.items():
@@ -142,6 +173,10 @@ def main() -> int:
         falhas.append("check-site.py")
 
     httpd.shutdown()
+    try:
+        httpd_api.shutdown()
+    except Exception:  # noqa: BLE001
+        pass
     print()
     if falhas:
         print(f"Falharam: {', '.join(falhas)}")

@@ -60,12 +60,36 @@
   line-height: 1.02;
 }
 
+.aff-hero__copy {
+  max-width: 760px;
+}
+
 .aff-hero__lead {
   max-width: 650px;
   margin: var(--space-5) 0 0;
   color: var(--text);
   font-size: clamp(1.05rem, 1.5vw, 1.2rem);
   line-height: 1.7;
+}
+
+/* O texto legal fica no fim da janela de criacao: menor e mais discreto
+   que o resto, sem sumir. */
+.create-legal {
+  margin: var(--space-6) 0 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.create-legal a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* O cabecalho do painel do afiliado segue o do criador, com o mesmo
+   respiro e o mesmo peso de titulo. */
+.dashboard-heading--afiliado h2 {
+  margin: var(--space-2) 0 0;
+  font-size: clamp(1.6rem, 3.4vw, 2.2rem);
 }
 
 .aff-hero__lead strong {
@@ -282,7 +306,44 @@
   box-shadow: 0 24px 60px -46px color-mix(in srgb, var(--primary) 60%, transparent);
 }
 
+/* O codigo recem-criado: o dado principal que a pessoa vai compartilhar. */
+.created-code {
+  margin: var(--space-6) 0;
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-alt);
+  text-align: center;
+}
+
+.created-code__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.created-code__value {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.created-code__hint {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--text-faint);
+  font-size: 0.9rem;
+}
+
 .aff-role__tag {
+  align-self: flex-start;
   margin-bottom: var(--space-6);
   padding: 6px 11px;
   border-radius: 999px;

@@ -749,6 +749,10 @@
 /* Interruptor entrar / criar conta. */
 .comunidade-auth-switch {
   display: inline-flex;
+  /* O cartão é uma coluna flex: sem isto o grupo estica até a largura toda.
+     Ele deve medir só o que os dois botões ocupam. */
+  align-self: flex-start;
+  width: fit-content;
   gap: var(--space-1);
   margin: 0;
   padding: var(--space-1);
@@ -1007,7 +1011,7 @@
     <section class="page-hero">
       <div class="container">
         <h1>Comunidade</h1>
-        <p>O vizin.Os cresce junto com as pessoas que fazem parte dele. Aqui, você pode compartilhar ideias, propor mudanças e participar de conversas que ajudam a tornar a plataforma cada vez melhor. Afinal, uma comunidade mais forte se constrói com a participação de todos.</p>
+        <p>O vizin.Os é feito por quem usa. Sem investidores ou engravatados no comando, o poder de decisão é completamente da comunidade.</p>
         <hr class="page-hero-divider">
       </div>
     </section>
@@ -1036,10 +1040,10 @@
 
         <div class="comunidade-tags" id="comunidade-tags" aria-label="Filtrar por tag">
           <button class="comunidade-tag-chip is-active" data-tag="" type="button">Todas</button>
-          <button class="comunidade-tag-chip" data-tag="ideia" type="button">Ideia</button>
-          <button class="comunidade-tag-chip" data-tag="melhoria" type="button">Melhoria</button>
-          <button class="comunidade-tag-chip" data-tag="bug" type="button">Problema (bug)</button>
-          <button class="comunidade-tag-chip" data-tag="outro" type="button">Outro</button>
+          <button class="comunidade-tag-chip" data-tag="ideia" type="button">Ideias</button>
+          <button class="comunidade-tag-chip" data-tag="melhoria" type="button">Melhorias</button>
+          <button class="comunidade-tag-chip" data-tag="bug" type="button">Problemas (bugs)</button>
+          <button class="comunidade-tag-chip" data-tag="outro" type="button">Outros</button>
         </div>
 
         <div class="comunidade-banner" id="comunidade-banner" hidden></div>
@@ -1084,8 +1088,8 @@
           <div class="comunidade-pass-wrap">
             <input id="comunidade-auth-pass" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="mínimo 8 caracteres" required>
             <button class="comunidade-pass-toggle" id="comunidade-pass-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false">
-              <svg class="comunidade-pass-icon comunidade-pass-icon--show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg class="comunidade-pass-icon comunidade-pass-icon--hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7c1.8 0 3.4.5 4.8 1.3"/><path d="M22 12s-3.5 7-10 7c-1.8 0-3.4-.5-4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="m3 3 18 18"/></svg>
+              <svg class="comunidade-pass-icon comunidade-pass-icon--show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0Z"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><circle cx="13.1" cy="10.9" r=".75" fill="var(--surface-alt)" stroke="none"/></svg>
+              <svg class="comunidade-pass-icon comunidade-pass-icon--hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.73 5.08a10.75 10.75 0 0 1 11.2 6.57 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-1.44 2.49"/><path d="M14.08 14.16a3 3 0 0 1-4.24-4.24"/><path d="M17.48 17.5a10.75 10.75 0 0 1-15.42-5.15 1 1 0 0 1 0-.7 10.75 10.75 0 0 1 4.45-5.14"/><path d="m2 2 20 20"/></svg>
             </button>
           </div>
         </div>
@@ -1112,10 +1116,10 @@
         <div class="field">
           <label for="comunidade-new-tag">Tag</label>
           <select id="comunidade-new-tag" name="tag">
-            <option value="ideia">Ideia</option>
-            <option value="melhoria">Melhoria</option>
-            <option value="bug">Problema (bug)</option>
-            <option value="outro">Outro</option>
+            <option value="ideia">Ideias</option>
+            <option value="melhoria">Melhorias</option>
+            <option value="bug">Problemas (bugs)</option>
+            <option value="outro">Outros</option>
           </select>
         </div>
         <div class="field">
@@ -1142,9 +1146,9 @@
       <nav class="footer-explore" aria-label="Continue explorando">
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
-          <a class="explore-card" href="/afiliados">
+          <a class="explore-card" href="/membros">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span>Afiliados</span>
+            <span>Membros</span>
           </a>
           <a class="explore-card" href="/comunidade">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
@@ -1158,9 +1162,9 @@
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
             <span>Documento técnico</span>
           </a>
-          <a class="explore-card" href="/manifesto">
+          <a class="explore-card" href="/essencia">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-            <span>Manifesto</span>
+            <span>A Essência</span>
           </a>
         </div>
       </nav>

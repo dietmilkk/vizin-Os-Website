@@ -28,9 +28,9 @@ BLOCO = """  <!-- Vercel Web Analytics: visitação e page views do site.
 
 PAGINAS = [
     "index.html",
-    "afiliados/index.html",
+    "membros/index.html",
     "documento/index.html",
-    "manifesto/index.html",
+    "essencia/index.html",
     "moderacao/index.html",
     "painel/index.html",
     "404.html",

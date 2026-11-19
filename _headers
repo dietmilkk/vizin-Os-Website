@@ -5,6 +5,14 @@
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
   Cross-Origin-Opener-Policy: same-origin
 
+/membros
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store
+
+/membros/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store
+
 /criadores
   X-Robots-Tag: noindex, nofollow, noarchive
   Cache-Control: no-store

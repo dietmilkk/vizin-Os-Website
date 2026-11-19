@@ -20,7 +20,11 @@ from lib.primeiro_acesso import ja_visitou
 
 BASE = os.environ.get("SITE_BASE", "http://localhost:8099")
 API = os.environ.get("VIZIN_API", "https://api.188.166.156.109.sslip.io")
-TOKEN_CACHE = "/tmp/vizin-teste-afiliado-token.json"
+TOKEN_CACHE = os.environ.get("VIZIN_TOKEN_CACHE", "/tmp/vizin-teste-afiliado-token.json")
+# Com API local (mock) nao ha bloqueio por IP: cada execucao cria a conta
+# dela. O cache existe para a API de producao, que recusa a segunda conta do
+# mesmo IP.
+USAR_CACHE = os.environ.get("VIZIN_USAR_CACHE", "") == "1"
 
 failures = []
 checks = 0
@@ -210,7 +214,7 @@ def audit_publica(page, label, width):
           }
         });
         const secs = [...document.querySelectorAll(
-          '#partnerMarketing > .creators-hero, #partnerMarketing > .creators-hero-mobile, #partnerMarketing > .creators-guide, #guiaCompleto')]
+          '#partnerMarketing > .aff-hero, #partnerMarketing > .aff-section')]
           .filter(el => {
             const style = getComputedStyle(el);
             return style.display !== 'none' && style.visibility !== 'hidden';
@@ -233,8 +237,10 @@ def audit_publica(page, label, width):
         json.dumps(data["overflow"][:2]),
     )
     check(
-        "publica com intervalo uniforme entre secoes (56px)",
-        len(data["gaps"]) == 3 and all(gap == 56 for gap in data["gaps"]),
+        "publica com intervalo uniforme entre secoes",
+        # O ritmo vem do padding vertical das secoes: o espaco entre uma
+        # secao e a seguinte precisa ser igual em toda a pagina.
+        len(data["gaps"]) >= 3 and len(set(data["gaps"])) == 1,
         f"gaps={data['gaps']}",
     )
     return data
@@ -268,15 +274,16 @@ def main():
     )
     if status == 200:
         token = created["token"]
-        try:
-            with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
-                json.dump({"token": token}, handle)
-        except Exception:
-            pass
+        if USAR_CACHE:
+            try:
+                with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
+                    json.dump({"token": token}, handle)
+            except Exception:
+                pass
     elif status == 403 and created.get("code") == "IP_BLOCKED_DUPLICATE":
         # A VPS cria uma conta por IP: o teste reaproveita o token em cache.
         try:
-            with open(TOKEN_CACHE, encoding="utf-8") as handle:
+            with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
                 token = json.load(handle).get("token", "")
         except Exception:
             token = ""
@@ -302,7 +309,7 @@ def main():
             page = browser.new_page(viewport={"width": width, "height": height})
             ja_visitou(page)
             page.goto(
-                f"{BASE}/afiliados/?afiliado_token={token}&api={API}", wait_until="networkidle"
+                f"{BASE}/membros?afiliado_token={token}&api={API}", wait_until="networkidle"
             )
             page.wait_for_timeout(600)
             audit(page, label, width, height)
@@ -315,7 +322,7 @@ def main():
             (320, 700, "Mobile pequeno"),
         ]:
             page = browser.new_page(viewport={"width": width, "height": height})
-            page.goto(f"{BASE}/afiliados/", wait_until="networkidle")
+            page.goto(f"{BASE}/membros", wait_until="networkidle")
             page.wait_for_timeout(1200)
             audit_publica(page, label, width)
             page.close()
@@ -325,7 +332,7 @@ def main():
             viewport={"width": 1440, "height": 1000}, color_scheme="dark"
         )
         ja_visitou(page)
-        page.goto(f"{BASE}/afiliados/?afiliado_token={token}&api={API}", wait_until="networkidle")
+        page.goto(f"{BASE}/membros?afiliado_token={token}&api={API}", wait_until="networkidle")
         page.wait_for_selector("#afiliadoDashboardView:not(.hidden)", timeout=20000)
         page.wait_for_timeout(600)
         print("\n[Dark mode]")

@@ -17,23 +17,17 @@ ErrorDocument 404 /404.html
 
   # URL antiga com barra final (era pasta com index.html) -> URL sem extensao.
   # O 301 preserva SEO e links salvos; vale para sempre.
-  RewriteRule ^afiliados/?$ /afiliados [R=301,L]
+  RewriteRule ^membros/?$ /membros [R=301,L]
+  RewriteRule ^essencia/?$ /essencia [R=301,L]
   RewriteRule ^doar/?$ /doar [R=301,L]
   RewriteRule ^documento/?$ /documento [R=301,L]
   RewriteRule ^download/?$ /download [R=301,L]
   RewriteRule ^licenca/?$ /licenca [R=301,L]
-  RewriteRule ^manifesto/?$ /manifesto [R=301,L]
   RewriteRule ^moderacao/?$ /moderacao [R=301,L]
   RewriteRule ^painel/?$ /painel [R=301,L]
   RewriteRule ^privacidade/?$ /privacidade [R=301,L]
   RewriteRule ^termos/?$ /termos [R=301,L]
 
-  # Apelido antigo do programa de parceiros.
-  RewriteRule ^criadores/?$ /afiliados [R=301,L]
-
-  # Endereco antigo da Comunidade: continua funcionando e leva para a nova.
-  RewriteRule ^praca-romana/?$ /comunidade [R=301,L]
-  RewriteRule ^praca-romana\.html$ /comunidade [R=308,L]
 
   # A extensao .html nunca aparece na URL: quem acessa /painel.html cai na
   # URL cannica /painel (308, igual ao Caddy da VPS).
@@ -44,10 +38,6 @@ ErrorDocument 404 /404.html
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^([^./]+)/?$ $1.html [L]
 </IfModule>
-
-# Apelido antigo tambem fora do mod_rewrite (o mod_dir cuida da barra final;
-# uma regra invertida aqui criaria um laco de redirecionamento).
-Redirect 301 /criadores /afiliados
 
 # Arquivos internos: nao devem ser lidos nem pelo servidor.
 <FilesMatch "(^\.|^.*\.(md|log|sqlite|sqlite-wal|sqlite-shm|bak|sql|ini|sh|py|ts|js\.map)$)">

@@ -24,13 +24,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # sem extensao resolve para o .html correspondente.
 PAGES = {
     "/": "index.html",
-    "/afiliados": "afiliados.html",
+    "/membros": "membros.html",
     "/comunidade": "comunidade.html",
     "/doar": "doar.html",
     "/documento": "documento.html",
     "/download": "download.html",
     "/licenca": "licenca.html",
-    "/manifesto": "manifesto.html",
+    "/essencia": "essencia.html",
     "/moderacao": "moderacao.html",
     "/painel": "painel.html",
     "/privacidade": "privacidade.html",
@@ -58,7 +58,7 @@ def servir_site(port, pages=None):
     class Handler(_Handler):
         def translate_path(self, path):
             clean = path.split("?")[0].split("#")[0]
-            # Aceita a rota com barra final ("/afiliados/") como a sem barra.
+            # Aceita a rota com barra final ("/membros/") como a sem barra.
             if clean.endswith("/") and clean[:-1] in PAGES:
                 clean = clean[:-1]
             if pages and clean in pages:

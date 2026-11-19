@@ -134,7 +134,7 @@ def abrir(page, query):
         "() => { try { localStorage.clear(); sessionStorage.clear(); } catch (e) {} }"
     )
     page.goto(
-        f"http://127.0.0.1:{PORT}/afiliados.html{query}",
+        f"http://127.0.0.1:{PORT}/membros.html{query}",
         wait_until="domcontentloaded",
     )
     page.wait_for_timeout(900)
@@ -215,7 +215,7 @@ def main():
         requests = []
         responder(page, requests)
         page.goto(
-            f"http://127.0.0.1:{PORT}/afiliados.html",
+            f"http://127.0.0.1:{PORT}/membros.html",
             wait_until="domcontentloaded",
         )
         page.wait_for_timeout(700)
@@ -239,14 +239,14 @@ def main():
         href = page.get_attribute("#dashboardLink", "href") or ""
         check(
             "criacao de criador gera o link curto ?p=",
-            href.endswith(f"/afiliados?p={TOKEN_CRIADOR}"),
+            href.endswith(f"/membros?p={TOKEN_CRIADOR}"),
             href,
         )
         check(
             "URL da barra de enderecos fica canonica e sem o token",
             # O token e a senha da conta: nao pode ficar na barra de
-            # enderecos (histórico/Referer). A URL volta para /afiliados.
-            (page.url or "").rstrip("/").endswith("/afiliados")
+            # enderecos (histórico/Referer). A URL volta para /membros.
+            (page.url or "").rstrip("/").endswith("/membros")
             and "?p=" not in (page.url or ""),
             page.url,
         )

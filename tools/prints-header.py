@@ -21,7 +21,7 @@ PAGINAS = {
     "painel": "/painel",
     "documento": "/documento",
     "moderacao": "/moderacao",
-    "afiliados": "/afiliados",
+    "membros": "/membros",
     "404": "/404.html",
 }
 

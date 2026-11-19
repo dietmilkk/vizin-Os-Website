@@ -281,7 +281,7 @@ def main() -> int:
             for href, seletor in [
                 ("/documento", "a[href='/documento']"),
                 ("/moderacao", "a[href='/moderacao']"),
-                ("/afiliados", "a[href='/afiliados']"),
+                ("/membros", "a[href='/membros']"),
                 ("/", "a[href='/']"),
             ]:
                 quantidade = page.locator(seletor).count()
@@ -294,7 +294,7 @@ def main() -> int:
             internos = sorted({link for link in links if link and link.startswith("/")})
             check(
                 "o painel alcança todas as páginas internas",
-                {"/", "/documento", "/moderacao", "/afiliados"}.issubset(set(internos)),
+                {"/", "/documento", "/moderacao", "/membros"}.issubset(set(internos)),
                 str(internos),
             )
 

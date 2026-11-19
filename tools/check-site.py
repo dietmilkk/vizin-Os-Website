@@ -9,9 +9,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html",
     "download.html",
-    "manifesto.html",
+    "essencia.html",
     "documento.html",
-    "afiliados.html",
+    "membros.html",
     "comunidade.html",
     "moderacao.html",
     "painel.html",

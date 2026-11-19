@@ -16,7 +16,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 URL = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
-PAGINAS = ["/", "/afiliados/", "/documento/", "/manifesto/", "/moderacao/", "/painel/"]
+PAGINAS = ["/", "/membros/", "/documento/", "/essencia/", "/moderacao/", "/painel/"]
 
 
 def main() -> int:

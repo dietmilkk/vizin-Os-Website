@@ -134,7 +134,7 @@ def main():
         page.on("console", escutar_console)
 
         print("\n[1] Carregamento do painel")
-        page.goto(f"{BASE}/afiliados/?afiliado_token={token}", wait_until="networkidle")
+        page.goto(f"{BASE}/membros/?afiliado_token={token}", wait_until="networkidle")
         page.wait_for_selector("#afiliadoDashboardView:not(.hidden)", timeout=20000)
         check("painel de afiliado visivel", page.is_visible("#afiliadoDashboardView"))
         check(
@@ -142,18 +142,14 @@ def main():
             not page.is_visible("#partnerMarketing"),
         )
 
-        print("\n[2] Link de afiliado aparece")
-        link_value = page.input_value("#afiliadoLink")
-        check("link preenchido", bool(link_value), f"valor='{link_value}'")
+        print("\n[2] Link de afiliado removido do painel")
         check(
-            "link usa o parametro ?a=",
-            "?a=" in link_value,
-            link_value,
+            "campo de link do afiliado removido",
+            page.locator("#afiliadoLink").count() == 0,
         )
         check(
-            "link usa o codigo do afiliado",
-            code in link_value,
-            link_value,
+            "botao copiar link removido",
+            page.locator("#copyAfiliadoLink").count() == 0,
         )
 
         print("\n[3] Sem sistema de codigo (copia do painel do criador)")
@@ -170,17 +166,7 @@ def main():
             not page.is_visible("#dashboardView"),
         )
 
-        print("\n[4] Identidade e stats")
-        check(
-            "nome do afiliado preenchido",
-            page.inner_text("#afiliadoName").strip() != "",
-            page.inner_text("#afiliadoName"),
-        )
-        check(
-            "handle do afiliado preenchido",
-            page.inner_text("#afiliadoHandle").strip().startswith("@"),
-            page.inner_text("#afiliadoHandle"),
-        )
+        print("\n[4] Stats")
         for stat in [
             "afiliadoStatOutreach",
             "afiliadoStatCreators",
@@ -255,6 +241,7 @@ def main():
         page.fill("#outreachEmail", "criador.exemplo@example.com")
         page.select_option("#outreachPlatform", "instagram")
         page.fill("#outreachContact", "@anasouza")
+        page.fill("#outreachMotivo", "Criador sem resposta recente.")
         page.click("#outreachButton")
         page.wait_for_function(
             """() => {
@@ -317,6 +304,7 @@ def main():
             page.fill("#outreachEmail", "criador.exemplo@example.com")
             page.select_option("#outreachPlatform", "instagram")
             page.fill("#outreachContact", "@anasouza")
+            page.fill("#outreachMotivo", "Criador sem resposta recente.")
             page.click("#outreachButton")
             page.wait_for_function(
                 """() => {
@@ -469,10 +457,6 @@ def main():
             ),
         )
         check(
-            "nome do afiliado usa H3 (hierarquia H1 > H2 > H3)",
-            page.eval_on_selector("#afiliadoName", "el => el.tagName") == "H3",
-        )
-        check(
             "grupos com intervalo vertical uniforme (56px)",
             page.evaluate(
                 """() => {
@@ -563,7 +547,7 @@ def main():
         )
 
         print("\n[12] Página pública com o guia completo")
-        page.goto(f"{BASE}/afiliados/", wait_until="networkidle")
+        page.goto(f"{BASE}/membros/", wait_until="networkidle")
         check(
             "guia completo visível na página pública",
             page.is_visible("#guiaCompleto"),

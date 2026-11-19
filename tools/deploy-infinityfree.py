@@ -45,10 +45,10 @@ PUBLICOS = [
     "_redirects",
     ".htaccess",
     "painel/index.html",
-    "afiliados/index.html",
+    "membros/index.html",
     "documento/index.html",
     "moderacao/index.html",
-    "manifesto/index.html",
+    "essencia/index.html",
 ]
 
 # Pastas enviadas inteiras.
@@ -85,7 +85,7 @@ def carregar_credenciais() -> tuple[str, str, str, str]:
     return host, user, senha, diretorio.rstrip("/")
 
 
-def manifesto() -> list[str]:
+def arquivos_publicos() -> list[str]:
     """Lista de arquivos publicos (relativos a ROOT), em ordem."""
     arquivos: list[str] = []
     for item in PUBLICOS:
@@ -259,7 +259,7 @@ def main() -> int:
     argumentos = analisador.parse_args()
 
     host, user, senha, diretorio = carregar_credenciais()
-    publicos = manifesto()
+    publicos = arquivos_publicos()
 
     print(f"==> FTP: {host}")
     print(f"==> Pasta remota: {diretorio}/")

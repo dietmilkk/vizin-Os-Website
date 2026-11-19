@@ -11,13 +11,14 @@ Uso:
     python3 tests/test-guard-ip.py
 """
 
+import os
 import sys
 
 from playwright.sync_api import sync_playwright
 
 from lib.primeiro_acesso import ja_visitou
 
-BASE = "http://localhost:8099"
+BASE = os.environ.get("SITE_BASE", "http://localhost:8099").rstrip("/")
 API = "https://api.188.166.156.109.sslip.io"
 
 failures = []
@@ -54,7 +55,7 @@ def test_bloqueio_redireciona_404(page):
         '{"ok":true,"allowed":false,"blocked":true,"reason":"IP_DENIED",'
         '"message":"Este acesso nao esta disponivel."}',
     )
-    page.goto(f"{BASE}/afiliados/", wait_until="domcontentloaded")
+    page.goto(f"{BASE}/membros/", wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
     check("redireciona para 404.html", "/404.html" in page.url, page.url)
     check("nao mostra o conteudo da pagina", not page.locator("#createModal").is_visible())
@@ -68,7 +69,7 @@ def test_duplicado_avisa_na_janela(page):
         '"message":"Voce ja criou uma conta. Se tentar novamente, ficara sem conta, '
         'sem mais nenhuma conta."}',
     )
-    page.goto(f"{BASE}/afiliados/", wait_until="domcontentloaded")
+    page.goto(f"{BASE}/membros/", wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
     check("a pagina continua carregada", "/404.html" not in page.url, page.url)
     check("conteudo visivel", page.locator("main").first.is_visible())
@@ -98,7 +99,7 @@ def test_painel_com_token_nao_e_bloqueado(page):
         '{"ok":true,"allowed":false,"blocked":true,"reason":"IP_DENIED",'
         '"message":"Este acesso nao esta disponivel."}',
     )
-    page.goto(f"{BASE}/afiliados/?afiliado_token=token-de-teste", wait_until="domcontentloaded")
+    page.goto(f"{BASE}/membros/?afiliado_token=token-de-teste", wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
     check("nao redireciona para 404", "/404.html" not in page.url, page.url)
     check("body visivel com token", page.locator("body").is_visible())
@@ -111,7 +112,7 @@ def test_api_sem_resposta_nao_trava(page):
         route.abort()
 
     page.route(f"{API}/signup-guard", handler)
-    page.goto(f"{BASE}/afiliados/", wait_until="domcontentloaded")
+    page.goto(f"{BASE}/membros/", wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
     check("nao redireciona para 404", "/404.html" not in page.url, page.url)
     check("conteudo visivel", page.locator("main").first.is_visible())

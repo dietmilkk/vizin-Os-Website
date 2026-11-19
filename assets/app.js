@@ -463,19 +463,19 @@
     });
   }
 
-  /* Previa expansivel do manifesto na home. O texto completo vem da propria
-     pagina /manifesto e so e buscado quando a pessoa pede para ler tudo. */
-  function setupManifestoPreview() {
-    var toggle = $('#manifestoPreviewToggle');
-    var body = $('#manifestoPreviewBody');
+  /* Previa expansivel da Essência na home. O texto completo vem da propria
+     pagina /essencia e so e buscado quando a pessoa pede para ler tudo. */
+  function setupEssenciaPreview() {
+    var toggle = $('#essenciaPreviewToggle');
+    var body = $('#essenciaPreviewBody');
     if (!toggle || !body) return;
 
     var loaded = false;
     var loading = false;
-    var sources = ['/manifesto', '/manifesto.html'];
+    var sources = ['/essencia', '/essencia.html'];
 
     function setLabel(expanded) {
-      toggle.textContent = expanded ? 'Recolher o manifesto' : 'Ler o manifesto inteiro';
+      toggle.textContent = expanded ? 'Recolher A Essência' : 'Ler A Essência inteira';
       toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     }
 
@@ -490,8 +490,8 @@
         if (index >= sources.length) {
           loading = false;
           body.innerHTML =
-            '<p class="manifesto-preview__lead">Não foi possível carregar o texto aqui agora. ' +
-            '<a href="/manifesto">Abra a página do manifesto</a> para ler tudo.</p>';
+            '<p class="essencia-preview__lead">Não foi possível carregar o texto aqui agora. ' +
+            '<a href="/essencia">Abra A Essência</a> para ler tudo.</p>';
           return;
         }
         fetch(sources[index], { credentials: 'same-origin' })
@@ -501,9 +501,9 @@
           })
           .then(function (html) {
             var doc = new DOMParser().parseFromString(html, 'text/html');
-            var essay = doc.querySelector('.manifesto-body');
-            if (!essay) throw new Error('manifesto ausente');
-            var refs = doc.querySelector('.manifesto-refs');
+            var essay = doc.querySelector('.essencia-body');
+            if (!essay) throw new Error('essência ausente');
+            var refs = doc.querySelector('.essencia-refs');
             body.appendChild(document.importNode(essay, true));
             if (refs) body.appendChild(document.importNode(refs, true));
             loaded = true;
@@ -528,7 +528,7 @@
     });
   }
 
-  setupManifestoPreview();
+  setupEssenciaPreview();
   drawAnimatedUnderlines();
   window.addEventListener('resize', drawAnimatedUnderlines);
 })();

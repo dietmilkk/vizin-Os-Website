@@ -15,13 +15,27 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-APP_DIR="${VIZIN_APP_DIR:-$(cd "$ROOT/.." && pwd)/app}"
-VPS_DIR="$APP_DIR/vps"
+# Raiz do projeto: normalmente o repo do app fica do lado do site
+# (…/app com site/ dentro), mas também pode ser o próprio repo do app
+# (site/ dentro dele). Detecta qual layout é este.
+PROJ="$(cd "$ROOT/.." && pwd)"
+APP_DIR="${VIZIN_APP_DIR:-$PROJ}"
+if [ -d "$PROJ/vps" ]; then
+  VPS_DIR="${VIZIN_VPS_DIR:-$PROJ/vps}"
+else
+  VPS_DIR="${VIZIN_VPS_DIR:-$APP_DIR/vps}"
+fi
+if [ ! -d "$VPS_DIR" ]; then
+  echo "Pasta da API (vps/) não encontrada. Use VIZIN_VPS_DIR=/caminho/da/vps" >&2
+  exit 1
+fi
 
 SSH_KEY="${SSH_KEY:-}"
 if [ -z "$SSH_KEY" ]; then
-  # A chave da VPS fica com o projeto do app, fora do site (não é versionada).
+  # A chave da VPS fica fora do versionamento. Lugares procurados:
+  # ~/.local/vps (padrão), o .local do projeto, /tmp/opencode e ~/.ssh.
   for candidato in \
+    "$HOME/.local/vps/id_ed25519" \
     "$APP_DIR/.local/vps/id_ed25519" \
     "/tmp/opencode/id_deploy_new" \
     "$HOME/.ssh/id_ed25519"; do
@@ -52,6 +66,7 @@ if [ ! -f "$SSH_KEY" ]; then
 Chave SSH não encontrada.
 
 Procurada em:
+  $HOME/.local/vps/id_ed25519
   $APP_DIR/.local/vps/id_ed25519
   /tmp/opencode/id_deploy_new
   $HOME/.ssh/id_ed25519
@@ -106,6 +121,15 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "backend" ]; then
     curl -fsS --max-time 20 "https://$API_HOST/stats/public" | head -c 400
     echo
   fi
+  # Forum da Comunidade: sem isso a pagina /comunidade mostra "fora do ar".
+  FORUM_CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$API_HOST/forum/status")"
+  if [ "$FORUM_CODE" != "200" ]; then
+    echo "    ATENÇÃO: /forum/status respondeu $FORUM_CODE (esperado 200)" >&2
+  else
+    echo "    /forum/status: ok"
+    curl -fsS --max-time 20 "https://$API_HOST/forum/status" | head -c 200
+    echo
+  fi
 fi
 
 if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
@@ -129,7 +153,7 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   "${SSH[@]}" "chown -R vizin:vizin $REMOTE_SITE_DIR"
 
   echo "==> Conferindo o site"
-  for path in / /painel /documento /moderacao /afiliados /doar /download /manifesto /privacidade /termos /licenca; do
+  for path in / /painel /documento /moderacao /membros /comunidade /doar /download /essencia /privacidade /termos /licenca; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$SITE_HOST$path")"
     printf '    %-12s %s\n' "$path" "$code"
   done

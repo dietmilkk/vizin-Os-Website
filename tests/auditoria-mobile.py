@@ -16,7 +16,7 @@ BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099"
 PAGINAS = [
     "/",
     "/download",
-    "/afiliados",
+    "/membros",
     "/painel",
     "/documento",
     "/moderacao",
@@ -43,7 +43,7 @@ def auditar(page, largura: int) -> list[str]:
           const fora = [];
           const dentroDeRolagem = (el) => {
             // Elemento dentro de um rolável horizontal intencional (ex.: o
-            // diagrama do fluxo em /afiliados) não é vazamento de página.
+            // diagrama do fluxo em /membros) não é vazamento de página.
             let pai = el.parentElement;
             while (pai && pai !== document.body) {
               const s = getComputedStyle(pai);
@@ -150,7 +150,11 @@ def auditar(page, largura: int) -> list[str]:
 with sync_playwright() as playwright:
     browser = playwright.firefox.launch()
     for rotulo, viewport in (("celular 390px", MOBILE), ("celular 320px", PEQUENO)):
-        contexto = browser.new_context(viewport=viewport, is_mobile=True, has_touch=True)
+        # Sem is_mobile: com ele, o navegador usa o layout de 980px (fallback
+        # de desktop) em vez de respeitar a meta viewport, e a auditoria
+        # mede uma pagina que o usuario nunca ve. O viewport explicito ja
+        # garante a largura real do celular.
+        contexto = browser.new_context(viewport=viewport, has_touch=True)
         page = contexto.new_page()
         print(f"\n=== {rotulo} ===")
         for rota in PAGINAS:

@@ -7,7 +7,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 SITE = "https://vizin-os.page.gd"
-PAGINAS = ["/", "/afiliados", "/painel", "/documento", "/moderacao"]
+PAGINAS = ["/", "/membros", "/painel", "/documento", "/moderacao"]
 
 
 def main():
@@ -57,18 +57,18 @@ def main():
         pagina = ctx.new_page()
         erros = []
         pagina.on("pageerror", lambda e: erros.append(str(e)))
-        pagina.goto(SITE + "/afiliados", wait_until="domcontentloaded")
+        pagina.goto(SITE + "/membros", wait_until="domcontentloaded")
         pagina.wait_for_timeout(2500)
         botao = pagina.locator('[data-open-create="afiliado"]').first
         if botao.count() and botao.is_visible():
             botao.click()
             pagina.wait_for_timeout(900)
             visivel = pagina.locator("#createModal").is_visible()
-            print(f"celular  /afiliados   janela de criacao abriu: {visivel}")
+            print(f"celular  /membros   janela de criacao abriu: {visivel}")
             if not visivel:
                 falhas.append("janela de criacao nao abriu no celular")
         else:
-            print("celular  /afiliados   botao de afiliado nao encontrado")
+            print("celular  /membros   botao de afiliado nao encontrado")
             falhas.append("botao de afiliado nao encontrado no celular")
         for e in erros:
             print("      !", e[:160])

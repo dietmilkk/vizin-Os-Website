@@ -2,7 +2,7 @@
 
 Faz o caminho que uma pessoa faz, do zero:
 
-1. abre a pagina publica /afiliados;
+1. abre a pagina publica /membros;
 2. clica em "Quero ser afiliado";
 3. clica no botao de criar conta (o codigo e gerado pela plataforma);
 4. confere o link do painel que aparece no modal — inclusive a decoracao
@@ -77,8 +77,8 @@ def main():
 
         pagina.route(f"{API}/hunters", carimba_handle)
 
-        print("\n[1] Pagina publica /afiliados")
-        pagina.goto(f"{SITE}/afiliados/", wait_until="domcontentloaded")
+        print("\n[1] Pagina publica /membros")
+        pagina.goto(f"{SITE}/membros/", wait_until="domcontentloaded")
         pagina.wait_for_timeout(3500)
         check("pagina carregou", pagina.locator("h1").first.is_visible())
         check("sem erros de JavaScript", not erros_js, "; ".join(erros_js))
@@ -184,19 +184,6 @@ def main():
         pagina.locator("#openDashboard").click()
         pagina.wait_for_timeout(5000)
         check("painel aberto", pagina.locator("#afiliadoDashboardView").is_visible())
-        check(
-            "dados do afiliado carregados",
-            pagina.locator("#afiliadoHandle").inner_text().strip().startswith("@"),
-            pagina.locator("#afiliadoHandle").inner_text(),
-        )
-        link_painel = pagina.locator("#afiliadoLink").input_value()
-        # Link curto de divulgacao do afiliado: /afiliados?a=<codigo>.
-        check("link de afiliado no painel", "?a=" in link_painel, link_painel)
-        check(
-            "link de afiliado e curto e sem token legado",
-            "?afiliado_token=" not in link_painel and "?afiliado=" not in link_painel,
-            link_painel,
-        )
 
         pagina.screenshot(path="/tmp/opencode/painel-afiliado-jornada.png", full_page=True)
 

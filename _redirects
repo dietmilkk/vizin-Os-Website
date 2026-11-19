@@ -10,12 +10,12 @@
 # (Apache) o mesmo resultado vem do servidor.
 
 # Achatamento: pasta/página -> arquivo plano (URL sem extensão permanece a canônica).
-/afiliados/ /afiliados 301
+/membros/ /membros 301
+/essencia/ /essencia 301
 /doar/ /doar 301
 /documento/ /documento 301
 /download/ /download 301
 /licenca/ /licenca 301
-/manifesto/ /manifesto 301
 /moderacao/ /moderacao 301
 /painel/ /painel 301
 /privacidade/ /privacidade 301
@@ -23,12 +23,12 @@
 
 # A extensão .html nunca aparece na URL: quem acessa /painel.html cai na
 # URL canônica /painel (igual ao Caddy da VPS).
-/afiliados.html /afiliados 308
+/membros.html /membros 308
+/essencia.html /essencia 308
 /doar.html /doar 308
 /documento.html /documento 308
 /download.html /download 308
 /licenca.html /licenca 308
-/manifesto.html /manifesto 308
 /moderacao.html /moderacao 308
 /painel.html /painel 308
 /privacidade.html /privacidade 308
@@ -36,12 +36,3 @@
 
 # Rewrite da URL sem extensão para o arquivo (Cloudflare Pages: pretty URLs
 # já resolve /painel -> /painel.html nativamente; nada a fazer aqui).
-
-# Apelido antigo do programa de parceiros.
-/criadores /afiliados 301
-/criadores/ /afiliados 301
-
-# Endereço antigo da Comunidade: continua funcionando e leva para a nova.
-/praca-romana /comunidade 301
-/praca-romana/ /comunidade 301
-/praca-romana.html /comunidade 308

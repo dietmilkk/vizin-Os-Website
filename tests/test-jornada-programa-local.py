@@ -5,7 +5,7 @@ Roda no navegador de verdade, contra uma API local em memoria
 
 Caminho coberto, como uma pessoa faria:
 
-1. abre /afiliados, fecha a janela de primeira visita;
+1. abre /membros, fecha a janela de primeira visita;
 2. cria a conta de CRIADOR (codigo, nome, CPF e e-mail);
 3. confere o link do painel que aparece e o decora visual;
 4. abre o painel e confere os numeros (indicacoes, saldo, saques);
@@ -24,6 +24,7 @@ Uso:
 from __future__ import annotations
 
 import os
+import socket
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
@@ -37,6 +38,13 @@ falhas: list[str] = []
 verificacoes = 0
 
 
+def porta_livre() -> int:
+    """Porta livre para a API mock e para o site local."""
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
+
+
 def check(rotulo: str, condicao: bool, detalhe: str = "") -> None:
     global verificacoes
     verificacoes += 1
@@ -48,10 +56,13 @@ def check(rotulo: str, condicao: bool, detalhe: str = "") -> None:
 
 
 def main() -> int:
-    httpd_api, api_base = servir_api(8792)
-    httpd_site, site_base = servir_site(8145, {
+    # Portas livres: o runner pode estar com outra instancia rodando.
+    porta_api = porta_livre()
+    porta_site = porta_livre()
+    httpd_api, api_base = servir_api(porta_api)
+    httpd_site, site_base = servir_site(porta_site, {
         "/": "index.html",
-        "/afiliados": "afiliados.html",
+        "/membros": "membros.html",
     })
     print(f"API local: {api_base} | Site local: {site_base}\n")
 
@@ -95,7 +106,7 @@ def main() -> int:
                     pagina.wait_for_timeout(300)
 
             print("[1] Criador cria a conta")
-            abrir("/afiliados")
+            abrir("/membros")
             fechar_primeira_visita()
             pagina.click('[data-open-create="creator"]:visible')
             pagina.wait_for_selector("#createModal:not([hidden])", timeout=5000)
@@ -128,7 +139,7 @@ def main() -> int:
             abrir_painel(link_painel)
             check(
                 "painel abriu em outra aba",
-                link_painel != site_base + "/afiliados",
+                link_painel != site_base + "/membros",
                 link_painel,
             )
             pagina.wait_for_selector("#dashboardView:not([hidden])", timeout=15000)
@@ -162,7 +173,7 @@ def main() -> int:
             )
 
             print("\n[4] Afiliado cria a conta (sem escolher codigo)")
-            abrir("/afiliados")
+            abrir("/membros")
             fechar_primeira_visita()
             pagina.click('[data-open-create="afiliado"]:visible')
             pagina.wait_for_selector("#createModal:not([hidden])", timeout=5000)
@@ -192,19 +203,20 @@ def main() -> int:
             abrir_painel(link_painel_af)
             pagina.wait_for_selector("#afiliadoDashboardView:not([hidden])", timeout=15000)
             pagina.wait_for_timeout(700)
-            check("nome do afiliado aparece", "Bia" in pagina.inner_text("#afiliadoName"), pagina.inner_text("#afiliadoName"))
             comissao = pagina.inner_text("#afiliadoStatCommission")
             check("comissao em reais", "R$" in comissao, comissao)
             quota = pagina.inner_text("#afiliadoStatOutreach")
             check("cota de contatos visivel", quota.strip() != "", quota)
-            link_divulga = pagina.input_value("#afiliadoLink")
-            check("link de divulgacao preenchido", len(link_divulga) > 10, link_divulga)
-            check("link de divulgacao tem o codigo dele", "?" in link_divulga, link_divulga)
+            check(
+                "link de divulgacao removido do painel",
+                pagina.locator("#afiliadoLink").count() == 0,
+            )
 
             print("\n[6] Afiliado registra o contato de um criador")
             pagina.fill("#outreachName", "Carlos")
             pagina.fill("#outreachEmail", "carlos@example.com")
             pagina.fill("#outreachContact", "@carloscria")
+            pagina.fill("#outreachMotivo", "Criador sem resposta recente.")
             plataforma = pagina.locator("#outreachPlatform")
             if plataforma.count():
                 plataforma.select_option(index=1)
@@ -223,21 +235,11 @@ def main() -> int:
                 pagina.inner_text("#afiliadoStatOutreach"),
             )
 
-            print("\n[7] O link com o codigo do afiliado atribui o criador")
-            codigo_afiliado = link_divulga.split("=")[-1] if "=" in link_divulga else ""
-            if codigo_afiliado:
-                abrir(f"/afiliados?a={codigo_afiliado}")
-                guardado = pagina.evaluate(
-                    "() => (window.localStorage.getItem('vizin.os.afiliado.v1')"
-                    " || window.localStorage.getItem('vizin-os.afiliado.v1') || '')"
-                )
-                check(
-                    "a atribuicao fica registrada",
-                    codigo_afiliado in guardado,
-                    f"{guardado!r} (codigo {codigo_afiliado!r})",
-                )
-            else:
-                check("link de divulgacao tem parametro", False, link_divulga)
+            print("\n[7] O painel do afiliado nao guarda mais o link de divulgacao")
+            check(
+                "sem campo de link no painel do afiliado",
+                pagina.locator("#afiliadoLink").count() == 0,
+            )
 
             print("\n[8] Sem erros de JavaScript")
             check("nenhum erro de runtime", not erros, "; ".join(erros[:3]))

@@ -15,23 +15,23 @@ Sem build, sem framework e sem dependências de runtime.
 | Arquivo | Público | Função |
 | --- | --- | --- |
 | `index.html` | Sim (`/`) | Landing page em texto contínuo: a ilusão da conexão, o problema dos apps, o vizin.Os, privacidade e convite |
-| `manifesto/index.html` | Sim (`/manifesto`) | Manifesto em texto corrido ("Uma conversa ao redor do fogo"), listado em “Continue explorando” e no sitemap |
+| `essencia/index.html` | Sim (`/essencia`) | A Essência em texto corrido ("Uma conversa ao redor do fogo"), listado em “Continue explorando” e no sitemap |
 | `documento/index.html` | Sim (`/documento`) | Explicação para imprensa e para quem quer entender melhor: identidade local, criptografia, transporte entre pares, regiões por bairro (raio máximo de 5 km), moderação, limitações e glossário |
-| `afiliados/index.html` | **Não listado** (`noindex`) | Hub único do programa de parceiros em `/afiliados`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
+| `membros/index.html` | **Não listado** (`noindex`) | Hub único do programa de parceiros em `/membros`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
 | `moderacao/index.html` | Sim (`/moderacao`) | Manual público da moderação: níveis, denúncias (3 → revisão; 5 → oculto e votação de 7 dias), votação ponderada por reputação, quórum, banimentos e score de convivência |
 | `painel/index.html` | Sim (`/painel`) | Painel público com estatísticas agregadas do serviço (dispositivos ativos, regiões, consumo do servidor, parceiros), sem nenhum dado pessoal |
 | `comunidade.html` | Sim (`/comunidade`) | Comunidade: fórum público de ideias e sugestões — contas leves (apelido + senha), propostas com votos (popularidade), comentários, tags e a aba “Já implementadas” |
 | `404.html` | — | Página de erro |
 
-A página `/afiliados` **não aparece no menu, no sitemap ou no rodapé**. Ela é
+A página `/membros` **não aparece no menu, no sitemap ou no rodapé**. Ela é
 enviada apenas nos convites de criadores e afiliados, e usa
 `noindex, nofollow, noarchive` no `<meta name="robots">`. O `robots.txt`
-também bloqueia `/afiliados` e `/criadores`.
+também bloqueia `/membros` e `/criadores`.
 
-O antigo `/criadores` virou **apelido**: responde `301` para `/afiliados/`,
+O antigo `/criadores` virou **apelido**: responde `301` para `/membros/`,
 que é a URL canônica — o mesmo vale nos três lugares onde o site roda
 (Caddy na VPS, `.htaccess` no InfinityFree e `_redirects` no Cloudflare Pages).
-O HTML fica em `afiliados/index.html`; não existe pasta `criadores/` no repositório.
+O HTML fica em `membros/index.html`; não existe pasta `criadores/` no repositório.
 
 ### O que as páginas públicas dizem sobre o app
 
@@ -90,7 +90,7 @@ Para servir outra pasta/porta: `python3 tools/servidor-local.py <raiz> <porta>`.
 ```
 index.html                  Página principal
 documento/index.html            Página para imprensa/mídia em /documento
-afiliados/index.html        Hub do programa de parceiros em /afiliados
+membros/index.html        Hub do programa de parceiros em /membros
 moderacao/index.html        Manual público de moderação em /moderacao
 painel/index.html           Painel público de estatísticas em /painel
 404.html                    Página de erro
@@ -110,17 +110,20 @@ assets/icon-512.png         Ícone PWA
 assets/apple-touch-icon.png
 site.webmanifest            Manifest PWA
 _headers                    Cabeçalhos de segurança e noindex dos criadores
-_redirects                  Redireciona /afiliados e /criadores (Cloudflare Pages)
+_redirects                  Redireciona /membros e /criadores (Cloudflare Pages)
 vercel.json                 Equivalente do _redirects para a Vercel: URLs sem
                             extensão (cleanUrls), barra final removida e
                             cabeçalhos de segurança
 .htaccess                   Equivalente do _redirects para hospedagem compartilhada
                             (InfinityFree): página 404 própria, sem listagem de
                             pastas e bloqueio de arquivos internos
-robots.txt                  Indexação (bloqueia /afiliados e /criadores)
-sitemap.xml                 Sitemap (sem /afiliados)
-docs/prompt-afiliados.md    Prompt de função e regras da página /afiliados
+robots.txt                  Indexação (bloqueia /membros e /criadores)
+sitemap.xml                 Sitemap (sem /membros)
+docs/prompt-membros.md      Prompt de função e regras da página /membros
 tests/pix.test.js           Testes do gerador PIX
+tests/test-comunidade.py    Teste da Comunidade no Chromium (cadastro, votos, comentários, implementadas e selo adm)
+tests/jornada-api-comunidade.py   Jornada real na API: 71 passos (XSS, limites, unicode, anti-spam, trava de login)
+tests/jornada-navegador-comunidade.py  Jornada real no navegador: três pessoas usando a Comunidade de verdade
 tests/painel.test.mjs       Teste do painel público: roda o panel.js real contra a API real
 tests/test-stats-publico.py Teste fim a fim do GET /stats/public (contrato + privacidade)
 tests/test-painel-publico.py Teste do /painel no Chromium (navegador de verdade)
@@ -195,7 +198,7 @@ window.VIZINHANCA_CONFIG = Object.freeze({
 
 - **`androidUrl`**: o botão “Quero testar no Android” aponta para a Google Play
   Store.
-- **`apiUrl`**: usado pela página de criadores/afiliados para gerar códigos,
+- **`apiUrl`**: usado pela página de criadores e afiliados para gerar códigos,
   consultar comissões, gerenciar contatos e solicitar saques — e pela
   Comunidade para contas, propostas, votos e comentários.
 - **`contactEmail`**: contato exibido no rodapé e nas páginas públicas.
@@ -262,9 +265,9 @@ não quebra: o resto do site continua funcionando normalmente.
 (`site/tools/deploy-vps.sh --so-backend` ou `--so-backend` + site). Enquanto a
 API no ar não tem as rotas `/forum/*`, a página mostra o aviso de fora do ar.
 
-## Página de criadores e afiliados
+## Página de Membros (criadores e afiliados)
 
-A página `/afiliados` apresenta o projeto e os dois programas no mesmo lugar:
+A página `/membros` apresenta o projeto e os dois programas no mesmo lugar:
 
 - **Criador**: escolhe um código (3–32 letras, números, `_` ou `-`), compartilha
   com a audiência e recebe **50%** do valor de cada assinatura confirmada por 1 ano.
@@ -300,12 +303,12 @@ Outros pontos:
   O bloqueio por IP é **por papel**: quem já tem uma conta recebe o aviso "a
   conta de afiliado ainda está disponível" (e vice-versa) em vez de um erro
   seco.
-- O **link do painel** é curto e minimalista: `https://vizin-os.page.gd/afiliados?p=CXXXXXXXXXXXXXXX`
+- O **link do painel** é curto e minimalista: `https://vizin-os.page.gd/membros?p=CXXXXXXXXXXXXXXX`
   (criador) ou `?p=AXXXXXXXXXXXXXXX` (afiliado). São 16 caracteres — um prefixo
   de papel (`C`/`A`) mais 15 caracteres base32 — e ele **é a senha de acesso**.
   Os links antigos (`?token=` e `?afiliado_token=`) continuam funcionando.
 - O afiliado tem um link no formato
-  `https://vizin-os.page.gd/afiliados?a=SEUCODIGO`. O código fica salvo no
+  `https://vizin-os.page.gd/membros?a=SEUCODIGO`. O código fica salvo no
   navegador por 180 dias (primeira visita) e é enviado como `hunter_code` quando
   o criador cria a conta.
 - **O vínculo afiliado → criador é real e fica registrado.** Quando o criador
@@ -358,7 +361,7 @@ Outros pontos:
     `falhou`). O rótulo vem em português; a API devolve o estado cru.
   - No telefone as duas colunas caem uma abaixo da outra e a linha vertical
     vira uma linha horizontal no topo.
-- A página pública de `/afiliados` mostra o essencial e entrega o resto no
+- A página pública de `/membros` mostra o essencial e entrega o resto no
   **guia completo**: hero (com o texto que explica o programa), `#divisao` (a
   barra e os quatro percentuais) e `#participar` (CTA final com os dois botões).
   A seção curta que resumia o funcionamento (`#porDentro`) foi **substituída**
@@ -712,10 +715,10 @@ Todas as páginas se conectam de forma consistente:
   as páginas, com um cartão por página — o cartão da página atual leva
   `aria-current="page"`;
 - A **404** também lista as páginas principais.
-- **Breadcrumb onde ajuda a orientar**: a página de afiliados (`/afiliados`) e a
+- **Breadcrumb onde ajuda a orientar**: a página de Membros (`/membros`) e a
   404 abrem com um `nav.breadcrumb` que mostra o caminho como um diretório de
   arquivos simplificado ("Início / página atual"), com separador e
-  `aria-current="page"`. A regra vive no `styles.css` global. No `/afiliados`,
+  `aria-current="page"`. A regra vive no `styles.css` global. No `/membros`,
   o hero do desktop e o hero do celular têm cada um a sua cópia — o do desktop
   fica dentro do cartão decorado e o do celular aparece junto do texto, porque
   o hero decorado some no telefone. Nas demais páginas a navegação do próprio
@@ -825,7 +828,7 @@ inventado.
 
 O `/painel` mede o **app** (contas, beacons, servidor). Para medir o **site**
 — visitantes e page views das páginas públicas — o `<head>` das 7 páginas
-(`index`, `documento`, `afiliados`, `moderacao`, `manifesto`, `painel`, `404`)
+(`index`, `documento`, `membros`, `moderacao`, `essencia`, `painel`, `404`)
 leva o snippet do Vercel Web Analytics:
 
 ```html
@@ -1068,7 +1071,7 @@ altura.
 
 **No telefone nada de conteúdo some.** A regra "ar leve" (≤ 760 px) corta
 apenas o texto de apoio — dicas, legendas de card, rótulos descritivos — e
-nunca esconde bloco de conteúdo, botão ou link. A página de afiliados
+nunca esconde bloco de conteúdo, botão ou link. A página de Membros
 continua mostrando a divisão da receita, o "como funciona por dentro" e o
 bloco de participação (com os botões) nos 390 px e 320 px. O que muda no
 telefone é o *hero*: o cartão decorado some e fica só o texto
@@ -1490,10 +1493,10 @@ Abre as cinco páginas no Chromium e confere:
 
 - cada página abre com 200, tem título e **não deixa erro de JavaScript**;
 - o `canonical` aponta para o domínio certo — e as páginas `noindex` (como
-  `/afiliados`) se declaram assim, sem canonical conflitante;
+  `/membros`) se declaram assim, sem canonical conflitante;
 - o painel público sai do carregamento e **mostra números da API**;
 - todo link interno responde;
-- os apelidos antigos (`/criadores` → `/afiliados/`) ainda levam ao lugar certo;
+- os apelidos antigos (`/criadores` → `/membros/`) ainda levam ao lugar certo;
 - `robots.txt` e `sitemap.xml` falam do domínio certo;
 - **nenhum arquivo interno está exposto** (`README.md`, `docs/`,
   `tools/`, `tests/`, `deploy/`, `dist/`, `.git/`, `.env`, `.htaccess`).
