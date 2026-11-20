@@ -177,6 +177,9 @@
   }
 
   function afterLogin() {
+    // O painel da conta muda de cara quando ha sessao aberta: some o
+    // formulario de entrada, o X e o alternador, e resta a pergunta de sair.
+    renderAuthModal();
     // O detalhe pode ter sido aberto no modo "entre para comentar": com a
     // conta aberta, ele precisa virar formulário de comentário.
     if (!$('#comunidade-detail-modal').hidden) {
@@ -258,6 +261,50 @@
     }
   }
 
+  /* ------------------------------------------------------ menu de tags --- */
+
+  var TAG_LABELS_NOVO = {
+    ideia: 'Ideias',
+    melhoria: 'Melhorias',
+    bug: 'Problemas (bugs)',
+    outro: 'Outros',
+  };
+
+  function setNovaTagUI(tag) {
+    var campo = $('#comunidade-new-tag');
+    var rotulo = $('#comunidade-new-tag-label-value');
+    if (campo) campo.value = tag;
+    if (rotulo) rotulo.textContent = TAG_LABELS_NOVO[tag] || tag;
+    $$('#comunidade-new-tag-list .comunidade-menu-option').forEach(function (option) {
+      option.setAttribute('aria-selected', option.getAttribute('data-tag') === tag ? 'true' : 'false');
+    });
+  }
+
+  function closeTagMenu() {
+    var menu = $('#comunidade-new-tag-menu');
+    var list = $('#comunidade-new-tag-list');
+    var button = $('#comunidade-new-tag-btn');
+    if (!menu || !list || !button) return;
+    menu.classList.remove('is-open');
+    list.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleTagMenu(force) {
+    var menu = $('#comunidade-new-tag-menu');
+    var list = $('#comunidade-new-tag-list');
+    var button = $('#comunidade-new-tag-btn');
+    if (!menu || !list || !button) return;
+    var open = typeof force === 'boolean' ? force : Boolean(list.hidden);
+    menu.classList.toggle('is-open', open);
+    list.hidden = !open;
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      var selected = $('.comunidade-menu-option[aria-selected="true"]', list) || $('.comunidade-menu-option', list);
+      if (selected) selected.focus();
+    }
+  }
+
   function openNewModal() {
     openModal($('#comunidade-new-modal'), $('#comunidade-new-title'));
   }
@@ -327,16 +374,29 @@
     var title = $('#comunidade-auth-title');
     var submit = $('#comunidade-auth-submit');
     var pass = $('#comunidade-auth-pass');
+    var fechar = $('#comunidade-auth-modal .modal-close');
+    var alternar = $('.comunidade-auth-switch');
+    var nota = $('#comunidade-auth-note');
     if (state.session) {
-      title.textContent = 'Você está na Comunidade';
+      // Conectado: o painel vira uma pergunta simples e o botão de sair.
+      // Nem o X, nem a troca Entrar/Criar conta, nem a nota de segurança.
+      // A classe "hidden" esconde de verdade (o atributo hidden nao vence o
+      // display: grid do botão de fechar).
+      title.textContent = 'Conta da Comunidade';
       form.hidden = true;
       logged.hidden = false;
+      if (fechar) fechar.classList.add('hidden');
+      if (alternar) alternar.classList.add('hidden');
+      if (nota) nota.classList.add('hidden');
       $('#comunidade-auth-who').textContent = '@' + state.session.username;
       return;
     }
     title.textContent = authMode === 'login' ? 'Entre na Comunidade' : 'Criar conta na Comunidade';
     form.hidden = false;
     logged.hidden = true;
+    if (fechar) fechar.classList.remove('hidden');
+    if (alternar) alternar.classList.remove('hidden');
+    if (nota) nota.classList.remove('hidden');
     submit.textContent = authMode === 'login' ? 'Entrar' : 'Criar conta';
     pass.setAttribute('autocomplete', authMode === 'login' ? 'current-password' : 'new-password');
     $$('.comunidade-auth-switch button').forEach(function (button) {
@@ -876,6 +936,8 @@
       storeSession(null);
       authMode = 'login'; // quem saiu quer entrar de novo, não criar outra conta
       setBusy(button, false);
+      // O painel volta a ser o de entrada: com o X, o alternador e a nota.
+      renderAuthModal();
       closeTopModal();
       setStatus('Você saiu da Comunidade. Até a próxima!');
     });
@@ -937,6 +999,28 @@
     document.addEventListener('click', function (event) {
       var menu = $('#comunidade-sort-menu');
       if (menu && !menu.contains(event.target)) closeSortMenu();
+      var menuTag = $('#comunidade-new-tag-menu');
+      if (menuTag && !menuTag.contains(event.target)) closeTagMenu();
+    });
+
+    // tag da proposta: mesmo menu customizado do "Mais populares"
+    $('#comunidade-new-tag-btn').addEventListener('click', function () {
+      toggleTagMenu();
+    });
+    $$('#comunidade-new-tag-list .comunidade-menu-option').forEach(function (option) {
+      option.addEventListener('click', function () {
+        setNovaTagUI(option.getAttribute('data-tag'));
+        closeTagMenu();
+        $('#comunidade-new-tag-btn').focus();
+      });
+    });
+    $('#comunidade-new-tag-list').addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+      event.preventDefault();
+      var options = $$('.comunidade-menu-option', $('#comunidade-new-tag-list'));
+      var index = options.indexOf(document.activeElement);
+      var next = event.key === 'ArrowDown' ? Math.min(index + 1, options.length -1) : Math.max(index - 1, 0);
+      if (options[next]) options[next].focus();
     });
 
     // nova proposta

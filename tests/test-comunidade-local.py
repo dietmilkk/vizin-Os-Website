@@ -21,7 +21,7 @@ import sys
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(RAIZ, "tests"))
 
-from lib.api_comunidade_mock import servir_api  # noqa: E402
+from lib.api_comunidade_mock import servir_api
 
 API_PORTA = 8791
 SITE_PORTA = 8901

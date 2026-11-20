@@ -111,7 +111,7 @@ def main() -> int:
             context.close()
         browser.close()
 
-    print("")
+    print()
     print(f"{checks} verificações · {len(falhas)} falha(s)")
     if falhas:
         for falha in falhas:

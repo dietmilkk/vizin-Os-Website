@@ -21,7 +21,6 @@ from __future__ import annotations
 import glob
 import os
 import re
-import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -94,12 +93,12 @@ def main() -> int:
     for caminho in paginas:
         pagina = os.path.basename(caminho)
         fonte = open(caminho, encoding="utf-8").read()
-        blocos = re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.S)
+        blocos = re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.DOTALL)
         if not blocos:
             continue
         print(f"\n[{pagina}]")
         for indice, bloco in enumerate(blocos):
-            limpo = re.sub(r"/\*.*?\*/", "", bloco, flags=re.S)
+            limpo = re.sub(r"/\*.*?\*/", "", bloco, flags=re.DOTALL)
             orfas = declaracoes_orfas(limpo)
             check(
                 f"bloco {indice + 1} sem declaracao orfa",
@@ -124,7 +123,7 @@ def main() -> int:
     for caminho in paginas:
         pagina = os.path.basename(caminho)
         fonte = open(caminho, encoding="utf-8").read()
-        blocos = " ".join(re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.S))
+        blocos = " ".join(re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.DOTALL))
         css_externo = ""
         for href in re.findall(r'<link rel="stylesheet" href="([^"]+)"', fonte):
             if href.startswith("/"):
@@ -133,7 +132,7 @@ def main() -> int:
                     css_externo += open(destino, encoding="utf-8").read()
         todo_css = blocos + css_externo
         classes_css = set(re.findall(r"\.([A-Za-z][\w-]*)", todo_css))
-        html_sem_style = re.sub(r"<style[^>]*>.*?</style>", "", fonte, flags=re.S)
+        html_sem_style = re.sub(r"<style[^>]*>.*?</style>", "", fonte, flags=re.DOTALL)
         classes_html = set()
         for grupo in re.findall(r'class="([^"]+)"', html_sem_style):
             classes_html.update(grupo.split())

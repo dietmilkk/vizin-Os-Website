@@ -20,7 +20,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "tools"))
 
-import email_envio as gateway  # noqa: E402
+import email_envio as gateway
 
 falhas: list[str] = []
 total = 0

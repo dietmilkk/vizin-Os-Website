@@ -6,11 +6,10 @@ limites de campo, unicode/emoji, XSS (renderização inert no cliente), 404s,
 trava de login por falhas e o selo de administração.
 """
 import json
-import urllib.request
+import sys
 import urllib.error
-import sys
+import urllib.request
 
-import sys
 API = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8810"
 falhas = []
 passos = []
@@ -160,7 +159,7 @@ s, d = req(f"/forum/posts/{alvo}/vote", "POST", {"value": 5}, token=tokens_votan
 checar("valor de voto inválido -> 400", s == 400, f"-> {s}")
 s, d = req(f"/forum/posts/{alvo}/vote", "POST", {"value": 1})
 checar("votar sem sessão -> 401", s == 401, f"-> {s}")
-s, d = req(f"/forum/posts/id-que-nao-existe/vote", "POST", {"value": 1}, token=tokens_votantes[0])
+s, d = req("/forum/posts/id-que-nao-existe/vote", "POST", {"value": 1}, token=tokens_votantes[0])
 checar("votar em post inexistente -> 404", s == 404, f"-> {s}")
 
 # ---------- 5. comentários ----------

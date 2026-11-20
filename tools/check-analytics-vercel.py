@@ -28,11 +28,13 @@ def main() -> int:
             pedidos = []
             respostas = {}
 
-            def registrar(req):
+            # O argumento default fixa a lista desta iteracao: sem ele, a
+            # closure veria a lista da proxima volta do loop (B023).
+            def registrar(req, pedidos=pedidos):
                 if "/_vercel/insights/" in req.url:
                     pedidos.append(req.url)
 
-            def responder(resp):
+            def responder(resp, respostas=respostas):
                 if "/_vercel/insights/" in resp.url:
                     respostas[resp.url.split("/_vercel/insights/")[-1]] = resp.status
 

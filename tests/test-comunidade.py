@@ -5,14 +5,13 @@ comentário e a aba de implementadas — contra a API local.
 Uso: python3 site/tests/test-comunidade.py --api http://127.0.0.1:8791
 """
 import argparse
+import http.server
 import json
 import os
-import sys
-import time
-import threading
-import http.server
-import functools
 import socketserver
+import sys
+import threading
+import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARGS = {"api": None}
@@ -41,7 +40,7 @@ def servir_site(port):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=ROOT, **kwargs)
 
-        def log_message(self, *args):
+        def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
             pass
 
         def do_GET(self):
@@ -101,9 +100,9 @@ def main():
             # já pega pelo pageerror.
             texto = mensagem.text
             if "http://" in texto and "404" in texto:
-                return None
+                return
             if "Failed to load resource" in texto:
-                return None
+                return
             if mensagem.type == "error" and "ERR_FAILED" in texto:
                 erros.append(texto)
 
@@ -149,7 +148,15 @@ def main():
         # 3. publicar uma proposta
         page.wait_for_selector("#comunidade-new-modal:not([hidden])", timeout=10000)
         page.fill("#comunidade-new-title", "Filtro por categoria nos encontros")
-        page.select_option("#comunidade-new-tag", "melhoria")
+        # O campo de tag e um menu customizado (igual ao de ordenacao): o
+        # valor real fica no input escondido e o botao abre a lista.
+        page.click("#comunidade-new-tag-btn")
+        page.wait_for_selector("#comunidade-new-tag-list:not([hidden])", timeout=5000)
+        page.click('#comunidade-new-tag-list .comunidade-menu-option[data-tag="melhoria"]')
+        page.wait_for_function(
+            "() => document.getElementById('comunidade-new-tag').value === 'melhoria'",
+            timeout=5000,
+        )
         page.fill(
             "#comunidade-new-body",
             "Quero filtrar os encontros por categoria e horário para achar o rolê da semana.",
@@ -245,7 +252,13 @@ def main():
         # 7c. a administração publica e o selo aparece na lista e no detalhe
         page.wait_for_selector("#comunidade-new-modal:not([hidden])", timeout=10000)
         page.fill("#comunidade-new-title", "Nota oficial da administração da comunidade")
-        page.select_option("#comunidade-new-tag", "ideia")
+        page.click("#comunidade-new-tag-btn")
+        page.wait_for_selector("#comunidade-new-tag-list:not([hidden])", timeout=5000)
+        page.click('#comunidade-new-tag-list .comunidade-menu-option[data-tag="ideia"]')
+        page.wait_for_function(
+            "() => document.getElementById('comunidade-new-tag').value === 'ideia'",
+            timeout=5000,
+        )
         page.fill(
             "#comunidade-new-body",
             "Mensagem de teste publicada pela conta de administração da Comunidade.",

@@ -1,9 +1,8 @@
 """Validação estática simples do site: âncoras, IDs, assets e símbolos SVG."""
 
+import sys
 from html.parser import HTMLParser
 from pathlib import Path
-import re
-import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
@@ -59,16 +58,20 @@ class Checker(HTMLParser):
             self.images_without_alt += 1
         if "id" in attrs:
             self.ids.append(attrs["id"])
-        if tag == "a" and attrs.get("href", "").startswith("#"):
-            self.anchors.append(attrs["href"][1:])
+        # `<a href>` sem valor chega como None: `or ""` evita AttributeError.
+        href = attrs.get("href") or ""
+        if tag == "a" and href.startswith("#"):
+            self.anchors.append(href[1:])
         if tag in ("link", "script", "img", "source"):
             value = attrs.get("href") or attrs.get("src")
             if value and not value.startswith(("http://", "https://", "data:", "#")):
                 self.assets.append(value)
         if tag == "symbol" and "id" in attrs:
             self.symbols.add(attrs["id"])
-        if tag == "use" and attrs.get("href", "").startswith("#"):
-            self.uses.append(attrs["href"][1:])
+        if tag == "use":
+            use_href = attrs.get("href") or ""
+            if use_href.startswith("#"):
+                self.uses.append(use_href[1:])
 
     def handle_endtag(self, tag):
         if tag == "title":

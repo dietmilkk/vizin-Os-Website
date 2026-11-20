@@ -78,7 +78,7 @@ def main() -> int:
             context.close()
         browser.close()
 
-    print("")
+    print()
     if falhas:
         print(f"{len(falhas)} falha(s):")
         for falha in falhas:

@@ -23,8 +23,6 @@ import sys
 
 from playwright.sync_api import sync_playwright
 
-from lib.primeiro_acesso import ja_visitou
-
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099"
 
 falhas: list[str] = []

@@ -14,9 +14,8 @@ Uso:
 import os
 import sys
 
-from playwright.sync_api import sync_playwright
-
 from lib.primeiro_acesso import ja_visitou
+from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("SITE_BASE", "http://localhost:8099").rstrip("/")
 API = "https://api.188.166.156.109.sslip.io"

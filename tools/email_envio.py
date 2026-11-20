@@ -112,7 +112,7 @@ def enviar_com_retry(
         usadas = numero
         try:
             return entregar_smtp(mensagem, min(limite_por_tentativa, restante)), numero
-        except Exception as erro:  # noqa: BLE001
+        except Exception as erro:
             ultimo = erro
             if not erro_transitorio(erro):
                 raise FalhaEnvio(

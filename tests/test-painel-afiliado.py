@@ -14,9 +14,8 @@ import sys
 import urllib.error
 import urllib.request
 
-from playwright.sync_api import sync_playwright
-
 from lib.primeiro_acesso import ja_visitou
+from playwright.sync_api import sync_playwright
 
 BASE = "http://localhost:8099"
 API = "https://api.188.166.156.109.sslip.io"

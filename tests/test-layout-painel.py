@@ -19,9 +19,8 @@ import time
 import urllib.request
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
-
 from lib.servidor_site import servir_site
+from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 # A raiz do repositorio: a pasta "vps" (servidor da API) fica ao lado da
@@ -281,7 +280,7 @@ def main() -> int:
             process.kill()
         shutil.rmtree(data_dir, ignore_errors=True)
 
-    print("")
+    print()
     print(f"{checks} verificações · {len(failures)} falha(s)")
     if failures:
         for failure in failures:

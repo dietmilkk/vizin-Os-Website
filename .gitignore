@@ -95,7 +95,6 @@ cookies*.json
 # --- Ferramentas de deploy (credenciais ficam na maquina) -------------------
 .deploy-*
 .deploy-*.env
-.deploy-infinityfree.env
 deploy/*.env
 deploy/*.key
 deploy/id_*

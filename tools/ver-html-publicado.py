@@ -3,12 +3,11 @@
 
 from __future__ import annotations
 
-import re
 import sys
 
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
 
 
 def main() -> int:

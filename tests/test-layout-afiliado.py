@@ -8,15 +8,14 @@ Uso:
 """
 
 import json
-import sys
 import os
+import sys
 import time
 import urllib.error
 import urllib.request
 
-from playwright.sync_api import sync_playwright
-
 from lib.primeiro_acesso import ja_visitou
+from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("SITE_BASE", "http://localhost:8099")
 API = os.environ.get("VIZIN_API", "https://api.188.166.156.109.sslip.io")
@@ -288,7 +287,7 @@ def main():
         except Exception:
             token = ""
         if not token:
-            print(f"Este IP ja criou conta e nao ha token em cache: teste pulado.")
+            print("Este IP ja criou conta e nao ha token em cache: teste pulado.")
             return 0
         print("Este IP ja criou conta: reaproveitando o afiliado de teste em cache.")
     else:

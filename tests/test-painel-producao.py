@@ -24,7 +24,6 @@ Requer Playwright com Chromium.
 
 from __future__ import annotations
 
-import os
 import shutil
 import socket
 import subprocess
@@ -204,7 +203,7 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 site_process.kill()
 
-    print("")
+    print()
     print(f"{checks} verificações · {len(failures)} falha(s)")
     if failures:
         for failure in failures:

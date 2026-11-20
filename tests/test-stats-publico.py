@@ -30,11 +30,11 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
-from seed_stats import (  # noqa: E402
+from seed_stats import (
     ACCOUNTS,
     CONTAS_ATIVAS_1H,
-    CONTAS_NOVAS_24H,
     CONTAS_NOVAS_7D,
+    CONTAS_NOVAS_24H,
     CONTAS_ONLINE,
     CONTAS_TOTAL,
     DAY,

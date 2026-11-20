@@ -21,7 +21,7 @@ import socketserver
 import threading
 import time
 
-AGORA = lambda: time.time()  # noqa: E731
+AGORA = lambda: time.time()
 
 # Token usado pelo painel/admin nos testes.
 TOKEN_ADMIN = "token-de-admin"
@@ -56,7 +56,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     # ------------------------------------------------------------- infra --
 
-    def log_message(self, *args):  # noqa: D102
+    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
         pass
 
     def _json(self, status: int, dados) -> None:
@@ -105,12 +105,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
             token = str(corpo.get("token") or "").strip() or None
         return self.estado.conta_por_token(token)
 
-    def do_OPTIONS(self):  # noqa: N802
+    def do_OPTIONS(self):
         self._json(204, {})
 
     # ------------------------------------------------------------- GET ----
 
-    def do_GET(self):  # noqa: N802
+    def do_GET(self):
         caminho = self.path.split("?")[0].rstrip("/") or "/"
         consulta = self.path.split("?")[1] if "?" in self.path else ""
         params = dict(p.split("=", 1) for p in consulta.split("&") if "=" in p)
@@ -142,7 +142,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     # ------------------------------------------------------------- POST ---
 
-    def do_POST(self):  # noqa: N802
+    def do_POST(self):
         caminho = self.path.split("?")[0].rstrip("/") or "/"
         dados = self._corpo()
 

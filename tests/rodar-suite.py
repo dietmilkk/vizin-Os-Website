@@ -22,7 +22,7 @@ from pathlib import Path
 TESTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(TESTS_DIR))
 
-from lib.servidor_site import servir_site  # noqa: E402
+from lib.servidor_site import servir_site
 
 # (teste, rotas que o servidor precisa servir)
 SUITE = [
@@ -49,6 +49,7 @@ PULADOS = {
     "test-painel-producao.py": "aponta para a API de producao",
     "test-jornada-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
     "test-envio-email-real.py": "envia e-mail de verdade",
+    "test-layout-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
 }
 
 # O guia completo saiu de /membros (a pagina foi reescrita) e o JS/CSS
@@ -70,6 +71,17 @@ def _porta_ocupada(porta: int) -> bool:
 
 
 def main() -> int:
+    # Limpa servidores de teste presos nas portas antes de comecar: um
+    # processo antigo com codigo velho faria a suite passar/falhar ao acaso.
+    try:
+        subprocess.run(
+            [sys.executable, str(TESTS_DIR.parent / "tools" / "limpar-servidores.py")],
+            check=False,
+            timeout=15,
+        )
+    except Exception:
+        pass
+
     porta = porta_livre()
     httpd, base = servir_site(porta, {})
     time.sleep(0.5)
@@ -96,6 +108,9 @@ def main() -> int:
         porta = porta_livre()
         print(f"Atencao: 8099 esta em uso; os testes rodarao na porta {porta}.\n")
     for arquivo, rotas in SUITE:
+        # Teste que depende da API real: pulado com motivo (nao falha oculta).
+        if arquivo in PULADOS:
+            continue
         # Cada teste roda com seu proprio servidor: assim as rotas sem
         # extensao (/painel, /membros) funcionam como em producao.
         httpd, base = servir_site(porta, rotas)

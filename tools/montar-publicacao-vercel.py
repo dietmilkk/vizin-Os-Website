@@ -18,7 +18,7 @@ from pathlib import Path
 # Bloco do Analytics: cria a fila `window.vaq` e carrega o script da Vercel.
 BLOCO = """  <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
-       quando o site é servido pela Vercel. No InfinityFree ele não existe
+       quando o site é servido pela Vercel. Na cópia da VPS ele não existe
        e nada é coletado (ver "Analytics de visitação" no README). -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };

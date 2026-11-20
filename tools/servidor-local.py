@@ -28,8 +28,8 @@ class Servidor(ThreadingHTTPServer):
 
 
 class Handler(SimpleHTTPRequestHandler):
-    def log_message(self, formato, *args):  # silencia o log de cada requisicao
-        pass
+    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+        pass  # silencia o log de cada requisicao
 
 
 if __name__ == "__main__":

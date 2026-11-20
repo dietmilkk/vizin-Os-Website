@@ -31,9 +31,8 @@ import time
 import urllib.error
 import urllib.request
 
-from playwright.sync_api import sync_playwright
-
 from lib.primeiro_acesso import ja_visitou
+from playwright.sync_api import sync_playwright
 
 SITE = "https://site.188.166.156.109.sslip.io"
 API = "https://api.188.166.156.109.sslip.io"

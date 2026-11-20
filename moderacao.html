@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FFF9F2">
   <title>vizin.Os — moderação</title>
-  <meta name="description" content="Como a moderação do vizin.Os funciona: denúncias, votação, banimentos e as regras de convivência que a própria comunidade decide.">
+  <meta name="description" content="Como o vizin.Os cuida do grupo: denúncias com contexto, decisão coletiva, consequências proporcionais e recurso. Sem síndico, sem dono do app.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vizin-os.vercel.app/moderacao">
   <meta property="og:type" content="article">
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
-       quando o site é servido pela Vercel. No InfinityFree ele não existe
-       e nada é coletado (ver "Analytics de visitação" no README). -->
+       quando o site é servido pela Vercel; na VPS o caminho não existe e
+       nada é coletado (ver "Analytics de visitação" no README). -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
   </script>
@@ -67,9 +67,8 @@
     <div class="nav-shortcuts" aria-label="Atalhos de navegação">
       <a href="#idea">A ideia</a>
       <a href="#voice">Quem tem voz</a>
-      <a href="#coexistence">Convivência</a>
-      <a href="#decision">Denúncia</a>
-      <a href="#bans">Banimentos</a>
+      <a href="#decision">Quando algo acontece</a>
+      <a href="#bans">Consequências</a>
       <a href="#faq">Dúvidas</a>
       <a href="#gap">O que falta</a>
     </div>
@@ -77,165 +76,175 @@
     <section class="section-tight">
       <div class="container prose prose--wide prose--leitura">
           <p>
-            Esta página explica como o grupo se protege. É curta de propósito: as regras
-            que importam cabem aqui. O que ainda está pela metade aparece no fim, sem letra
-            miúda.
+            Ninguém é dono deste grupo. Não existe síndico, não existe painel de
+            controle, não existe alguém acima da comunidade decidindo quem pode
+            ficar. O que existe são vizinhos cuidando uns dos outros — e este
+            texto explica como isso acontece, sem juridiquês.
           </p>
 
           <h2 id="idea">A ideia em três frases</h2>
           <p>
-            <strong>Quem decide é a comunidade.</strong> Uma denúncia vira votação, e uma
-            pessoa sozinha não apaga o conteúdo de outra.
+            <strong>Quem decide é o grupo.</strong> Uma denúncia vira conversa, a
+            conversa vira votação, e uma pessoa sozinha não apaga o conteúdo de
+            outra.
           </p>
           <p>
-            <strong>Participar dá peso.</strong> Só vota quem construiu um pouco de convivência na
-            comunidade, e o peso do voto acompanha isso: 1x, 2x ou 3x.
+            <strong>Estar presente dá voz.</strong> Quem aparece na vida real do
+            bairro pesa um pouco mais na decisão — nunca o suficiente para
+            decidir sozinho.
           </p>
           <p>
-            <strong>Na dúvida, o conteúdo fica.</strong> Empate mantém, e nenhuma decisão vale sem
-            um número mínimo de votos. Se ninguém vota o bastante, a votação expira — e expirar não
-            é condenar.
+            <strong>Na dúvida, o conteúdo fica.</strong> Empate mantém tudo como
+            está. E se a galera não votar o bastante, a votação expira sem
+            condenar ninguém. Sair em silêncio não é culpa.
           </p>
 
           <h2 id="voice">Quem tem voz</h2>
           <p>
-            A confiança é medida <strong>por comunidade</strong> e nunca vira ranking. São quatro
-            passos: <strong>Novo</strong> (0x), <strong>Participante</strong> (1x),
-            <strong>Confiável</strong> (2x) e <strong>Superconfiável</strong> (3x). O peso do voto é
-            o da classe — inteiro e fixo.
+            Todo mundo começa como <strong>Novo</strong> no grupo. A confiança
+            cresce com duas coisas simples: <strong>tempo de casa</strong> e
+            <strong>presença de verdade</strong> — estar num encontro, participar
+            de uma decisão.
           </p>
           <p>
-            O que constrói a confiança: <strong>tempo no grupo</strong> e
-            <strong>dias ativos</strong>. Dia ativo é estar presente em um encontro ou participar de
-            uma decisão da comunidade. Mensagem, reação e convite não contam — aparecer muito não é
-            a mesma coisa que ser confiável, e é de propósito. Some um tempo e nada é perdido: só
-            falta de participação atrasa o próximo passo.
+            Mandar mensagem, receber reação, ganhar convite: nada disso conta.
+            Aparecer muito não é o mesmo que ser confiável, e é justamente esse o
+            ponto. Se você sumir um tempo, nada se perde — só o próximo passo
+            chega mais devagar.
           </p>
           <p>
-            Todo mundo começa como Novo e pode conversar e criar encontros. A partir de
-            Participante (7 dias no grupo + 2 dias ativos) a pessoa pode votar nas decisões da
-            comunidade e compartilhar links.
+            São quatro degraus, e o peso do voto acompanha: <strong>Novo</strong>
+            (não vota), <strong>Participante</strong> (1×), <strong>Confiável</strong>
+            (2×) e <strong>Superconfiável</strong> (3×). O degrau Participante
+            chega com cerca de uma semana no grupo e dois dias de participação.
+          </p>
+          <p>
+            Esses ícones discretos ao lado do nome não são uma nota, um
+            placar ou uma reputação pública. São só um jeito de dizer: aqui essa
+            pessoa costuma aparecer.
           </p>
 
-          <h2 id="coexistence">O convívio em geral</h2>
+          <h2 id="decision">Quando algo acontece</h2>
           <p>
-            No perfil, cada pessoa tem um resumo do histórico entre as comunidades:
-            <em>Histórico em construção</em>, <em>Boa convivência</em>, <em>Muito confiável</em> ou
-            <em>Histórico de atenção</em>.
+            O caminho é sempre o mesmo, e ninguém pula etapa:
           </p>
-          <p>
-            Esse resumo é só informativo: <strong>não dá poder em lugar nenhum</strong> e uma
-            comunidade sozinha não muda esse rótulo — nem para bem, nem para mal. Ele também
-            esquece com o tempo: o histórico de 12 meses atrás pesa menos.
-          </p>
-
-          <h2 id="decision">Do aviso à decisão</h2>
-          <p>O caminho tem cinco passos. Nenhum deles apaga nada por conta própria.</p>
           <ol>
             <li>
-              <strong>Alguém denuncia.</strong> Os motivos são assédio, discurso de ódio, ameaça,
-              conteúdo violento, spam ou golpe, tentativa de prejudicar alguém ou outro problema de
-              convivência. A <strong>explicação é obrigatória</strong>: é ela que dá contexto à
-              comunidade. Anexar prova é opcional — e nunca é exigido, porque às vezes a ameaça
-              acontece fora do app.
+              <strong>Alguém avisa.</strong> Escolhe o que aconteceu — assédio,
+              ódio, ameaça, violência, spam ou golpe, ou simplesmente um
+              problema de convivência — e <strong>escreve o que houve</strong>.
+              Essa explicação é o que dá o contexto; sem ela, a denúncia não
+              vai adiante. Anexar print é opcional, e nunca é pedido: às vezes a
+              ameaça acontece longe do app.
             </li>
             <li>
-              <strong>O caso é avaliado.</strong> Isso <em>não</em> é prova de culpa: serve para
-              aplicar, no máximo, uma proteção temporária sobre o conteúdo específico — com
-              prazo e revisão. Nada mais da pessoa é escondido e nenhum encontro é apagado.
+              <strong>O caso é olhado.</strong> Isso não é prova de culpa. No
+              máximo, o <em>conteúdo</em> específico fica em pausa por algumas
+              horas, com prazo e revisão. Nada mais da pessoa some, e nenhum
+              encontro é apagado.
             </li>
             <li>
-              <strong>A votação abre sozinha</strong> quando há três denúncias de três pessoas
-              diferentes. No momento da abertura, fica congelado quem pode votar, com que peso e
-              sob qual versão das regras: depois disso, nada muda por trás.
+              <strong>A votação abre sozinha</strong> quando três pessoas
+              diferentes relatam o mesmo caso. Na abertura, fica anotado quem
+              pode votar, com quanto peso e sob qual versão das regras: depois
+              disso, nada muda por trás.
             </li>
             <li>
-              <strong>A votação dura 72 horas.</strong> Vota quem tem pelo menos a classe
-              Participante e esteve ativo nos últimos 30 dias.
+              <strong>A comunidade vota por 72 horas.</strong> Só vota quem já
+              chegou ao degrau Participante e esteve por perto nos últimos 30
+              dias.
             </li>
             <li>
-              <strong>O resultado é aplicado sozinho.</strong> Não existe botão de "aplicar
-              decisão". A decisão vale com pelo menos dois votantes independentes e mais da metade
-              dos pesos Consideration. Sem esse mínimo, nada muda — e isso não é condenação.
+              <strong>O resultado se aplica sozinho.</strong> Não existe botão de
+              "aplicar decisão" nem alguém de plantão. Vale com pelo menos duas
+              pessoas votando de forma independente e maioria. Sem esse mínimo,
+              nada muda — e, de novo, isso não é condenação.
             </li>
           </ol>
           <p>
-            As opções são manter, dar um aviso, suspender temporariamente ou banir do grupo. Empate
-            mantém a situação anterior.
+            As saídas possíveis são: manter como está, dar um aviso, suspender
+            por um tempo ou remover do grupo. O que cabe na decisão acompanha a
+            gravidade do caso.
           </p>
           <p>
-            Quem foi denunciado pode <strong>responder</strong> e anexar as próprias provas. A
-            ausência de resposta não é confissão: a comunidade lê os dois lados.
-          </p>
-
-          <h2 id="bans">Banimentos</h2>
-          <p>
-            Existem trêsPunishments: <strong>aviso</strong>, <strong>suspensão temporária</strong>
-            (7 dias no caso leve, 30 no grave ou reincidente) e <strong>banimento do grupo</strong>.
-            A escolha é proporcional ao caso — gravidade, reincidência e recência — e o mesmo
-            episódio nunca conta como dois.
-          </p>
-          <p>
-            O banimento de 7 dias passa sozinho. O permanente só termina com uma reversão
-            explícita. Se a conta tiver um código ligado ao aparelho, o banimento vale para ele
-            também — mas reinstalar o app pode gerar um código novo.
-          </p>
-          <p>
-            <strong>Ninguém bane sozinho</strong>: nem quem criou o grupo, nem quem tem muita
-            confiança. Banimento permanente sempre vem de decisão comunitária válida.
-          </p>
-          <p>
-            Quando há entrada coordenada de contas novas, o app entra em <strong>Modo de
-            Proteção</strong>: as pessoas continuam entrando, conversando e participando, mas as
-            decisões definitivas ficam pausadas por até 7 dias, com reavaliação. O modo protege o
-            processo; ele não pune ninguém por presunção.
+            E tem o outro lado: quem foi denunciado pode <strong>responder</strong>
+            e anexar as próprias provas. A comunidade lê os dois lados. Não
+            responder não é confissão — é só ausência de resposta.
           </p>
 
-          <h2>Grupos grandes e mudanças</h2>
+          <h2 id="bans">Consequências</h2>
           <p>
-            Grupos com 100 pessoas ou mais exigem um pouco mais de participação para entrar. O grupo
-            central da região é sempre aberto.
+            São três, e a escolha é sempre proporcional ao que aconteceu:
+            <strong>aviso</strong>, <strong>suspensão</strong> (7 dias em caso
+            leve, 30 em caso grave ou reincidência) e <strong>remoção do grupo</strong>.
+            O mesmo episódio nunca conta como dois.
           </p>
           <p>
-            Nome, emoji e descrição são decididos juntos, pelo mesmo motor: snapshot congelado,
-            quórum e aplicação automática. Mudar as próprias regras de decisão exige um quórum
-            maior e nunca afeta uma votação que já começou.
+            A suspensão passa sozinha quando o prazo acaba. A remoção do grupo só
+            termina com uma reversão explícita. E, se a conta estiver presa a
+            um aparelho, o banimento acompanha o aparelho — mas reinstalar o app
+            pode criar um vínculo novo.
+          </p>
+          <p>
+            <strong>Ninguém remove ninguém sozinho.</strong> Nem quem criou o
+            grupo, nem quem tem muita confiança. Remoção definitiva sempre vem de
+            decisão coletiva.
+          </p>
+          <p>
+            E, se de repente chegam muitos perfis novos de uma vez, o app entra
+            em <strong>Modo de Proteção</strong>: as pessoas continuam entrando,
+            conversando e participating, mas as decisões definitivas ficam
+            pausadas por até uma semana, com reavaliação. O modo protege a
+            conversa — ele não pune ninguém por suspeita.
+          </p>
+          <p>
+            E se a decisão parecer injusta? Existe <strong>recurso</strong>, com
+            14 dias de prazo, e a revisão é feita por quem <em>não</em> votou na
+            decisão original.
           </p>
 
           <h2 id="faq">Dúvidas rápidas</h2>
           <p>
-            <strong>Uma pessoa sozinha bane alguém?</strong><br />
-            Não. Nem o criador do grupo, nem ninguém com confiança alta. São preciso pelo menos dois
-            votantes independentes e maioria.
+            <strong>Uma pessoa sozinha consegue remover alguém?</strong><br />
+            Não. Nem o criador do grupo, nem quem tem muita confiança. São
+            necessárias pelo menos duas pessoas votando de forma independente e
+            maioria.
           </p>
           <p>
             <strong>Conta nova derruba alguém?</strong><br />
-            Não. Votar exige terParticipante e atividade nos últimos 30 dias. E, quando há entrada
-            coordenada, o Modo de Proteção pausa as decisões em vez de punir os recém-chegados.
+            Não. Votar exige terParticipante e aparecer por perto. E, quando há
+            entrada coordenada, o Modo de Proteção pausa as decisões em vez de
+            punir quem acabou de chegar.
           </p>
           <p>
             <strong>E se ninguém votar?</strong><br />
-            A votação expira sem condenação e as medidas preventivas são liberadas. O conteúdo
-            volta a ficar visível.
+            A votação expira sem condenar ninguém, a pausa do conteúdo acaba e
+            tudo volta a ficar visível.
           </p>
           <p>
-            <strong>E se a decisão parecer injusta?</strong><br />
-            Existe recurso, com prazo de 14 dias, e a revisão é feita por quem <em>não</em> votou na
-            decisão original.
+            <strong>Posso discordar da decisão?</strong><br />
+            Sim. Recurso existe, é anônimo no sentido de que ninguém é exposto, e
+            a revisão sai de quem não votou na decisão original.
           </p>
 
-          <h2 id="gap">O que ainda falta</h2>
+          <h2 id="gap">Onde ainda estamos哽ando</h2>
+          <p>
+            Nenhum sistema prova que duas contas são a mesma pessoa. A proteção
+            pausa e segura, mas ela não identifica ninguém — e não finge que
+            identifica.
+          </p>
           <ul>
-            <li>Nenhum sistema prova que duas contas são a mesma pessoa: a proteção pausa e bloqueia, mas não identifica.</li>
-            <li>Apagar a prova do aparelho sobrescreve o conteúdo no banco, mas o flash não garante apagamento físico.</li>
-            <li>A denúncia de grupo inteiro ainda passa pelo relay da VPS, que recebe as mensagens em texto claro.</li>
-            <li>Banimento de aparelho é parcial: reinstalar pode gerar um código novo.</li>
-            <li>Áudio ainda não exige confiança para enviar.</li>
+            <li>Apagar a prova do aparelho sobrescreve o conteúdo no banco, mas o flash do celular não garante apagamento físico.</li>
+            <li>A denúncia de grupo inteiro ainda passa pelo servidor da VPS, que recebe as mensagens em texto claro.</li>
+            <li>Banimento de aparelho é parcial: reinstalar pode criar um vínculo novo.</li>
+            <li>Áudio ainda não pede confiança mínima para enviar.</li>
+            <li>Mudanças no nome, no ícone e na descrição do grupo ainda usam o fluxo antigo, não o mesmo motor das denúncias.</li>
           </ul>
 
           <p>
-            No fim, moderação não é cargo: é hábito. Quanto mais gente ativa e confiável
-            participa, mais difícil fica manipular o grupo.
+            No fim, moderação não é cargo: é hábito. Quanto mais gente aparece e
+            se conhece de verdade, mais difícil fica alguém bagunçar — e mais
+            fácil a conversa se resolver.
           </p>
       </div>
     </section>

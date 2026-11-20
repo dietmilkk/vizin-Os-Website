@@ -25,9 +25,9 @@ if not token:
 if any(c in token for c in "\r\n"):
     sys.exit("token invalido")
 
-env = """# Gerado por tools/apontar-gateway-local.py: transporte HTTPS (api) apontado
+env = f"""# Gerado por tools/apontar-gateway-local.py: transporte HTTPS (api) apontado
 # para o gateway de e-mail que roda no PC do usuario, alcancado pelo tunel SSH
-# reverso (ssh -R {porta}:127.0.0.1:{porta}).
+# reverso (ssh -R {PORTA}:127.0.0.1:{PORTA}).
 #
 # A VPS nao sai por SMTP (25/465/587 bloqueadas), entao o gateway no PC e quem
 # fala com o Gmail. Se o PC estiver desligado ou o tunel caiu, a API responde
@@ -36,11 +36,11 @@ env = """# Gerado por tools/apontar-gateway-local.py: transporte HTTPS (api) apo
 # Para voltar ao transporte de producao (provedor HTTPS com MAIL_API_KEY):
 # python3 tools/restaurar-mail-api.py
 MAIL_TRANSPORT=api
-MAIL_API_URL=http://127.0.0.1:{porta}/emails
+MAIL_API_URL=http://127.0.0.1:{PORTA}/emails
 MAIL_API_KEY={token}
 MAIL_FROM=vizin.Os <vizin.oos@gmail.com>
 MAIL_REPLY_TO=vizin.oos@gmail.com
-""".format(porta=PORTA, token=token)
+"""
 
 pathlib.Path(MAIL_ENV).write_text(env)
 pathlib.Path(MAIL_ENV).chmod(0o600)

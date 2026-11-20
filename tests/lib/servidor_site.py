@@ -9,7 +9,6 @@ Uso:
     httpd, base = servir_site(PORT, {"/painel": "painel.html"})
 """
 
-import functools
 import http.server
 import os
 import socket
@@ -42,7 +41,7 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT, **kwargs)
 
-    def log_message(self, *args):
+    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
         pass
 
     def translate_path(self, path):

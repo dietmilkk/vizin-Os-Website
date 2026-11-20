@@ -4,13 +4,14 @@ Ana descobre a página, cria conta, publica e volta depois pra ver os votos.
 Bruno entra, vota e comenta. A administração responde com o selo e marca
 a proposta como implementada. Ana vê tudo refletido na página.
 """
-import threading
 import http.server
 import socketserver
+import threading
 
 SITE = "/home/user/Downloads/app/site"
 PAGES = {"/comunidade": "comunidade.html", "/": "index.html", "/essencia": "essencia.html"}
 import sys
+
 API_URL = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8820"
 CONFIG = """
 window.VIZINHANCA_CONFIG = Object.freeze({
@@ -26,7 +27,7 @@ def servir(port):
         def __init__(self, *a, **k):
             super().__init__(*a, directory=SITE, **k)
 
-        def log_message(self, *a):
+        def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
             pass
 
         def do_GET(self):
@@ -201,7 +202,8 @@ with sync_playwright() as p:
     ana.click("#comunidade-detail-modal button.modal-close")
 
     # ============ ANA (agora adm) implementa via painel e todos veem ============
-    import urllib.request, json
+    import json
+    import urllib.request
     pid = bruno.evaluate("document.querySelector('.comunidade-post').getAttribute('data-id')")
     req = urllib.request.Request(
         (API_URL + "/forum/admin/status"), method="POST",

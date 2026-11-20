@@ -6,7 +6,7 @@
 # com barra final continuam válidas para sempre via 301 abaixo (SEO e
 # links salvos).
 #
-# Estas regras são do Cloudflare Pages. Na VPS (Caddy) e no InfinityFree
+# Estas regras são do Cloudflare Pages. Na VPS (Caddy) e em hospedagem
 # (Apache) o mesmo resultado vem do servidor.
 
 # Achatamento: pasta/página -> arquivo plano (URL sem extensão permanece a canônica).

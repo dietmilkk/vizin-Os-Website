@@ -3,12 +3,11 @@
 Site estático, minimalista e responsivo para apresentar o app **vizin.Os**.
 Sem build, sem framework e sem dependências de runtime.
 
-**No ar:** <https://vizin-os.page.gd> · **API:** `https://api.188.166.156.109.sslip.io`
+**No ar:** <https://vizin-os.vercel.app> · **API:** `https://api.188.166.156.109.sslip.io`
 · **cópia de trabalho na VPS:** `https://site.188.166.156.109.sslip.io`
 
-> `vizin-os.page.gd` é um subdomínio gratuito do page.gd (hospedagem
-> InfinityFree). O DNS dele não aponta para a VPS — a publicação no domínio
-> oficial é feita por FTP ou por pacote `.zip` (ver [Deploy](#deploy)).
+> O domínio público é servido pela Vercel (é lá que o Web Analytics funciona).
+> A VPS guarda a cópia de trabalho do site e a API; ver [Deploy](#deploy).
 
 ## Páginas
 
@@ -29,8 +28,8 @@ enviada apenas nos convites de criadores e afiliados, e usa
 também bloqueia `/membros` e `/criadores`.
 
 O antigo `/criadores` virou **apelido**: responde `301` para `/membros/`,
-que é a URL canônica — o mesmo vale nos três lugares onde o site roda
-(Caddy na VPS, `.htaccess` no InfinityFree e `_redirects` no Cloudflare Pages).
+que é a URL canônica — o mesmo vale nos lugares onde o site roda (Caddy na
+VPS, `.htaccess` em hospedagem compartilhada e `_redirects` no Cloudflare Pages).
 O HTML fica em `membros/index.html`; não existe pasta `criadores/` no repositório.
 
 ### O que as páginas públicas dizem sobre o app
@@ -115,7 +114,7 @@ vercel.json                 Equivalente do _redirects para a Vercel: URLs sem
                             extensão (cleanUrls), barra final removida e
                             cabeçalhos de segurança
 .htaccess                   Equivalente do _redirects para hospedagem compartilhada
-                            (InfinityFree): página 404 própria, sem listagem de
+                            (hospedagem compartilhada): página 404 própria, sem listagem de
                             pastas e bloqueio de arquivos internos
 robots.txt                  Indexação (bloqueia /membros e /criadores)
 sitemap.xml                 Sitemap (sem /membros)
@@ -155,10 +154,7 @@ tools/checar-painel-publicado.py  Checagem rápida do painel publicado
 tools/diff-publicado.py     Diferença entre o publicado e o repositório
 tools/ver-painel-publico.py  Mostra os números do painel publicado (como um visitante)
 tools/provar-online-ao-vivo.py  Prova que "dispositivos online agora" responde ao uso real do app
-tools/deploy-infinityfree.py  Espelho do site público no InfinityFree (FTP) + conferência no ar
-tools/deploy-infinityfree.sh  Atalho para o deploy-infinityfree.py
-tools/recuperar-ftp-infinityfree.py  Lê as credenciais de FTP no painel do InfinityFree
-tools/pacote-infinityfree.sh Gera o .zip para subir pelo File Manager
+tools/deploy-vps.sh          Publica a API e o site na VPS, com backup do banco e verificação no fim
 tools/prever-painel.sh      Prévia local do /painel com uma API de verdade (sem deploy)
 tools/deploy-vps.sh         Publica API e site na VPS, com backup do banco e verificação
 tools/limpar-teste.sh       Limpa os dados de teste na VPS (libera o IP; aceita --ip)
@@ -188,7 +184,7 @@ Edite `assets/config.js`:
 
 ```js
 window.VIZINHANCA_CONFIG = Object.freeze({
-  siteUrl: 'https://vizin-os.page.gd',
+  siteUrl: 'https://vizin-os.vercel.app',
   apiUrl: 'https://api.188.166.156.109.sslip.io',
   androidUrl: 'https://play.google.com/store/apps/details?id=dev.vizinhoos.app',  // link da Play Store
   iosUrl: '',
@@ -303,12 +299,12 @@ Outros pontos:
   O bloqueio por IP é **por papel**: quem já tem uma conta recebe o aviso "a
   conta de afiliado ainda está disponível" (e vice-versa) em vez de um erro
   seco.
-- O **link do painel** é curto e minimalista: `https://vizin-os.page.gd/membros?p=CXXXXXXXXXXXXXXX`
+- O **link do painel** é curto e minimalista: `https://vizin-os.vercel.app/membros?p=CXXXXXXXXXXXXXXX`
   (criador) ou `?p=AXXXXXXXXXXXXXXX` (afiliado). São 16 caracteres — um prefixo
   de papel (`C`/`A`) mais 15 caracteres base32 — e ele **é a senha de acesso**.
   Os links antigos (`?token=` e `?afiliado_token=`) continuam funcionando.
 - O afiliado tem um link no formato
-  `https://vizin-os.page.gd/membros?a=SEUCODIGO`. O código fica salvo no
+  `https://vizin-os.vercel.app/membros?a=SEUCODIGO`. O código fica salvo no
   navegador por 180 dias (primeira visita) e é enviado como `hunter_code` quando
   o criador cria a conta.
 - **O vínculo afiliado → criador é real e fica registrado.** Quando o criador
@@ -841,7 +837,7 @@ leva o snippet do Vercel Web Analytics:
 ### Onde o site é servido
 
 O script vive na rota `/_vercel/insights/script.js`, que **só existe quando o
-site é servido pela Vercel**. Nos outros lugares (VPS, InfinityFree) o script
+site é servido pela Vercel**. Na cópia da VPS o script
 não é encontrado e **nenhum dado é coletado** (a página continua funcionando
 normalmente — o `<script defer>` apenas falha em silêncio).
 
@@ -881,7 +877,7 @@ Se o Analytics não registrar nada: no painel da Vercel, projeto → **Analytics
 deve estar **Enable**; e vale checar bloqueador de conteúdo (adblock) na sua
 máquina.
 
-### Se o site continuar no InfinityFree
+### Se o site não for servido pela Vercel
 
 Se mudar de hospedagem não estiver nos planos, o Vercel Analytics não
 serve: a alternativa é um contador que funciona em qualquer hospedagem, com
@@ -889,8 +885,8 @@ uma única linha de `<script>` no mesmo lugar — **Cloudflare Web Analytics**
 (só com a conta Cloudflare), **GoatCounter** (código aberto) ou **Plausible**.
 Nesse caso, troque o snippet das 7 páginas pelo do provedor escolhido.
 
-> O snapshot publicado em `dist/` (`.zip` do InfinityFree) continua levando o
-> snippet: lá ele não faz nada, e na Vercel passa a coletar sozinho.
+> Na cópia da VPS o caminho `/_vercel/insights/script.js` não existe: lá o
+> snippet não faz nada, e na Vercel passa a coletar sozinho.
 
 ## Segurança do repositório (segredos fora do Git)
 
@@ -1012,7 +1008,7 @@ são conferidos **no servidor**, não simulados no script, e páginas que não
 existem têm de mostrar a página de erro:
 
 ```bash
-python3 tools/check-links.py https://vizin-os.page.gd
+python3 tools/check-links.py https://vizin-os.vercel.app
 ```
 
 Ele só verifica o que é servido por nós: URLs externas (Play Store, Instagram)
@@ -1124,7 +1120,7 @@ quebra de alinhamento.
 ### O que está publicado no domínio oficial
 
 ```bash
-python3 tests/conferir-oficial.py https://vizin-os.page.gd
+python3 tests/conferir-oficial.py https://vizin-os.vercel.app
 ```
 
 Confere, no domínio que as pessoas visitam, o texto do hero, a divisão da
@@ -1141,7 +1137,7 @@ rola de lado:
 
 ```bash
 python3 tests/test-painel-producao.py
-python3 tests/test-painel-producao.py https://vizin-os.page.gd
+python3 tests/test-painel-producao.py https://vizin-os.vercel.app
 ```
 
 ### O publicado bate com o repositorio?
@@ -1151,18 +1147,18 @@ caminho mais curto para descobrir que um deploy ficou para trás:
 
 ```bash
 # todas as paginas e assets, linha a linha, contra o arquivo local
-python3 tools/comparar-site-publicado.py https://vizin-os.page.gd
+python3 tools/comparar-site-publicado.py https://vizin-os.vercel.app
 
 # so o painel: confere se todos os blocos e ids do HTML local estao no ar
-python3 tools/comparar-painel-publicado.py https://vizin-os.page.gd
+python3 tools/comparar-painel-publicado.py https://vizin-os.vercel.app
 ```
 
 A leitura é feita **dentro do Chromium**, com os cookies da verificação de
-JavaScript do page.gd, e a comparação ignora apenas espaços a direita e quebras
+JavaScript da página, e a comparação ignora apenas espaços a direita e quebras
 de linha no fim do arquivo. Serve para as duas cópias do site:
 
 ```bash
-python3 tools/comparar-site-publicado.py https://vizin-os.page.gd
+python3 tools/comparar-site-publicado.py https://vizin-os.vercel.app
 python3 tools/comparar-site-publicado.py https://site.188.166.156.109.sslip.io
 ```
 
@@ -1174,8 +1170,8 @@ celular — e salva as capturas em PNG. `tools/checar-painel-publicado.py` confe
 os detalhes do painel já publicado (cores, alturas, etiquetas e links internos):
 
 ```bash
-python3 tools/auditar-painel-visual.py https://vizin-os.page.gd /tmp/auditoria
-python3 tools/checar-painel-publicado.py https://vizin-os.page.gd
+python3 tools/auditar-painel-visual.py https://vizin-os.vercel.app /tmp/auditoria
+python3 tools/checar-painel-publicado.py https://vizin-os.vercel.app
 ```
 
 ### Prévia local do painel (sem deploy)
@@ -1320,83 +1316,26 @@ python3 tests/test-jornada-afiliado.py
 
 ## Deploy
 
-O site é 100% estático e hoje está publicado em **https://vizin-os.page.gd**.
-
-Esse endereço é um subdomínio gratuito do **page.gd**, que é a hospedagem
-**InfinityFree** (o domínio `page.gd` é servido por eles). Ou seja: o domínio
-oficial do site fica dentro da conta InfinityFree e **não** aponta para um IP
-externo — não é possível apontá-lo para a VPS. A VPS (188.166.156.109) continua
-sendo a **cópia de trabalho**, a casa da **API** e a referência de deploy.
+O site é 100% estático e hoje está publicado em **https://vizin-os.vercel.app**
+(Vercel, que é também onde o Web Analytics funciona). A VPS
+(188.166.156.109) é a **cópia de trabalho**, a casa da **API** e o destino do
+deploy por `rsync`.
 
 Onde cada coisa vive:
 
 | Onde | Endereço | Para quê |
 | --- | --- | --- |
-| Site oficial | `https://vizin-os.page.gd` | páginas públicas (InfinityFree) |
+| Site oficial | `https://vizin-os.vercel.app` | páginas públicas (Vercel) |
 | Cópia de trabalho | `https://site.188.166.156.109.sslip.io` | mesma cópia na VPS, para conferir e diagnosticar |
-| API | `https://api.188.166.156.109.sslip.io` | API do serviço (painel, health, beacons) |
+| API | `https://api.188.166.156.109.sslip.io` | API do serviço (painel, health, beacons, fórum da Comunidade) |
 
-> O `page.gd` pede uma verificação de JavaScript antes de mostrar a página.
-> Isso é normal para quem abre o site no navegador; ferramentas de linha de
-> comando (`curl`) veem apenas a tela de verificação. Por isso os testes de
-> produção usam Chromium de verdade (`tools/conferir-dominio.py`).
+### Publicar no site oficial (Vercel)
 
-### Publicar no domínio oficial (InfinityFree)
-
-Dois caminhos, ambos a partir de `site/`:
-
-**1. FTP (automático)** — precisa das credenciais da conta InfinityFree:
-
-```bash
-# credenciais ficam em site/.deploy-infinityfree.env (está no .gitignore)
-cat > .deploy-infinityfree.env <<'EOF'
-INFINITYFREE_FTP_HOST=ftpupload.net
-INFINITYFREE_FTP_USER=SEU_USUARIO
-INFINITYFREE_FTP_PASS=SUA_SENHA
-INFINITYFREE_FTP_DIR=vizin-os.page.gd/htdocs
-EOF
-
-tools/deploy-infinityfree.sh --dry-run   # mostra o que seria enviado
-tools/deploy-infinityfree.sh             # publica e confere
-```
-
-O `tools/deploy-infinityfree.py` (o `.sh` é um atalho para ele) faz um
-**espelho**: sobe os 28 arquivos públicos (páginas, `assets/`, `robots.txt`,
-`sitemap.xml`, `.htaccess`) e **apaga do servidor** tudo que não faz parte do
-site — `README.md`, `docs/`, `tools/`, `tests/`, `tmp-vps/`,
-`deploy/`, `dist/` e qualquer sobra de publicações antigas. No fim ele chama o
-`conferir-dominio.py` e só termina com sucesso se o site estiver no ar, sem
-vazamento e com o painel pulling números da API.
-
-> A pasta remota é `vizin-os.page.gd/htdocs`. A pasta `htdocs` na raiz da conta
-> é **outro site** (`vizin.page.gd`) e não é tocada por este deploy.
-
-**2. Painel do InfinityFree (manual)** — para quem prefere o navegador:
-
-```bash
-tools/pacote-infinityfree.sh   # gera dist/vizin-os-page-gd.zip
-```
-
-Depois, em <https://client.infinityfree.com>: **File Manager →
-`vizin-os.page.gd` → `htdocs` → Upload →** envie o `.zip` e extraia. **Apague**
-da pasta `htdocs` o que não deve ficar no ar: `README.md` e as pastas `docs/`,
-`tools/`, `tests/` e `tmp-vps/` (se existirem de publicações
-antigas).
-
-### Recuperar a senha do FTP (quando ela mudar)
-
-O painel do InfinityFree mostra a senha de FTP em **FTP Details**
-(`dash.infinityfree.com/accounts/<conta>/ftp-details`). O
-`tools/recuperar-ftp-infinityfree.py` entra no painel reaproveitando a sessão
-do Google que já está no navegador do dono da conta e grava as credenciais em
-`site/.deploy-infinityfree.env` (permissão `600`, fora do git):
-
-```bash
-python3 tools/recuperar-ftp-infinityfree.py
-```
-
-Ele só funciona se o Firefox (ou o navegador indicado em `--perfil`) já estiver
-logado na conta do InfinityFree. Nenhuma senha é impressa no terminal.
+O repositório do site (`vizin-Os-Website`) é publicado pela própria Vercel:
+basta enviar um `push` para `main` (ou usar o workflow de publicação, se
+preferir). O `site/tools/montar-publicacao-vercel.py` + o
+`commitar-publicacao-vercel.py` montam e enviam a pasta de publicação quando
+se quer publicar **sem** mexer no repositório.
 
 ### Publicar na cópia de trabalho (VPS)
 
@@ -1426,32 +1365,27 @@ responde **404** para esses caminhos, mesmo que alguém peça por eles.
 
 ### Publicar nos dois destinos de uma vez (o jeito usado na prática)
 
-O site oficial (InfinityFree) e a cópia na VPS recebem **o mesmo conteúdo**.
+O site oficial (Vercel) e a cópia na VPS recebem **o mesmo conteúdo**.
 Depois de mexer em qualquer página ou em `assets/`, publique nos dois, sempre a
 partir de `site/`:
 
 ```bash
-bash tools/deploy-vps.sh --so-site      # copia de trabalho (VPS) — só o site
-python3 tools/deploy-infinityfree.py    # domínio oficial (InfinityFree)
+bash tools/deploy-vps.sh --so-site   # cópia de trabalho (VPS) — só o site
+git push origin main                 # site oficial (Vercel, automático)
 ```
 
 - `tools/deploy-vps.sh --so-site` publica **só o site** na VPS (a API não é
   tocada). Sem `--so-site`, ele publica API + site e faz backup do banco.
-- `python3 tools/deploy-infinityfree.py` é o mesmo script do
-  `tools/deploy-infinityfree.sh` (o `.sh` é só um atalho) e já termina
-  conferindo o site no ar.
+- Cada `push` na `main` do repositório `vizin-Os-Website` publica o site na
+  Vercel (projeto ligado ao repositório, sem build).
 
 Depois de publicar, confira como um visitante:
 
 ```bash
 python3 tools/conferir-dominio.py                                   # domínio oficial
 python3 tools/conferir-dominio.py https://site.188.166.156.109.sslip.io   # cópia na VPS
-python3 tools/ver-painel-publico.py https://vizin-os.page.gd        # números do painel
+python3 tools/ver-painel-publico.py https://vizin-os.vercel.app        # números do painel
 ```
-
-> **Atenção:** o `page.gd` pede verificação de JavaScript, então `curl` não
-> serve para conferir o domínio oficial — use os scripts acima, que abrem um
-> Chromium de verdade.
 
 ### Publicar na Vercel (o destino que conta visitação)
 
@@ -1478,9 +1412,9 @@ Depois do push, confira:
 python3 tools/check-analytics-vercel.py https://vizin-os.vercel.app
 ```
 
-> O `page.gd` (InfinityFree) hoje **aceita TLS mas não responde ao HTTP** — o
-> domínio oficial está travado na hospedagem. A Vercel responde normalmente e é
-> lá que o Analytics coleta.
+> A Vercel responde normalmente e é lá que o Analytics coleta. Na cópia da
+> VPS o script do Analytics não existe (caminho `/_vercel/...`), então nada é
+> coletado lá.
 
 ### Conferir o site como um usuário
 

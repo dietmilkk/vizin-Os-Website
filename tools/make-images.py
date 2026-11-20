@@ -55,7 +55,7 @@ def make_og_svg():
   <text x="80" y="376" class="serif" font-weight="600" font-size="62" fill="#211d1a">para ele se encontrar.</text>
   <text x="84" y="454" class="sans" font-size="25" fill="#5f5751">Grupos, encontros e conversas privadas</text>
   <text x="84" y="488" class="sans" font-size="25" fill="#5f5751">com quem mora perto de verdade.</text>
-  <text x="84" y="562" class="sans" font-weight="600" font-size="22" fill="{BRAND}">vizin-os.page.gd</text>
+  <text x="84" y="562" class="sans" font-weight="600" font-size="22" fill="{BRAND}">vizin-os.vercel.app</text>
   <g fill="{BRAND}">
     <rect x="84" y="502" width="115" height="34" rx="17"/>
     <text x="141.5" y="528" class="sans" font-weight="600" font-size="16" fill="#c42e49" text-anchor="middle">Sem algoritmo</text>

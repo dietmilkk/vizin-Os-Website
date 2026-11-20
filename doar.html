@@ -24,26 +24,86 @@
     .doar-section {
       padding: var(--space-6) 0 var(--space-9);
     }
-    .doar-cta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-3);
-      margin-top: var(--space-5);
+    .donation-card {
+      margin-bottom: var(--space-8);
+      padding: var(--space-6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-card);
     }
-    .doar-cta .btn {
-      margin: 0;
+    .donation-card h2 {
+      margin-bottom: var(--space-2);
     }
-    .doar-cta .btn svg {
-      width: 18px;
-      height: 18px;
-    }
-    .doar-cta small {
+    .donation-card > p {
       color: var(--text-muted);
     }
-    @media (max-width: 560px) {
-      .doar-cta .btn {
-        width: 100%;
+    .donation-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 0.45fr);
+      gap: var(--space-4);
+      align-items: end;
+      margin-top: var(--space-5);
+    }
+    .donation-field {
+      display: grid;
+      gap: var(--space-2);
+    }
+    .donation-field label {
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+    .donation-field input,
+    .donation-field select {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 var(--space-4);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+    }
+    .donation-field input:focus,
+    .donation-field select:focus {
+      outline: 3px solid var(--primary-soft);
+      border-color: var(--primary);
+    }
+    .donation-submit {
+      width: 100%;
+      margin-top: var(--space-4);
+    }
+    .donation-message {
+      min-height: 1.5em;
+      margin-top: var(--space-3);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .donation-message.is-error {
+      color: var(--danger);
+    }
+    .donation-result {
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-5);
+      padding: var(--space-4);
+      border-radius: var(--radius);
+      background: var(--success-soft);
+      color: var(--success-ink);
+    }
+    .donation-result strong {
+      font-size: 1.02rem;
+    }
+    .donation-fees {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+    @media (max-width: 620px) {
+      .donation-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -72,6 +132,37 @@
 
     <section class="doar-section">
       <div class="container prose prose--wide">
+        <div class="donation-card">
+          <h2>Faça uma doação</h2>
+          <p>Escolha o valor e a moeda. O pagamento acontece na página segura da Stripe.</p>
+
+          <form id="donation-form" novalidate>
+            <div class="donation-grid">
+              <div class="donation-field">
+                <label for="donation-amount">Valor</label>
+                <input id="donation-amount" name="amount" type="number" min="0.50" step="0.01" inputmode="decimal" value="10" autocomplete="off" required>
+              </div>
+              <div class="donation-field">
+                <label for="donation-currency">Moeda</label>
+                <select id="donation-currency" name="currency">
+                  <option value="brl">BRL — Real brasileiro (Pix e cartões)</option>
+                  <option value="usd">USD — Dólar americano (cartões)</option>
+                  <option value="eur">EUR — Euro (cartões)</option>
+                  <option value="gbp">GBP — Libra esterlina (cartões)</option>
+                  <option value="jpy">JPY — Iene japonês (cartões)</option>
+                </select>
+              </div>
+            </div>
+            <button id="donation-submit" class="btn btn-primary donation-submit" type="submit">Continuar para o pagamento seguro</button>
+            <p id="donation-message" class="donation-message" role="status" aria-live="polite"></p>
+          </form>
+
+          <div id="donation-result" class="donation-result" role="status" aria-live="polite" hidden></div>
+
+          <p class="donation-fees">
+            <strong>Taxas da Stripe:</strong> Pix 1,19%; cartão nacional 3,99% + R$ 0,39; cartão internacional recebe a taxa adicional de 2% da Stripe.
+            Por isso, a cobrança final aparece na Stripe antes de você confirmar. O app e este site nunca recebem os dados do cartão.
+          </p>
         </div>
 
         <h2>O que seu apoio mantém vivo</h2>
@@ -136,6 +227,7 @@
     </div>
   </footer>
   <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/donate.js"></script>
   <script defer src="/assets/creators.js"></script>
   <script defer src="/assets/app.js"></script>
 </body>

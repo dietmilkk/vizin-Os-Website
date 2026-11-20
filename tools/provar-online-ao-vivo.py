@@ -9,11 +9,8 @@ a conta de teste, deixando o servico como estava.
 from __future__ import annotations
 
 import json
-import secrets
 import subprocess
-import sys
 import tempfile
-import time
 import urllib.request
 from pathlib import Path
 

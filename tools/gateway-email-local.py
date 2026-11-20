@@ -51,7 +51,7 @@ SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 
 # A entrega (SMTP + retentativa) e compartilhada com tools/puxar-fila-email.py.
 sys.path.insert(0, str(os.path.dirname(os.path.abspath(__file__))))
-from email_envio import FalhaEnvio, enviar_com_retry  # noqa: E402,F401
+from email_envio import FalhaEnvio, enviar_com_retry  # noqa: F401
 
 
 def log(mensagem: str) -> None:
@@ -71,18 +71,18 @@ class GatewayHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(dados)
 
-    def log_message(self, formato: str, *args) -> None:  # noqa: A003
-        log("http " + (formato % args))
+    def log_message(self, format: str, *args) -> None:  # noqa: A002 - assinatura da base
+        log("http " + (format % args))
 
     # ------------------------------------------------------------- handlers
 
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         if self.path.rstrip("/") == "/health":
             self.responder(200, {"ok": True, "smtp": SMTP_HOST, "porta": PORT})
             return
         self.responder(404, {"message": "rota desconhecida"})
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         if self.path.rstrip("/") != "/emails":
             self.responder(404, {"message": "rota desconhecida"})
             return

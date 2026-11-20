@@ -196,6 +196,29 @@
   flex: none;
 }
 
+/* ------------------------------- menu dentro de um campo do formulário ---
+.comunidade-menu--field {
+  position: relative;
+  width: 100%;
+}
+
+.comunidade-menu-btn--field {
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.comunidade-menu-list--field {
+  top: calc(100% + 6px);
+  right: auto;
+  left: 0;
+  width: 100%;
+  min-width: 0;
+}
+
 /* ---------------------------------------------------------------- tags */
 .comunidade-tags {
   display: flex;
@@ -355,6 +378,12 @@
   transition:
     border-color var(--dur) var(--ease-out),
     box-shadow var(--dur) var(--ease-out);
+}
+
+/* A coluna de votos e a primeira coisa do cartao: a seta precisa de ar
+   entre ela e a borda, senao parece grudada no canto esquerdo. */
+.comunidade-post > .comunidade-votes {
+  padding-left: var(--space-3);
 }
 
 .comunidade-post:hover {
@@ -680,6 +709,41 @@
   }
 }
 
+/* ------------------------- janela de nova proposta: larga no PC, tela cheia
+   no celular. No PC o texto tem linha de leitura confortavel e os campos
+   nao viram uma tira estreita; no celular a janela ocupa a tela toda,
+   como um app. */
+#comunidade-new-modal .comunidade-modal-card {
+  width: min(100%, 880px);
+}
+
+#comunidade-new-modal .comunidade-modal-card textarea {
+  min-height: 220px;
+}
+
+@media (max-width: 640px) {
+  #comunidade-new-modal {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  #comunidade-new-modal .comunidade-modal-card {
+    width: 100%;
+    max-width: none;
+    min-height: 100%;
+    min-height: 100dvh;
+    padding: clamp(var(--space-5), 5vw, var(--space-7));
+    padding-top: max(var(--space-6), 44px);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  #comunidade-new-modal .comunidade-modal-card textarea {
+    min-height: 34dvh;
+  }
+}
+
 .comunidade-modal-sub {
   margin: 0;
   color: var(--text-muted);
@@ -737,6 +801,12 @@
 .comunidade-modal-card form > .comunidade-form-error,
 .comunidade-modal-card form > .comunidade-notice {
   margin: var(--space-5) 0 0;
+}
+
+/* O erro de acesso fica ENTRE o campo e o botão: precisa de menos espaço
+   em cima (nasce perto do campo que falhou) e de respiro antes do botão. */
+.comunidade-modal-card form > #comunidade-auth-error {
+  margin: var(--space-3) 0 var(--space-3);
 }
 
 .comunidade-modal-note {
@@ -1069,8 +1139,8 @@
       <h2 id="comunidade-auth-title">Entre na Comunidade</h2>
 
       <div id="comunidade-auth-logged" hidden>
-        <p class="comunidade-modal-sub">Você está na Comunidade como <strong id="comunidade-auth-who"></strong>. Suas propostas, votos e comentários ficam guardados nesta conta.</p>
-        <button class="btn btn-primary comunidade-submit" id="comunidade-logout-btn" type="button">Sair da conta</button>
+        <p class="comunidade-modal-sub">Sair da conta <strong id="comunidade-auth-who"></strong>?</p>
+        <button class="btn btn-primary comunidade-submit" id="comunidade-logout-btn" type="button">Sair</button>
       </div>
 
       <div class="comunidade-auth-switch" role="group" aria-label="Entrar ou criar conta">
@@ -1114,13 +1184,21 @@
           <input id="comunidade-new-title" name="title" type="text" maxlength="120" placeholder="ex.: filtro de encontros por categoria" required>
         </div>
         <div class="field">
-          <label for="comunidade-new-tag">Tag</label>
-          <select id="comunidade-new-tag" name="tag">
-            <option value="ideia">Ideias</option>
-            <option value="melhoria">Melhorias</option>
-            <option value="bug">Problemas (bugs)</option>
-            <option value="outro">Outros</option>
-          </select>
+          <label id="comunidade-new-tag-label">Tag</label>
+          <div class="comunidade-menu comunidade-menu--field" id="comunidade-new-tag-menu">
+            <button class="comunidade-menu-btn comunidade-menu-btn--field" id="comunidade-new-tag-btn" type="button"
+                    aria-haspopup="listbox" aria-expanded="false" aria-labelledby="comunidade-new-tag-label">
+              <span id="comunidade-new-tag-label-value">Ideias</span>
+              <svg class="comunidade-menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="comunidade-menu-list comunidade-menu-list--field" id="comunidade-new-tag-list" role="listbox" aria-label="Escolher a tag da proposta" hidden>
+              <button class="comunidade-menu-option" type="button" role="option" aria-selected="true" data-tag="ideia">Ideias</button>
+              <button class="comunidade-menu-option" type="button" role="option" aria-selected="false" data-tag="melhoria">Melhorias</button>
+              <button class="comunidade-menu-option" type="button" role="option" aria-selected="false" data-tag="bug">Problemas (bugs)</button>
+              <button class="comunidade-menu-option" type="button" role="option" aria-selected="false" data-tag="outro">Outros</button>
+            </div>
+            <input type="hidden" id="comunidade-new-tag" name="tag" value="ideia">
+          </div>
         </div>
         <div class="field">
           <label for="comunidade-new-body">Proposta <span aria-hidden="true">(10 a 4000 caracteres)</span></label>

@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
-       quando o site é servido pela Vercel. No InfinityFree ele não existe
-       e nada é coletado (ver "Analytics de visitação" no README). -->
+       quando o site é servido pela Vercel; na VPS o caminho não existe e
+       nada é coletado (ver "Analytics de visitação" no README). -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
   </script>
@@ -77,85 +77,92 @@
 
         <h2 id="idea">A ideia</h2>
         <p>
-          O vizin.Os é um app de bairro. Ele aproxima gente que mora perto para marcar um
-          café, uma caminhada ou um jogo — e depois sai do caminho para o encontro
-          acontecer.
+          O vizin.Os é um app de bairro. Ele aproxima gente que mora perto para
+          marcar um café, uma caminhada ou um jogo — e depois sai do caminho
+          para o encontro acontecer.
         </p>
         <p>
-          A escala é pequena de propósito. Em vez de disputar a atenção do planeta, o app
-          olha para o quarteirão. Quando a pessoa do outro lado pode estar na sua frente
-          amanhã na padaria, a conversa muda de tom.
+          A escala é pequena de propósito. Em vez de disputar a atenção do
+          planeta, o app olha para o quarteirão. Quando a pessoa do outro lado
+          pode estar na sua frente amanhã na padaria, a conversa muda de tom.
         </p>
         <p>
-          Você não precisa de foto, e-mail nem telefone. Um nome de usuário, um emoji e uma
-          cor bastam. Não existe feed público nem algoritmo escolhendo o que você vê.
+          Você não precisa de foto, e-mail nem telefone. Um nome de usuário, um
+          emoji e uma cor bastam. Não existe feed público nem algoritmo
+          escolhendo o que você vê.
         </p>
 
         <h2 id="por-que">Por que ele existe</h2>
         <p>
-          A gente sabe o que aconteceu do outro lado do mundo e não sabe o nome de quem
-          mora no apartamento de cima. As redes comuns são boas para notícia e
-          entretenimento, mas ruins para uma coisa simples: descobrir quem está por perto.
+          A gente sabe o que aconteceu do outro lado do mundo e não sabe o nome
+          de quem mora no apartamento de cima. As redes comuns são boas para
+          notícia e entretenimento, mas ruins para uma coisa simples: descobrir
+          quem está por perto.
         </p>
         <p>
-          Os apps de relacionamento resolveram isso transformando gente em catálogo. Aqui é
-          o contrário: menos vitrine, mais convivência. A conta fecha no positivo quando
-          você marca um encontro e some da tela.
+          Os apps de relacionamento resolveram isso transformando gente em
+          catálogo. Aqui é o contrário: menos vitrine, mais convivência. A conta
+          fecha no positivo quando você marca um encontro e some da tela.
         </p>
 
         <h2 id="how-it-works">Como funciona</h2>
 
         <h3>Sua conta mora no seu celular</h3>
         <p>
-          A conta nasce de um nome de usuário e uma senha. As chaves que protegem tudo são
-          criadas e guardadas no aparelho — nenhum servidor guarda a sua senha. Se você
-          trocar de celular, precisa do seu backup de recuperação.
+          A conta nasce de um nome de usuário e uma senha. As chaves que protegem
+          tudo são criadas e guardadas no aparelho — nenhum servidor guarda a
+          sua senha. Se você trocar de celular, precisa do seu backup de
+          recuperação.
         </p>
 
         <h3>A conversa viaja lacrada</h3>
         <p>
-          As mensagens são cifradas: viram um envelope que só abre nas duas pontas. Quem
-          transporta não consegue ler. Quando as duas pessoas estão online, a conversa vai
-          direto de um aparelho para o outro. Quando não estão, um serviço chamado farol
-          segura o envelope por até 48 horas e depois apaga.
+          As mensagens são cifradas: viram um envelope que só abre nas duas
+          pontas. Quem transporta não consegue ler. Quando as duas pessoas estão
+          online, a conversa vai direto de um aparelho para o outro. Quando não
+          estão, um serviço chamado farol segura o envelope por até 48 horas e
+          depois apaga.
         </p>
 
         <h3>O bairro é o limite</h3>
         <p>
-          As regiões são feitas de bairros e cabem em até 5 km. A localização só é usada
-          com o app aberto, fica guardada por uma hora e vira o município mais próximo. O app
-          nunca trabalha com o seu endereço.
+          As regiões são feitas de bairros e cabem em até 5 km. A localização só
+          é usada com o app aberto, fica guardada por uma hora e vira o município
+          mais próximo. O app nunca trabalha com o seu endereço.
         </p>
 
         <h3>Criar contas em massa custa caro</h3>
         <p>
-          Criar uma conta de verdade é rápido. Criar milhares de contas automáticas, não: o
-          app faz uma pequena verificação no aparelho e confere com a loja de aplicativos
-          se a instalação é legítima. Isso não é um rastreador — é só uma barreira a mais
-          contra robôs.
+          Criar uma conta de verdade é rápido. Criar milhares de contas
+          automáticas, não: o app faz uma pequena verificação no aparelho e
+          confere com a loja de aplicativos se a instalação é legítima. Isso não
+          é um rastreador — é só uma barreira a mais contra robôs.
         </p>
 
         <h2 id="privacy">O que fica público</h2>
         <p>
-          Pouca coisa: seu perfil (nome, emoji e cor), o nome e a descrição dos grupos de
-          que você participa, os anúncios que aparecem no app e os dados gerais da região,
-          como nome e lista de bairros — sem a posição de ninguém.
+          Pouca coisa: seu perfil (nome, emoji e cor), o nome e a descrição dos
+          grupos de que você participa, os anúncios que aparecem no app e os
+          dados gerais da região, como nome e lista de bairros — sem a posição
+          de ninguém.
         </p>
         <p>
-          O resto fica com você. As conversas são protegidas, e a equipe não tem acesso a
-          elas. Na versão gratuita aparecem anúncios; quem assina o Plus não vê.
+          O resto fica com você. As conversas são protegidas, e a equipe não tem
+          acesso a elas. Na versão gratuita aparecem anúncios; quem assina o
+          Plus não vê.
         </p>
 
         <h2 id="moderation">Moderação</h2>
         <p>
-          Nada é apagado por decisão de um dono do app. Quando alguém denuncia, o grupo
-          vota. Para denunciar é preciso um mínimo de confiança; para votar, um pouco mais.
-          O peso do voto cresce com a reputação, mas não dobra quando a reputação dobra.
+          Ninguém é dono do grupo — nem o dono do app. Quando alguém denuncia,
+          o grupo conversa e depois vota. Para denunciar, é preciso explicar o
+          que aconteceu; para votar, é preciso ter aparecido um pouco por
+          perto.
         </p>
         <p>
-          Contas recém-criadas têm menos poder: nas primeiras 24 horas não votam em
-          moderação, e uma conta com menos de 15 dias no grupo pode ser suspensa direto por
-          qualquer membro. É a trava anti-invasão.
+          Nenhuma decisão sai de uma pessoa só. Nem quem criou o grupo, nem
+          quem chegou antes. E quem acha que a decisão passou do ponto pode
+          recorrer: a revisão é feita por quem não votou nela.
         </p>
         <p>
           <a class="btn btn-secondary" href="/moderacao">Entender a moderação</a>
@@ -164,16 +171,17 @@
         <h2 id="gap">O que ainda não está pronto</h2>
         <ul>
           <li>A versão para iPhone ainda não existe.</li>
-          <li>Pedidos de revisão de uma decisão já são aceitos pela rede, mas ainda não têm tela no app.</li>
+          <li>Quem entra em massa de uma vez deixa as decisões definitivas em pausa por até uma semana — o app pausa, mas não sabe quem são essas pessoas.</li>
           <li>Mudanças de nome, emoji e descrição do grupo ainda não viajam entre aparelhos.</li>
           <li>Quem reinstala o app pode escapar de um banimento do aparelho.</li>
+          <li>Áudio ainda não pede confiança mínima para enviar.</li>
         </ul>
 
         <h2>O que ele não é</h2>
         <p>
-          Não é uma rede nacional nem um feed de viralização. Não substitui serviço de
-          emergência. E não promete anonimato: privacidade reduz a exposição, mas quem
-          convive responde pelo que faz.
+          Não é uma rede nacional nem um feed de viralização. Não substitui
+          serviço de emergência. E não promete anonimato: privacidade reduz a
+          exposição, mas quem convive responde pelo que faz.
         </p>
       </div>
     </section>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" content="#FFF9F2">
-  <title>vizin.Os — Criadores e afiliados</title>
+  <title>vizin.Os — Membros</title>
   <meta name="description" content="Programa de criadores e afiliados do vizin.Os: escolha seu papel, veja como funciona, entenda a divisão do Plus e acompanhe comissões e saques.">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <link rel="icon" href="/assets/favicon.png" type="image/png">
@@ -1067,8 +1067,8 @@
   <link rel="stylesheet" href="/assets/affiliates.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
-       quando o site é servido pela Vercel. No InfinityFree ele não existe
-       e nada é coletado (ver "Analytics de visitação" no README). -->
+       quando o site é servido pela Vercel; na VPS o caminho não existe e
+       nada é coletado (ver "Analytics de visitação" no README). -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
   </script>
@@ -1404,12 +1404,22 @@
 
         <div class="panel-flow">
 
-          <!-- ============ 1. Seus números ============ -->
+          <!-- ============ 1. Link e numeros ============ -->
           <section class="panel-group" aria-labelledby="afiliadoGrupo1">
             <div class="form-card">
               <div class="panel-group__head">
                 <span class="panel-group__num" aria-hidden="true">1</span>
-                <h2 class="panel-group__title" id="afiliadoGrupo1">Seus números</h2>
+                <h2 class="panel-group__title" id="afiliadoGrupo1">Seu link e seus números</h2>
+              </div>
+              <p class="panel-group__lead">
+                Compartilhe seu link. Quem abrir ele fica marcado como seu por 180 dias;
+                se o criador criar a conta pelo mesmo navegador, os 10% são seus.
+              </p>
+              <div class="creator-head">
+                <div class="creator-identity">
+                  <h3 id="afiliadoName">Painel do afiliado</h3>
+                  <p id="afiliadoHandle" class="muted"></p>
+                </div>
               </div>
               <p id="afiliadoError" class="error" role="alert"></p>
 
@@ -1470,10 +1480,11 @@
                   </div>
                 </div>
                 <div class="field">
-                  <label for="outreachMotivo">Motivo da seleção e escolha do criador</label>
-                  <textarea id="outreachMotivo" name="motivo" rows="3" maxlength="280" placeholder="Ex.: o criador aceitou a parceria e pediu uma abordagem diferente." required></textarea>
+                  <label for="outreachMotivo">Por que este criador <span aria-hidden="true">*</span></label>
+                  <textarea id="outreachMotivo" rows="3" maxlength="600" required></textarea>
                   <p class="field-hint">
-                    Campo obrigatório. A explicação é incorporada no e-mail, no tópico que o modelo define.
+                    Obrigatório. O texto vai direto no e-mail do convite: diga quem é o criador e
+                    por que o app combina com a audiência dele.
                   </p>
                 </div>
                 <button class="btn btn-primary" id="outreachButton" type="submit">Enviar e-mail</button>
@@ -1488,7 +1499,6 @@
                   <li>O modelo do convite é do vizin.Os e fica no servidor: o texto enviado não sai do painel.</li>
                   <li>Cada e-mail enviado registra o contato na base compartilhada, travando o contato duplicado.</li>
                   <li>Você pode enviar 1 e-mail a cada 3 dias. Envio que falha não gasta cota.</li>
-                  <li>A justificativa da seleção e a escolha do criador são incorporadas no e-mail, no tópico que o modelo do e-mail define.</li>
                 </ul>
               </div>
             </div>
@@ -1578,7 +1588,7 @@
       <nav class="footer-explore" aria-label="Continue explorando">
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
-          <a class="explore-card" href="/membros">
+          <a class="explore-card" href="/membros" aria-current="page">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             <span>Membros</span>
           </a>
@@ -1596,7 +1606,7 @@
           </a>
           <a class="explore-card" href="/essencia">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-            <span>A Essência</span>
+            <span>Essência</span>
           </a>
         </div>
       </nav>

@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Confere se o site publicado e igual ao site do repositorio.
 
-O page.gd pede verificacao de JavaScript, entao a leitura e feita no Chromium
-(o que o visitante recebe de verdade). Cada arquivo e buscado DENTRO do
-navegador (mesmos cookies da verificacao) e comparado byte a byte com o
-arquivo local; a primeira linha divergente e mostrada.
+A leitura e feita no Chromium (o que o visitante recebe de verdade). Cada
+arquivo e buscado DENTRO do navegador e comparado byte a byte com o arquivo
+local; a primeira linha divergente e mostrada.
 
 Uso:
-    python3 tools/comparar-site-publicado.py [https://vizin-os.page.gd]
+    python3 tools/comparar-site-publicado.py [https://vizin-os.vercel.app]
 """
 
 from __future__ import annotations
@@ -18,7 +17,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
 ROOT = Path(__file__).resolve().parent.parent
 
 # Pagina -> arquivo local correspondente.
@@ -64,7 +63,7 @@ def main() -> int:
         contexto = navegador.new_context()
         pagina = contexto.new_page()
 
-        # A primeira navegacao passa pela verificacao de JavaScript do page.gd.
+        # Abre o painel publicado (a pagina carrega os numeros da API).
         pagina.goto(f"{BASE}/painel/", wait_until="networkidle")
         pagina.wait_for_function(
             "() => document.getElementById('painelStatusTexto')"

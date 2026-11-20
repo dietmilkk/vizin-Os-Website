@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Compara a pagina /painel publicada com a versao local do repositorio.
 
-O page.gd pede verificacao de JavaScript, entao a comparacao e feita no
-Chromium (o que um visitante ve) e nao com curl. O script extrai do DOM
-publicado a estrutura da grade (classes e ids dos blocos) e compara com o
-HTML local.
+A comparacao e feita no Chromium (o que um visitante ve) e nao com curl. O
+script extrai do DOM publicado a estrutura da grade (classes e ids dos
+blocos) e compara com o HTML local.
 """
 
 from __future__ import annotations
@@ -15,7 +14,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
 LOCAL = Path(__file__).resolve().parent.parent / "painel" / "index.html"
 
 JS = """

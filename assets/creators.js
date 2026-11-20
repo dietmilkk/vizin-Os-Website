@@ -765,10 +765,12 @@
         }
         if (isAfiliado && code409) {
           // Código aleatório colidiu com um existente: outro sorteio e nova
-          // tentativa, tudo transparente para o afiliado.
+          // tentativa, tudo transparente para o afiliado. A nova tentativa leva
+          // os mesmos dados (cpf, e-mail e nome): perder o que a pessoa
+          // digitou faria a segunda tentativa ser recusada sem explicacao.
           var retryCode = generateAffiliateCode();
           if (codeInput) codeInput.value = retryCode;
-          return createAccount(retryCode, isAfiliado, deriveHandle(retryCode), true).catch(function (retryError) {
+          return createAccount(retryCode, isAfiliado, deriveHandle(retryCode), true, cpf, email, nome).catch(function (retryError) {
             var retryData = retryError.data || {};
             if (retryData.code === 'IP_DENIED') {
               goToNotFound();
@@ -1048,6 +1050,7 @@
     if ($('outreachName').value === campos.nome) $('outreachName').value = '';
     if ($('outreachEmail').value === campos.email) $('outreachEmail').value = '';
     if ($('outreachContact').value === campos.contato) $('outreachContact').value = '';
+    if ($('outreachMotivo') && $('outreachMotivo').value === campos.motivo) $('outreachMotivo').value = '';
     if ($('outreachPlatform').value === campos.plataforma) {
       $('outreachPlatform').selectedIndex = 0;
     }
@@ -1071,8 +1074,10 @@
       email: $('outreachEmail').value,
       plataforma: $('outreachPlatform').value,
       contato: $('outreachContact').value,
+      motivo: motivoInput ? motivoInput.value : '',
     };
-    var exclusao = ($('outreachMotivo').value || '').trim();
+    var motivoInput = $('outreachMotivo');
+    var exclusao = motivoInput ? String(motivoInput.value || '').trim() : '';
     // O texto do e-mail vive no servidor: o afiliado so manda os dados do
     // criador. O modelo e montado pela VPS.
     var payload = {

@@ -20,16 +20,14 @@ Uso:
 from __future__ import annotations
 
 import os
-import re
 import socket
 import sys
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
 
-from playwright.sync_api import sync_playwright  # noqa: E402
-
-from servidor_site import servir_site  # noqa: E402
+from playwright.sync_api import sync_playwright
+from servidor_site import servir_site
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

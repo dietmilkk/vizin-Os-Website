@@ -62,8 +62,8 @@ resultados: list[tuple[str, str, dict]] = []
 
 
 class FakeQueue(BaseHTTPRequestHandler):
-    def log_message(self, *_args) -> None:  # silencio
-        return
+    def log_message(self, format, *args) -> None:  # noqa: A002 - assinatura da base
+        return  # silencio
 
     def responder(self, status: int, corpo: dict) -> None:
         dados = json.dumps(corpo).encode("utf-8")
@@ -73,7 +73,7 @@ class FakeQueue(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(dados)
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         tamanho = int(self.headers.get("content-length", "0"))
         corpo = json.loads(self.rfile.read(tamanho) or b"{}")
         autoria = self.headers.get("authorization", "")

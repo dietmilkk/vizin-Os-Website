@@ -5,14 +5,12 @@ Começa em `/`, segue todos os links e recursos internos (`/`, `/documento`,
 `/painel`, ...) e abre cada um no navegador. URLs externas (Play Store,
 Instagram, etc.) são ignoradas — só o que é servido por nós é verificado.
 
-O navegador é usado de verdade porque a hospedagem pública (InfinityFree /
-page.gd) coloca uma verificação de JavaScript antes de mostrar a página: um
-`curl` puro veria apenas a tela de verificação e todas as URLs pareceriam
-quebradas. Cada página tem um único endereço canônico: não há mais
-redirecionamentos de nomes antigos para conferir.
+O navegador é usado de verdade para ver o que a pessoa ve (um `curl` puro
+não roda o JavaScript da página). Cada página tem um único endereço canônico:
+não há mais redirecionamentos de nomes antigos para conferir.
 
 Uso:
-    python3 tools/check-links.py https://vizin-os.page.gd
+    python3 tools/check-links.py https://vizin-os.vercel.app
     python3 tools/check-links.py http://127.0.0.1:8099
 """
 
@@ -49,7 +47,7 @@ class LinkCollector(HTMLParser):
 def is_internal(url: str, base: str) -> bool:
     if url.startswith(("mailto:", "tel:", "javascript:", "data:", "#", "/_vercel/")):
         # /_vercel/insights/* só existe quando o site é servido pela Vercel
-        # (Web Analytics): no InfinityFree e na VPS o caminho não existe.
+        # (Web Analytics): na VPS o caminho não existe.
         return False
     parsed = urlparse(url)
     if parsed.scheme and parsed.scheme not in ("http", "https"):
@@ -154,10 +152,10 @@ def main() -> int:
         contexto.close()
         navegador.close()
 
-    print("")
+    print()
     print(f"{checked} URLs internas verificadas · {len(failures)} falha(s)")
     if failures:
-        print("")
+        print()
         for caminho, status, detalhe in failures:
             print(f"  - {caminho} -> {status} {detalhe}".rstrip())
         return 1

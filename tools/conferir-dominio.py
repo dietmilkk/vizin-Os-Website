@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Confere o site no ar como uma pessoa usa: abre as paginas no navegador.
 
-Serve para o dominio publico (https://vizin-os.page.gd, hospedagem InfinityFree)
-e para qualquer outro endereco. O navegador e usado de verdade porque a
-hospedagem gratuita coloca uma verificacao de JavaScript antes de mostrar a
-pagina: um `curl` puro veria apenas a tela de verificacao.
+Serve para o dominio publico (https://vizin-os.vercel.app) e para qualquer
+outro endereco. O navegador e usado de verdade para ver o que a pessoa ve
+(um `curl` puro nao roda o JavaScript da pagina).
 
 O que confere:
   * cada pagina abre (sem erro de rede e sem erro no console);
@@ -15,12 +14,11 @@ O que confere:
 
 Uso:
     python3 tools/conferir-dominio.py
-    python3 tools/conferir-dominio.py https://vizin-os.page.gd
     python3 tools/conferir-dominio.py https://site.188.166.156.109.sslip.io
 
 O segundo argumento e o dominio que os canonicals devem apontar (padrao:
-vizin-os.page.gd). Ele serve para conferir a copia de trabalho na VPS, que
-tem o mesmo conteudo mas outro endereco.
+https://vizin-os.vercel.app). Ele serve para conferir a copia de trabalho na
+VPS, que tem o mesmo conteudo mas outro endereco.
 
 Requer Playwright com Chromium.
 """
@@ -32,8 +30,8 @@ from urllib.parse import urljoin, urlparse
 
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
-DOMINIO_CANONICO = (sys.argv[2] if len(sys.argv) > 2 else "vizin-os.page.gd").rstrip("/")
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
+DOMINIO_CANONICO = (sys.argv[2] if len(sys.argv) > 2 else "https://vizin-os.vercel.app").rstrip("/")
 
 PAGINAS = ["/", "/painel/", "/documento/", "/membros/", "/essencia/", "/moderacao/"]
 
@@ -208,7 +206,7 @@ def main() -> int:
         contexto.close()
         navegador.close()
 
-    print("")
+    print()
     print(f"{verificacoes} verificações · {len(falhas)} falha(s)")
     if falhas:
         for falha in falhas:

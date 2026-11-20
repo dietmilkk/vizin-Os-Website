@@ -9,7 +9,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.page.gd").rstrip("/")
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
 ROOT = Path(__file__).resolve().parent.parent
 ALVO = sys.argv[2] if len(sys.argv) > 2 else "/assets/styles.css"
 LOCAL = {

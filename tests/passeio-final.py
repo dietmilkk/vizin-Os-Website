@@ -4,9 +4,10 @@ Abre cada pagina em desktop (1366x900) e celular (390x844), rola a pagina
 inteira, coleta erros de JavaScript e mede o espaco usado na tela.
 """
 import sys
+
 from playwright.sync_api import sync_playwright
 
-SITE = "https://vizin-os.page.gd"
+SITE = "https://vizin-os.vercel.app"
 PAGINAS = ["/", "/membros", "/painel", "/documento", "/moderacao"]
 
 
@@ -19,9 +20,11 @@ def main():
             for rota in PAGINAS:
                 pagina = ctx.new_page()
                 erros = []
-                pagina.on("pageerror", lambda e: erros.append(str(e)))
+                # O argumento default fixa a lista desta iteracao: sem ele, a
+                # closure veria o `erros` da proxima volta do loop (B023).
+                pagina.on("pageerror", lambda e, erros=erros: erros.append(str(e)))
 
-                def escutar_console(m) -> None:
+                def escutar_console(m, erros=erros) -> None:
                     # A rota /_vercel/insights/* (Web Analytics) só existe quando o site
                     # é servido pela Vercel. Fora dela o <script defer> responde 404 e o
                     # navegador registra erro de console — a mensagem de texto não traz a

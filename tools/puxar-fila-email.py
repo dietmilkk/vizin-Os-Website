@@ -59,7 +59,7 @@ if ARQ_ENV.exists():
     carregar_env(ARQ_ENV)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from email_envio import FalhaEnvio, enviar_com_retry  # noqa: E402
+from email_envio import FalhaEnvio, enviar_com_retry
 
 URL_FILA = os.environ.get(
     "MAIL_QUEUE_URL", "https://api.188.166.156.109.sslip.io"
