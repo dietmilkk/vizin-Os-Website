@@ -32,731 +32,256 @@
     })();
   </script>
   <style>
-    /* ============================================ guarda de IP (servidor)
+/* ============================================ guarda de IP (servidor)
        A checagem nao deve esconder a pagina inteira: o visitante ve o
        conteudo de imediato e so a parte que exige acesso liberado
        (cadastro e paineis) fica oculta ate a checagem terminar. */
     html.is-guarding #criar,
-    html.is-guarding #participar {
-      visibility: hidden;
-    }
-
-    /* ====================================== aviso dentro da janela (modal) */
+    html.is-guarding #participar
+/* ====================================== aviso dentro da janela (modal) */
     /* Uma linha de texto: sem caixa, sem fundo e sem ícone. */
-    .create-warning {
-      margin: var(--space-3) 0 0;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.5;
-      text-align: left;
-    }
-    /* ===== Base da página de afiliados ===== */
-    .creators-guide hr {
-      border: 0;
-      border-top: 1px solid var(--border);
-      margin: var(--space-8) 0 0;
-    }
-    .creators-guide h3 {
-      margin: var(--space-8) 0 0;
-      font-size: 1.15rem;
-    }
-    .creators-more {
-      margin-top: var(--space-8);
-      padding: var(--space-6);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface-alt);
-    }
-    .creators-more h3 {
+    .create-warning
+/* ===== Base da página de afiliados ===== */
+    .creators-guide hr
+.creators-nav .btn{
       margin: 0;
     }
-    .creators-nav {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-      margin-top: var(--space-5);
-    }
-    .creators-nav .btn {
-      margin: 0;
-    }
-    .creators-nav-links {
-      display: flex;
-      gap: var(--space-3);
-    }
-    .creators-nav-links .btn {
+.creators-nav-links .btn{
       flex: 1 1 0;
       min-width: 0;
       padding-inline: var(--space-4);
     }
-    @media (max-width: 720px) {
-      .creators-more {
-        margin-top: var(--space-8);
-        padding: 0;
-        border: 0;
-        background: transparent;
-      }
-      .creators-nav {
-        margin-top: var(--space-4);
-      }
-      .creators-nav-links {
-        flex-direction: column;
-      }
-      .creators-nav-links .btn {
+.creators-nav-links .btn{
         flex: none;
         width: 100%;
       }
-    }
-
-    /* ===== Hero com fundo gradiente ===== */
+/* ===== Hero com fundo gradiente ===== */
     /* Decoracao unica no site: so a home do programa de parceiros usa este
        bloco. Em telefone ela sai do ar — o hero vira um cartao simples, sem
        aurora, sem orbes e sem animacao nenhuma. */
-    .creators-hero {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius-xl);
-      padding: var(--space-8) var(--space-7);
-      margin-top: var(--space-5);
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 0%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 60%),
-        radial-gradient(ellipse 60% 50% at 85% 100%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
-        var(--surface-alt);
-      border: 1px solid var(--border);
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .creators-hero::before {
-        content: "";
-        position: absolute;
-        inset: -50%;
-        background: conic-gradient(
-          from 0deg at 30% 30%,
-          transparent 0deg,
-          color-mix(in srgb, var(--primary) 6%, transparent) 60deg,
-          transparent 120deg,
-          color-mix(in srgb, var(--accent) 5%, transparent) 200deg,
-          transparent 280deg
-        );
-        animation: hero-aurora 18s linear infinite;
-        pointer-events: none;
-      }
-      .creators-hero > * {
-        position: relative;
-        z-index: 1;
-      }
-    }
-    @keyframes hero-aurora {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* ===== Entrada escalonada (stagger) para elementos do hero ===== */
-    @media (prefers-reduced-motion: no-preference) {
-      .js .creators-hero[data-reveal] h1,
-      .js .creators-hero[data-reveal] > p {
+    .creators-hero
+0%{ transform: rotate(0deg); }
+100%{ transform: rotate(360deg); }
+.js .creators-hero[data-reveal] h1,
+      .js .creators-hero[data-reveal] > p{
         opacity: 0;
         transform: translateY(24px);
       }
-      .js .creators-hero[data-reveal].is-visible h1 { animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards; }
-      .js .creators-hero[data-reveal].is-visible > p { animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards; }
-    }
-    @keyframes hero-stagger {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-
-    /* ===== Botão CTA ===== */
-    .creators-cta-wrap {
-      margin-top: var(--space-8);
-    }
-    .creators-cta {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      min-height: 68px;
-      padding: var(--space-5) var(--space-8);
-      font-size: 1.15rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      box-shadow: 0 20px 45px -14px color-mix(in srgb, var(--primary) 60%, transparent);
-      transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
-    }
-    .creators-cta:hover {
-      transform: translateY(var(--lift));
-      box-shadow: 0 28px 60px -14px color-mix(in srgb, var(--primary) 75%, transparent);
-    }
-    .creators-cta:active {
-      transform: scale(var(--press));
-    }
-    .creators-cta svg {
-      width: 22px;
-      height: 22px;
-      flex: none;
-    }
-
-    /* ===== Barra de divisão animada ===== */
-    .split-segment {
-      transition: flex-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .js .split-bar:not(.is-visible) .split-segment {
+.js .creators-hero[data-reveal].is-visible h1{ animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards; }
+.js .creators-hero[data-reveal].is-visible > p{ animation: hero-stagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards; }
+to{ opacity: 1; transform: translateY(0); }
+/* ===== Botão CTA ===== */
+    .creators-cta-wrap
+/* ===== Barra de divisão animada ===== */
+    .split-segment
+.js .split-bar:not(.is-visible) .split-segment{
         flex-grow: 0.01;
       }
-      .js .split-bar.is-visible .split-segment {
+.js .split-bar.is-visible .split-segment{
         animation: split-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
-    }
-    @keyframes split-grow {
-      from { flex-grow: 0.01; }
-      to { flex-grow: var(--share-grow, 1); }
-    }
-
-    /* ===== Cards de programa com hover ===== */
-    .program-card {
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .program-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 45px -16px color-mix(in srgb, var(--shadow) 18%, transparent);
-        border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
-      }
-      .program-card:hover .program-number {
-        transform: scale(1.08);
-      }
-    }
-    .program-number {
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* ===== Pilares do projeto com hover ===== */
-    .pillar {
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .pillar:hover {
-        transform: translateY(-3px);
-        background: var(--surface);
-        border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
-      }
-    }
-
-    /* ===== Seções com entrada suave adicional ===== */
-    @media (prefers-reduced-motion: no-preference) {
-      .js [data-reveal] .project-pillars,
+from{ flex-grow: 0.01; }
+to{ flex-grow: var(--share-grow, 1); }
+/* ===== Cards de programa com hover ===== */
+    .program-card
+/* ===== Pilares do projeto com hover ===== */
+    .pillar
+.js [data-reveal] .project-pillars,
       .js [data-reveal] .program-grid,
       .js [data-reveal] .split-bar,
-      .js [data-reveal] .split-grid {
+      .js [data-reveal] .split-grid{
         opacity: 0;
         transform: translateY(20px);
       }
-      .js [data-reveal].is-visible .project-pillars,
+.js [data-reveal].is-visible .project-pillars,
       .js [data-reveal].is-visible .program-grid,
       .js [data-reveal].is-visible .split-bar,
-      .js [data-reveal].is-visible .split-grid {
+      .js [data-reveal].is-visible .split-grid{
         animation: section-stagger 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
-      .js [data-reveal].is-visible .program-grid { animation-delay: 0.1s; }
-      .js [data-reveal].is-visible .split-bar { animation-delay: 0.15s; }
-      .js [data-reveal].is-visible .split-grid { animation-delay: 0.2s; }
-    }
-    @keyframes section-stagger {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== Navegação do header com indicador ativo ===== */
-    .partners-nav a {
-      transition: color 0.25s ease;
-    }
-
-
-
-    /* ===== Orbes decorativos (so no hero do programa, so no desktop) ===== */
-    @media (min-width: 721px) {
-      .hero-orbs {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-        border-radius: inherit;
-      }
-      .hero-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(40px);
-        opacity: 0.5;
-      }
-      .hero-orb--1 {
-        width: 280px;
-        height: 280px;
-        top: -80px;
-        right: 8%;
-        background: radial-gradient(circle, color-mix(in srgb, var(--primary) 35%, transparent), transparent 70%);
-      }
-      .hero-orb--2 {
-        width: 200px;
-        height: 200px;
-        bottom: -60px;
-        left: 12%;
-        background: radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
-      }
-      .hero-orb--3 {
-        width: 140px;
-        height: 140px;
-        top: 40%;
-        left: 45%;
-        background: radial-gradient(circle, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%);
-      }
-      @media (prefers-reduced-motion: no-preference) {
-        .hero-orb--1 { animation: orb-float-1 14s ease-in-out infinite; }
-        .hero-orb--2 { animation: orb-float-2 18s ease-in-out infinite; }
-        .hero-orb--3 { animation: orb-float-3 11s ease-in-out infinite; }
-      }
-    }
-    @keyframes orb-float-1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(-30px, 20px) scale(1.1); }
-      66% { transform: translate(20px, -15px) scale(0.95); }
-    }
-    @keyframes orb-float-2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(25px, -25px) scale(1.15); }
-    }
-    @keyframes orb-float-3 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-20px, 15px) scale(1.2); }
-    }
-
-    /* ===== H1 com destaque em gradiente ===== */
-    .creators-hero h1 em {
-      font-style: normal;
-      background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-
-    /* ===== Entrada escalonada para itens de lista ===== */
-    @media (prefers-reduced-motion: no-preference) {
-      .js [data-reveal] ul li,
-      .js [data-reveal] ol li {
+.js [data-reveal].is-visible .program-grid{ animation-delay: 0.1s; }
+.js [data-reveal].is-visible .split-bar{ animation-delay: 0.15s; }
+.js [data-reveal].is-visible .split-grid{ animation-delay: 0.2s; }
+to{ opacity: 1; transform: translateY(0); }
+/* ===== Navegação do header com indicador ativo ===== */
+    .partners-nav a
+0%, 100%{ transform: translate(0, 0) scale(1); }
+33%{ transform: translate(-30px, 20px) scale(1.1); }
+66%{ transform: translate(20px, -15px) scale(0.95); }
+0%, 100%{ transform: translate(0, 0) scale(1); }
+50%{ transform: translate(25px, -25px) scale(1.15); }
+0%, 100%{ transform: translate(0, 0) scale(1); }
+50%{ transform: translate(-20px, 15px) scale(1.2); }
+/* ===== H1 com destaque em gradiente ===== */
+    .creators-hero h1 em
+.js [data-reveal] ul li,
+      .js [data-reveal] ol li{
         opacity: 0;
         transform: translateX(-12px);
       }
-      .js [data-reveal].is-visible ul li,
-      .js [data-reveal].is-visible ol li {
+.js [data-reveal].is-visible ul li,
+      .js [data-reveal].is-visible ol li{
         animation: list-slide-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
-      .js [data-reveal].is-visible ul li:nth-child(1), .js [data-reveal].is-visible ol li:nth-child(1) { animation-delay: 0.05s; }
-      .js [data-reveal].is-visible ul li:nth-child(2), .js [data-reveal].is-visible ol li:nth-child(2) { animation-delay: 0.12s; }
-      .js [data-reveal].is-visible ul li:nth-child(3), .js [data-reveal].is-visible ol li:nth-child(3) { animation-delay: 0.19s; }
-      .js [data-reveal].is-visible ul li:nth-child(4), .js [data-reveal].is-visible ol li:nth-child(4) { animation-delay: 0.26s; }
-      .js [data-reveal].is-visible ul li:nth-child(5), .js [data-reveal].is-visible ol li:nth-child(5) { animation-delay: 0.33s; }
-      .js [data-reveal].is-visible ul li:nth-child(6), .js [data-reveal].is-visible ol li:nth-child(6) { animation-delay: 0.4s; }
-    }
-    @keyframes list-slide-in {
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    /* ===== Split items com hover ===== */
-    .split-item {
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .split-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--shadow) 15%, transparent);
-      }
-    }
-
-    /* ===== Painel do afiliado: link em destaque =====
+.js [data-reveal].is-visible ul li:nth-child(1), .js [data-reveal].is-visible ol li:nth-child(1){ animation-delay: 0.05s; }
+.js [data-reveal].is-visible ul li:nth-child(2), .js [data-reveal].is-visible ol li:nth-child(2){ animation-delay: 0.12s; }
+.js [data-reveal].is-visible ul li:nth-child(3), .js [data-reveal].is-visible ol li:nth-child(3){ animation-delay: 0.19s; }
+.js [data-reveal].is-visible ul li:nth-child(4), .js [data-reveal].is-visible ol li:nth-child(4){ animation-delay: 0.26s; }
+.js [data-reveal].is-visible ul li:nth-child(5), .js [data-reveal].is-visible ol li:nth-child(5){ animation-delay: 0.33s; }
+.js [data-reveal].is-visible ul li:nth-child(6), .js [data-reveal].is-visible ol li:nth-child(6){ animation-delay: 0.4s; }
+to{ opacity: 1; transform: translateX(0); }
+/* ===== Split items com hover ===== */
+    .split-item
+/* ===== Painel do afiliado: link em destaque =====
        Mesma caixa tracejada do painel do criador (.code-box). O link de
        afiliado e um endereco longo, entao o campo e o botao ficam lado a
        lado dentro da caixa. */
-    .affiliate-code {
-      flex: 0 1 460px;
-      min-width: 260px;
-      margin-top: 0;
-      padding: var(--space-4);
-      font-size: 0.86rem;
-      font-weight: 600;
-      letter-spacing: 0;
-    }
-    .affiliate-code .link-field {
+    .affiliate-code
+.affiliate-code .link-field{
       margin-top: 0;
     }
-    .affiliate-code input {
+.affiliate-code input{
       min-height: 44px;
       padding: var(--space-2) var(--space-3);
       background: var(--surface);
       font-size: 0.82rem;
     }
-
-    /* ===== Stats do painel do afiliado ===== */
-    .stat--accent {
-      background: color-mix(in srgb, var(--primary) 7%, var(--surface-alt));
-      border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .stat {
+/* ===== Stats do painel do afiliado ===== */
+    .stat--accent
+.stat{
         transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
       }
-      .stat:hover {
+.stat:hover{
         transform: translateY(-3px);
       }
-      .stat--accent:hover {
+.stat--accent:hover{
         border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
       }
-    }
-
-    /* ===== Linhas de contato ===== */
-    .contact-row {
-      align-items: center;
-      gap: var(--space-3);
-    }
-    .contact-row__main {
+/* ===== Linhas de contato ===== */
+    .contact-row
+.contact-row__main{
       display: flex;
       flex-direction: column;
       gap: 2px;
       min-width: 0;
     }
-    .contact-row__name {
+.contact-row__name{
       font-weight: 600;
       overflow-wrap: anywhere;
     }
-    .contact-row__meta {
+.contact-row__meta{
       color: var(--text-muted);
       font-size: 0.82rem;
       overflow-wrap: anywhere;
     }
-    .contact-row__side {
+.contact-row__side{
       display: flex;
       align-items: center;
       gap: var(--space-3);
       flex: none;
     }
-    .contact-row__date {
+.contact-row__date{
       color: var(--text-faint);
       font-size: 0.8rem;
       white-space: nowrap;
     }
-    @media (max-width: 560px) {
-      .contact-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .contact-row__side {
+.contact-row__side{
         width: 100%;
         justify-content: space-between;
       }
-    }
-
-    /* ===== Hint dos campos ===== */
-    .field-hint {
-      margin: var(--space-2) 0 0;
-      color: var(--text-faint);
-      font-size: 0.79rem;
-      line-height: 1.55;
-    }
-
-    /* ===== Verificação com destaque ===== */
+/* ===== Hint dos campos ===== */
+    .field-hint
+/* ===== Verificação com destaque ===== */
     .check-result.is-ok,
-    .check-result.is-error {
-      font-weight: 500;
-      animation: result-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    @keyframes result-in {
-      from { opacity: 0; transform: translateY(-6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== Entrada escalonada dos grupos do painel ===== */
-    @media (prefers-reduced-motion: no-preference) {
-      .js #afiliadoDashboardView .panel-group {
+    .check-result.is-error
+from{ opacity: 0; transform: translateY(-6px); }
+to{ opacity: 1; transform: translateY(0); }
+.js #afiliadoDashboardView .panel-group{
         opacity: 0;
         transform: translateY(18px);
       }
-      .js #afiliadoDashboardView.is-loaded .panel-group {
+.js #afiliadoDashboardView.is-loaded .panel-group{
         animation: section-stagger 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
-      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(1) { animation-delay: 0.04s; }
-      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(2) { animation-delay: 0.12s; }
-      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(3) { animation-delay: 0.2s; }
-      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(4) { animation-delay: 0.28s; }
-      .js #afiliadoDashboardView.is-loaded .panel-group:nth-child(5) { animation-delay: 0.36s; }
-    }
-
-    /* ===== CTA final da página pública ===== */
-    .participate-card {
-      text-align: center;
-    }
-    .participate-card p {
-      max-width: 56ch;
-      margin-inline: auto;
-    }
-    .participate-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: var(--space-4);
-      margin-top: var(--space-7);
-    }
-    .participate-actions .btn {
+.js #afiliadoDashboardView.is-loaded .panel-group:nth-child(1){ animation-delay: 0.04s; }
+.js #afiliadoDashboardView.is-loaded .panel-group:nth-child(2){ animation-delay: 0.12s; }
+.js #afiliadoDashboardView.is-loaded .panel-group:nth-child(3){ animation-delay: 0.2s; }
+.js #afiliadoDashboardView.is-loaded .panel-group:nth-child(4){ animation-delay: 0.28s; }
+.js #afiliadoDashboardView.is-loaded .panel-group:nth-child(5){ animation-delay: 0.36s; }
+/* ===== CTA final da página pública ===== */
+    .participate-card
+.participate-actions .btn{
       margin: 0;
       width: auto;
       flex: 1 1 0;
       min-width: 0;
       max-width: 320px;
     }
-    @media (max-width: 560px) {
-      .participate-actions {
-        flex-direction: column;
-      }
-      .participate-actions .btn {
+.participate-actions .btn{
         width: 100%;
         max-width: none;
       }
-    }
-
-    /* ===== Guia completo (aparece acima do rodapé no painel) ===== */
-    .guia-completo {
-      margin-top: var(--space-8);
-      padding: var(--space-8) var(--space-7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      background:
-        radial-gradient(ellipse 70% 45% at 12% 0%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 62%),
-        radial-gradient(ellipse 55% 45% at 92% 8%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 58%),
-        var(--surface-alt);
-      box-shadow: 0 24px 60px -36px rgba(0, 0, 0, 0.55);
-    }
-    .guia-completo__head {
-      max-width: 68ch;
-      margin-bottom: var(--space-6);
-    }
-    .guia-completo__head h2 {
-      margin: var(--space-2) 0 var(--space-3);
-      font-size: clamp(1.6rem, 3.2vw, 2.15rem);
-      line-height: 1.15;
-    }
-    /* Dentro do painel o guia já está no contexto da conta aberta: o título
+/* ===== Guia completo (aparece acima do rodapé no painel) ===== */
+    .guia-completo
+/* Dentro do painel o guia já está no contexto da conta aberta: o título
        "Como funciona por dentro" não precisa aparecer. */
-    .guia-completo.is-panel .guia-completo__head h2 {
-      display: none;
-    }
-    .guia-completo__head p {
-      margin: 0;
-    }
-    .guia-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: var(--space-5);
-      align-items: start;
-    }
-    .guia-bloco {
-      padding: var(--space-6);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .guia-bloco h3 {
-      margin: var(--space-4) 0 var(--space-3);
-      font-size: 1.2rem;
-      line-height: 1.25;
-    }
-    .guia-bloco h3 + p,
-    .guia-bloco p + h3,
-    .guia-bloco ul,
-    .guia-bloco ol {
-      margin-top: var(--space-4);
-    }
-    .guia-bloco ul,
-    .guia-bloco ol {
-      padding-left: 1.15rem;
-      display: grid;
-      gap: var(--space-3);
-      color: var(--text-muted);
-    }
-    .guia-bloco strong {
-      color: var(--text);
-    }
-    .guia-bloco .program-grid,
-    .guia-bloco .split-grid,
-    .guia-bloco .project-pillars {
-      margin-top: var(--space-5);
-    }
-    .guia-bloco .creators-more {
-      margin-top: var(--space-5);
-    }
-    .guia-bloco--afiliado {
-      border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
-    }
-    .guia-bloco--criador {
-      border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
-    }
-    .guia-bloco.is-current {
+    .guia-completo.is-panel .guia-completo__head h2
+.guia-bloco.is-current{
       border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
       box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 40%, transparent),
         0 20px 48px -30px color-mix(in srgb, var(--primary) 60%, transparent);
     }
-    .guia-bloco__head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    .guia-badge {
-      display: none;
-      align-items: center;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--primary-ink);
-      background: color-mix(in srgb, var(--primary) 14%, transparent);
-      white-space: nowrap;
-    }
-    .guia-bloco.is-current .guia-badge {
+.guia-bloco.is-current .guia-badge{
       display: inline-flex;
     }
-    .guia-bloco {
-      display: flow-root;
-    }
-    .guia-bloco[hidden] {
-      display: none;
-    }
-    .guia-cross {
-      display: grid;
-      gap: var(--space-4);
-      margin-top: var(--space-6);
-    }
-    .guia-cross__item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-5);
-      padding: var(--space-5) var(--space-6);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-    }
-    .guia-cross__item strong {
-      display: block;
-      font-size: 1.05rem;
-    }
-    .guia-cross__item p {
-      margin: var(--space-2) 0 0;
-      color: var(--text-muted);
-      font-size: 0.92rem;
-    }
-    .guia-cross__item .btn {
+.guia-cross__item .btn{
       margin: 0;
       flex: none;
     }
-    @media (max-width: 720px) {
-      /* No celular o guia perde o bloco decorativo: sem moldura, sem fundo e
+/* No celular o guia perde o bloco decorativo: sem moldura, sem fundo e
          sem padding proprio — o conteudo aproveita o espacamento lateral da
          pagina (o .container do main) e os blocos continuam com a moldura
          propria de card. */
-      .guia-completo {
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: none;
-        box-shadow: none;
-      }
-      .guia-grid {
-        grid-template-columns: 1fr;
-      }
-      /* No celular o bloco do guia perde a moldura de card: o titulo maior
+      .guia-completo
+/* No celular o bloco do guia perde a moldura de card: o titulo maior
          separa os assuntos sem a necessidade de uma caixa em volta. */
       .guia-bloco,
       .guia-bloco--afiliado,
       .guia-bloco--criador,
-      .guia-bloco.is-current {
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: none;
-        box-shadow: none;
-      }
-      .guia-bloco h3 {
-        margin-top: 0;
-        font-size: clamp(1.4rem, 5.2vw, 1.7rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-      /* Mesma troca no exemplo da divisao: sai o cartao externo e o titulo
+      .guia-bloco.is-current
+/* Mesma troca no exemplo da divisao: sai o cartao externo e o titulo
          ganha peso para marcar o inicio do assunto. */
-      .flow-example {
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: none;
-      }
-      .flow-example__head h3 {
-        font-size: clamp(1.4rem, 5.2vw, 1.7rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-      .guia-cross__item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .guia-cross__item .btn {
+      .flow-example
+.guia-cross__item .btn{
         width: 100%;
       }
-    }
-
-    /* ===== Ritmo vertical da página pública =====
+/* ===== Ritmo vertical da página pública =====
        Um único intervalo entre as seções: hero -> movimento -> divisao ->
        participar -> guia. Sem isso o primeiro vao fica curto (40px) e o resto
        largo (72px), e a pagina perde o sentido de ritmo.
        O guia fica logo depois de #partnerMarketing e usa o proprio
        margin-top, entao nenhuma secao precisa de folga extra no fim. */
-    #partnerMarketing {
-      display: flow-root;
-    }
-    #partnerMarketing > .creators-hero {
-      margin-bottom: 0;
-    }
-    #partnerMarketing > .creators-guide {
-      margin-top: var(--space-8);
-      margin-bottom: 0;
-    }
-    #partnerMarketing > .creators-guide h2 {
-      margin-top: 0;
-    }
-
-    /* ===== Painel do afiliado: mesmo desenho do painel do criador =====
+    #partnerMarketing
+/* ===== Painel do afiliado: mesmo desenho do painel do criador =====
        H1 (painel) -> H2 (grupo) -> H3 (card). Cada grupo e um passo do
        trabalho do afiliado, com um numero que da a ordem das acoes. O grupo
        e um cartao: o numero e o titulo moram dentro dele, como no painel
        do criador. O numero fica discreto ao lado do titulo grande, para
        marcar a ordem sem virar o protagonista. */
-    .panel-flow {
-      display: grid;
-      gap: var(--space-8);
-    }
-    /* O dashboard-heading ja tem 16px de padding inferior; 32px separa melhor
+    .panel-flow
+/* O dashboard-heading ja tem 16px de padding inferior; 32px separa melhor
        o titulo do painel do primeiro grupo. */
-    #afiliadoDashboardView .dashboard-heading {
-      padding-bottom: var(--space-6);
-    }
-    .panel-group {
+    #afiliadoDashboardView .dashboard-heading
+.panel-group{
       display: block;
     }
-    .panel-group__head {
+.panel-group__head{
       display: flex;
       align-items: center;
       gap: var(--space-4);
       margin-bottom: var(--space-4);
     }
-    .panel-group__num {
+.panel-group__num{
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -769,19 +294,17 @@
       font-size: 0.85rem;
       font-weight: 700;
     }
-    /* Sem override de tamanho: o titulo do grupo herda o h2 global, que e
+/* Sem override de tamanho: o titulo do grupo herda o h2 global, que e
        exatamente o titulo de card do painel do criador. */
-    .panel-group__title {
-      margin: 0;
-    }
-    .panel-group__lead {
+    .panel-group__title
+.panel-group__lead{
       max-width: 62ch;
       margin: var(--space-3) 0 var(--space-5);
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.65;
     }
-    /* Itens de grid/flex nascem com min-width:auto (= min-content). Sem isso a
+/* Itens de grid/flex nascem com min-width:auto (= min-content). Sem isso a
        coluna do painel trava na largura minima do conteudo e estoura a pagina
        em telas de 320px. */
     .panel-flow,
@@ -790,13 +313,11 @@
     .panel-group__head > *,
     .panel-two-col,
     .panel-two-col > *,
-    .form-card {
-      min-width: 0;
-    }
-    .panel-group > .form-card {
+    .form-card
+.panel-group > .form-card{
       margin-top: 0;
     }
-    .panel-card__title {
+.panel-card__title{
       margin: 0;
       /* A fonte vem aqui, e nao do h2/h3: o mesmo titulo de card aparece
          como h3 no painel do afiliado e como h2 no do criador, e os dois
@@ -807,268 +328,91 @@
       line-height: 1.3;
       letter-spacing: -0.01em;
     }
-    .panel-card__lead {
+.panel-card__lead{
       margin: var(--space-2) 0 0;
       color: var(--text-muted);
       font-size: 0.9rem;
       line-height: 1.6;
     }
-    /* ===== Bloco de apoio dentro do cartao =====
+/* ===== Bloco de apoio dentro do cartao =====
        Separa o formulario da explicacao com uma regra no topo: o texto
        continua no mesmo cartao, mas nao parece parte do formulario. */
-    .panel-subsection {
-      margin-top: var(--space-6);
-      padding-top: var(--space-5);
-      border-top: 1px solid var(--border);
-    }
-    /* No telefone o botao ocupa a linha toda (alvo de toque largo). No painel
-       largo ele fica do tamanho do texto: um botao de mil pixels e um bloco de
-       cor que briga com o resto do cartao. */
-    @media (min-width: 561px) {
-      #outreachForm .btn {
+    .panel-subsection
+#outreachForm .btn{
         width: auto;
       }
-    }
-    .panel-two-col {
+.panel-two-col{
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-5);
       align-items: start;
     }
-    .panel-two-col--split {
-      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    }
-    @media (max-width: 900px) {
-      .panel-two-col,
-      .panel-two-col--split {
+.panel-two-col,
+      .panel-two-col--split{
         grid-template-columns: 1fr;
       }
-    }
-    @media (max-width: 560px) {
-      .panel-group__head {
+.panel-group__head{
         gap: var(--space-3);
       }
-      .panel-group__num {
+.panel-group__num{
         width: 28px;
         height: 28px;
         border-radius: 9px;
         font-size: 0.78rem;
       }
-    }
-
-    /* ===== Stats do painel: a mesma grade do painel do criador ===== */
-    .stats-grid--3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    .stats-grid--4 {
+/* ===== Stats do painel: a mesma grade do painel do criador ===== */
+    .stats-grid--3
+.stats-grid--4{
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-    @media (max-width: 900px) {
-      .stats-grid--4 {
+.stats-grid--4{
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-    }
-    @media (max-width: 560px) {
-      .stats-grid--3,
-      .stats-grid--4 {
+.stats-grid--3,
+      .stats-grid--4{
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-    }
-
-    /* ===== Guia: sumario no topo ===== */
-    .guia-sumario {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      flex-wrap: wrap;
-      margin-bottom: var(--space-6);
-      padding: var(--space-4) var(--space-5);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-    }
-    .guia-sumario__label {
-      display: block;
-      color: var(--text-faint);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .guia-sumario__list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      counter-reset: guia-sumario;
-    }
-    .guia-sumario__list li {
-      margin: 0;
-    }
-    .guia-sumario__list button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-decoration: none;
-      background: transparent;
-      cursor: pointer;
-      font-family: inherit;
-      transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    }
-    .guia-sumario__list button::before {
-      counter-increment: guia-sumario;
-      content: counter(guia-sumario, decimal-leading-zero);
-      color: var(--primary-ink);
-      font-size: 0.75rem;
-      font-weight: 800;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .guia-sumario__list button:hover,
-      .guia-sumario__list button.is-active {
+/* ===== Guia: sumario no topo ===== */
+    .guia-sumario
+.guia-sumario__list button:hover,
+      .guia-sumario__list button.is-active{
         color: var(--text);
         border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
         background: color-mix(in srgb, var(--primary) 8%, transparent);
       }
-    }
-
-    /* ===== Guia: hierarquia H3 (bloco) -> H4 (subsecao) ===== */
-    .guia-bloco h4 {
-      margin: var(--space-6) 0 0;
-      font-size: 1.02rem;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-    }
-    .guia-bloco h4 + p,
-    .guia-bloco h4 + ul,
-    .guia-bloco h4 + ol,
-    .guia-bloco h4 + .program-grid {
-      margin-top: var(--space-3);
-    }
-    .guia-bloco .creators-more h4,
-    .guia-bloco .program-card h4 {
-      margin: 0;
-    }
-    .guia-bloco .program-card h4 {
-      font-size: 1.08rem;
-    }
-    .guia-bloco .creators-more h4 {
-      font-size: 1rem;
-    }
-    .guia-bloco .program-grid {
-      margin-top: var(--space-5);
-    }
-
-    /* ===== Troca de papel: criador <-> afiliado ===== */
-    .role-switch {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      flex-wrap: wrap;
-      margin-bottom: var(--space-6);
-      padding: var(--space-4) var(--space-5);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface-alt);
-    }
-    .role-switch strong {
+/* ===== Guia: hierarquia H3 (bloco) -> H4 (subsecao) ===== */
+    .guia-bloco h4
+/* ===== Troca de papel: criador <-> afiliado ===== */
+    .role-switch
+.role-switch strong{
       font-size: 0.95rem;
     }
-    .role-switch p {
+.role-switch p{
       margin: var(--space-1) 0 0;
       color: var(--text-muted);
       font-size: 0.88rem;
       line-height: 1.5;
     }
-    .role-switch .btn {
+.role-switch .btn{
       margin: 0;
       flex: none;
     }
-
-    /* ===== Historico de saques =====
-       O eixo vertical e as linhas do historico vivem em /assets/styles.css
-       (.withdraw-history e .withdraw-row): o bloco de saque e o mesmo no
-       painel do criador e no do afiliado. */
-
-    @media (max-width: 560px) {
-      .role-switch {
+.role-switch{
         align-items: flex-start;
         flex-direction: column;
       }
-      .role-switch .btn {
+.role-switch .btn{
         width: 100%;
       }
-    }
-
-    /* ===== Responsivo ===== */
+/* ===== Responsivo ===== */
     /* Em telefone o hero decorado nao existe: no lugar dele, so o texto. */
-    .creators-hero-mobile {
-      display: none;
-    }
-    @media (max-width: 720px) {
-      .creators-hero {
-        display: none;
-      }
-      .creators-hero-mobile {
-        display: block;
-        padding: var(--space-7) 0 0;
-        text-align: left;
-      }
-      .creators-hero-mobile .breadcrumb {
-        margin-bottom: var(--space-5);
-      }
-      .creators-hero-mobile h1 {
-        font-size: clamp(1.8rem, 6vw, 2.4rem);
-        line-height: 1.2;
-        margin-bottom: var(--space-3);
-      }
-      .creators-hero-mobile h1 em {
-        font-style: normal;
-        background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-      }
-      .creators-hero-mobile p {
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        line-height: 1.6;
-        max-width: 100%;
-        margin: var(--space-4) 0 0;
-      }
-      .creators-hero-mobile p:first-of-type {
-        color: var(--text);
-        font-size: 1rem;
-        margin-top: var(--space-5);
-      }
-    }
-    /* Celular em paisagem: a tela e larga, mas o aparelho e um telefone.
-       A decoracao tambem sai do ar aqui, valendo da mesma troca simples. */
-    @media (max-height: 500px) and (pointer: coarse) {
-      .creators-hero {
-        display: none;
-      }
-      .creators-hero-mobile {
-        display: block;
-        padding: var(--space-7) 0 0;
-        text-align: left;
-      }
-    }
+    .creators-hero-mobile
   </style>
   <link rel="stylesheet" href="/assets/affiliates.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
-       quando o site é servido pela Vercel; na VPS o caminho não existe e
-       nada é coletado (ver "Analytics de visitação" no README). -->
+       quando o site é servido pela Vercel. No InfinityFree ele não existe
+       e nada é coletado (ver "Analytics de visitação" no README). -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
   </script>
@@ -1420,6 +764,12 @@
                   <h3 id="afiliadoName">Painel do afiliado</h3>
                   <p id="afiliadoHandle" class="muted"></p>
                 </div>
+                <div class="code-box creator-code affiliate-code">
+                  <div class="link-field">
+                    <input id="afiliadoLink" type="text" readonly aria-label="Seu link de afiliado">
+                    <button class="btn btn-secondary btn-sm code-copy" id="copyAfiliadoLink" type="button">Copiar link</button>
+                  </div>
+                </div>
               </div>
               <p id="afiliadoError" class="error" role="alert"></p>
 
@@ -1478,14 +828,6 @@
                       Obrigatório. Fica salvo por 6 meses e aparece no painel de dados do site.
                     </p>
                   </div>
-                </div>
-                <div class="field">
-                  <label for="outreachMotivo">Por que este criador <span aria-hidden="true">*</span></label>
-                  <textarea id="outreachMotivo" rows="3" maxlength="600" required></textarea>
-                  <p class="field-hint">
-                    Obrigatório. O texto vai direto no e-mail do convite: diga quem é o criador e
-                    por que o app combina com a audiência dele.
-                  </p>
                 </div>
                 <button class="btn btn-primary" id="outreachButton" type="submit">Enviar e-mail</button>
                 <div id="outreachStatus" class="code-status" role="status" aria-live="polite"></div>
@@ -1588,9 +930,9 @@
       <nav class="footer-explore" aria-label="Continue explorando">
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
-          <a class="explore-card" href="/membros" aria-current="page">
+          <a class="explore-card" href="/afiliados" aria-current="page">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span>Membros</span>
+            <span>Afiliados</span>
           </a>
           <a class="explore-card" href="/comunidade">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
@@ -1604,9 +946,9 @@
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
             <span>Documento técnico</span>
           </a>
-          <a class="explore-card" href="/essencia">
+          <a class="explore-card" href="/manifesto">
             <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-            <span>Essência</span>
+            <span>Manifesto</span>
           </a>
         </div>
       </nav>

@@ -107,7 +107,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var status = params.get('status');
-  var sessionId = params.get('session_id');
+  var reference = params.get('reference');
   if (!result) return;
 
   if (status === 'cancelled') {
@@ -121,7 +121,7 @@
   result.hidden = false;
   result.innerHTML =
     '<strong>Recebemos seu retorno.</strong><span>Confirmando o pagamento com a Stripe…</span>';
-  if (!sessionId) {
+  if (!reference) {
     result.innerHTML =
       '<strong>Pagamento em análise.</strong><span>Se a cobrança foi aprovada, você receberá o recibo por e-mail.</span>';
     return;
@@ -129,7 +129,7 @@
 
   var attempts = 0;
   var poll = function () {
-    fetch(config.apiUrl + '/stripe/status/' + encodeURIComponent(sessionId), {
+    fetch(config.apiUrl + '/stripe/checkouts/' + encodeURIComponent(reference), {
       headers: { accept: 'application/json' },
     })
       .then(function (response) {

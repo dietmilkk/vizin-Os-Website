@@ -569,7 +569,7 @@
         state.counts = { open: data.open_count || 0, done: data.done_count || 0 };
         updateTabCounts();
         setStatus(
-          (data.open_count || 0) + ' em discussão · ' + (data.done_count || 0) + ' implementada(s) — cada voto pesa na direção do app.',
+          (data.open_count || 0) + ' em discussão · ' + (data.done_count || 0) + ' implementada(s)',
         );
         setBanner(null);
       })

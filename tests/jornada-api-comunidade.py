@@ -192,7 +192,7 @@ checar("filtro por tag bug (1 proposta)", d.get("total") == 1, f"-> {d.get('tota
 s, d = req("/forum/posts?tag=ideia&status=open")
 checar("filtro por tag ideia (3 propostas)", d.get("total") == 3, f"-> {d.get('total')}")
 s, d = req("/forum/posts?status=open&limit=2")
-checar("paginação: limit=2 devolve 2", len(d.get("posts", [])) == 2 and d.get("total") > 2, f"-> {len(d.get('posts', []))}/{d.get('total')}")
+checar("paginação: limit=2 devolve 2", len(d.get("posts", [])) == 2 and (d.get("total") or 0) > 2, f"-> {len(d.get('posts', []))}/{d.get('total')}")
 s, d = req("/forum/posts?status=open&limit=2&offset=2")
 checar("paginação: offset pula os 2 primeiros", len(d.get("posts", [])) == 2, f"-> {len(d.get('posts', []))}")
 

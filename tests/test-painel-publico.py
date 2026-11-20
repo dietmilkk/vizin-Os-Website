@@ -29,11 +29,14 @@ import time
 import urllib.request
 from pathlib import Path
 
-from lib.servidor_site import servir_site
-from playwright.sync_api import sync_playwright
-
-sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
-from seed_stats import (
+from lib.seed_stats import (
+    CONTAS_ATIVAS_1H,
+    CONTAS_NOVAS_7D,
+    CONTAS_NOVAS_24H,
+    CONTAS_ONLINE,
+    CONTAS_TOTAL,
+    accounts_ativas,
+)
     CONTAS_ATIVAS_1H,
     CONTAS_NOVAS_7D,
     CONTAS_NOVAS_24H,

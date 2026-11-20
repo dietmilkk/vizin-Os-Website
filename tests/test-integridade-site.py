@@ -21,13 +21,10 @@ from __future__ import annotations
 
 import os
 import socket
-import sys
 from urllib.parse import urljoin
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
-
+from lib.servidor_site import servir_site
 from playwright.sync_api import sync_playwright
-from servidor_site import servir_site
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

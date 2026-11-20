@@ -194,7 +194,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
             if usuario is None or not usuario["admin"]:
                 return self._erro(403, "somente administracao pode marcar propostas")
             post_id = dados.get("post_id")
-            post = self.estado.posts.get(post_id)
+            post = self.estado.posts.get(post_id if isinstance(post_id, str) else "")
             if not post:
                 return self._erro(404, "proposta não encontrada")
             status = dados.get("status")

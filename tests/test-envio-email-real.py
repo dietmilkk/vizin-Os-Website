@@ -307,6 +307,11 @@ def main():
 
         # ---------------------------------------------- 5. duplicado (409)
         print("\n[5] Outro afiliado tenta contatar o mesmo criador (HTTP 409)")
+        if nome_para_duplicado is None:
+            raise RuntimeError(
+                "nenhum e-mail foi enviado nesta execucao: o teste do 409 "
+                "exige a cota do primeiro afiliado livre"
+            )
         pagina.goto(
             f"{SITE}/membros/?afiliado_token={token_2}", wait_until="domcontentloaded"
         )

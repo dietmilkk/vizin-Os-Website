@@ -20,7 +20,7 @@ import urllib.request
 from pathlib import Path
 
 from lib.servidor_site import servir_site
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import ViewportSize, sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 # A raiz do repositorio: a pasta "vps" (servidor da API) fica ao lado da
@@ -118,11 +118,14 @@ def main() -> int:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch()
 
-            for nome, viewport, mobile in [
+            # ViewportSize evita que o dict seja inferido como dict[str, int],
+            # que o Pylance recusa ao passar para new_context(viewport=...).
+            viewports: list[tuple[str, ViewportSize, bool]] = [
                 ("desktop", {"width": 1280, "height": 1000}, False),
                 ("tablet", {"width": 820, "height": 1100}, False),
                 ("celular", {"width": 390, "height": 844}, True),
-            ]:
+            ]
+            for nome, viewport, mobile in viewports:
                 print(f"\n{nome} ({viewport['width']}px)")
                 context = browser.new_context(viewport=viewport, is_mobile=mobile, has_touch=mobile)
                 page = context.new_page()
