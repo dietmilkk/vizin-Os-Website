@@ -522,7 +522,7 @@
       title.textContent = 'Nada implementado ainda';
       text.textContent = state.tag
         ? 'Nenhuma proposta com a tag "' + (TAG_LABELS[state.tag] || state.tag) + '" foi implementada até agora. Vote nas favoritas para guiar o que vem primeiro.'
-        : 'As propostas mais votadas da Comunidade guiam o que é construído primeiro. Vote nas suas favoritas.';
+        : 'As propostas mais apoiadas na Comunidade guiam o rumo do app.';
     } else {
       title.textContent = 'A comunidade está construída, falta a primeira fala';
       text.textContent = state.tag
