@@ -277,14 +277,14 @@ def main():
             try:
                 with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
                     json.dump({"token": token}, handle)
-            except Exception:
+            except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
                 pass
     elif status == 403 and created.get("code") == "IP_BLOCKED_DUPLICATE":
         # A VPS cria uma conta por IP: o teste reaproveita o token em cache.
         try:
             with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
                 token = json.load(handle).get("token", "")
-        except Exception:
+        except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
             token = ""
         if not token:
             print("Este IP ja criou conta e nao ha token em cache: teste pulado.")

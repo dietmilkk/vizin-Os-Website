@@ -116,7 +116,7 @@ def enviar_com_retry(
             ultimo = erro
             if not erro_transitorio(erro):
                 raise FalhaEnvio(
-                    "%s: %s" % (type(erro).__name__, erro), numero, permanente=True
+                    f"{type(erro).__name__}: {erro}", numero, permanente=True
                 ) from erro
             if numero >= limite_tentativas:
                 break
@@ -125,7 +125,7 @@ def enviar_com_retry(
                 dormir(pausa)
             espera = min(espera * 2, ESPERA_MAXIMA)
 
-    motivo = "%s: %s" % (type(ultimo).__name__, ultimo) if ultimo else "tempo esgotado"
+    motivo = f"{type(ultimo).__name__}: {ultimo}" if ultimo else "tempo esgotado"
     if usadas < limite_tentativas and ultimo is not None:
-        motivo += " (orcamento de %.0fs esgotado)" % limite_tempo
+        motivo += f" (orcamento de {limite_tempo:.0f}s esgotado)"
     raise FalhaEnvio(motivo, usadas, permanente=False)

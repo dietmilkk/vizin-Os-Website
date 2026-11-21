@@ -30,7 +30,6 @@ PAGINAS = [
     "index.html",
     "membros/index.html",
     "documento/index.html",
-    "essencia/index.html",
     "moderacao/index.html",
     "painel/index.html",
     "404.html",

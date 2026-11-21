@@ -62,7 +62,7 @@ resultados: list[tuple[str, str, dict]] = []
 
 
 class FakeQueue(BaseHTTPRequestHandler):
-    def log_message(self, format, *args) -> None:  # noqa: A002 - assinatura da base
+    def log_message(self, format, *args) -> None:
         return  # silencio
 
     def responder(self, status: int, corpo: dict) -> None:

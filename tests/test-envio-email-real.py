@@ -93,17 +93,17 @@ def cria_afiliado(handle: str, cache: str, ip_de_origem: str = "") -> str:
 
     marca = str(int(time.time()))[-6:]
     cabecalho = (
-        " -H 'X-Forwarded-For: %s'" % ip_de_origem if ip_de_origem else ""
+        f" -H 'X-Forwarded-For: {ip_de_origem}'" if ip_de_origem else ""
     )
     remoto = (
         "curl -s -m 15 -X POST http://127.0.0.1:8788/hunters "
-        "-H 'content-type: application/json'%s "
-        "-d '{\"handle\":\"%s%s\",\"code\":\"%s%s\","
+        f"-H 'content-type: application/json'{cabecalho} "
+        f"-d '{{\"handle\":\"{handle}{marca[-4:]}\",\"code\":\"{handle.upper()[:6]}{marca[-4:]}\","
         "\"name\":\"Teste E-mail Real\"}'"
-        % (cabecalho, handle, marca[-4:], handle.upper()[:6], marca[-4:])
     )
     saida = subprocess.run(
         ["ssh", "-F", SSH_CONFIG, HOST, remoto],
+        check=False,
         capture_output=True,
         text=True,
         timeout=60,
@@ -123,6 +123,7 @@ def cria_afiliado(handle: str, cache: str, ip_de_origem: str = "") -> str:
                 VPS,
                 remoto,
             ],
+            check=False,
             capture_output=True,
             text=True,
             timeout=60,
@@ -135,7 +136,7 @@ def cria_afiliado(handle: str, cache: str, ip_de_origem: str = "") -> str:
             % (saida.stderr.strip() or "sem resposta")
         )
     if not dados.get("token"):
-        raise RuntimeError("nao foi possivel criar o afiliado de teste: %s" % saida.stdout)
+        raise RuntimeError(f"nao foi possivel criar o afiliado de teste: {saida.stdout}")
     token = dados["token"]
     with open(cache, "w", encoding="utf-8") as arquivo:
         json.dump({"token": token}, arquivo)

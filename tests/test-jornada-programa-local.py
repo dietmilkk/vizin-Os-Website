@@ -23,7 +23,6 @@ Uso:
 
 from __future__ import annotations
 
-import os
 import socket
 
 from lib.api_programa_mock import servir_api
@@ -212,7 +211,6 @@ def main() -> int:
             pagina.fill("#outreachName", "Carlos")
             pagina.fill("#outreachEmail", "carlos@example.com")
             pagina.fill("#outreachContact", "@carloscria")
-            pagina.fill("#outreachMotivo", "Criador sem resposta recente.")
             plataforma = pagina.locator("#outreachPlatform")
             if plataforma.count():
                 plataforma.select_option(index=1)

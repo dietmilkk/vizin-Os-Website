@@ -136,10 +136,6 @@ to{ opacity: 1; transform: translateX(0); }
        Mesma caixa tracejada do painel do criador (.code-box). O link de
        afiliado e um endereco longo, entao o campo e o botao ficam lado a
        lado dentro da caixa. */
-    .affiliate-code
-.affiliate-code .link-field{
-      margin-top: 0;
-    }
 .affiliate-code input{
       min-height: 44px;
       padding: var(--space-2) var(--space-3);
@@ -409,6 +405,10 @@ to{ opacity: 1; transform: translateY(0); }
     .creators-hero-mobile
   </style>
   <link rel="stylesheet" href="/assets/affiliates.css">
+  <!-- Refino visual do painel de criadores e afiliados: depois do
+       affiliates.css, para alinhar os blocos do painel e a moldura dos
+       cartões da página com o desenho do resto do site. -->
+  <link rel="stylesheet" href="/assets/panel-refine.css">
   <!-- Vercel Web Analytics: visitação e page views do site.
        O script vive na rota /_vercel/insights/script.js, que só existe
        quando o site é servido pela Vercel. No InfinityFree ele não existe
@@ -438,7 +438,7 @@ to{ opacity: 1; transform: translateY(0); }
       <section class="aff-hero" id="creatorsHero" aria-labelledby="aff-title">
         <div class="aff-hero__copy">
           <p class="aff-eyebrow">Criadores e afiliados</p>
-          <h1 id="aff-title">Divulgue o vizin.Os e receba por resultado real.</h1>
+          <h1 id="aff-title">Divulgue e receba por isso.</h1>
           <p class="aff-hero__lead">
             Crie um código para a sua audiência ou conecte criadores ao programa. Nos dois caminhos, você acompanha comissões, saldo e saques em um só painel.
           </p>
@@ -446,7 +446,7 @@ to{ opacity: 1; transform: translateY(0); }
             <button class="btn btn-primary" type="button" data-open-create="creator"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Quero ser criador</button>
             <button class="btn btn-secondary" type="button" data-open-create="afiliado"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M8 11h6M11 8v6"/></svg> Quero ser afiliado</button>
           </div>
-          <p class="aff-assurance">Entrada gratuita · Sem meta obrigatória · Comissão apenas por compras aprovadas · Projeto brasileiro independente</p>
+          <p class="aff-assurance">Entrada gratuita · Sem meta obrigatória · Projeto brasileiro independente</p>
           <div id="afiliadoBanner" class="afiliado-banner hidden" role="status"></div>
         </div>
 
@@ -455,7 +455,7 @@ to{ opacity: 1; transform: translateY(0); }
       <section class="aff-section aff-section--tint" id="por-que" aria-labelledby="aff-why-title">
         <div class="aff-section__head">
           <h2 id="aff-why-title">Por que esse modelo funciona</h2>
-          <p>O vizin.Os não monetiza atenção. É uma infraestrutura para encontros reais, sustentada por quem usa e por quem divulga.</p>
+          <p>Ao contrario do tradicionais apps de relacionametn o vizin.Os não monetiza atenção. Ele é uma ferramenta para encontros reais, sustentada por quem usa e por quem divulga.</p>
         </div>
         <div class="aff-why-grid">
           <article class="aff-why-card">
@@ -475,7 +475,7 @@ to{ opacity: 1; transform: translateY(0); }
           </article>
         </div>
         <p class="aff-pillars">100% brasileiro · Independente · Anti-vigilância</p>
-        <p style="text-align:center; margin-top:var(--space-6);"><a class="btn btn-secondary" href="/comunidade"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Entenda como a comunidade decide o rumo do app</a></p>
+        <p style="text-align:center; margin-top:var(--space-6);"><a class="btn btn-secondary" href="/comunidade"><span class="explore-card__icon explore-card__icon--comunidade" aria-hidden="true"></span> Entenda como a comunidade decide o rumo do app</a></p>
       </section>
 
       <section class="aff-section" id="how-it-works" aria-labelledby="aff-roles-title">
@@ -694,24 +694,17 @@ to{ opacity: 1; transform: translateY(0); }
           <div class="withdraw-panel__form">
             <h3 class="panel-card__title">Pedir saque</h3>
             <p class="panel-card__lead">
-              O Pix vai direto para a conta informada. O comprovante chega no e-mail.
+              O pagamento sai pela Stripe: você configura sua conta uma única vez
+              (dados bancários e identidade ficam com a Stripe) e o saque vai
+              direto para ela. O comprovante chega no e-mail.
             </p>
             <div class="withdraw-panel__balance">
               <span class="withdraw-panel__balance-label">Disponível para saque</span>
               <strong class="withdraw-panel__balance-value" id="withdrawAvailable">R$ 0,00</strong>
             </div>
-            <div class="field">
-              <label for="withdrawPix">Chave Pix para receber</label>
-              <input id="withdrawPix" maxlength="200" placeholder="Informe sua chave Pix">
-            </div>
-            <div class="field">
-              <label for="withdrawPixCpf">CPF ou CNPJ do titular</label>
-              <input id="withdrawPixCpf" maxlength="18" inputmode="numeric" placeholder="Somente números">
-            </div>
-            <div class="field">
-              <label for="withdrawEmail">E-mail para o comprovante</label>
-              <input id="withdrawEmail" type="email" maxlength="200" placeholder="seu@email.com">
-            </div>
+            <p class="panel-card__lead" id="creatorConnectStatus" aria-live="polite">
+              Conta Stripe não configurada — clique em “Sacar” para configurar.
+            </p>
             <button class="btn btn-primary" id="withdrawButton" type="button">Sacar saldo disponível</button>
             <div id="withdrawError" class="error" role="alert"></div>
           </div>
@@ -763,12 +756,6 @@ to{ opacity: 1; transform: translateY(0); }
                 <div class="creator-identity">
                   <h3 id="afiliadoName">Painel do afiliado</h3>
                   <p id="afiliadoHandle" class="muted"></p>
-                </div>
-                <div class="code-box creator-code affiliate-code">
-                  <div class="link-field">
-                    <input id="afiliadoLink" type="text" readonly aria-label="Seu link de afiliado">
-                    <button class="btn btn-secondary btn-sm code-copy" id="copyAfiliadoLink" type="button">Copiar link</button>
-                  </div>
                 </div>
               </div>
               <p id="afiliadoError" class="error" role="alert"></p>
@@ -878,30 +865,22 @@ to{ opacity: 1; transform: translateY(0); }
                 <h2 class="panel-group__title" id="afiliadoGrupo4">Saque seu saldo</h2>
               </div>
               <p class="panel-group__lead">
-                O saque usa o saldo disponível. O comprovante chega no e-mail informado.
+                O saque usa o saldo disponível e vai para a sua conta Stripe. O comprovante chega no e-mail.
               </p>
               <div class="withdraw-panel">
               <div class="withdraw-panel__form">
                 <h3 class="panel-card__title">Pedir saque</h3>
                 <p class="panel-card__lead">
-                  O Pix vai direto para a conta informada. O comprovante chega no e-mail.
+                  O pagamento sai pela Stripe: configure sua conta uma única vez
+                  e o saque vai direto para ela. O comprovante chega no e-mail.
                 </p>
                 <div class="withdraw-panel__balance">
                   <span class="withdraw-panel__balance-label">Disponível para saque</span>
                   <strong class="withdraw-panel__balance-value" id="afiliadoWithdrawAvailable">R$ 0,00</strong>
                 </div>
-                <div class="field">
-                  <label for="afiliadoWithdrawPix">Chave Pix para receber</label>
-                  <input id="afiliadoWithdrawPix" maxlength="200">
-                </div>
-                <div class="field">
-                  <label for="afiliadoWithdrawPixCpf">CPF ou CNPJ do titular</label>
-                  <input id="afiliadoWithdrawPixCpf" maxlength="18" inputmode="numeric">
-                </div>
-                <div class="field">
-                  <label for="afiliadoWithdrawEmail">E-mail para o comprovante</label>
-                  <input id="afiliadoWithdrawEmail" type="email" maxlength="200">
-                </div>
+                <p class="panel-card__lead" id="afiliadoConnectStatus" aria-live="polite">
+                  Conta Stripe não configurada — clique em “Sacar” para configurar.
+                </p>
                 <button class="btn btn-primary" id="afiliadoWithdrawButton" type="button">Sacar saldo disponível</button>
                 <div id="afiliadoWithdrawError" class="error" role="alert"></div>
               </div>
@@ -931,43 +910,34 @@ to{ opacity: 1; transform: translateY(0); }
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
 
-          <a class="explore-card" href="/membros" aria-current="page">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <a class="explore-card" href="/membros" aria-current="page"><span class="explore-card__icon explore-card__icon--membros" aria-hidden="true"></span>
 
             <span>Membros</span>
 
           </a>
 
-          <a class="explore-card" href="/comunidade">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
+          <a class="explore-card" href="/comunidade"><span class="explore-card__icon explore-card__icon--comunidade" aria-hidden="true"></span>
 
             <span>Comunidade</span>
 
           </a>
 
-          <a class="explore-card" href="/essencia">
 
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-
-            <span>A Essência</span>
-
-          </a>
-
-          <a class="explore-card" href="/moderacao">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/moderacao"><span class="explore-card__icon explore-card__icon--moderacao" aria-hidden="true"></span>
 
             <span>Moderação</span>
 
           </a>
 
-          <a class="explore-card" href="/documento">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/documento"><span class="explore-card__icon explore-card__icon--documento" aria-hidden="true"></span>
 
             <span>Documento técnico</span>
+
+          </a>
+
+          <a class="explore-card" href="/download"><span class="explore-card__icon explore-card__icon--download" aria-hidden="true"></span>
+
+            <span>Download</span>
 
           </a>
 
@@ -991,7 +961,7 @@ to{ opacity: 1; transform: translateY(0); }
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <span id="year">2026</span> vizin.Os. Gente por perto, encontros de verdade.</span>
+        <span>© <span id="year">2026</span> vizin.Os — Independente. Transparente. Feito com você.</span>
       </div>
     </div>
   </footer>
@@ -1010,7 +980,7 @@ to{ opacity: 1; transform: translateY(0); }
         Quer participar de pertinho? Entre na
         <a href="/comunidade">página da Comunidade</a> e compartilhe suas ideias.
         Se quiser ajudar o projeto a crescer, qualquer
-        <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a>
+        <a href="https://donate.stripe.com/9B614m7qo9pSaAv5q53F600">doação</a>
         ajuda muuuito. Você também pode virar
         <a href="/membros">Membro</a>, compartilhando o app e ainda sendo
         recompensado por isso.

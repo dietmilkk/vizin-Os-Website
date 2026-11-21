@@ -33,7 +33,7 @@ from playwright.sync_api import sync_playwright
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
 DOMINIO_CANONICO = (sys.argv[2] if len(sys.argv) > 2 else "https://vizin-os.vercel.app").rstrip("/")
 
-PAGINAS = ["/", "/painel/", "/documento/", "/membros/", "/essencia/", "/moderacao/"]
+PAGINAS = ["/", "/painel/", "/documento/", "/membros/", "/moderacao/"]
 
 # Caminhos que nunca podem responder 200 em um site publico.
 INTERNOS = [
@@ -50,7 +50,7 @@ INTERNOS = [
 ]
 
 # Nao ha mais apelidos de nomes antigos: cada pagina tem um unico endereco
-# canonico (/membros, /essencia, /comunidade).
+# canonico (/membros, /comunidade).
 
 falhas: list[str] = []
 verificacoes = 0
@@ -78,7 +78,7 @@ def navegar(pagina, url: str, tentativas: int = 2) -> int | None:
             resposta = pagina.goto(url, wait_until="domcontentloaded", timeout=45_000)
             pagina.wait_for_timeout(1200)
             return resposta.status if resposta else 0
-        except Exception:
+        except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
             if tentativa + 1 < tentativas:
                 pagina.wait_for_timeout(2500)
     return None
@@ -152,7 +152,7 @@ def main() -> int:
                 " return t.startsWith('Atualizado') || t === 'Sem dados no momento'; }",
                 timeout=30_000,
             )
-        except Exception:
+        except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
             pass
         status_painel = pagina.inner_text("#painelStatusTexto").strip() if pagina.query_selector("#painelStatusTexto") else "(sem elemento)"
         erro_visivel = pagina.locator("#painelErro").is_visible() if pagina.query_selector("#painelErro") else False

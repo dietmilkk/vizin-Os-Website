@@ -20,7 +20,6 @@ PAGINAS = [
     "/painel",
     "/documento",
     "/moderacao",
-    "/doar",
     "/privacidade",
     "/termos",
     "/licenca",

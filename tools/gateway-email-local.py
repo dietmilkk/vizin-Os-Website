@@ -51,11 +51,11 @@ SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 
 # A entrega (SMTP + retentativa) e compartilhada com tools/puxar-fila-email.py.
 sys.path.insert(0, str(os.path.dirname(os.path.abspath(__file__))))
-from email_envio import FalhaEnvio, enviar_com_retry  # noqa: F401
+from email_envio import enviar_com_retry
 
 
 def log(mensagem: str) -> None:
-    print("[gateway] %s %s" % (time.strftime("%H:%M:%S"), mensagem), flush=True)
+    print("[gateway] {} {}".format(time.strftime("%H:%M:%S"), mensagem), flush=True)
 
 
 class GatewayHandler(BaseHTTPRequestHandler):
@@ -71,7 +71,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(dados)
 
-    def log_message(self, format: str, *args) -> None:  # noqa: A002 - assinatura da base
+    def log_message(self, format: str, *args) -> None:
         log("http " + (format % args))
 
     # ------------------------------------------------------------- handlers
@@ -109,21 +109,20 @@ class GatewayHandler(BaseHTTPRequestHandler):
             destinatarios = carga.get("to") or []
             if isinstance(destinatarios, str):
                 destinatarios = [destinatarios]
-            remetente = carga.get("from") or "vizin.Os <%s>" % GMAIL_USER
+            remetente = carga.get("from") or f"vizin.Os <{GMAIL_USER}>"
             assunto = carga.get("subject") or ""
             texto = carga.get("text") or ""
             resposta = carga.get("reply_to") or carga.get("replyTo")
             identificador, tentativas = self.enviar(
                 remetente, destinatarios, assunto, texto, resposta
             )
-        except Exception as erro:  # noqa: BLE001
-            log("falha no envio: %s: %s" % (type(erro).__name__, erro))
-            self.responder(502, {"message": "%s: %s" % (type(erro).__name__, erro)})
+        except Exception as erro:  # noqa: BLE001 - responde 502 com o erro ao cliente
+            log(f"falha no envio: {type(erro).__name__}: {erro}")
+            self.responder(502, {"message": f"{type(erro).__name__}: {erro}"})
             return
 
         log(
-            "enviado para %s (assunto: %s) em %d tentativa(s)"
-            % (", ".join(destinatarios), assunto[:60], tentativas)
+            f"enviado para {', '.join(destinatarios)} (assunto: {assunto[:60]}) em {tentativas} tentativa(s)"
         )
         self.responder(200, {"id": identificador, "message": "ok", "tentativas": tentativas})
 
@@ -142,9 +141,9 @@ class GatewayHandler(BaseHTTPRequestHandler):
         if not GMAIL_USER or not GMAIL_PASS:
             raise ValueError("GMAIL_USER/GMAIL_PASS nao definidos")
 
-        nome, endereco = email.utils.parseaddr(remetente)
+        _nome, endereco = email.utils.parseaddr(remetente)
         if not endereco:
-            remetente = "vizin.Os <%s>" % GMAIL_USER
+            remetente = f"vizin.Os <{GMAIL_USER}>"
 
         mensagem = EmailMessage()
         mensagem["From"] = remetente
@@ -163,7 +162,7 @@ def teste() -> int:
         print("GMAIL_USER/GMAIL_PASS nao definidos", file=sys.stderr)
         return 2
     mensagem = EmailMessage()
-    mensagem["From"] = "vizin.Os <%s>" % GMAIL_USER
+    mensagem["From"] = f"vizin.Os <{GMAIL_USER}>"
     mensagem["To"] = GMAIL_USER
     mensagem["Subject"] = "vizin.Os — teste do gateway de e-mail"
     mensagem.set_content(
@@ -172,8 +171,7 @@ def teste() -> int:
     )
     identificador, tentativas = enviar_com_retry(mensagem)
     print(
-        "e-mail de teste enviado para %s (id %s, %d tentativa(s))"
-        % (GMAIL_USER, identificador, tentativas)
+        f"e-mail de teste enviado para {GMAIL_USER} (id {identificador}, {tentativas} tentativa(s))"
     )
     return 0
 
@@ -193,7 +191,7 @@ def main() -> int:
         print("GMAIL_USER/GMAIL_PASS nao definidos", file=sys.stderr)
         return 2
 
-    log("escutando em http://%s:%d/emails (SMTP %s:%d)" % (HOST, PORT, SMTP_HOST, SMTP_PORT))
+    log(f"escutando em http://{HOST}:{PORT}/emails (SMTP {SMTP_HOST}:{SMTP_PORT})")
     servidor = ThreadingHTTPServer((HOST, PORT), GatewayHandler)
     servidor.daemon_threads = True
     try:

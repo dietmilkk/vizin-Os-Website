@@ -16,7 +16,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 URL = (sys.argv[1] if len(sys.argv) > 1 else "https://vizin-os.vercel.app").rstrip("/")
-PAGINAS = ["/", "/membros/", "/documento/", "/essencia/", "/moderacao/", "/painel/"]
+PAGINAS = ["/", "/membros/", "/documento/", "/moderacao/", "/painel/"]
 
 
 def main() -> int:
@@ -43,7 +43,7 @@ def main() -> int:
             try:
                 pagina.goto(URL + rota, wait_until="commit", timeout=45_000)
                 pagina.wait_for_timeout(4000)
-            except Exception as exc:  # noqa: BLE001 - reporta e segue
+            except Exception as exc:  # noqa: BLE001 - reporta a falha da rota e segue
                 erros.append(f"{rota}: navegacao falhou ({exc.__class__.__name__})")
                 pagina.close()
                 continue

@@ -44,4 +44,4 @@ MAIL_REPLY_TO=vizin.oos@gmail.com
 
 pathlib.Path(MAIL_ENV).write_text(env)
 pathlib.Path(MAIL_ENV).chmod(0o600)
-print("API apontada para o gateway local do PC (127.0.0.1:%d/emails)." % PORTA)
+print(f"API apontada para o gateway local do PC (127.0.0.1:{PORTA}/emails).")

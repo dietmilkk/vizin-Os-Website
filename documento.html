@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FFF9F2">
-  <title>vizin.Os — documento técnico</title>
+  <title>vizin.Os — Documentação</title>
   <meta name="description" content="Como o vizin.Os funciona, sem termo difícil: app de bairro, conversas protegidas, privacidade e moderação feita pela comunidade.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vizin-os.vercel.app/documento">
@@ -60,17 +60,16 @@
           Como o vizin.Os funciona, explicado sem termo difícil — e sem esconder o que
           ainda não está pronto.
         </p>
+        <nav class="nav-shortcuts" aria-label="Atalhos de navegação">
+          <a href="#idea">A ideia</a>
+          <a href="#how-it-works">Como funciona</a>
+          <a href="#privacy">Privacidade</a>
+          <a href="#moderation">Moderação</a>
+          <a href="#gap">O que falta</a>
+        </nav>
         <hr class="page-hero-divider">
       </div>
     </section>
-
-    <div class="nav-shortcuts" aria-label="Atalhos de navegação">
-      <a href="#idea">A ideia</a>
-      <a href="#how-it-works">Como funciona</a>
-      <a href="#privacy">Privacidade</a>
-      <a href="#moderation">Moderação</a>
-      <a href="#gap">O que falta</a>
-    </div>
 
     <section class="section-tight">
       <div class="container prose prose--wide prose--leitura">
@@ -193,43 +192,33 @@
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
 
-          <a class="explore-card" href="/membros">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <a class="explore-card" href="/membros"><span class="explore-card__icon explore-card__icon--membros" aria-hidden="true"></span>
 
             <span>Membros</span>
 
           </a>
 
-          <a class="explore-card" href="/comunidade">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
+          <a class="explore-card" href="/comunidade"><span class="explore-card__icon explore-card__icon--comunidade" aria-hidden="true"></span>
 
             <span>Comunidade</span>
 
           </a>
 
-          <a class="explore-card" href="/essencia">
 
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-
-            <span>A Essência</span>
-
-          </a>
-
-          <a class="explore-card" href="/moderacao">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/moderacao"><span class="explore-card__icon explore-card__icon--moderacao" aria-hidden="true"></span>
 
             <span>Moderação</span>
 
           </a>
 
-          <a class="explore-card" href="/documento" aria-current="page">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/documento" aria-current="page"><span class="explore-card__icon explore-card__icon--documento" aria-hidden="true"></span>
 
             <span>Documento técnico</span>
+
+          </a>
+          <a class="explore-card" href="/download"><span class="explore-card__icon explore-card__icon--download" aria-hidden="true"></span>
+
+            <span>Download</span>
 
           </a>
 
@@ -253,7 +242,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <span id="year">2026</span> vizin.Os. Gente por perto, encontros de verdade.</span>
+        <span>© <span id="year">2026</span> vizin.Os — Independente. Transparente. Feito com você.</span>
       </div>
     </div>
   </footer>
@@ -272,7 +261,7 @@
         Quer participar de pertinho? Entre na
         <a href="/comunidade">página da Comunidade</a> e compartilhe suas ideias.
         Se quiser ajudar o projeto a crescer, qualquer
-        <a href="https://link.mercadopago.com.br/vizinooooos" target="_blank" rel="noopener">doação</a>
+        <a href="https://donate.stripe.com/9B614m7qo9pSaAv5q53F600">doação</a>
         ajuda muuuito. Você também pode virar
         <a href="/membros">Membro</a>, compartilhando o app e ainda sendo
         recompensado por isso.

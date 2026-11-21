@@ -64,7 +64,7 @@ def wait_for_health(port: int, process: subprocess.Popen, timeout: float = 120.0
             with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=5) as response:
                 if response.status == 200:
                     return
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110 - erro de conexao: espera e tenta de novo
             pass
         time.sleep(0.5)
     raise SystemExit("A VPS não respondeu /health.")

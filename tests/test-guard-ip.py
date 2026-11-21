@@ -131,7 +131,7 @@ def main():
             page = context.new_page()
             try:
                 test(page)
-            except Exception as error:  # noqa: BLE001
+            except Exception as error:  # noqa: BLE001 - erro da pagina nao deve derrubar a bateria
                 check(f"{test.__name__} executou sem erro", False, str(error))
             finally:
                 context.close()

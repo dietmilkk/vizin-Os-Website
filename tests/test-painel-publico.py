@@ -37,13 +37,8 @@ from lib.seed_stats import (
     CONTAS_TOTAL,
     accounts_ativas,
 )
-    CONTAS_ATIVAS_1H,
-    CONTAS_NOVAS_7D,
-    CONTAS_NOVAS_24H,
-    CONTAS_ONLINE,
-    CONTAS_TOTAL,
-    accounts_ativas,
-)
+from lib.servidor_site import servir_site
+from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = Path(os.environ.get("VIZIN_APP_DIR", ROOT.parent / "app")).resolve()
@@ -109,7 +104,7 @@ def wait_for_health(port: int, process: subprocess.Popen, timeout: float = 120.0
             with urllib.request.urlopen(url, timeout=5) as response:
                 if response.status == 200:
                     return
-        except Exception as error:  # noqa: BLE001 — a API ainda está subindo.
+        except Exception as error:  # noqa: BLE001 - erro de rede: espera e tenta de novo
             last = str(error)
         time.sleep(0.5)
     raise SystemExit(f"A VPS não respondeu /health em {timeout:.0f}s ({last}).")
@@ -153,18 +148,20 @@ def main() -> int:
             ["python3", str(SEED_SCRIPT), str(data_dir / "vizin.sqlite")],
             capture_output=True,
             text=True,
+            check=False,
         )
         if seed.returncode != 0:
             raise SystemExit(f"Falha ao popular o banco: {seed.stderr}")
 
         api_url = f"http://127.0.0.1:{port}"
+        # Confere que a API de teste respondeu antes de abrir o navegador.
         with urllib.request.urlopen(f"{api_url}/stats/public", timeout=15) as response:
-            api_data = json.loads(response.read().decode("utf-8"))
+            json.loads(response.read().decode("utf-8"))
 
         print(f"API de teste: {api_url}")
         # O site é servido por este teste (rota /painel sem extensão).
         site_port = free_port()
-        httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
+        _httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
         print(f"Site: {site_base}\n")
 
         with sync_playwright() as playwright:

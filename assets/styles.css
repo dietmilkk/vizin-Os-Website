@@ -69,17 +69,27 @@
   --danger: #c0392b;
   --success: #2e9e6b;
   --success-soft: #e3f5ec;
+  /* Aviso/atenção: o mesmo âmbar do app, para estados que não são erro
+     nem confirmação (fila, aguardando, em análise). */
+  --warning: #e08a1e;
   --danger-soft: #fbe3df;
   --border: #f0dfd2;
   --border-strong: #e2cdbc;
   --shadow: #7a4a2e;
+
+  /* Cor de cada ícone dos cartões do rodapé (contraste AA sobre o
+     fundo claro e sobre o escuro). */
+  --icon-membros: #c52847;
+  --icon-comunidade: #96520f;
+  --icon-moderacao: #1b6b48;
+  --icon-documento: #2f5d8c;
+  --icon-download: #7b3fa0;
 
   --brand: var(--primary);
   --bg: var(--background);
   --ink: var(--text);
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --flower-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cg%20fill%3D%27%23000%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%275.5%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%2718.2%27%20cy%3D%2710%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%2715.8%27%20cy%3D%2717%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%278.2%27%20cy%3D%2717%27%20r%3D%273.4%27%2F%3E%3Ccircle%20cx%3D%275.8%27%20cy%3D%2710%27%20r%3D%273.4%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2712%27%20r%3D%272.4%27%20fill%3D%27%23000%27%2F%3E%3C%2Fsvg%3E");
 
   --radius-sm: 12px;
   --radius: 16px;
@@ -142,13 +152,19 @@
     --accent-soft: #3a2a1c;
     --success: #6fd3a0;
     --success-soft: #1f3329;
-    --danger-soft: #3a2320;
+    --warning: #f0b45c;
+    --danger-soft: #3a2020;
     /* No tema escuro as cores claras ja tem contraste suficiente. */
     --success-ink: #6fd3a0;
     --accent-ink: #ffa45c;
     --danger: #ff8a7a;
     --border: #3a2f29;
     --border-strong: #4c3e36;
+    --icon-membros: #ff5c77;
+    --icon-comunidade: #ffa45c;
+    --icon-moderacao: #6fd3a0;
+    --icon-documento: #9cc3e8;
+    --icon-download: #c9a3e0;
     --shadow: #000000;
   }
 }
@@ -297,34 +313,6 @@ button {
   color: var(--primary);
 }
 
-.site-header .brand::after {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: 30px;
-  width: 16px;
-  height: 16px;
-  background: var(--accent);
-  -webkit-mask-image: var(--flower-mask);
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: var(--flower-mask);
-  mask-position: center;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  opacity: 0;
-  transform: scale(0) rotate(-60deg);
-  transform-origin: center;
-  transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-}
-
-.site-header .brand:hover::after,
-.site-header .brand:focus-visible::after {
-  opacity: 1;
-  transform: scale(1) rotate(0);
-}
 
 .brand-mark {
   width: 40px;
@@ -335,11 +323,11 @@ button {
   border-radius: 22%;
   overflow: hidden;
   box-shadow: 0 8px 18px color-mix(in srgb, var(--shadow) 18%, transparent);
-  transition: box-shadow 0.3s ease;
 }
 
 .brand:hover .brand-mark {
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 32%, transparent);
+  /* Sombra discreta: o rosa aparece, mas não domina o logo. */
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 .brand:hover .brand-wordmark,
@@ -525,6 +513,41 @@ button {
   background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
 
+/* Nas páginas longas (documento e moderação) os atalhos moram dentro do
+   bloco do hero: viram uma placa baixa, com tinta macia que se mistura ao
+   fundo em vez de parecer uma fileira solta entre o título e o texto. */
+.page-hero .nav-shortcuts {
+  width: 100%;
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
+  justify-content: flex-start;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  background:
+    linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      color-mix(in srgb, var(--surface) 70%, transparent) 55%,
+      transparent
+    ),
+    color-mix(in srgb, var(--surface) 45%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+/* As pílulas ficam translúcidas: o que se lê é o conjunto da placa. */
+.page-hero .nav-shortcuts a {
+  border-color: color-mix(in srgb, var(--border) 55%, transparent);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+
+@media (max-width: 720px) {
+  .page-hero .nav-shortcuts {
+    margin-top: var(--space-5);
+    padding: var(--space-3);
+  }
+}
+
 .btn-primary {
   background: var(--primary-ink);
   color: var(--on-primary);
@@ -625,6 +648,11 @@ button {
   max-width: 640px;
   margin: 0 auto var(--space-6);
   text-align: left;
+}
+
+.hero-brand--no-mark {
+  /* O ícone saiu do topo do hero: o espaço acima da wordmark mantém o respiro. */
+  margin-top: var(--space-8);
 }
 
 .hero-brand-name {
@@ -1015,7 +1043,6 @@ h3 {
 .page-painel main,
 .page-documento main,
 .page-moderacao main,
-.page-essencia main,
 .creators-page main,
 .page-404 main {
   padding-bottom: var(--space-8);
@@ -1049,28 +1076,12 @@ h3 {
   margin-bottom: var(--space-4);
 }
 
-/* No rodapé a marca e a wordmark mantêm a mesma linguagem do app. */
+
 .footer-brand .brand-mark--lg {
   /* Menor que no header (80px), mesma proporção do mark base. */
   width: 80px;
   height: 80px;
   border-radius: 22%;
-}
-
-/* Mesma animação do header: leve "pop" de rotação no hover e reset no
-   pressionamento, com a mesma curva e duração das transições do header. */
-.footer-brand .brand-mark {
-  transition:
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease;
-}
-
-.footer-brand .brand:hover .brand-mark {
-  transform: rotate(-5deg) scale(1.06);
-}
-
-.footer-brand .brand:active .brand-mark {
-  transform: rotate(0deg) scale(0.97);
 }
 
 .footer-brand .brand {
@@ -1380,135 +1391,6 @@ h3 {
 
 .page-moderacao .prose {
   margin: 0 auto;
-}
-
-/* ------------------------------------------------- A Essência (/essencia) */
-/* A Essência é um texto longo de leitura: a coluna fica estreita o bastante
-   para o olho descansar, e o hero alinha na mesma grade das outras páginas. */
-.page-essencia .page-hero h1 {
-  max-width: 900px;
-}
-
-.page-essencia .page-hero p {
-  max-width: 760px;
-}
-
-.essencia-body {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding-top: var(--space-6);
-}
-
-.essencia-body h2 {
-  margin-top: var(--space-7);
-  font-size: clamp(1.18rem, 2.1vw, 1.4rem);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-}
-
-.essencia-body h2:first-child {
-  margin-top: 0;
-}
-
-.essencia-body h3 {
-  margin: var(--space-6) 0 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.06rem, 1.8vw, 1.2rem);
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: var(--text);
-}
-
-.essencia-body .fn {
-  font-size: 0.62em;
-  line-height: 0;
-  vertical-align: super;
-  letter-spacing: 0.01em;
-}
-
-.essencia-body .fn + .fn {
-  margin-left: 2px;
-}
-
-.essencia-body .fn a {
-  color: var(--primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.essencia-body .fn a:hover,
-.essencia-body .fn a:focus-visible {
-  text-decoration: underline;
-}
-
-.essencia-body .essencia-closing {
-  margin-top: var(--space-8);
-  color: var(--primary-ink);
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.8vw, 1.7rem);
-  font-style: italic;
-  line-height: 1.45;
-}
-
-/* Referências da Essência: lista numerada que casa com as chamadas no texto. */
-.essencia-refs {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--border);
-}
-
-.essencia-refs h2 {
-  margin: 0 0 var(--space-6);
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
-}
-
-.essencia-refs__list {
-  margin: 0;
-  padding-left: var(--space-6);
-  display: grid;
-  gap: var(--space-6);
-}
-
-.essencia-refs__list > li {
-  color: var(--text-muted);
-}
-
-.essencia-refs__list > li::marker {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.essencia-refs__title {
-  margin: 0 0 var(--space-2);
-  color: var(--text);
-  font-weight: 600;
-}
-
-.essencia-refs__list p {
-  margin: 0 0 var(--space-2);
-  font-size: 0.97rem;
-  line-height: 1.6;
-}
-
-.essencia-refs__list ul {
-  margin: 0;
-  padding-left: var(--space-5);
-  display: grid;
-  gap: var(--space-1);
-}
-
-.essencia-refs__list ul li {
-  font-size: 0.94rem;
-  line-height: 1.55;
-}
-
-.essencia-refs__list a {
-  color: var(--primary-ink);
-  text-decoration-color: color-mix(in srgb, var(--primary) 45%, transparent);
-  text-underline-offset: 2px;
 }
 
 /* ------------------------------------------- documento técnico (/documento) */
@@ -2871,22 +2753,6 @@ code {
    Melhorias de animação e interação — header, galeria e enfeites do texto
    ======================================================================= */
 
-/* ---------------------------------------------------------------- header */
-
-.brand-mark {
-  transition:
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease;
-}
-
-.brand:hover .brand-mark {
-  transform: rotate(-5deg) scale(1.06);
-}
-
-.brand:active .brand-mark {
-  transform: rotate(0deg) scale(0.97);
-}
-
 /* Link da seção visível no menu. */
 
 /* --------------------------------------------------------------- galeria */
@@ -3053,16 +2919,13 @@ code {
   .essay-body .underline::after,
   .essay-body .marked,
   .essay-body .accent,
-  .essay-body .gradient-text,
-  .hero-essencia,
-  .hero-essencia a {
+  .essay-body .gradient-text {
     transition: none;
   }
 
   .step-tab.is-active,
   .header-actions .btn-primary::after,
   .essay-actions .btn-primary::after,
-  .hero-essencia-flower,
   .hero-brand .brand-mark,
   .hero-brand-name,
   .hero-tagline {
@@ -3199,11 +3062,6 @@ code {
 }
 
 /* Cada faixa tem contraste AA com o rotulo branco (>= 4.5:1). */
-.split-user { background: #2563eb; }
-.split-creator { background: #c62a45; }
-.split-afiliado { background: #7c3aed; }
-.split-dev { background: #1f7a5a; }
-
 .split-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3237,11 +3095,6 @@ code {
   font-size: 0.8rem;
   line-height: 1.55;
 }
-
-.split-item--user { border-top: 3px solid #3b82f6; }
-.split-item--creator { border-top: 3px solid #e63956; }
-.split-item--afiliado { border-top: 3px solid #8b5cf6; }
-.split-item--dev { border-top: 3px solid #1f7a5a; }
 
 /* Exemplo de distribuição: diagrama de fluxo (usuários -> criadores ->
    afiliados -> desenvolvimento), com as mesmas cores das barras acima. */
@@ -3649,7 +3502,6 @@ code {
   /* Links dentro de texto: area de toque maior sem quebrar o paragrafo.
      Botões ficam de fora: precisam manter o inline-flex do .btn. */
   .prose a:not(.btn),
-  .hero-essencia p a:not(.btn),
   .modal a:not(.btn) {
     display: inline-block;
     padding: 4px 0;
@@ -3685,12 +3537,6 @@ code {
   .creators-guide__lead,
   .guia-sumario__label,
   .footer-note {
-    display: none;
-  }
-
-  /* A Essência e uma nota de autonomia que ja aparece no modal de boas-vindas
-     e na pagina de afiliados: no telefone ela so custa uma tela inteira. */
-  .hero-essencia {
     display: none;
   }
 
@@ -3743,6 +3589,38 @@ code {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+/* Kicker com número em pílula: o mesmo desenho dos cartões abaixo da
+   seção, só que em escala de rótulo. */
+.home-kicker--num {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.home-kicker__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Seção do que NÃO prometemos: o mesmo "×" dos cartões abaixo. */
+.home-kicker__num--no {
+  background: transparent;
+  color: var(--danger);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .home-split {
@@ -3965,29 +3843,37 @@ code {
 }
 
 .home-closing {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: var(--space-9) var(--space-8);
+  max-width: none;
+  margin: var(--space-5) 0 0;
+  padding: var(--space-6);
   border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background: var(--surface-alt);
-  text-align: center;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  text-align: left;
 }
 
+/* O fechamento continua como um bloco próprio, mas lê-se como a continuação
+   do grupo de financiamento: mesma direção, tipografia e respiração dos cards. */
 .home-closing h2 {
-  font-size: clamp(2rem, 4.4vw, 3rem);
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .home-closing__body {
-  max-width: 700px;
-  margin: var(--space-6) auto 0;
+  max-width: 760px;
+  margin: var(--space-3) 0 0;
 }
 
 .home-closing__body p {
-  margin: var(--space-4) 0 0;
+  margin: 0;
   color: var(--text-muted);
-  font-size: 1.02rem;
-  line-height: 1.8;
+  font-size: 0.94rem;
+  line-height: 1.7;
 }
 
 .home-closing__body p.home-closing__highlight {
@@ -4119,7 +4005,7 @@ code {
   transform: translateY(-2px);
 }
 
-/* Destaque pintado no texto, no mesmo espírito do ensaio (/essencia). */
+/* Destaque pintado no texto. */
 .home-mark {
   color: var(--text);
   font-weight: 600;
@@ -4271,14 +4157,6 @@ code {
   transform: translateY(var(--lift));
 }
 
-.home-no-mark {
-  transition: transform var(--dur) var(--ease-spring);
-}
-
-.home-no:hover .home-no-mark {
-  transform: rotate(90deg) scale(1.15);
-}
-
 /* ------------------------------------------------- home: animações */
 @media (prefers-reduced-motion: no-preference) {
   .js .hero-anim {
@@ -4349,15 +4227,6 @@ code {
 }
 
 @media (max-width: 720px) {
-  /* No celular o bloco 07 perde a moldura: fica direto no fundo da pagina,
-     alinhado ao espacamento lateral do .container. */
-  .home-closing {
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-  }
-
   .home-pillar {
     gap: var(--space-4);
     padding: var(--space-5);
@@ -4429,79 +4298,6 @@ h1 em,
 }
 
 
-/* ------------------------------------------- previa da Essência (home)
-   Cartao que mostra o comeco da Essência e, ao expandir, carrega o texto
-   completo da pagina /essencia dentro do proprio bloco. */
-.essencia-preview {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: clamp(28px, 5vw, 56px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
-.essencia-preview h2 {
-  margin: var(--space-3) 0 var(--space-5);
-  font-size: clamp(1.55rem, 3.4vw, 2.15rem);
-  line-height: 1.2;
-}
-
-.essencia-preview__lead {
-  margin: 0 0 var(--space-4);
-  color: var(--text-muted);
-  font-size: 1.06rem;
-  line-height: 1.75;
-}
-
-.essencia-preview__body {
-  margin-top: var(--space-6);
-  border-top: 1px solid var(--border);
-  animation: essencia-preview-in 320ms var(--ease-out) both;
-}
-
-.essencia-preview__body[hidden] {
-  display: none;
-}
-
-.essencia-preview__body .essencia-body {
-  padding-top: var(--space-6);
-}
-
-.essencia-preview__body .essencia-closing {
-  margin-top: var(--space-7);
-}
-
-.essencia-preview__body .essencia-refs {
-  margin-top: var(--space-7);
-}
-
-.essencia-preview__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
-}
-
-@keyframes essencia-preview-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .essencia-preview__actions .btn {
-    width: 100%;
-  }
-}
-
-
 /* Leitura longa: coluna estreita, texto maior e mais respiro entre blocos.
    Vale para as páginas que explicam o app por texto (documento e moderação). */
 .page-documento .prose--leitura,
@@ -4568,4 +4364,57 @@ h1 em,
     opacity: 1;
     transform: none;
   }
+}
+
+/* ---------------------------------------------------------------------
+   Ícones dos cartões do rodapé e dos botões de download.
+   Cada ícone é a imagem enviada pelo usuário, usada como máscara: o
+   desenho é exatamente o do arquivo e a cor sai de --icon-color, o que
+   permite uma cor por ícone sem gerar outro arquivo. ------------------------------------------------------------------ */
+.explore-card__icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: block;
+  background-color: var(--icon-color, currentColor);
+  -webkit-mask-image: var(--icon-mask);
+  mask-image: var(--icon-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.explore-card__icon--membros {
+  --icon-mask: url("/assets/icons/membros.png");
+  --icon-color: var(--icon-membros);
+}
+
+.explore-card__icon--comunidade {
+  --icon-mask: url("/assets/icons/comunidade.png");
+  --icon-color: var(--icon-comunidade);
+}
+
+.explore-card__icon--moderacao {
+  --icon-mask: url("/assets/icons/moderacao.png");
+  --icon-color: var(--icon-moderacao);
+}
+
+.explore-card__icon--documento {
+  --icon-mask: url("/assets/icons/documento.png");
+  --icon-color: var(--icon-documento);
+}
+
+.explore-card__icon--download {
+  --icon-mask: url("/assets/icons/download.png");
+  --icon-color: var(--icon-download);
+}
+
+/* Dentro de botão o ícone acompanha a cor do texto do botão: no botão
+   primário isso é o --on-primary, então o ícone fica legível sobre o
+   fundo da marca. */
+.btn .explore-card__icon {
+  --icon-color: currentColor;
 }

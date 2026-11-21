@@ -25,10 +25,10 @@ if not senha:
     sys.exit("senha de app nao informada (envie pelo stdin)")
 if len(senha) != 16:
     sys.exit(
-        "senha de app do Gmail tem 16 caracteres (a informada tem %d)" % len(senha)
+        f"senha de app do Gmail tem 16 caracteres (a informada tem {len(senha)})"
     )
 
-env = """# Envio de e-mail do painel de afiliado.
+env = f"""# Envio de e-mail do painel de afiliado.
 # Transporte SMTP do Gmail (senha de app de 16 caracteres), ligado por
 # tools/ativar-gmail-smtp.py. A rede do datacenter pode bloquear as portas
 # 25/465/587 — se o envio der timeout, volte com tools/restaurar-mail-api.py
@@ -45,9 +45,9 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=465
 SMTP_SECURE=true
 SMTP_USER=vizin.oos@gmail.com
-SMTP_PASS=%s
-""" % senha
+SMTP_PASS={senha}
+"""
 
 pathlib.Path(MAIL_ENV).write_text(env)
 pathlib.Path(MAIL_ENV).chmod(0o600)
-print("Transporte SMTP do Gmail ligado em %s (permissao 600)." % MAIL_ENV)
+print(f"Transporte SMTP do Gmail ligado em {MAIL_ENV} (permissao 600).")

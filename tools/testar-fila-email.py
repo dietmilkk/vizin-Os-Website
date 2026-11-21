@@ -113,6 +113,7 @@ def ssh(*argumentos: str) -> subprocess.CompletedProcess:
             VPS,
             *argumentos,
         ],
+        check=False,
         capture_output=True,
         text=True,
         timeout=60,
@@ -134,6 +135,7 @@ def enviar_script(nome: str, conteudo: str) -> None:
             str(local),
             f"{VPS}:/tmp/{nome}",
         ],
+        check=False,
         capture_output=True,
         text=True,
         timeout=60,
@@ -197,8 +199,7 @@ def main() -> int:
                 break
             fila = saude().get("mail", {}).get("queue", {})
             print(
-                "  fila: pendentes=%s enviando=%s enviados=%s falhas=%s"
-                % (
+                "  fila: pendentes={} enviando={} enviados={} falhas={}".format(
                     fila.get("pending"),
                     fila.get("sending"),
                     fila.get("sent"),

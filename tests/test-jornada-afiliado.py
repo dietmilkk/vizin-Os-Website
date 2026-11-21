@@ -66,7 +66,7 @@ def main():
         def carimba_handle(rota):
             try:
                 corpo = rota.request.post_data_json
-            except Exception:
+            except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
                 corpo = None
             if isinstance(corpo, dict):
                 corpo["handle"] = handle_teste
@@ -201,15 +201,16 @@ def main():
                 "-F",
                 SSH_CONFIG,
                 HOST,
-                "curl -s -m 15 'http://127.0.0.1:8788/hunters/me?token=%s'" % token,
+                f"curl -s -m 15 'http://127.0.0.1:8788/hunters/me?token={token}'",
             ],
+            check=False,
             capture_output=True,
             text=True,
             timeout=60,
         )
         try:
             hunter_id = json.loads(consulta.stdout)["hunter"]["id"]
-        except Exception:
+        except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
             pass
         if not hunter_id:
             # O ssh_config temporario pode nao existir: tenta pela chave do
@@ -224,15 +225,16 @@ def main():
                     "-i",
                     CHAVE,
                     VPS,
-                    "curl -s -m 15 'http://127.0.0.1:8788/hunters/me?token=%s'" % token,
+                    f"curl -s -m 15 'http://127.0.0.1:8788/hunters/me?token={token}'",
                 ],
+                check=False,
                 capture_output=True,
                 text=True,
                 timeout=60,
             )
             try:
                 hunter_id = json.loads(consulta.stdout)["hunter"]["id"]
-            except Exception:
+            except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
                 pass
 
         if hunter_id:
@@ -250,10 +252,10 @@ def main():
                     "-i",
                     CHAVE,
                     VPS,
-                    "python3 -c \"import sqlite3;"
+                    ("python3 -c \"import sqlite3;"
                     "con=sqlite3.connect('/var/lib/vizin-api/vizin.sqlite');"
                     "cur=con.cursor();"
-                    "hid='%s';"
+                    f"hid='{hunter_id}';"
                     "cur.execute('DELETE FROM hunter_emails WHERE hunter_id = ?', (hid,));"
                     "cur.execute('DELETE FROM outreach_creators WHERE hunter_id = ?', (hid,));"
                     "cur.execute('DELETE FROM referral_earnings WHERE hunter_id = ?', (hid,));"
@@ -262,8 +264,9 @@ def main():
                     "cur.execute('DELETE FROM signup_ip_kinds WHERE entity_id = ?', (hid,));"
                     "cur.execute('DELETE FROM hunters WHERE id = ?', (hid,));"
                     "con.commit();"
-                    "print(cur.execute('SELECT COUNT(*) FROM hunters WHERE id = ?', (hid,)).fetchone()[0])\"" % hunter_id,
+                    "print(cur.execute('SELECT COUNT(*) FROM hunters WHERE id = ?', (hid,)).fetchone()[0])\""),
                 ],
+                check=False,
                 capture_output=True,
                 text=True,
                 timeout=60,
@@ -280,14 +283,15 @@ def main():
                     "-i",
                     CHAVE,
                     VPS,
-                    "python3 -c \"import sqlite3;"
+                    ("python3 -c \"import sqlite3;"
                     "con=sqlite3.connect('/var/lib/vizin-api/vizin.sqlite');"
                     "cur=con.cursor();"
-                    "hid='%s';"
+                    f"hid='{hunter_id}';"
                     "print(cur.execute('SELECT COUNT(*) FROM hunters WHERE id = ?', (hid,)).fetchone()[0],"
                     " cur.execute('SELECT COUNT(*) FROM signup_ips WHERE entity_id = ?', (hid,)).fetchone()[0],"
-                    " cur.execute('SELECT COUNT(*) FROM signup_ip_kinds WHERE entity_id = ?', (hid,)).fetchone()[0])\"" % hunter_id,
+                    " cur.execute('SELECT COUNT(*) FROM signup_ip_kinds WHERE entity_id = ?', (hid,)).fetchone()[0])\""),
                 ],
+                check=False,
                 capture_output=True,
                 text=True,
                 timeout=60,

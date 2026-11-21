@@ -25,11 +25,9 @@ PAGES = {
     "/": "index.html",
     "/membros": "membros.html",
     "/comunidade": "comunidade.html",
-    "/doar": "doar.html",
     "/documento": "documento.html",
     "/download": "download.html",
     "/licenca": "licenca.html",
-    "/essencia": "essencia.html",
     "/moderacao": "moderacao.html",
     "/painel": "painel.html",
     "/privacidade": "privacidade.html",
@@ -41,7 +39,7 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT, **kwargs)
 
-    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+    def log_message(self, format, *args):
         pass
 
     def translate_path(self, path):

@@ -9,7 +9,7 @@ import socketserver
 import threading
 
 SITE = "/home/user/Downloads/app/site"
-PAGES = {"/comunidade": "comunidade.html", "/": "index.html", "/essencia": "essencia.html"}
+PAGES = {"/comunidade": "comunidade.html", "/": "index.html"}
 import sys
 
 API_URL = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8820"
@@ -27,7 +27,7 @@ def servir(port):
         def __init__(self, *a, **k):
             super().__init__(*a, directory=SITE, **k)
 
-        def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+        def log_message(self, format, *args):
             pass
 
         def do_GET(self):
@@ -243,5 +243,5 @@ if falhas:
     print("FALHOU:")
     for f in falhas:
         print(" -", f)
-    exit(1)
+    sys.exit(1)
 print("Jornada real no navegador: 100% OK (Ana, Bruno e a administração)")

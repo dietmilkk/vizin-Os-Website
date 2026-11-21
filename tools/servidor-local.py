@@ -28,7 +28,7 @@ class Servidor(ThreadingHTTPServer):
 
 
 class Handler(SimpleHTTPRequestHandler):
-    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+    def log_message(self, format, *args):
         pass  # silencia o log de cada requisicao
 
 

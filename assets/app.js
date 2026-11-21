@@ -463,72 +463,8 @@
     });
   }
 
-  /* Previa expansivel da Essência na home. O texto completo vem da propria
-     pagina /essencia e so e buscado quando a pessoa pede para ler tudo. */
-  function setupEssenciaPreview() {
-    var toggle = $('#essenciaPreviewToggle');
-    var body = $('#essenciaPreviewBody');
-    if (!toggle || !body) return;
 
-    var loaded = false;
-    var loading = false;
-    var sources = ['/essencia', '/essencia.html'];
 
-    function setLabel(expanded) {
-      toggle.textContent = expanded ? 'Recolher A Essência' : 'Ler A Essência inteira';
-      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    }
-
-    function expand() {
-      body.hidden = false;
-      setLabel(true);
-      if (loaded) return;
-      if (loading) return;
-      loading = true;
-
-      function trySource(index) {
-        if (index >= sources.length) {
-          loading = false;
-          body.innerHTML =
-            '<p class="essencia-preview__lead">Não foi possível carregar o texto aqui agora. ' +
-            '<a href="/essencia">Abra A Essência</a> para ler tudo.</p>';
-          return;
-        }
-        fetch(sources[index], { credentials: 'same-origin' })
-          .then(function (response) {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.text();
-          })
-          .then(function (html) {
-            var doc = new DOMParser().parseFromString(html, 'text/html');
-            var essay = doc.querySelector('.essencia-body');
-            if (!essay) throw new Error('essência ausente');
-            var refs = doc.querySelector('.essencia-refs');
-            body.appendChild(document.importNode(essay, true));
-            if (refs) body.appendChild(document.importNode(refs, true));
-            loaded = true;
-            loading = false;
-          })
-          .catch(function () {
-            trySource(index + 1);
-          });
-      }
-
-      trySource(0);
-    }
-
-    toggle.addEventListener('click', function () {
-      var isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      if (isOpen) {
-        body.hidden = true;
-        setLabel(false);
-      } else {
-        expand();
-      }
-    });
-  }
-
-  setupEssenciaPreview();
   drawAnimatedUnderlines();
   window.addEventListener('resize', drawAnimatedUnderlines);
 })();

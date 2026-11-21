@@ -14,7 +14,6 @@ Sem build, sem framework e sem dependências de runtime.
 | Arquivo | Público | Função |
 | --- | --- | --- |
 | `index.html` | Sim (`/`) | Landing page em texto contínuo: a ilusão da conexão, o problema dos apps, o vizin.Os, privacidade e convite |
-| `essencia/index.html` | Sim (`/essencia`) | A Essência em texto corrido ("Uma conversa ao redor do fogo"), listado em “Continue explorando” e no sitemap |
 | `documento/index.html` | Sim (`/documento`) | Explicação para imprensa e para quem quer entender melhor: identidade local, criptografia, transporte entre pares, regiões por bairro (raio máximo de 5 km), moderação, limitações e glossário |
 | `membros/index.html` | **Não listado** (`noindex`) | Hub único do programa de parceiros em `/membros`: apresentação, guia completo, criação de conta, painel do criador e painel do afiliado |
 | `moderacao/index.html` | Sim (`/moderacao`) | Manual público da moderação: níveis, denúncias (3 → revisão; 5 → oculto e votação de 7 dias), votação ponderada por reputação, quórum, banimentos e score de convivência |
@@ -197,6 +196,10 @@ window.VIZINHANCA_CONFIG = Object.freeze({
 - **`apiUrl`**: usado pela página de criadores e afiliados para gerar códigos,
   consultar comissões, gerenciar contatos e solicitar saques — e pela
   Comunidade para contas, propostas, votos e comentários.
+- **Doação**: os links de doação abrem diretamente o Payment Link hospedado
+  pela Stripe em `https://donate.stripe.com/9B614m7qo9pSaAv5q53F600`. O site não
+  precisa de publishable key nem manipula dados de cartão; URLs antigas `/doar`
+  são redirecionadas para esse link.
 - **`contactEmail`**: contato exibido no rodapé e nas páginas públicas.
 
 ## Comunidade (fórum público de ideias)
@@ -823,8 +826,8 @@ inventado.
 ## Analytics de visitação (site)
 
 O `/painel` mede o **app** (contas, beacons, servidor). Para medir o **site**
-— visitantes e page views das páginas públicas — o `<head>` das 7 páginas
-(`index`, `documento`, `membros`, `moderacao`, `essencia`, `painel`, `404`)
+— visitantes e page views das páginas públicas — o `<head>` das 6 páginas
+(`index`, `documento`, `membros`, `moderacao`, `painel`, `404`)
 leva o snippet do Vercel Web Analytics:
 
 ```html
@@ -841,6 +844,11 @@ site é servido pela Vercel**. Na cópia da VPS o script
 não é encontrado e **nenhum dado é coletado** (a página continua funcionando
 normalmente — o `<script defer>` apenas falha em silêncio).
 
+As doações do site usam diretamente o Payment Link hospedado pela Stripe:
+`https://donate.stripe.com/9B614m7qo9pSaAv5q53F600`. A URL antiga `/doar`
+redireciona permanentemente para ele. A chave restrita `rk_live_...` e o segredo
+`whsec_...` ficam somente em `/etc/vizin/api.env` na VPS.
+
 **Hoje o site está na Vercel em `https://vizin-os.vercel.app`, e o Web Analytics
 já está ligado** — a rota `/_vercel/insights/script.js` responde 200 e o
 `/_vercel/insights/view` aceita eventos.
@@ -849,7 +857,9 @@ A publicação é automática: o projeto da Vercel está conectado ao repositór
 `dietmilkk/vizin-Os-Website`, então **cada push na `main` vira um deploy**. O
 site é 100% estático — não há build, npm ou framework.
 
-Para publicar o conteúdo que está no ar (a cópia da VPS) na Vercel:
+Para publicar o conteúdo que está no ar (a cópia da VPS) na Vercel, use este
+fluxo quando o working tree contiver outras alterações ainda não aprovadas.
+O comando cria um commit isolado, sem modificar seus arquivos locais:
 
 ```bash
 # 1) monta a pasta: site publicado + snippet do Analytics + .vercelignore
@@ -861,6 +871,10 @@ python3 tools/commitar-publicacao-vercel.py /tmp/deploy-vercel "site: publica na
 # 3) envia para a main — a Vercel publica sozinha
 git push origin <commit>:main
 ```
+
+> A cópia publicada deve incluir os links diretos para o Payment Link da Stripe
+> e os redirecionamentos de `/doar` em `vercel.json`; o script acima preserva
+> o restante do site exatamente como está na VPS.
 
 Confira depois do deploy:
 

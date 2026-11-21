@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import os
 import socket
+from itertools import pairwise
 from urllib.parse import urljoin
 
 from lib.servidor_site import servir_site
@@ -29,8 +30,8 @@ from playwright.sync_api import sync_playwright
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PAGINAS = [
-    "/", "/membros", "/comunidade", "/essencia", "/documento",
-    "/moderacao", "/doar", "/download", "/painel", "/termos",
+    "/", "/membros", "/comunidade", "/documento",
+    "/moderacao", "/download", "/painel", "/termos",
     "/privacidade", "/licenca", "/404.html",
 ]
 
@@ -60,10 +61,8 @@ def main() -> int:
         "/": "index.html",
         "/membros": "membros.html",
         "/comunidade": "comunidade.html",
-        "/essencia": "essencia.html",
         "/documento": "documento.html",
         "/moderacao": "moderacao.html",
-        "/doar": "doar.html",
         "/download": "download.html",
         "/painel": "painel.html",
         "/termos": "termos.html",
@@ -127,7 +126,7 @@ def main() -> int:
                 )
                 niveis = [int(t.split(":", 1)[0]) for t in titulos]
                 salto = None
-                for anterior, atual in zip(niveis, niveis[1:]):
+                for anterior, atual in pairwise(niveis):
                     if atual - anterior > 1:
                         salto = f"{anterior}->{atual}"
                         break
@@ -161,7 +160,7 @@ def main() -> int:
                         continue
                     if link.startswith("http"):
                         continue  # externo: fora do escopo do site
-                    if link.startswith("/local/") or link.startswith("/.local/"):
+                    if link.startswith(("/local/", "/.local/")):
                         continue  # material de trabalho, nao faz parte do site
                     links_vistos.add(link.split("#")[0].split("?")[0])
 
@@ -172,7 +171,7 @@ def main() -> int:
                        .filter(Boolean)"""
                 )
                 for recurso in recursos:
-                    if recurso.startswith("http") or recurso.startswith("data:"):
+                    if recurso.startswith(("http", "data:")):
                         continue
                     # /_vercel/... e servido pela plataforma (Vercel), nao
                     # pelo site: nao existe no repositorio.
@@ -209,7 +208,6 @@ def main() -> int:
             check("todo recurso local existe", not faltando, "; ".join(faltando[:8]))
 
             print("\n[Rodape padronizado]")
-            modelos = {tuple(v) for v in rodapes.values() if v}
             # A 404 nao tem o rodape completo: entra fora da comparacao.
             comparados = {tuple(v) for r, v in rodapes.items() if r != "/404.html" and v}
             check(

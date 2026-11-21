@@ -40,7 +40,7 @@ def servir_site(port):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=ROOT, **kwargs)
 
-        def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+        def log_message(self, format, *args):
             pass
 
         def do_GET(self):

@@ -77,7 +77,7 @@ PARAR = False
 
 
 def log(mensagem: str) -> None:
-    print("[fila] %s %s" % (time.strftime("%H:%M:%S"), mensagem), flush=True)
+    print("[fila] {} {}".format(time.strftime("%H:%M:%S"), mensagem), flush=True)
 
 
 def parar(*_argumentos) -> None:
@@ -123,10 +123,10 @@ def reportar(item_id: str, status: str, provider_id: str | None = None, erro: st
 
 def montar(item: dict) -> EmailMessage:
     usuario = os.environ.get("GMAIL_USER", "").strip()
-    remetente = str(item.get("from") or "vizin.Os <%s>" % usuario)
+    remetente = str(item.get("from") or f"vizin.Os <{usuario}>")
     _nome, endereco = parseaddr(remetente)
     if not endereco:
-        remetente = "vizin.Os <%s>" % usuario
+        remetente = f"vizin.Os <{usuario}>"
 
     destinatario = str(item.get("to") or "").strip()
     if not destinatario:
@@ -151,12 +151,12 @@ def entregar(item: dict) -> bool:
 
     try:
         mensagem = montar(item)
-    except Exception as erro:  # noqa: BLE001
-        log("mensagem invalida %s: %s" % (identificador[:8], erro))
+    except Exception as erro:  # noqa: BLE001 - mensagem invalida vira falha reportada
+        log(f"mensagem invalida {identificador[:8]}: {erro}")
         try:
-            reportar(identificador, "failed", erro="%s: %s" % (type(erro).__name__, erro))
-        except Exception as falha:  # noqa: BLE001
-            log("nao consegui reportar a falha: %s" % falha)
+            reportar(identificador, "failed", erro=f"{type(erro).__name__}: {erro}")
+        except Exception as falha:  # noqa: BLE001 - falha ao reportar a falha: seguir
+            log(f"nao consegui reportar a falha: {falha}")
         return False
 
     try:
@@ -164,31 +164,30 @@ def entregar(item: dict) -> bool:
     except FalhaEnvio as erro:
         destino = str(item.get("to") or "?")
         if erro.permanente:
-            log("falha permanente para %s: %s" % (destino, erro))
+            log(f"falha permanente para {destino}: {erro}")
             try:
                 reportar(identificador, "failed", erro=str(erro))
-            except Exception as falha:  # noqa: BLE001
-                log("nao consegui reportar a falha: %s" % falha)
+            except Exception as falha:  # noqa: BLE001 - falha ao reportar a falha: seguir
+                log(f"nao consegui reportar a falha: {falha}")
             return False
         log(
-            "tentativas esgotadas para %s (%s); volta para a fila"
-            % (destino, erro)
+            f"tentativas esgotadas para {destino} ({erro}); volta para a fila"
         )
         try:
             reportar(identificador, "retry", erro=str(erro))
-        except Exception as falha:  # noqa: BLE001
-            log("nao consegui devolver para a fila: %s" % falha)
+        except Exception as falha:  # noqa: BLE001 - falha ao reportar a falha: seguir
+            log(f"nao consegui devolver para a fila: {falha}")
         return False
 
     destino = str(item.get("to") or "?")
     try:
         reportar(identificador, "sent", provider_id=enviado)
-    except Exception as falha:  # noqa: BLE001
+    except Exception as falha:  # noqa: BLE001 - e-mail enviado; reportar e melhor esforco
         # O e-mail saiu; se o report falhar, o item volta para a fila depois
         # do tempo de reclamacao e pode ser entregue de novo.
-        log("enviado para %s, mas o resultado nao foi reportado: %s" % (destino, falha))
+        log(f"enviado para {destino}, mas o resultado nao foi reportado: {falha}")
         return False
-    log("enviado para %s em %d tentativa(s)" % (destino, tentativas))
+    log(f"enviado para {destino} em {tentativas} tentativa(s)")
     return True
 
 
@@ -208,7 +207,7 @@ def main() -> int:
 
     signal.signal(signal.SIGTERM, parar)
     signal.signal(signal.SIGINT, parar)
-    log("fila ligada em %s (conta %s)" % (URL_FILA, os.environ.get("GMAIL_USER")))
+    log("fila ligada em {} (conta {})".format(URL_FILA, os.environ.get("GMAIL_USER")))
 
     espera = 5.0
     while not PARAR:
@@ -216,14 +215,14 @@ def main() -> int:
             lote = buscar_lote()
         except urllib.error.HTTPError as erro:
             if erro.code in (401, 403):
-                log("token recusado pela VPS (HTTP %d); confira GATEWAY_TOKEN" % erro.code)
+                log(f"token recusado pela VPS (HTTP {erro.code}); confira GATEWAY_TOKEN")
             else:
-                log("VPS respondeu HTTP %d; nova tentativa em %.0fs" % (erro.code, espera))
+                log(f"VPS respondeu HTTP {erro.code}; nova tentativa em {espera:.0f}s")
             dormir(espera)
             espera = min(espera * 2, 60.0)
             continue
         except (urllib.error.URLError, OSError, ValueError, json.JSONDecodeError) as erro:
-            log("VPS nao respondeu (%s); nova tentativa em %.0fs" % (erro, espera))
+            log(f"VPS nao respondeu ({erro}); nova tentativa em {espera:.0f}s")
             dormir(espera)
             espera = min(espera * 2, 60.0)
             continue
@@ -236,7 +235,7 @@ def main() -> int:
             dormir(INTERVALO)
             continue
 
-        log("%d e-mail(s) na fila" % len(lote))
+        log(f"{len(lote)} e-mail(s) na fila")
         voltou = False
         for item in lote:
             if PARAR:

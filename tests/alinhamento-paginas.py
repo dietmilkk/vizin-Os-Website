@@ -24,7 +24,6 @@ PAGINAS = [
     "/documento",
     "/moderacao",
     "/membros",
-    "/doar",
     "/privacidade",
     "/termos",
     "/licenca",

@@ -106,6 +106,9 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "backend" ]; then
   echo "==> Publicando a API (vps/)"
   rsync -az --exclude node_modules --exclude '*.sqlite*' -e "$RSYNC_SSH" "$VPS_DIR/" "$SSH_USER@$SSH_HOST:$REMOTE_API_DIR"
 
+  echo "==> Instalando dependências da API"
+  "${SSH[@]}" "cd $REMOTE_API_DIR && sudo -u vizin bun install --frozen-lockfile"
+
   echo "==> Reiniciando o serviço vizin-api"
   "${SSH[@]}" "systemctl restart vizin-api"
 
@@ -153,7 +156,7 @@ if [ "$MODO" = "tudo" ] || [ "$MODO" = "site" ]; then
   "${SSH[@]}" "chown -R vizin:vizin $REMOTE_SITE_DIR"
 
   echo "==> Conferindo o site"
-  for path in / /painel /documento /moderacao /membros /comunidade /doar /download /essencia /privacidade /termos /licenca; do
+  for path in / /painel /documento /moderacao /membros /comunidade /download /privacidade /termos /licenca; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$SITE_HOST$path")"
     printf '    %-12s %s\n' "$path" "$code"
   done

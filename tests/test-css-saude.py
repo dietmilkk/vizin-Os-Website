@@ -92,7 +92,8 @@ def main() -> int:
 
     for caminho in paginas:
         pagina = os.path.basename(caminho)
-        fonte = open(caminho, encoding="utf-8").read()
+        with open(caminho, encoding="utf-8") as f:
+            fonte = f.read()
         blocos = re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.DOTALL)
         if not blocos:
             continue
@@ -122,14 +123,16 @@ def main() -> int:
     print("\n[Classe sem estilo]")
     for caminho in paginas:
         pagina = os.path.basename(caminho)
-        fonte = open(caminho, encoding="utf-8").read()
+        with open(caminho, encoding="utf-8") as f:
+            fonte = f.read()
         blocos = " ".join(re.findall(r"<style[^>]*>(.*?)</style>", fonte, re.DOTALL))
         css_externo = ""
         for href in re.findall(r'<link rel="stylesheet" href="([^"]+)"', fonte):
             if href.startswith("/"):
                 destino = os.path.join(RAIZ, href.lstrip("/"))
                 if os.path.exists(destino):
-                    css_externo += open(destino, encoding="utf-8").read()
+                    with open(destino, encoding="utf-8") as f:
+                        css_externo += f.read()
         todo_css = blocos + css_externo
         classes_css = set(re.findall(r"\.([A-Za-z][\w-]*)", todo_css))
         html_sem_style = re.sub(r"<style[^>]*>.*?</style>", "", fonte, flags=re.DOTALL)

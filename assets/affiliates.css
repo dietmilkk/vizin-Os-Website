@@ -149,25 +149,33 @@
   display: grid;
   place-items: center;
   min-width: 0;
-  color: #fff;
+  color: var(--text);
   font-size: 0.82rem;
   font-weight: 800;
 }
 
+/* Filete claro entre as fatias: separa os tons sem tirar cor da paleta. */
+.aff-splitbar span + span {
+  border-left: 1px solid var(--surface);
+}
+
+/* Cores da divisão, todas da paleta do app: verde = desconto de quem usa,
+   rosa = criador, âmbar = afiliado, papel cru = operação. Fundos suaves com
+   texto escuro passam em AA (o contraste pede texto escuro, não branco). */
 .aff-splitbar .aff-share--user {
-  background: #2563eb;
+  background: var(--success-soft);
 }
 
 .aff-splitbar .aff-share--creator {
-  background: #c62a45;
+  background: var(--primary-soft);
 }
 
 .aff-splitbar .aff-share--affiliate {
-  background: #6d3fc0;
+  background: var(--accent-soft);
 }
 
 .aff-splitbar .aff-share--project {
-  background: #1f6f55;
+  background: var(--surface-sunken);
 }
 
 .aff-splitlabels {
@@ -200,20 +208,21 @@
   background: var(--text-faint);
 }
 
+/* Marcadores no tom cheio da paleta, ligados à fatia de cada rótulo. */
 .aff-splitlabels div:nth-child(1) strong::before {
-  background: #2563eb;
+  background: var(--success);
 }
 
 .aff-splitlabels div:nth-child(2) strong::before {
-  background: #c62a45;
+  background: var(--primary);
 }
 
 .aff-splitlabels div:nth-child(3) strong::before {
-  background: #6d3fc0;
+  background: var(--accent);
 }
 
 .aff-splitlabels div:nth-child(4) strong::before {
-  background: #1f6f55;
+  background: var(--text-faint);
 }
 
 .aff-splitlabels span {
@@ -921,7 +930,7 @@
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
-  text-transform: uppercase.
+  text-transform: uppercase;
 }
 
 .aff-flow__title h3 {

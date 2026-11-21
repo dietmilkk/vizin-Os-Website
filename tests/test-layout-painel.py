@@ -84,7 +84,7 @@ def wait_for_health(port: int, process: subprocess.Popen, timeout: float = 120.0
             with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=5) as response:
                 if response.status == 200:
                     return
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
             pass
         time.sleep(0.5)
     raise SystemExit("A VPS não respondeu /health.")
@@ -113,7 +113,7 @@ def main() -> int:
         api_url = f"http://127.0.0.1:{port}"
         # O site é servido por este teste (rota /painel sem extensão).
         site_port = free_port()
-        httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
+        _httpd, site_base = servir_site(site_port, {"/painel": "painel.html"})
 
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch()

@@ -27,7 +27,7 @@ def req(caminho, metodo="GET", corpo=None, token=None):
     except urllib.error.HTTPError as e:
         try:
             return e.code, json.loads(e.read().decode("utf-8"))
-        except Exception:
+        except Exception:  # noqa: BLE001 - corpo vazio/nao-JSON: devolve {}
             return e.code, {}
 
 
@@ -198,10 +198,10 @@ checar("paginação: offset pula os 2 primeiros", len(d.get("posts", [])) == 2, 
 
 # my_vote refletido por usuário
 s, d = req("/forum/posts?status=open", token=tokens_votantes[1])
-meu = [p for p in d["posts"] if p["id"] == alvo][0]
+meu = next(p for p in d["posts"] if p["id"] == alvo)
 checar("my_vote visível para quem votou", meu.get("my_vote") == 1, f"-> {meu.get('my_vote')}")
 s, d = req("/forum/posts?status=open", token=contas["ana.souza"])
-meu = [p for p in d["posts"] if p["id"] == alvo][0]
+meu = next(p for p in d["posts"] if p["id"] == alvo)
 checar("my_vote zerado para quem não votou", meu.get("my_vote") == 0, f"-> {meu.get('my_vote')}")
 
 # ---------- 7. aba implementadas + selo adm ----------

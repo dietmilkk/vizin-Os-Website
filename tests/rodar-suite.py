@@ -75,11 +75,10 @@ def main() -> int:
     # processo antigo com codigo velho faria a suite passar/falhar ao acaso.
     try:
         subprocess.run(
-            [sys.executable, str(TESTS_DIR.parent / "tools" / "limpar-servidores.py")],
             check=False,
             timeout=15,
         )
-    except Exception:
+    except Exception:  # noqa: BLE001, S110 - limpador ausente: seguir sem ele
         pass
 
     porta = porta_livre()
@@ -90,8 +89,7 @@ def main() -> int:
 
     # API do programa de parceiros em memoria: o teste de layout do painel
     # precisa de uma conta real para conferir a geometria do painel.
-    sys.path.insert(0, str(TESTS_DIR / "lib"))
-    from api_programa_mock import servir_api
+    from lib.api_programa_mock import servir_api
 
     porta_api = porta_livre()
     httpd_api, api_base = servir_api(porta_api)
@@ -127,6 +125,7 @@ def main() -> int:
             timeout=300,
             env=env,
             cwd=str(TESTS_DIR),
+            check=False,
         )
         saida = (resultado.stdout or "") + (resultado.stderr or "")
         if resultado.returncode == 0:
@@ -137,7 +136,7 @@ def main() -> int:
         try:
             httpd.shutdown()
             httpd.server_close()
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110 - servidor ja encerrado
             pass
         # A porta precisa estar livre antes do proximo teste: o SO segura a
         # conexao por alguns segundos depois do servidor fechar.
@@ -165,6 +164,7 @@ def main() -> int:
             text=True,
             timeout=300,
             cwd=str(TESTS_DIR.parent),
+            check=False,
         )
         if resultado.returncode == 0:
             print("   OK")
@@ -180,6 +180,7 @@ def main() -> int:
         text=True,
         timeout=120,
         cwd=str(TESTS_DIR.parent),
+        check=False,
     )
     if resultado.returncode == 0:
         print("   OK")
@@ -190,7 +191,7 @@ def main() -> int:
     httpd.shutdown()
     try:
         httpd_api.shutdown()
-    except Exception:  # noqa: BLE001
+    except Exception:  # noqa: BLE001, S110 - servidor ja encerrado
         pass
     print()
     if falhas:

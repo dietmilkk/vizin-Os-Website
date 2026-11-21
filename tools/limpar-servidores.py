@@ -17,7 +17,11 @@ PORTAS = ["8080", "8099", "8791", "8792"]
 def pids_na_porta(porta: str) -> list[str]:
     try:
         saida = subprocess.run(
-            ["ss", "-ltnp"], capture_output=True, text=True, timeout=5
+            ["ss", "-ltnp"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
         ).stdout
     except (FileNotFoundError, subprocess.SubprocessError):
         return []

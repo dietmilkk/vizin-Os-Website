@@ -17,8 +17,8 @@ MAIL_ENV = "/etc/vizin/mail.env"
 
 if not pathlib.Path(CA_PATH).exists():
     sys.exit(
-        "certificado do servidor de captura nao encontrado em %s: "
-        "suba o smtp-sink antes" % CA_PATH
+        f"certificado do servidor de captura nao encontrado em {CA_PATH}: "
+        "suba o smtp-sink antes"
     )
 
 ca = pathlib.Path(CA_PATH).read_text().strip()

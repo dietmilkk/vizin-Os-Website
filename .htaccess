@@ -18,8 +18,6 @@ ErrorDocument 404 /404.html
   # URL antiga com barra final (era pasta com index.html) -> URL sem extensao.
   # O 301 preserva SEO e links salvos; vale para sempre.
   RewriteRule ^membros/?$ /membros [R=301,L]
-  RewriteRule ^essencia/?$ /essencia [R=301,L]
-  RewriteRule ^doar/?$ /doar [R=301,L]
   RewriteRule ^documento/?$ /documento [R=301,L]
   RewriteRule ^download/?$ /download [R=301,L]
   RewriteRule ^licenca/?$ /licenca [R=301,L]
@@ -28,6 +26,9 @@ ErrorDocument 404 /404.html
   RewriteRule ^privacidade/?$ /privacidade [R=301,L]
   RewriteRule ^termos/?$ /termos [R=301,L]
 
+
+  # A doacao abre diretamente o Payment Link hospedado pela Stripe.
+  RewriteRule ^doar(?:\.html)?/?$ https://donate.stripe.com/9B614m7qo9pSaAv5q53F600 [R=301,L]
 
   # A extensao .html nunca aparece na URL: quem acessa /painel.html cai na
   # URL cannica /painel (308, igual ao Caddy da VPS).

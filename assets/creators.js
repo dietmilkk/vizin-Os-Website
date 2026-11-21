@@ -863,16 +863,10 @@
         $('withdrawAvailable').textContent = brl(data.available_cents);
         $('statPending').textContent = brl(data.pending_cents);
         $('statWithdrawn').textContent = brl(data.withdrawn_cents);
-        if ($('withdrawPixCpf') && !$('withdrawPixCpf').value) {
-          $('withdrawPixCpf').value = c.pix_cpf_cnpj || '';
-        }
-        if ($('withdrawPix') && !$('withdrawPix').value) {
-          $('withdrawPix').value = c.pix_key || '';
-        }
-        if ($('withdrawEmail') && !$('withdrawEmail').value) {
-          $('withdrawEmail').value = c.email || '';
-        }
-        pixNomeTitular.creator = c.pix_name || c.name || '';
+        updateConnectStatus(
+          'creator',
+          c.stripe_onboarding_status || (c.stripe_account_id ? 'pending' : 'not_started'),
+        );
         if (data.hunter) {
           $('creatorAfiliadoNote').textContent =
             'Você foi convidado pelo afiliado @' + data.hunter.handle + '.';
@@ -956,10 +950,10 @@
         $('afiliadoWithdrawAvailable').textContent = brl(data.available_cents);
         $('afiliadoStatPending').textContent = brl(data.pending_cents);
         $('afiliadoStatWithdrawn').textContent = brl(data.withdrawn_cents);
-        if ($('afiliadoWithdrawPixCpf') && !$('afiliadoWithdrawPixCpf').value) {
-          $('afiliadoWithdrawPixCpf').value = h.pix_cpf_cnpj || '';
-        }
-        pixNomeTitular.afiliado = h.pix_name || h.name || '';
+        updateConnectStatus(
+          'afiliado',
+          h.stripe_onboarding_status || (h.stripe_account_id ? 'pending' : 'not_started'),
+        );
         renderEmailQuota(data.email_quota);
 
         renderList($('outreachList'), data.recent_outreach, 'Nenhum contato registrado ainda.', contactRow);
@@ -977,56 +971,116 @@
       });
   }
 
-  /* ---------------------------------------------------------- withdrawals */
+  /* ---------------------------------------------------------- withdrawals
+
+     O pagamento sai por Stripe Connect: a pessoa completa o onboarding
+     hospedado da Stripe uma única vez (dados bancários/identidade ficam com
+     a Stripe) e, com o onboarding completo, o saque cria transferências para
+     a conta conectada. O valor do saque é sempre o saldo no servidor. */
+
+  var connectStatus = { creator: 'not_started', afiliado: 'not_started' };
+
+  function connectRole(kind) {
+    return kind === 'afiliado' ? 'hunter' : 'creator';
+  }
+
+  function newIdempotencyKey(prefix) {
+    var random = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    return (prefix + random).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
+  }
+
+  function updateConnectStatus(kind, status) {
+    connectStatus[kind] = status || 'not_started';
+    var label = $(kind === 'afiliado' ? 'afiliadoConnectStatus' : 'creatorConnectStatus');
+    if (!label) return;
+    var textos = {
+      not_started: 'Conta Stripe não configurada — clique em “Sacar” para configurar.',
+      pending: 'Onboarding Stripe em andamento — clique em “Sacar” para continuar.',
+      complete: 'Conta Stripe configurada. Saques vão direto para ela.',
+      restricted: 'A Stripe pediu revisão/dados adicionais — verifique o e-mail da Stripe.',
+    };
+    label.textContent = textos[connectStatus[kind]] || textos.pending;
+  }
+
+  function runConnectOnboarding(kind, errorEl) {
+    var role = connectRole(kind);
+    return api('/' + role + 's/stripe/onboarding', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: kind === 'afiliado' ? afiliadoToken : creatorToken,
+        idempotency_key: newIdempotencyKey('konb'),
+      }),
+    }).then(function (data) {
+      if (!data.account_link || !data.account_link.url) {
+        throw new Error('Stripe não retornou o link de configuração');
+      }
+      window.location.href = data.account_link.url;
+    }).catch(function (error) {
+      errorEl.textContent =
+        'Não foi possível abrir a configuração da Stripe: ' + String(error.message || error);
+    });
+  }
 
   function requestWithdrawal(kind) {
     var isAfiliado = kind === 'afiliado';
-    var pix = $(isAfiliado ? 'afiliadoWithdrawPix' : 'withdrawPix').value.trim();
-    /* O nome do titular vem da conta que esta logada (cadastro da VPS), nao de
-       um campo no formulario: quem saca e a propria pessoa do cadastro. */
-    var pixName = (pixNomeTitular[isAfiliado ? 'afiliado' : 'creator'] || '').trim();
-    var pixCpf = $(isAfiliado ? 'afiliadoWithdrawPixCpf' : 'withdrawPixCpf').value.trim();
-    var email = $(isAfiliado ? 'afiliadoWithdrawEmail' : 'withdrawEmail').value.trim();
     var errorEl = $(isAfiliado ? 'afiliadoWithdrawError' : 'withdrawError');
     var button = $(isAfiliado ? 'afiliadoWithdrawButton' : 'withdrawButton');
-    var documentDigits = pixCpf.replace(/\D/g, '');
     errorEl.textContent = '';
-    if (pix.length < 3) {
-      errorEl.textContent = 'Informe a chave Pix para receber.';
+
+    if (connectStatus[kind] !== 'complete') {
+      withLoading(button, function () {
+        return runConnectOnboarding(kind, errorEl);
+      });
       return;
     }
-    if (pixName.length < 2) {
-      errorEl.textContent =
-        'Não achamos o nome do titular da chave na sua conta. Atualize seus dados antes de sacar.';
-      return;
-    }
-    if (documentDigits.length !== 11 && documentDigits.length !== 14) {
-      errorEl.textContent = 'Informe o CPF ou CNPJ do titular (somente números).';
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errorEl.textContent = 'Informe um e-mail válido para o comprovante.';
-      return;
-    }
+
     withLoading(button, function () {
       return api(isAfiliado ? '/hunters/withdraw' : '/creators/withdraw', {
         method: 'POST',
         body: JSON.stringify({
           token: isAfiliado ? afiliadoToken : creatorToken,
-          pix_key: pix,
-          pix_name: pixName,
-          pix_cpf_cnpj: documentDigits,
-          payer_email: email,
+          idempotency_key: newIdempotencyKey('ksaq'),
         }),
       })
         .then(function () {
           return isAfiliado ? loadAfiliadoDashboard() : loadCreatorDashboard();
+        })
+        .then(function () {
+          errorEl.textContent = 'Saque enviado para a sua conta Stripe. O repasse segue o cronograma da Stripe.';
+          errorEl.classList.add('ok');
         })
         .catch(function (error) {
           errorEl.textContent = String(error.message || error);
         });
     });
   }
+
+  /* Retorno do onboarding hospedado da Stripe: confirma o estado da conta e
+     atualiza o painel. Em refresh, a pessoa só precisa clicar em “Sacar” de
+     novo. */
+  function handleStripeConnectReturn() {
+    var flag = params.get('stripe_connect_return') || params.get('stripe_connect_refresh');
+    if (!flag) return;
+    var role = params.get('role') === 'hunter' ? 'afiliado' : 'creator';
+    var hasToken = role === 'afiliado' ? Boolean(afiliadoToken) : Boolean(creatorToken);
+    if (!hasToken) return;
+    var endpoint = role === 'afiliado'
+      ? '/hunters/stripe/onboarding/complete'
+      : '/creators/stripe/onboarding/complete';
+    api(endpoint, {
+      method: 'POST',
+      body: JSON.stringify({ token: role === 'afiliado' ? afiliadoToken : creatorToken }),
+    })
+      .then(function (data) {
+        updateConnectStatus(role, data.onboarding_status);
+        if (role === 'afiliado') return loadAfiliadoDashboard();
+        return loadCreatorDashboard();
+      })
+      .catch(function () {
+        /* Sem estado novo: o painel mostra o status salvo no servidor. */
+      });
+  }
+  handleStripeConnectReturn();
 
   $('withdrawButton').addEventListener('click', function () {
     requestWithdrawal('creator');
@@ -1050,7 +1104,6 @@
     if ($('outreachName').value === campos.nome) $('outreachName').value = '';
     if ($('outreachEmail').value === campos.email) $('outreachEmail').value = '';
     if ($('outreachContact').value === campos.contato) $('outreachContact').value = '';
-    if ($('outreachMotivo') && $('outreachMotivo').value === campos.motivo) $('outreachMotivo').value = '';
     if ($('outreachPlatform').value === campos.plataforma) {
       $('outreachPlatform').selectedIndex = 0;
     }
@@ -1074,10 +1127,7 @@
       email: $('outreachEmail').value,
       plataforma: $('outreachPlatform').value,
       contato: $('outreachContact').value,
-      motivo: motivoInput ? motivoInput.value : '',
     };
-    var motivoInput = $('outreachMotivo');
-    var exclusao = motivoInput ? String(motivoInput.value || '').trim() : '';
     // O texto do e-mail vive no servidor: o afiliado so manda os dados do
     // criador. O modelo e montado pela VPS.
     var payload = {
@@ -1086,7 +1136,6 @@
       email: email,
       platform: $('outreachPlatform').value,
       contact_url: contact,
-      motivo: exclusao,
     };
     if (name.length < 2) {
       $('outreachError').textContent = 'Informe como o criador é conhecido.';
@@ -1098,13 +1147,6 @@
     }
     if (!email) {
       $('outreachError').textContent = 'Informe o e-mail do criador.';
-      return;
-    }
-    /* Bloco obrigatório: o motivo da seleção e a escolha do criador fazem
-       parte do envio. Sem a explicação o convite não sai — o texto vai direto
-       no e-mail, no tópico que o modelo do e-mail define. */
-    if (exclusao.length < 10) {
-      $('outreachError').textContent = 'Explique o motivo da seleção e a escolha do criador.';
       return;
     }
     withLoading($('outreachButton'), function () {

@@ -11,8 +11,6 @@
 
 # Achatamento: pasta/página -> arquivo plano (URL sem extensão permanece a canônica).
 /membros/ /membros 301
-/essencia/ /essencia 301
-/doar/ /doar 301
 /documento/ /documento 301
 /download/ /download 301
 /licenca/ /licenca 301
@@ -24,8 +22,6 @@
 # A extensão .html nunca aparece na URL: quem acessa /painel.html cai na
 # URL canônica /painel (igual ao Caddy da VPS).
 /membros.html /membros 308
-/essencia.html /essencia 308
-/doar.html /doar 308
 /documento.html /documento 308
 /download.html /download 308
 /licenca.html /licenca 308
@@ -33,6 +29,11 @@
 /painel.html /painel 308
 /privacidade.html /privacidade 308
 /termos.html /termos 308
+
+# A doação agora abre diretamente o Payment Link hospedado pela Stripe.
+/doar https://donate.stripe.com/9B614m7qo9pSaAv5q53F600 301
+/doar/ https://donate.stripe.com/9B614m7qo9pSaAv5q53F600 301
+/doar.html https://donate.stripe.com/9B614m7qo9pSaAv5q53F600 301
 
 # Rewrite da URL sem extensão para o arquivo (Cloudflare Pages: pretty URLs
 # já resolve /painel -> /painel.html nativamente; nada a fazer aqui).

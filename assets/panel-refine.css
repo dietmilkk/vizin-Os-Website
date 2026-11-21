@@ -1,0 +1,408 @@
+/* ======================================================================
+   Painel de criadores e afiliados — refinamento visual
+   O painel é a parte do site que mais tem interface densa (números,
+   listas, formulários, histórico). Antes ele herdava só o esqueleto do
+   site e alguns blocos ficavam sem tratamento nenhum: o convite para
+   virar afiliado, a numeração dos passos, as listas de instrução e a
+   grade de duas colunas apareciam como texto solto.
+
+   Aqui cada bloco ganha a mesma linguagem do resto do site: cartão com
+   a moldura da marca, raio --radius-lg, sombra --shadow-card, título em
+   Fraunces, rótulo em Inter e cor de apoio da paleta.
+   ====================================================================== */
+
+/* ------------------------------------------------- painel: hierarquia */
+
+.dashboard-heading {
+  padding: var(--space-7) 0 var(--space-5);
+}
+
+.dashboard-heading h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.dashboard-heading p {
+  max-width: 68ch;
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Rótulo acima do título: o mesmo "eyebrow" das seções do resto do
+   site, para o painel ter a mesma entrada visual. */
+.dashboard-heading::before {
+  content: "Painel do parceiro";
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--primary-ink);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dashboard-heading--afiliado::before {
+  content: "Painel do afiliado";
+}
+
+/* ------------------------------------------------- convite: trocar de papel */
+
+.role-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  margin-top: var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-alt);
+}
+
+.role-switch strong {
+  display: block;
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.role-switch p {
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.role-switch .btn {
+  flex: none;
+  margin: 0;
+}
+
+/* ----------------------------------------------------- passos do painel */
+
+.panel-flow {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.panel-group {
+  min-width: 0;
+}
+
+.panel-group .form-card {
+  height: 100%;
+}
+
+/* Cabeçalho do passo: número em pílula + título, na mesma linguagem das
+   seções numeradas do resto do site. */
+.panel-group__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-group__num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-group__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.panel-group__lead {
+  max-width: 72ch;
+  margin: 0 0 var(--space-5);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ------------------------------------------------------ títulos internos */
+
+.panel-card__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.panel-card__lead {
+  margin: 0 0 var(--space-4);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* Bloco de apoio dentro do cartão: a parte que explica o passo, separada
+   do formulário por um filete. */
+.panel-subsection {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+/* Lista de instruções: marcador da marca no lugar do bullet do navegador. */
+.panel-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel-list li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.panel-list li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+/* ------------------------------------------------- grade de duas colunas */
+
+.panel-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.panel-two-col > div {
+  min-width: 0;
+}
+
+/* ------------------------------------------------------- números do painel */
+
+/* Os cartões de número em destaque usam o fundo suave da marca: o valor
+   que a pessoa procura fica separado do resto da leitura. */
+.stat--accent {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  background: var(--primary-soft);
+}
+
+.stat--accent .label {
+  color: color-mix(in srgb, var(--primary-ink) 78%, var(--text-muted));
+}
+
+.stat--accent .value {
+  color: var(--primary-ink);
+}
+
+/* Grade de 8 números: quatro por linha em vez de duas colunas largas. */
+.stats-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ------------------------------------------------------ linhas de contato */
+/* A lista de contatos do afiliado é montada pelo script: o desenho da
+   linha fica aqui para o painel inteiro ter o mesmo acabamento. */
+
+.contact-row {
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.contact-row__main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.contact-row__name {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.contact-row__meta {
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.contact-row__side {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.contact-row__date {
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =============================================================
+   Painel: ajustes responsivos
+   ============================================================= */
+
+@media (max-width: 960px) {
+  .stats-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .role-switch {
+    align-items: stretch;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .role-switch .btn {
+    width: 100%;
+  }
+
+  .panel-two-col {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .panel-group__head {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .contact-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .contact-row__side {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ======================================================================
+   Página de membros — alinhamento com o resto do site
+   As seções usavam dois raios diferentes (24px e 32px) na mesma página e
+   os cartões grandes tinham sombra enquanto os pequenos não tinham
+   nenhuma. Agora todos os cartões da página usam a mesma moldura: raio
+   --radius-lg e a sombra --shadow-card do site.
+   ====================================================================== */
+
+.aff-role,
+.aff-flow-card,
+.aff-money-panel,
+.aff-why-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* O cartão de afiliado ganha o mesmo destaque do site: borda na cor da
+   marca, mas sem sombra extra que brigue com a do cartão base. */
+.aff-role--affiliate {
+  box-shadow: var(--shadow-card);
+}
+
+/* Cabeçalho de seção: quando há texto de apoio, o título fica à esquerda
+   e o texto à direita; quando não há, o título ocupa a linha inteira em
+   vez de deixar metade da grade vazia. */
+.aff-section__head {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.aff-section__head:has(> p) {
+  grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.62fr);
+  gap: var(--space-8);
+  align-items: end;
+}
+
+.aff-section__head h2 {
+  max-width: 680px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.aff-section__head:has(> p) h2 {
+  font-size: clamp(2.1rem, 4.2vw, 3.7rem);
+  line-height: 1.04;
+}
+
+/* Chamada final: texto à esquerda e ações à direita, como o bloco de
+   abertura. Sem isso o cartão fica com metade direita vazia. */
+.aff-cta {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.aff-cta__actions {
+  justify-content: flex-end;
+}
+
+.aff-cta__actions .btn {
+  flex: 0 0 auto;
+  max-width: none;
+  min-width: 180px;
+}
+
+/* Botão de "entender como a comunidade decide": entra no ritmo das
+   ações da seção, com a mesma distância do texto acima. */
+.aff-section .btn-secondary {
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 960px) {
+  .aff-section__head:has(> p) {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .aff-cta {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .aff-cta__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 760px) {
+  .aff-cta__actions .btn {
+    width: 100%;
+  }
+}

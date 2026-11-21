@@ -391,7 +391,7 @@
       $('#comunidade-auth-who').textContent = '@' + state.session.username;
       return;
     }
-    title.textContent = authMode === 'login' ? 'Entre na Comunidade' : 'Criar conta na Comunidade';
+    title.textContent = authMode === 'login' ? 'Entre na sua conta' : 'Crie sua conta';
     form.hidden = false;
     logged.hidden = true;
     if (fechar) fechar.classList.remove('hidden');

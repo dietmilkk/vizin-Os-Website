@@ -56,7 +56,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     # ------------------------------------------------------------- infra --
 
-    def log_message(self, format, *args):  # noqa: A002 - assinatura da classe base
+    def log_message(self, format, *args):
         pass
 
     def _json(self, status: int, dados) -> None:

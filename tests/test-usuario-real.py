@@ -81,7 +81,7 @@ def main():
         def carimba_handle(rota):
             try:
                 corpo = rota.request.post_data_json
-            except Exception:
+            except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
                 corpo = None
             if isinstance(corpo, dict):
                 corpo["handle"] = handle_teste
@@ -159,8 +159,8 @@ def main():
                 }""",
                 timeout=60000,
             )
-        except Exception:
-            # A conta nao foi criada: a API recusou. O aviso aparece na janela.
+        except Exception:  # noqa: BLE001, S110 - a conta nao foi criada: a API recusou
+            # Aviso aparece na janela.
             pass
         check(
             "confirmacao de conta criada",

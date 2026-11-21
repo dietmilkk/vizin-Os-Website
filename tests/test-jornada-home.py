@@ -5,12 +5,11 @@ Confere o caminho real de uma pessoa, na ordem em que ela encontra:
 1. a janela de primeira visita aparece e fecha;
 2. o hero diz o que o app e, com o botao de download;
 3. as secoes estao em ordem de leitura (o que e -> compromissos ->
-   honestidade -> fundamentos -> comunidade -> sustento -> essência ->
-   escolha) e nenhuma delas fica colada na outra sem separacao visual;
-4. o bloco de A Essência expande o texto completo quando pedido;
-5. a secao de comunidade tem o atalho para /comunidade;
-6. o rodape leva para as paginas principais;
-7. em celular nao ha rolagem horizontal.
+   honestidade -> comunidade -> sustento e escolha no mesmo bloco) e nenhuma
+   delas fica colada na outra sem separacao visual;
+4. a secao de comunidade tem o atalho para /comunidade;
+5. o rodape leva para as paginas principais;
+6. em celular nao ha rolagem horizontal.
 
 Uso:
     python3 tests/test-jornada-home.py [http://127.0.0.1:8099]
@@ -19,6 +18,7 @@ Uso:
 from __future__ import annotations
 
 import sys
+from itertools import pairwise
 
 from playwright.sync_api import sync_playwright
 
@@ -88,43 +88,80 @@ def main() -> int:
             }))"""
         )
         esperados = [
-            "what-it-is", "promessas", "nao-prometemos", "fundamentos",
-            "community", "funding", "essencia", "importa",
+            "what-it-is", "promessas", "nao-prometemos", "community", "funding",
         ]
         ids = [s["id"] for s in secoes if s["id"] in esperados]
         check("ordem das secoes", ids == esperados, str(ids))
 
-        numeracao = [s["kicker"].split(" ")[0] for s in secoes if s["kicker"]]
+        numeracao = pagina.locator("main .home-kicker").evaluate_all(
+            "els => els.map(el => el.textContent.trim().split(' ')[0])"
+        )
         check(
-            "numeracao sequencial sem buracos",
-            numeracao == [f"{n:02d}" for n in range(1, len(numeracao) + 1)],
+            "numeracao da home preservada",
+            numeracao == ["01", "02", "03", "05", "06", "07"],
             str(numeracao),
+        )
+        check(
+            "escolha no mesmo bloco de sustento",
+            pagina.locator("#funding > .container > #importa.home-closing").count() == 1,
+        )
+
+        aparencia = pagina.evaluate(
+            """() => {
+                const card = getComputedStyle(document.querySelector('.home-funding'));
+                const closing = getComputedStyle(document.querySelector('.home-closing'));
+                const propriedades = [
+                    'backgroundColor', 'borderTopColor', 'borderTopWidth',
+                    'borderRadius', 'boxShadow', 'paddingTop', 'paddingRight',
+                    'paddingBottom', 'paddingLeft'
+                ];
+                return Object.fromEntries(propriedades.map(propriedade => [
+                    propriedade,
+                    [card[propriedade], closing[propriedade]]
+                ]));
+            }"""
+        )
+        check(
+            "escolha tem a mesma aparencia dos cards de financiamento",
+            all(valores[0] == valores[1] for valores in aparencia.values()),
+            str(aparencia),
+        )
+
+        hierarquia = pagina.evaluate(
+            """() => {
+                const grid = getComputedStyle(document.querySelector('.home-funding-grid'));
+                const closing = getComputedStyle(document.querySelector('.home-closing'));
+                const titulo = getComputedStyle(document.querySelector('.home-closing h2'));
+                const texto = getComputedStyle(document.querySelector('.home-closing__body p'));
+                return {
+                    gap: grid.gap,
+                    margem: closing.marginTop,
+                    alinhamento: closing.textAlign,
+                    titulo: parseFloat(titulo.fontSize),
+                    texto: parseFloat(texto.fontSize)
+                };
+            }"""
+        )
+        check(
+            "escolha continua visualmente os cards de financiamento",
+            hierarquia["margem"] == hierarquia["gap"]
+            and hierarquia["alinhamento"] == "left"
+            and hierarquia["titulo"] <= 20
+            and hierarquia["texto"] <= 15.1,
+            str(hierarquia),
         )
 
         # Nenhuma secao pode ficar colada na seguinte: o fundo alterna e ha
         # respiro entre elas.
         coladas = []
-        for anterior, atual in zip(secoes, secoes[1:]):
+        for anterior, atual in pairwise(secoes):
             if atual["h"] < 200:
                 coladas.append(atual["id"])
             if atual["tint"] == anterior["tint"]:
                 coladas.append(f"{anterior['id']}->{atual['id']}")
         check("nenhuma secao colada na seguinte", not coladas, str(coladas))
 
-        print("\n[4] A Essência abre quando pedido")
-        check("bloco de A Essência existe", pagina.locator("#essenciaPreview").count() == 1)
-        corpo = pagina.locator("#essenciaPreviewBody")
-        check("texto de A Essência vem escondido", not corpo.is_visible())
-        pagina.click("#essenciaPreviewToggle")
-        pagina.wait_for_timeout(1200)
-        check("A Essência expande", corpo.is_visible())
-        check(
-            "A Essência tem o texto completo",
-            len(corpo.inner_text().strip()) > 300,
-            str(len(corpo.inner_text().strip())),
-        )
-
-        print("\n[5] Caminho para a comunidade")
+        print("\n[4] Caminho para a comunidade")
         check(
             "botao para a comunidade na secao",
             pagina.locator('a.btn[href="/comunidade"]').count() == 1,
@@ -133,12 +170,42 @@ def main() -> int:
             "comunidade no rodape",
             pagina.locator('a.explore-card[href="/comunidade"]').count() == 1,
         )
+
+        # A "florzinha" que existia sobre a marca foi removida do site:
+        # agora a checagem garante que a marca do rodape continua completa
+        # (icone e wordmark juntos, alinhados e com tamanho real).
+        marca_rodape = pagina.locator(".site-footer .brand").first
+        marca_rodape.hover()
+        pagina.wait_for_timeout(400)
+        marca_info = pagina.evaluate(
+            """() => {
+                const marca = document.querySelector('.site-footer .brand');
+                const icone = marca.querySelector('.brand-mark');
+                const palavra = marca.querySelector('.brand-wordmark');
+                if (!icone || !palavra) return null;
+                const boxI = icone.getBoundingClientRect();
+                const boxP = palavra.getBoundingClientRect();
+                return {
+                    temIcone: boxI.width >= 40 && boxI.height >= 40,
+                    temPalavra: boxP.width >= 60 && boxP.height >= 10,
+                    alinhados: Math.abs(boxI.top - boxP.top) < 24,
+                    sobrepostos: boxP.left >= boxI.right - 1,
+                    decoracao: getComputedStyle(marca, '::after').content
+                };
+            }"""
+        )
         check(
-            "A Essência no rodape",
-            pagina.locator('a.explore-card[href="/essencia"]').count() == 1,
+            "marca do rodape completa e alinhada",
+            bool(marca_info)
+            and marca_info["temIcone"]
+            and marca_info["temPalavra"]
+            and marca_info["alinhados"]
+            and marca_info["sobrepostos"]
+            and marca_info["decoracao"] == 'none',
+            str(marca_info),
         )
 
-        print("\n[6] Celular sem rolagem horizontal")
+        print("\n[5] Celular sem rolagem horizontal")
         celular = navegador.new_page(viewport={"width": 390, "height": 844})
         celular.goto(f"{BASE}/", wait_until="load")
         celular.wait_for_timeout(700)
@@ -148,7 +215,7 @@ def main() -> int:
         check("sem rolagem horizontal", excesso <= 0, str(excesso))
         celular.close()
 
-        print("\n[7] Sem erros de JavaScript")
+        print("\n[6] Sem erros de JavaScript")
         check("nenhum erro de runtime", not erros, "; ".join(erros[:3]))
 
         navegador.close()

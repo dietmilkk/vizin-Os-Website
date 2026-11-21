@@ -5,10 +5,11 @@
   "redirects": [
     { "source": "/afiliados", "destination": "/membros", "permanent": true },
     { "source": "/afiliados/:path*", "destination": "/membros", "permanent": true },
-    { "source": "/manifesto", "destination": "/essencia", "permanent": true },
-    { "source": "/manifesto/:path*", "destination": "/essencia", "permanent": true },
     { "source": "/criadores", "destination": "/membros", "permanent": true },
-    { "source": "/criadores/:path*", "destination": "/membros", "permanent": true }
+    { "source": "/criadores/:path*", "destination": "/membros", "permanent": true },
+    { "source": "/doar", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true },
+    { "source": "/doar/:path*", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true },
+    { "source": "/doar.html", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true }
   ],
   "headers": [
     {

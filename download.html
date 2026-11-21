@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#fff9f2">
-  <title>vizin.Os — download</title>
+  <title>vizin.Os — Download</title>
   <meta name="description" content="Faça o download do vizin.Os no Android. Veja as versões publicadas e o histórico de atualizações.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vizin-os.vercel.app/download">
@@ -197,7 +197,10 @@
             aria-label="Baixar o vizin.Os na Google Play"
           >
             <span class="store-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.5v17l14.5-8.5z"/><path d="M4 3.5 12.5 12 4 20.5"/><path d="M18.5 8.2c1.8 1 1.8 6.6 0 7.6"/></svg>
+              <!-- Google Play: SVG enviado pelo usuario, mantendo o grid 24x24. -->
+              <svg viewBox="0 0 24 24" fill="#ff5c77" aria-hidden="true">
+                <path d="M20.91887,10.653c-.31445-.16992-3.01074-1.73438-4.02246-2.32324l-.00293-.002L4.6386,1.25262a1.679,1.679,0,0,0-1.40711-.1593c-.02618.0094-.05078.01886-.07623.03051a1.41835,1.41835,0,0,0-.17291.06922,1.51864,1.51864,0,0,0-.73828,1.36426V21.54266a1.43542,1.43542,0,0,0,.69238,1.2705,1.30761,1.30761,0,0,0,.15479.06373c.02893.01336.05651.025.08636.03552a1.37893,1.37893,0,0,0,.44635.0824,1.67263,1.67263,0,0,0,.83106-.23145c.38867-.22559,12.43847-7.18262,12.43847-7.18262L20.914,13.25945a1.52522,1.52522,0,0,0,.8418-1.334A1.49078,1.49078,0,0,0,20.91887,10.653ZM4.24407,19.839V4.10186l7.94012,7.85907Zm5.018-2.16168,4.34351-4.30957,1.14954,1.13782C13.49047,15.23583,11.35381,16.4696,9.26207,17.67736Zm4.3418-7.125L9.206,6.19933l5.55365,3.2063ZM16.55065,13.469l-1.52539-1.50977L16.553,10.44341c.72027.41828,1.84283,1.06934,2.6159,1.51429Z"/>
+              </svg>
             </span>
             <span class="store-card__body">
               <span class="store-card__title">Google Play</span>
@@ -210,7 +213,10 @@
 
           <div class="store-card store-card--soon" aria-disabled="true">
             <span class="store-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 19h2"/></svg>
+              <!-- App Store: SVG enviado pelo usuario, mantendo o grid 24x24. -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff5c77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 3L7 15M7 15H3M7 15H13M4 20L5 18.3333M16.7647 15L20 20M16.7647 15H21M16.7647 15L13.5294 10M9 3L11.5882 7"/>
+              </svg>
             </span>
             <span class="store-card__body">
               <span class="store-card__title">App Store</span>
@@ -220,11 +226,23 @@
         </div>
 
         <h2 class="versions-title">Versões e atualizações</h2>
+<!-- EM BREVE
+<div class="releases">
+  <article class="release release--soon">
+    <div class="release__head">
+      <h3 class="release__version">x.x.x</h3>
+      <span class="release__date">Em breve</span>
+    </div>
+    <ul class="release__changes">
+      <li></li>
+    </ul>
+    </article>
+-->
         <div class="releases">
-          <article class="release release--soon">
+          <article class="release">
             <div class="release__head">
               <h3 class="release__version">0.9.0</h3>
-              <span class="release__date">Em breve</span>
+              <span class="release__date">Versão atual</span>
             </div>
             <ul class="release__changes">
               <li>Novo modelo de alcance pessoal e raio ajustável manualmente.</li>
@@ -236,7 +254,6 @@
           <article class="release">
             <div class="release__head">
               <h3 class="release__version">0.8.0</h3>
-              <span class="release__date">Versão atual</span>
             </div>
             <ul class="release__changes">
               <li>Denúncia de grupos.</li>
@@ -264,7 +281,7 @@
               <span class="release__date">Beta inicial</span>
             </div>
             <ul class="release__changes">
-              <li>Estágio beta: primeira base pública do app — comunidades do bairro, conversas e encontros.</li>
+              <li>Estágio beta: primeira base pública do app.</li>
             </ul>
           </article>
         </div>
@@ -278,43 +295,34 @@
         <h2 class="footer-explore__title">Continue explorando</h2>
         <div class="explore-grid">
 
-          <a class="explore-card" href="/membros">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <a class="explore-card" href="/membros"><span class="explore-card__icon explore-card__icon--membros" aria-hidden="true"></span>
 
             <span>Membros</span>
 
           </a>
 
-          <a class="explore-card" href="/comunidade">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h18"/><path d="M4 18h16"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 11h18"/><path d="M3 8l9-5 9 5"/></svg>
+          <a class="explore-card" href="/comunidade"><span class="explore-card__icon explore-card__icon--comunidade" aria-hidden="true"></span>
 
             <span>Comunidade</span>
 
           </a>
 
-          <a class="explore-card" href="/essencia">
 
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.4 0 8-3.6 8-8 0-5-4-9-8-12-4 3-8 7-8 12 0 4.4 3.6 8 8 8z"/><path d="M12 18c1.9 0 3.5-1.6 3.5-3.5 0-2-1.7-3.8-3.5-5.5-1.8 1.7-3.5 3.5-3.5 5.5C8.5 16.4 10.1 18 12 18z"/></svg>
-
-            <span>A Essência</span>
-
-          </a>
-
-          <a class="explore-card" href="/moderacao">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/moderacao"><span class="explore-card__icon explore-card__icon--moderacao" aria-hidden="true"></span>
 
             <span>Moderação</span>
 
           </a>
 
-          <a class="explore-card" href="/documento">
-
-            <svg class="explore-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+          <a class="explore-card" href="/documento"><span class="explore-card__icon explore-card__icon--documento" aria-hidden="true"></span>
 
             <span>Documento técnico</span>
+
+          </a>
+
+          <a class="explore-card" href="/download"><span class="explore-card__icon explore-card__icon--download" aria-hidden="true"></span>
+
+            <span>Download</span>
 
           </a>
 
@@ -337,12 +345,40 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <span id="year">2026</span> vizin.Os. Gente por perto, encontros de verdade.</span>
+        <span>© <span id="year">2026</span> vizin.Os — Independente. Transparente. Feito com você.</span>
       </div>
     </div>
   </footer>
   <script defer src="/assets/config.js"></script>
   <script defer src="/assets/creators.js"></script>
-  <script defer src="/assets/app.js"></script>
+
+
+  <div id="firstVisitModal" class="modal" hidden>
+    <div class="modal-backdrop" data-first-visit-close></div>
+    <div class="modal-card modal-card--notice" role="dialog" aria-modal="true" aria-label="Sobre o vizin.Os">
+      <button class="modal-close" type="button" aria-label="Fechar" data-first-visit-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <p>
+        O vizin.Os é um projeto 100% independente. Sem empresa, sem investidores,
+        sem equipe — só eu e a vontade de ver isso dar certo. Por enquanto, o app
+        só está disponível no Android (iPhone ainda não é possível por questões
+        financeiras), mas o desejo de expandir existe.
+      </p>
+      <p>
+        Quer participar de pertinho? Entre na
+        <a href="/comunidade">página da Comunidade</a> e compartilhe suas ideias.
+        Se quiser ajudar o projeto a crescer, qualquer
+        <a href="https://donate.stripe.com/9B614m7qo9pSaAv5q53F600">doação</a>
+        ajuda muuuito. Você também pode virar
+        <a href="/membros">Membro</a>, compartilhando o app e ainda sendo
+        recompensado por isso.
+      </p>
+      <p>
+        Espero de coração que você curta a proposta e que ela faça sentido para
+        você! :&gt;
+      </p>
+    </div>
+  </div>
+
+<script defer src="/assets/app.js"></script>
 </body>
 </html>

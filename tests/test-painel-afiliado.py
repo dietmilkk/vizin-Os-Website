@@ -63,7 +63,7 @@ def cached_token():
     try:
         with open(TOKEN_CACHE, encoding="utf-8") as handle:
             return json.load(handle).get("token", "")
-    except Exception:
+    except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
         return ""
 
 
@@ -71,7 +71,7 @@ def cache_token(token):
     try:
         with open(TOKEN_CACHE, "w", encoding="utf-8") as handle:
             json.dump({"token": token}, handle)
-    except Exception:
+    except Exception:  # noqa: BLE001, S110 - falha ampla tolerada em teste
         pass
 
 
@@ -106,7 +106,7 @@ def main():
     try:
         health = api_get("/health")
         mail_configured = bool((health.get("mail") or {}).get("configured"))
-    except Exception:
+    except Exception:  # noqa: BLE001 - falha ampla tolerada em teste
         mail_configured = False
     print(f"\nAfiliado de teste criado: code={code}")
     print(f"Provedor de e-mail configurado: {mail_configured}")
@@ -240,7 +240,6 @@ def main():
         page.fill("#outreachEmail", "criador.exemplo@example.com")
         page.select_option("#outreachPlatform", "instagram")
         page.fill("#outreachContact", "@anasouza")
-        page.fill("#outreachMotivo", "Criador sem resposta recente.")
         page.click("#outreachButton")
         page.wait_for_function(
             """() => {
@@ -303,7 +302,6 @@ def main():
             page.fill("#outreachEmail", "criador.exemplo@example.com")
             page.select_option("#outreachPlatform", "instagram")
             page.fill("#outreachContact", "@anasouza")
-            page.fill("#outreachMotivo", "Criador sem resposta recente.")
             page.click("#outreachButton")
             page.wait_for_function(
                 """() => {

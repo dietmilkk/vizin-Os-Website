@@ -59,7 +59,11 @@ def main() -> int:
         script = Path(pasta) / "heartbeat.mjs"
         script.write_text(SCRIPT, encoding="utf-8")
         resultado = subprocess.run(
-            ["node", str(script), API], capture_output=True, text=True, timeout=120
+            ["node", str(script), API],
+            capture_output=True,
+            text=True,
+            timeout=120,
+            check=False,
         )
     if resultado.returncode != 0:
         print("FALHA no heartbeat:", resultado.stderr.strip()[:300])
@@ -72,8 +76,8 @@ def main() -> int:
     print(f"depois: online_now = {depois['online_now']}")
 
     subprocess.run(
-        SSH
-        + [
+        [
+            *SSH,
             "python3 -c "
             + repr(
                 "import sqlite3;"
@@ -82,6 +86,7 @@ def main() -> int:
                 "c.commit();print('conta de teste removida')"
             )
         ],
+        check=False,
         capture_output=True,
         text=True,
         timeout=60,

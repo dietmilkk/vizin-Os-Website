@@ -105,7 +105,7 @@ def main() -> int:
                 final = pagina.url
                 tipo = (resposta.headers.get("content-type", "") if resposta else "").lower()
                 corpo = pagina.content() if "html" in tipo else ""
-            except Exception as erro:  # noqa: BLE001
+            except Exception as erro:  # noqa: BLE001 - erro de rede: devolve zera o resultado da URL
                 status, final, tipo, corpo = 0, url, "", str(erro)
 
             checked += 1
@@ -140,7 +140,7 @@ def main() -> int:
             collector = LinkCollector()
             try:
                 collector.feed(corpo)
-            except Exception:  # HTML quebrado não deve derrubar o rastreio.
+            except Exception:  # noqa: BLE001, S110 - HTML quebrado nao derruba o rastreio
                 pass
             for raw in collector.urls:
                 if not is_internal(raw, url):

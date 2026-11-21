@@ -13,9 +13,6 @@ def make_svg_icon(size: int, path: Path):
     """Gera um ícone SVG do logo vizin.Os no tamanho especificado."""
     radius = size // 4
     house_size = size * 0.46
-    cx = size / 2
-    cy = size / 2 + house_size * 0.04
-    h = house_size
     line_width = max(4, int(house_size * 0.1))
     p = size // 4 + 5
 
