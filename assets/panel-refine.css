@@ -323,7 +323,6 @@
 
 .aff-role,
 .aff-flow-card,
-.aff-money-panel,
 .aff-why-card {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);

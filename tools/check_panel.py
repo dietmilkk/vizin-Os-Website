@@ -53,7 +53,7 @@ LANDING_CHECKS = [
     ('.aff-role', 'cartao de papel', {'borderTopLeftRadius': '24px'}),
     ('.aff-why-card', 'cartao deporque', {'borderTopLeftRadius': '24px'}),
     ('.aff-flow-card', 'cartao de passo', {'borderTopLeftRadius': '24px'}),
-    ('.aff-money-panel', 'cartao do dinheiro', {'borderTopLeftRadius': '24px'}),
+    ('.revenue-sheet', 'planilha da divisao', {'borderTopLeftRadius': '24px'}),
     ('.aff-cta', 'chamada final',
      {'gridTemplateColumns': '720px 280px', 'alignItems': 'center'}),
 ]

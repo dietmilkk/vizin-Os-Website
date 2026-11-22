@@ -72,36 +72,20 @@
 to{ opacity: 1; transform: translateY(0); }
 /* ===== Botão CTA ===== */
     .creators-cta-wrap
-/* ===== Barra de divisão animada ===== */
-    .split-segment
-.js .split-bar:not(.is-visible) .split-segment{
-        flex-grow: 0.01;
-      }
-.js .split-bar.is-visible .split-segment{
-        animation: split-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      }
-from{ flex-grow: 0.01; }
-to{ flex-grow: var(--share-grow, 1); }
 /* ===== Cards de programa com hover ===== */
     .program-card
 /* ===== Pilares do projeto com hover ===== */
     .pillar
 .js [data-reveal] .project-pillars,
-      .js [data-reveal] .program-grid,
-      .js [data-reveal] .split-bar,
-      .js [data-reveal] .split-grid{
+      .js [data-reveal] .program-grid{
         opacity: 0;
         transform: translateY(20px);
       }
 .js [data-reveal].is-visible .project-pillars,
-      .js [data-reveal].is-visible .program-grid,
-      .js [data-reveal].is-visible .split-bar,
-      .js [data-reveal].is-visible .split-grid{
+      .js [data-reveal].is-visible .program-grid{
         animation: section-stagger 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
 .js [data-reveal].is-visible .program-grid{ animation-delay: 0.1s; }
-.js [data-reveal].is-visible .split-bar{ animation-delay: 0.15s; }
-.js [data-reveal].is-visible .split-grid{ animation-delay: 0.2s; }
 to{ opacity: 1; transform: translateY(0); }
 /* ===== Navegação do header com indicador ativo ===== */
     .partners-nav a
@@ -130,8 +114,6 @@ to{ opacity: 1; transform: translateY(0); }
 .js [data-reveal].is-visible ul li:nth-child(5), .js [data-reveal].is-visible ol li:nth-child(5){ animation-delay: 0.33s; }
 .js [data-reveal].is-visible ul li:nth-child(6), .js [data-reveal].is-visible ol li:nth-child(6){ animation-delay: 0.4s; }
 to{ opacity: 1; transform: translateX(0); }
-/* ===== Split items com hover ===== */
-    .split-item
 /* ===== Painel do afiliado: link em destaque =====
        Mesma caixa tracejada do painel do criador (.code-box). O link de
        afiliado e um endereco longo, entao o campo e o botao ficam lado a
@@ -245,9 +227,6 @@ to{ opacity: 1; transform: translateY(0); }
       .guia-bloco--afiliado,
       .guia-bloco--criador,
       .guia-bloco.is-current
-/* Mesma troca no exemplo da divisao: sai o cartao externo e o titulo
-         ganha peso para marcar o inicio do assunto. */
-      .flow-example
 .guia-cross__item .btn{
         width: 100%;
       }
@@ -471,7 +450,7 @@ to{ opacity: 1; transform: translateY(0); }
           <article class="aff-why-card">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             <strong>Todos ganham</strong>
-            <p>O usuário economiza 30%. O criador recebe 50%. O afiliado recebe 10%. O projeto mantém 10%. Ninguém paga para participar.</p>
+            <p>O usuário economiza <strong><span data-revenue-share="user">25%</span></strong>. O criador recebe <strong><span data-revenue-share="creator">50%</span></strong>. O afiliado recebe <strong><span data-revenue-share="affiliate">10%</span></strong>. O Mod Parceiro recebe <strong><span data-revenue-share="mod">5%</span></strong>. O desenvolvimento mantém <strong><span data-revenue-share="development">10%</span></strong>. Ninguém paga para participar.</p>
           </article>
         </div>
         <p class="aff-pillars">100% brasileiro · Independente · Anti-vigilância</p>
@@ -489,8 +468,8 @@ to{ opacity: 1; transform: translateY(0); }
             <h3>Criador</h3>
             <p>Use um código exclusivo para acompanhar cada indicação e transformar audiência em receita previsível.</p>
             <ul>
-              <li><strong>50%</strong> do preço de referência em cada compra aprovada enquanto a indicação estiver ativa.</li>
-              <li>Quem entra com seu código recebe <strong>15 dias de Plus</strong> e 30% de desconto no checkout iniciado em até 365 dias.</li>
+              <li><strong><span data-revenue-share="creator">50%</span></strong> do preço de referência em cada compra aprovada enquanto a indicação estiver ativa.</li>
+              <li>Quem entra com seu código recebe <strong>15 dias de Plus</strong> e <strong><span data-revenue-share="user">25%</span></strong> de desconto no checkout iniciado em até 365 dias.</li>
               <li>Saques via Pix com saldo e histórico no seu painel.</li>
             </ul>
             <button class="btn btn-primary" type="button" data-open-create="creator"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Criar conta de criador</button>
@@ -502,7 +481,7 @@ to{ opacity: 1; transform: translateY(0); }
             <h3>Afiliado</h3>
             <p>Encontre criadores com audiência e receba quando as indicações deles se tornarem compras aprovadas.</p>
             <ul>
-              <li><strong>10%</strong> do preço de referência em compras aprovadas dos usuários do criador que você recrutou.</li>
+              <li><strong><span data-revenue-share="affiliate">10%</span></strong> do preço de referência em compras aprovadas dos usuários do criador que você recrutou.</li>
               <li>Convite por e-mail pelo painel a cada <strong>3 dias</strong>, com seu link já creditado.</li>
               <li>Contatos, comissões e saques acompanhados em um só painel.</li>
             </ul>
@@ -549,46 +528,214 @@ to{ opacity: 1; transform: translateY(0); }
 
       <section class="aff-section" id="divisao" aria-labelledby="aff-money-title">
         <div class="aff-section__head">
+          <p class="aff-eyebrow">Divisão de receita</p>
           <h2 id="aff-money-title">Como o valor é dividido</h2>
+          <p>Cada compra aprovada do Plus é distribuída entre quem produz, quem usa, quem conecta e quem mantém o app funcionando.</p>
         </div>
 
-        <aside class="aff-money-panel" aria-label="Resumo da divisão da receita">
-          <div class="aff-money-panel__head">
-            <strong>Divisão do Plus</strong>
-            <span>Preço de referência</span>
-          </div>
-          <div class="aff-splitbar" role="img" aria-label="30% desconto ao usuário, 50% ao criador, 10% ao afiliado, 10% à operação.">
-            <span class="aff-share--user">30%</span>
-            <span class="aff-share--creator">50%</span>
-            <span class="aff-share--affiliate">10%</span>
-            <span class="aff-share--project">10%</span>
-          </div>
-          <div class="aff-splitlabels" aria-hidden="true">
-            <div><strong>Usuário</strong><span>desconto</span></div>
-            <div><strong>Criador</strong><span>comissão</span></div>
-            <div><strong>Afiliado</strong><span>comissão</span></div>
-            <div><strong>Operação</strong><span>estrutura</span></div>
-          </div>
-          <p class="aff-hero__note">Exemplo com o Plus mensal de <strong>R$ 9,90</strong>, usado como preço de referência. Com 30% de desconto, o usuário paga <strong>R$ 6,93</strong>; esse valor é distribuído entre criador, afiliado e projeto.</p>
+        <div class="revenue-sheet">
+          <table class="revenue-sheet__table">
+            <caption class="visually-hidden">Planilha da divisão de receita do Plus por papel</caption>
+            <thead>
+              <tr>
+                <th scope="col">Papel</th>
+                <th scope="col">Divisão</th>
+                <th scope="col">Função</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" data-label="Papel"><span class="revenue-role revenue-role--creator"><span class="revenue-role__marker" aria-hidden="true"></span>Criadores de conteúdo</span></th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-share="creator">50%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Produzem e trazem usuários</td>
+              </tr>
+              <tr>
+                <th scope="row" data-label="Papel"><span class="revenue-role revenue-role--user"><span class="revenue-role__marker" aria-hidden="true"></span>Usuários</span></th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-share="user">25%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Recebem desconto no app</td>
+              </tr>
+              <tr>
+                <th scope="row" data-label="Papel"><span class="revenue-role revenue-role--affiliate"><span class="revenue-role__marker" aria-hidden="true"></span>Afiliados</span></th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-share="affiliate">10%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Recrutam criadores</td>
+              </tr>
+              <tr>
+                <th scope="row" data-label="Papel"><span class="revenue-role revenue-role--mod"><span class="revenue-role__marker" aria-hidden="true"></span>Mods Parceiros</span></th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-share="mod">5%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Recrutam afiliados</td>
+              </tr>
+              <tr>
+                <th scope="row" data-label="Papel"><span class="revenue-role revenue-role--development"><span class="revenue-role__marker" aria-hidden="true"></span>Desenvolvimento</span></th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-share="development">10%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Manutenção e servidores</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row" data-label="Papel">Total</th>
+                <td class="revenue-sheet__share" data-label="Divisão"><span data-revenue-total>100%</span></td>
+                <td class="revenue-sheet__function" data-label="Função">Divisão de receita completa</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
-          <div class="aff-money-body">
-            <div class="aff-money-equation">
-              <span>Uma compra aprovada</span>
-              <strong>R$ 6,93</strong>
-              <p>Valor pago após desconto e distribuído pelo sistema.</p>
-            </div>
-            <div class="aff-money-list">
-              <div><strong>R$ 4,95</strong><span>Criador · 50%</span><p>Comissão proporcional à indicação válida.</p></div>
-              <div><strong>R$ 0,99</strong><span>Afiliado · 10%</span><p>Quando a compra vem de criador recrutado por você.</p></div>
-              <div><strong>R$ 0,99</strong><span>Operação · 10%</span><p>Mantém infraestrutura, manutenção e evolução do app.</p></div>
-              <div><strong>365 dias</strong><span>Validade</span><p>Período de benefícios e comissões por indicação.</p></div>
-            </div>
-          </div>
-        </aside>
-
-        <p class="aff-values__note">
-          Percentuais sobre o preço de referência, arredondados a cada pagamento. O teste gratuito não gera comissão. O programa não garante vendas ou renda; valores são brutos e tributos são responsabilidade do parceiro.
+        <p class="revenue-sheet__note">
+          Percentuais definidos em uma única configuração e aplicados sobre o preço de referência do Plus. O teste gratuito não gera comissão; valores são brutos e tributos são responsabilidade do parceiro.
         </p>
+      </section>
+
+      <section class="aff-section aff-section--tint" id="justica" aria-labelledby="aff-justice-title">
+        <div class="aff-section__head">
+          <p class="aff-eyebrow">Meritocracia na rede de afiliados</p>
+          <h2 id="aff-justice-title">Por que essa divisão é justa</h2>
+          <p>A divisão de receita acompanha o que cada papel entrega para o crescimento. Quem gera o valor direto recebe a maior fatia; quem multiplica o alcance recebe sobre um volume maior.</p>
+        </div>
+
+        <div class="revenue-merit-grid">
+          <article class="revenue-merit-card revenue-merit-card--featured">
+            <div class="revenue-merit-card__head">
+              <div>
+                <span class="revenue-merit-card__tag">A Base do Valor</span>
+                <h3>Criador</h3>
+              </div>
+              <strong class="revenue-merit-card__share" data-revenue-share="creator">50%</strong>
+            </div>
+            <p>Faz o trabalho mais pesado: produz conteúdo e atrai usuários. Por gerar o valor direto, recebe a maior fatia. Sem criador, não há app.</p>
+          </article>
+
+          <article class="revenue-merit-card">
+            <div class="revenue-merit-card__head">
+              <div>
+                <span class="revenue-merit-card__tag">Quem usa, ganha</span>
+                <h3>Usuário</h3>
+              </div>
+              <strong class="revenue-merit-card__share" data-revenue-share="user">25%</strong>
+            </div>
+            <p>Recebe desconto como incentivo por fazer parte da comunidade.</p>
+          </article>
+
+          <article class="revenue-merit-card">
+            <div class="revenue-merit-card__head">
+              <div>
+                <span class="revenue-merit-card__tag">O Conector</span>
+                <h3>Afiliado</h3>
+              </div>
+              <strong class="revenue-merit-card__share" data-revenue-share="affiliate">10%</strong>
+            </div>
+            <p>Encontra criadores e os traz para a rede. Ganha sobre o volume que eles geram.</p>
+          </article>
+
+          <article class="revenue-merit-card">
+            <div class="revenue-merit-card__head">
+              <div>
+                <span class="revenue-merit-card__tag">O Multiplicador</span>
+                <h3>Mod Parceiro</h3>
+              </div>
+              <strong class="revenue-merit-card__share" data-revenue-share="mod">5%</strong>
+            </div>
+            <p>Traz afiliados. Ganha uma porcentagem menor, mas aplicada a todo o volume acumulado da rede abaixo dele.</p>
+          </article>
+
+          <article class="revenue-merit-card">
+            <div class="revenue-merit-card__head">
+              <div>
+                <span class="revenue-merit-card__tag">Sustentabilidade</span>
+                <h3>Desenvolvimento</h3>
+              </div>
+              <strong class="revenue-merit-card__share" data-revenue-share="development">10%</strong>
+            </div>
+            <p>Mantém o app funcionando, seguro e evoluindo.</p>
+          </article>
+        </div>
+
+        <blockquote class="revenue-quote">
+          <p>“Quem gera o valor direto recebe a maior fatia. Quem multiplica o alcance recebe uma fatia menor, mas sobre um volume muito maior.”</p>
+        </blockquote>
+      </section>
+
+      <section class="aff-section" id="efeito-multiplicador" aria-labelledby="aff-multiplier-title">
+        <div class="aff-section__head">
+          <p class="aff-eyebrow">Efeito multiplicador</p>
+          <h2 id="aff-multiplier-title">Por que 5% pode render muito</h2>
+          <p>A porcentagem do Mod Parceiro incide sobre uma base diferente: todo o volume acumulado da rede de afiliados abaixo dele.</p>
+        </div>
+
+        <div class="revenue-flow" role="img" aria-label="Hierarquia da rede de afiliados: um Mod Parceiro no topo, afiliados abaixo, criadores abaixo deles e usuários na base. Cada nível recebe sobre tudo o que acontece abaixo dele.">
+          <div class="revenue-flow__level">
+            <div class="revenue-flow__label">
+              <span class="revenue-flow__tier">Topo da rede</span>
+              <strong>Mod Parceiro</strong>
+              <span><span data-revenue-share="mod">5%</span> sobre todo o volume abaixo</span>
+            </div>
+            <div class="revenue-flow__nodes">
+              <span class="revenue-flow__node revenue-flow__node--mod">1 Mod</span>
+            </div>
+          </div>
+
+          <div class="revenue-flow__arrow" aria-hidden="true">↓</div>
+
+          <div class="revenue-flow__level">
+            <div class="revenue-flow__label">
+              <span class="revenue-flow__tier">Nível 2</span>
+              <strong><span data-revenue-sim="affiliates">10</span> Afiliados</strong>
+              <span><span data-revenue-share="affiliate">10%</span> sobre os criadores que recrutaram</span>
+            </div>
+            <div class="revenue-flow__nodes">
+              <span class="revenue-flow__node revenue-flow__node--affiliate">Afiliado</span>
+              <span class="revenue-flow__node revenue-flow__node--affiliate">Afiliado</span>
+              <span class="revenue-flow__node revenue-flow__node--affiliate">Afiliado</span>
+            </div>
+          </div>
+
+          <div class="revenue-flow__arrow" aria-hidden="true">↓</div>
+
+          <div class="revenue-flow__level">
+            <div class="revenue-flow__label">
+              <span class="revenue-flow__tier">Nível 3</span>
+              <strong><span data-revenue-sim="creators">50</span> Criadores</strong>
+              <span><span data-revenue-share="creator">50%</span> da própria indicação</span>
+            </div>
+            <div class="revenue-flow__nodes">
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+              <span class="revenue-flow__node revenue-flow__node--creator">Criador</span>
+            </div>
+          </div>
+
+          <div class="revenue-flow__arrow" aria-hidden="true">↓</div>
+
+          <div class="revenue-flow__level">
+            <div class="revenue-flow__label">
+              <span class="revenue-flow__tier">Base</span>
+              <strong>Usuários</strong>
+              <span><span data-revenue-share="user">25%</span> de desconto no app</span>
+            </div>
+            <div class="revenue-flow__nodes">
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+              <span class="revenue-flow__node revenue-flow__node--user">Usuário</span>
+            </div>
+          </div>
+
+          <p class="revenue-flow__caption">Cada nível recebe uma fatia de <strong>tudo o que acontece abaixo dele</strong>. A base cresce, e a comissão de quem está acima acompanha o volume acumulado de toda a rede.</p>
+        </div>
+
+        <article class="revenue-simulation">
+          <span class="revenue-simulation__badge">Simulação ilustrativa</span>
+          <h3>Exemplo numérico</h3>
+          <p>Imagine <strong data-revenue-sim="mods">1</strong> Mod que recruta <strong data-revenue-sim="affiliates">10</strong> Afiliados. Cada Afiliado recruta <strong data-revenue-sim="creatorsPerAffiliate">5</strong> Criadores. Resultado: <strong data-revenue-sim="creators">50</strong> Criadores gerando receita.</p>
+          <p>O ganho de <strong data-revenue-share="mod">5%</strong> do Mod sobre o volume de 50 criadores pode ser muito maior do que os <strong data-revenue-share="creator">50%</strong> de um único criador atuando sozinho.</p>
+          <p class="revenue-simulation__note">Simulação ilustrativa, não é promessa de ganho. O resultado depende de vendas aprovadas, do volume real da rede e da permanência das indicações.</p>
+        </article>
       </section>
 
       <section class="aff-cta" id="participar" aria-labelledby="aff-cta-title">
@@ -993,46 +1140,8 @@ to{ opacity: 1; transform: translateY(0); }
   </div>
 
   <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/revenue-split.js"></script>
   <script defer src="/assets/creators.js"></script>
   <script defer src="/assets/app.js"></script>
-  <script>
-    (function () {
-      "use strict";
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      function setupSplitBar() {
-        document.querySelectorAll(".split-bar").forEach(function (bar) {
-          var segments = bar.querySelectorAll(".split-segment");
-          segments.forEach(function (seg) {
-            var share = seg.style.getPropertyValue("--share") || "0%";
-            var num = parseFloat(share.replace("%")) || 0;
-            seg.style.setProperty("--share-grow", num / 10);
-          });
-
-          if (reduceMotion || !("IntersectionObserver" in window)) {
-            bar.classList.add("is-visible");
-            return;
-          }
-          var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                bar.classList.add("is-visible");
-                observer.disconnect();
-              }
-            });
-          }, { threshold: 0.4 });
-          observer.observe(bar);
-        });
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", function () {
-          setupSplitBar();
-        });
-      } else {
-        setupSplitBar();
-      }
-    })();
-  </script>
 </body>
 </html>

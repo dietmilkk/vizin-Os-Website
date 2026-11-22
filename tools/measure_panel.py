@@ -59,7 +59,7 @@ def main():
             '.stat', '.panel-flow', '.panel-group__head', '.panel-group__num',
             '.panel-two-col', '.panel-subsection', '.panel-card__title',
             '.withdraw-panel', '.aff-section__head', '.aff-role', '.aff-flow-card',
-            '.aff-why-card', '.aff-money-panel', '.aff-cta', '.aff-splitbar']
+            '.aff-why-card', '.aff-cta', '.revenue-sheet', '.revenue-flow']
     with sync_playwright() as p:
         b = p.firefox.launch()
         ctx = b.new_context(viewport={'width': 1280, 'height': 1000})

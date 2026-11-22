@@ -268,16 +268,15 @@ API no ar não tem as rotas `/forum/*`, a página mostra o aviso de fora do ar.
 
 A página `/membros` apresenta o projeto e os dois programas no mesmo lugar:
 
-- **Criador**: escolhe um código (3–32 letras, números, `_` ou `-`), compartilha
-  com a audiência e recebe **50%** do valor de cada assinatura confirmada por 1 ano.
-- **Afiliado**: encontra criadores de conteúdo, apresenta o projeto, registra o
-  contato na base compartilhada e recebe **10%** do valor das assinaturas geradas
-  pelos criadores que recrutou.
-- **Usuário indicado**: ganha **15 dias com todos os recursos Plus desbloqueados**,
-  sem pagar nada, e ainda **30% de desconto** no Plus por 1 ano.
-- **Desenvolvimento**: os **10%** restantes pagam os servidores, a estrutura e o
-  criador do app. Manter o espaço vivo é o que faz as pessoas aparecerem. As três
-  fatias (50+10+10) cobrem exatamente o que o usuário paga após o desconto.
+- **Criadores de conteúdo**: **50%** (produzem conteúdo e trazem usuários para a rede).
+- **Usuários**: **25%** (recebem desconto no app como parte da comunidade).
+- **Afiliados**: **10%** (recrutam criadores).
+- **Mods Parceiros**: **5%** (recrutam afiliados).
+- **Desenvolvimento**: **10%** (mantenção e servidores).
+
+A soma das fatias é sempre **100%**. O valor vive em uma única configuração,
+`assets/revenue-split.js` (`window.VIZIN_REVENUE_SPLIT`), e a planilha da página
+#divisao é montada a partir dela.
 
 Outros pontos:
 
@@ -362,11 +361,12 @@ Outros pontos:
     vira uma linha horizontal no topo.
 - A página pública de `/membros` mostra o essencial e entrega o resto no
   **guia completo**: hero (com o texto que explica o programa), `#divisao` (a
-  barra e os quatro percentuais) e `#participar` (CTA final com os dois botões).
+  planilha com os cinco percentuais) e `#participar` (CTA final com os dois botões).
   A seção curta que resumia o funcionamento (`#porDentro`) foi **substituída**
   pelo bloco `#guiaCompleto`, que é o mesmo que o painel usa.
 - **Ritmo vertical único**: o intervalo entre as seções públicas
-  (hero → `#divisao` → `#participar` → `#guiaCompleto`) e entre os grupos do
+  (hero → `#por-que` → `#how-it-works` → `#divisao` → `#justica` →
+  `#efeito-multiplicador` → `#participar`) e entre os grupos do
   painel é sempre de **56px** (`--space-8`). Dentro das seções, rótulo → título
   fica em 24px e título → texto em 16px.
 - Todo o conteúdo detalhado fica em um bloco **"Guia completo do programa"**

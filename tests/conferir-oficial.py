@@ -17,15 +17,16 @@ with sync_playwright() as playwright:
 
     dados = pagina.evaluate(
         """() => {
-          const dev = document.querySelector('#divisao .split-item--dev p');
+          const planilha = document.querySelector('#divisao .revenue-sheet');
+          const justica = document.querySelector('#justica');
           const hero = document.querySelector('.creators-hero');
           return {
             url: location.href,
             breadcrumbNoSite: document.querySelectorAll('.breadcrumb').length,
             breadcrumbTexto: document.querySelector('.breadcrumb')?.innerText.replace(/\\s+/g,' '),
             heroTexto: hero ? hero.innerText.replace(/\\s+/g, ' ').slice(0, 260) : null,
-            devTexto: dev ? dev.innerText.trim() : null,
-            devNoGuia: document.querySelector('#guiaDivisao .split-item--dev p')?.innerText.trim(),
+            planilha: planilha ? planilha.innerText.trim() : null,
+            justica: justica ? justica.innerText.trim() : null,
             heroParagrafos: hero ? hero.querySelectorAll('p').length : 0,
             modalIntro: document.getElementById('createIntro')?.textContent,
             guiaAcordeao: document.querySelectorAll('[data-guide-target]').length,

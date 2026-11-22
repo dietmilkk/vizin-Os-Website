@@ -3040,181 +3040,6 @@ code {
   margin: var(--space-3) 0;
 }
 
-.split-bar {
-  display: flex;
-  height: 62px;
-  margin-top: var(--space-6);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--surface) 30%, transparent);
-}
-
-.split-segment {
-  display: grid;
-  place-items: center;
-  flex: 0 0 var(--share);
-  min-width: 0;
-  color: #fff;
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-/* Cada faixa tem contraste AA com o rotulo branco (>= 4.5:1). */
-.split-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-}
-
-.split-item {
-  padding: var(--space-4);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface-alt);
-  transition:
-    border-color var(--dur) var(--ease-out),
-    background var(--dur) var(--ease-out),
-    transform var(--dur) var(--ease-out);
-}
-
-.split-item:hover {
-  border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
-  background: var(--surface);
-}
-
-.split-item strong {
-  display: block;
-  font-size: 0.86rem;
-}
-
-.split-item p {
-  margin-top: var(--space-2);
-  font-size: 0.8rem;
-  line-height: 1.55;
-}
-
-/* Exemplo de distribuição: diagrama de fluxo (usuários -> criadores ->
-   afiliados -> desenvolvimento), com as mesmas cores das barras acima. */
-.flow-example {
-  margin-top: var(--space-7);
-  padding: var(--space-6);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--surface) 88%, var(--surface-alt));
-  /* O diagrama tem min-width própria e desliza dentro do bloco no celular
-     (rolagem horizontal dele, nunca da página). */
-  overflow-x: auto;
-}
-
-.flow-example__head {
-  max-width: 72ch;
-}
-
-.flow-example__head h3 {
-  margin: 0;
-}
-
-.flow-example__head p {
-  margin: var(--space-3) 0 0;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-/* O diagrama é um SVG com viewBox fixo: escala sem perder a estrutura e,
-   no telefone, rola na horizontal em vez de espremer os textos. */
-.flow-canvas {
-  margin-top: var(--space-6);
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-
-.flow-diagram {
-  display: block;
-  width: 100%;
-  height: auto;
-  min-width: 720px;
-}
-
-/* Traços (as "setas" do fluxo) afinam conforme a página encolhe.
-   As linhas principais de cada etapa são mais grossas que as linhas de
-   entrada marcadas pelos pontinhos, como no mapa de referência. */
-.flow-line {
-  stroke-width: 7;
-}
-
-.flow-line--main {
-  stroke-width: 10.5;
-}
-
-@media (max-width: 1200px) {
-  .flow-line {
-    stroke-width: 6;
-  }
-
-  .flow-line--main {
-    stroke-width: 9;
-  }
-}
-
-@media (max-width: 900px) {
-  .flow-line {
-    stroke-width: 5;
-  }
-
-  .flow-line--main {
-    stroke-width: 8;
-  }
-}
-
-@media (max-width: 640px) {
-  .flow-line {
-    stroke-width: 4.5;
-  }
-
-  .flow-line--main {
-    stroke-width: 7;
-  }
-}
-
-.flow-example__note {
-  margin: var(--space-5) 0 0;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  line-height: 1.55;
-}
-
-.flow-scroll-hint {
-  display: none;
-  margin: var(--space-3) 0 0;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-@media (max-width: 900px) {
-  .flow-canvas {
-    margin-inline: calc(-1 * var(--space-4));
-    padding-inline: var(--space-4);
-    padding-bottom: var(--space-2);
-  }
-
-  .flow-diagram {
-    min-width: 1000px;
-  }
-
-  .flow-scroll-hint {
-    display: block;
-  }
-
-  .flow-example {
-    padding: var(--space-5);
-  }
-}
-
 .fine-print {
   color: var(--text-faint);
   font-size: 0.82rem;
@@ -3352,10 +3177,6 @@ code {
   .project-pillars {
     grid-template-columns: 1fr;
   }
-
-  .split-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 560px) {
@@ -3369,18 +3190,6 @@ code {
 
   .link-field .btn {
     width: 100%;
-  }
-
-  .split-bar {
-    height: 52px;
-  }
-
-  .split-segment {
-    font-size: 0.75rem;
-  }
-
-  .split-grid {
-    grid-template-columns: 1fr;
   }
 
   .program-card {
@@ -3547,13 +3356,11 @@ code {
 
   /* Cartoes mais colados: o respiro dele nao cabe numa tela de 320px. */
   .panel-two-col,
-  .stats-grid,
-  .split-grid {
+  .stats-grid {
     gap: var(--space-3);
   }
 
   .stat,
-  .split-item,
   .panel-group__head {
     padding: var(--space-4);
   }
