@@ -21,8 +21,7 @@ PAGINAS = {
     "/": "vizin.Os",
     "/membros": "Membros",
     "/painel": "Painel público",
-    "/documento": "Documento técnico",
-    "/moderacao": "Moderação",
+    "/documento": "Documento completo",
     "/404.html": "Página não encontrada",
 }
 

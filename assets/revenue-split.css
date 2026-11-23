@@ -1,0 +1,817 @@
+/* ======================================================================
+   Divisão de receita — quatro componentes editoriais
+   Tabela, comparação de mérito, fluxo da rede e simulação.
+   ====================================================================== */
+
+.revenue-sheet {
+  margin-top: var(--space-6);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.revenue-sheet__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: 20px clamp(20px, 4vw, 30px);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.revenue-sheet__summary-value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.revenue-sheet__summary-value > span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.revenue-sheet__summary-value > strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.revenue-sheet__summary > p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.revenue-sheet__scroll {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.revenue-sheet__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.revenue-sheet__table th,
+.revenue-sheet__table td {
+  padding: 17px clamp(18px, 3vw, 28px);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.revenue-sheet__table thead th {
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.revenue-sheet__table thead th:nth-child(2) {
+  width: 16%;
+  text-align: right;
+}
+
+.revenue-sheet__table thead th:nth-child(3) {
+  width: 44%;
+}
+
+.revenue-sheet__table tbody tr {
+  border-top: 1px solid color-mix(in srgb, var(--border-strong) 68%, var(--border));
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.revenue-sheet__table tbody tr:hover {
+  background: color-mix(in srgb, var(--primary-soft) 22%, transparent);
+}
+
+.revenue-sheet__table tfoot tr {
+  border-top: 2px solid color-mix(in srgb, var(--text) 18%, var(--border));
+  background: var(--surface-alt);
+}
+
+.revenue-sheet__table tfoot th,
+.revenue-sheet__table tfoot td {
+  font-weight: 700;
+}
+
+.revenue-role {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: var(--text);
+}
+
+.revenue-role__marker {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: var(--text-muted);
+}
+
+.revenue-role__copy {
+  display: grid;
+  gap: 3px;
+}
+
+.revenue-role__name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.revenue-role__kind {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.revenue-role--creator .revenue-role__marker {
+  background: var(--primary);
+}
+
+.revenue-role--user .revenue-role__marker {
+  background: var(--success);
+}
+
+.revenue-role--affiliate .revenue-role__marker,
+.revenue-role--mod .revenue-role__marker {
+  background: var(--accent);
+}
+
+.revenue-role--development .revenue-role__marker {
+  background: color-mix(in srgb, var(--text-muted) 75%, var(--border));
+}
+
+.revenue-sheet__share {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.revenue-sheet__mobile-label {
+  display: none;
+}
+
+.revenue-sheet__function {
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.revenue-sheet__function-label {
+  display: block;
+}
+
+.revenue-sheet__basis {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.revenue-sheet__notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  padding: 20px clamp(20px, 4vw, 30px);
+  border-top: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.revenue-sheet__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.revenue-sheet__note strong {
+  color: var(--text);
+}
+
+/* ------------------------------------------------------ meritocracia */
+
+.revenue-merit-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: var(--space-6);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.revenue-merit-legend__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: clamp(24px, 3.5vw, 36px);
+}
+
+.revenue-merit-legend__item + .revenue-merit-legend__item {
+  border-left: 1px solid var(--border);
+}
+
+.revenue-merit-legend__item--direct {
+  background: color-mix(in srgb, var(--primary-soft) 30%, var(--surface));
+}
+
+.revenue-merit-legend__number {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.revenue-merit-legend__item--scale .revenue-merit-legend__number {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.revenue-merit-legend__eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.revenue-merit-legend__item--scale .revenue-merit-legend__eyebrow {
+  color: var(--accent-ink);
+}
+
+.revenue-merit-legend h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.revenue-merit-legend p {
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.revenue-merit-legend__measure {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.revenue-merit-legend__measure strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.revenue-merit-legend__measure b {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.revenue-merit-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.revenue-merit-support strong {
+  color: var(--text);
+}
+
+.revenue-merit-support b {
+  color: var(--text);
+  font-weight: 800;
+}
+
+
+/* -------------------------------------------------------- fluxo da rede */
+
+.revenue-network {
+  margin: var(--space-6) 0 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.revenue-network__head {
+  padding: clamp(22px, 4vw, 32px);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.revenue-network__eyebrow {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.revenue-network__head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.revenue-network__head p {
+  max-width: 64ch;
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.revenue-network__levels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revenue-network__level {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.85fr) minmax(130px, 0.55fr) minmax(260px, 1.2fr);
+  grid-template-areas: 'role flow basis';
+  align-items: center;
+  gap: var(--space-5);
+  padding: 16px clamp(20px, 4vw, 30px);
+  border-top: 1px solid var(--border);
+}
+
+.revenue-network__levels > li:first-child {
+  border-top: 0;
+}
+
+.revenue-network__level--mod {
+  background: color-mix(in srgb, var(--primary-soft) 16%, transparent);
+}
+
+.revenue-network__level--affiliate {
+  background: color-mix(in srgb, var(--accent-soft) 13%, transparent);
+}
+
+.revenue-network__role {
+  grid-area: role;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.revenue-network__number {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.revenue-network__role strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.revenue-network__connector {
+  grid-area: flow;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.revenue-network__connector > span {
+  color: var(--primary-ink);
+  font-size: 0.9rem;
+}
+
+.revenue-network__basis {
+  grid-area: basis;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.revenue-network__basis strong {
+  flex: none;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.revenue-network__basis p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.revenue-network__basis--benefit strong {
+  color: var(--success-ink);
+}
+
+/* ------------------------------------------------------ simulação */
+
+.revenue-simulation {
+  margin-top: var(--space-6);
+  padding: clamp(24px, 4vw, 36px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.revenue-simulation__head {
+  max-width: 82ch;
+}
+
+.revenue-simulation__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  margin-bottom: var(--space-3);
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.revenue-simulation h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.revenue-simulation__chain {
+  margin: var(--space-4) 0 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.revenue-simulation__chain strong {
+  color: var(--primary-ink);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.revenue-simulation__assumption {
+  max-width: 80ch;
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.revenue-simulation__assumption strong {
+  color: var(--text);
+}
+
+.revenue-simulation__ledger {
+  margin-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.revenue-simulation__row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.75fr) minmax(220px, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.revenue-simulation__row > span {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.revenue-simulation__row strong {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.revenue-simulation__row b {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.revenue-simulation__row--mod {
+  margin-inline: -10px;
+  padding-inline: 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--primary-soft) 25%, transparent);
+}
+
+.revenue-simulation__conclusion {
+  max-width: 88ch;
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.revenue-simulation__conclusion strong {
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------ responsivo */
+
+@media (max-width: 960px) {
+  .revenue-network__level {
+    grid-template-columns: minmax(160px, 0.8fr) minmax(115px, 0.55fr) minmax(220px, 1.2fr);
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 760px) {
+  .revenue-sheet__summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .revenue-sheet__summary-value {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .revenue-sheet__table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .revenue-sheet__table,
+  .revenue-sheet__table tbody,
+  .revenue-sheet__table tfoot,
+  .revenue-sheet__table tr,
+  .revenue-sheet__table th,
+  .revenue-sheet__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .revenue-sheet__table tbody tr,
+  .revenue-sheet__table tfoot tr {
+    position: relative;
+    padding: 15px 82px 15px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .revenue-sheet__table tbody tr:first-child {
+    border-top: 0;
+  }
+
+  .revenue-sheet__table th,
+  .revenue-sheet__table td {
+    padding: 0;
+  }
+
+  .revenue-sheet__table .revenue-sheet__share {
+    position: absolute;
+    top: 13px;
+    right: 16px;
+    font-size: 1.5rem;
+  }
+
+  .revenue-sheet__mobile-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .revenue-sheet__table .revenue-sheet__function {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  }
+
+  .revenue-sheet__table tfoot tr {
+    border-top: 2px solid color-mix(in srgb, var(--text) 18%, var(--border));
+  }
+
+  .revenue-network__level {
+    grid-template-columns: minmax(118px, 0.75fr) minmax(0, 1.25fr);
+    grid-template-areas:
+      'role basis'
+      'flow basis';
+    gap: 7px 12px;
+    padding-block: 14px;
+  }
+
+  .revenue-network__basis {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .revenue-simulation__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px var(--space-4);
+  }
+
+  .revenue-simulation__row > span,
+  .revenue-simulation__row strong {
+    grid-column: 1;
+  }
+
+  .revenue-simulation__row b {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  #divisao,
+  #justica,
+  #efeito-multiplicador {
+    padding-block: 56px;
+  }
+
+  .revenue-sheet__notes {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px 20px;
+  }
+
+  .revenue-sheet__note + .revenue-sheet__note {
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .revenue-merit-legend {
+    grid-template-columns: 1fr;
+  }
+
+  .revenue-merit-legend__item + .revenue-merit-legend__item {
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .revenue-merit-support {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .revenue-network__head,
+  .revenue-simulation {
+    padding-inline: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .revenue-sheet__summary {
+    padding: 16px 18px;
+  }
+
+  .revenue-sheet__table tbody tr,
+  .revenue-sheet__table tfoot tr {
+    padding: 12px 76px 12px 14px;
+  }
+
+  .revenue-sheet__table .revenue-sheet__share {
+    top: 11px;
+    right: 14px;
+  }
+
+  .revenue-sheet__table .revenue-sheet__function {
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
+  .revenue-sheet__notes {
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
+  .revenue-sheet__note + .revenue-sheet__note {
+    padding-top: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .revenue-network__level {
+    grid-template-columns: minmax(112px, 0.78fr) minmax(0, 1.22fr);
+    gap: 6px 9px;
+    padding-inline: 16px;
+  }
+
+  .revenue-network__number {
+    width: 27px;
+    height: 27px;
+  }
+
+  .revenue-network__role {
+    gap: 8px;
+  }
+
+  .revenue-network__role strong {
+    min-width: 0;
+    font-size: 0.9375rem;
+  }
+
+  .revenue-network__basis strong {
+    font-size: 1.2rem;
+  }
+}

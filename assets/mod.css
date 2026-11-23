@@ -1,0 +1,262 @@
+/* Painel simples do Mod Parceiro. */
+
+.mod-page main {
+  padding-bottom: var(--space-8);
+}
+
+.mod-main {
+  min-height: 58vh;
+}
+
+.mod-brand-text {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.mod-brand-text--lg {
+  font-size: 1.5rem;
+}
+
+.mod-heading {
+  padding-top: var(--space-7);
+}
+
+.mod-heading h1,
+.mod-heading h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mod-heading p {
+  max-width: 65ch;
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.mod-heading .mod-eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--primary-ink);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mod-access-card {
+  max-width: 720px;
+}
+
+.mod-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border: 1px dashed var(--primary);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary-soft) 55%, var(--surface));
+}
+
+.mod-code-box span {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.mod-code-box strong {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.mod-token-form .field {
+  margin-top: var(--space-5);
+}
+
+.mod-token-form .btn {
+  width: auto;
+  margin-top: var(--space-5);
+}
+
+.field-hint {
+  margin: var(--space-2) 0 0;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+
+.mod-feedback {
+  min-height: 1.5em;
+  margin: var(--space-4) 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.mod-feedback.is-error {
+  color: var(--danger);
+}
+
+.mod-feedback.is-success {
+  color: var(--success-ink);
+}
+
+.mod-stats {
+  margin-top: 0;
+}
+
+.mod-stats .stat {
+  min-width: 0;
+}
+
+.mod-stats .value {
+  overflow-wrap: anywhere;
+}
+
+.mod-withdraw-card,
+.mod-history-card,
+.mod-handle-card {
+  margin-top: var(--space-5);
+}
+
+.mod-profile-form {
+  margin-top: var(--space-4);
+}
+
+.mod-profile-form .field {
+  margin-top: var(--space-4);
+}
+
+.mod-profile-form .btn {
+  width: auto;
+  margin-top: var(--space-5);
+}
+
+.mod-about {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle, rgba(20, 20, 25, 0.12));
+}
+
+.mod-about summary {
+  cursor: pointer;
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+
+.mod-about p {
+  margin-top: var(--space-3);
+  color: var(--text-muted);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.mod-withdraw-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.mod-withdraw-head > div {
+  min-width: 0;
+}
+
+.mod-copy-button {
+  flex: none;
+  width: auto;
+  margin: 0;
+}
+
+.mod-balance {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: 14px;
+  background: var(--surface-alt);
+}
+
+.mod-balance .label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mod-balance strong {
+  color: var(--primary-ink);
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  font-variant-numeric: tabular-nums;
+}
+
+#mod-withdraw-button {
+  width: 100%;
+  margin-top: var(--space-5);
+}
+
+.withdraw-row__reason {
+  flex-basis: 100%;
+  color: var(--danger);
+  font-size: 0.82rem;
+}
+
+.mod-toast {
+  position: fixed;
+  right: var(--space-5);
+  bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+  z-index: 100;
+  max-width: min(420px, calc(100vw - 2 * var(--space-5)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  background: var(--text);
+  color: var(--background);
+  box-shadow: var(--shadow-pop);
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.mod-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .mod-heading {
+    padding-top: var(--space-6);
+  }
+
+  .mod-code-box,
+  .mod-withdraw-head,
+  .mod-balance {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .mod-token-form .btn,
+  .mod-copy-button,
+  #mod-withdraw-button {
+    width: 100%;
+  }
+
+  .mod-toast {
+    right: var(--space-4);
+    left: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    max-width: none;
+  }
+}

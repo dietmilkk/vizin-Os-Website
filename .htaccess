@@ -15,16 +15,25 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # O backend pode devolver o onboarding Stripe à raiz ou a /membros com
+  # role=mod. Nesses casos, encaminha para o painel preservando a query.
+  RewriteCond %{QUERY_STRING} (^|&)role=mod(&|$)
+  RewriteRule ^(membros/?)?$ /mod [R=302,L]
+
   # URL antiga com barra final (era pasta com index.html) -> URL sem extensao.
   # O 301 preserva SEO e links salvos; vale para sempre.
   RewriteRule ^membros/?$ /membros [R=301,L]
   RewriteRule ^documento/?$ /documento [R=301,L]
   RewriteRule ^download/?$ /download [R=301,L]
   RewriteRule ^licenca/?$ /licenca [R=301,L]
-  RewriteRule ^moderacao/?$ /moderacao [R=301,L]
+  # A pagina antiga de moderacao foi incorporada ao documento completo.
+  # O flag NE preserva o fragmento #moderacao no cabecalho Location.
+  RewriteRule ^moderacao(?:/.*)?$ /documento#moderacao [R=301,L,NE]
+  RewriteRule ^moderacao\.html$ /documento#moderacao [R=301,L,NE]
   RewriteRule ^painel/?$ /painel [R=301,L]
   RewriteRule ^privacidade/?$ /privacidade [R=301,L]
   RewriteRule ^termos/?$ /termos [R=301,L]
+  RewriteRule ^mod/$ /mod [R=301,L]
 
 
   # A doacao abre diretamente o Payment Link hospedado pela Stripe.
@@ -33,6 +42,10 @@ ErrorDocument 404 /404.html
   # A extensao .html nunca aparece na URL: quem acessa /painel.html cai na
   # URL cannica /painel (308, igual ao Caddy da VPS).
   RewriteRule ^([a-z-]+)\.html$ /$1 [R=308,L]
+
+  # Link do Mod: 11 dígitos começando com 1. A URL pública continua numérica
+  # e o painel lê o código de window.location.pathname.
+  RewriteRule ^1[0-9]{10}/?$ /mod.html [END]
 
   # Pretty URL: /painel serve painel.html (o arquivo nao precisa aparecer).
   RewriteCond %{REQUEST_FILENAME} !-d

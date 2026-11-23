@@ -82,23 +82,6 @@
     return document.getElementById(id);
   }
 
-  /** CPF válido de verdade: 11 dígitos com os dois dígitos verificadores. */
-  function isValidCpf(value) {
-    var digits = String(value || '').replace(/\D/g, '');
-    if (digits.length !== 11 || /(\d)\1{10}/.test(digits)) return false;
-    function digit(slice, start) {
-      var sum = 0;
-      var weight = start;
-      for (var i = 0; i < slice.length; i += 1) {
-        sum += Number(slice[i]) * weight;
-        weight -= 1;
-      }
-      var rest = (sum * 10) % 11;
-      return rest === 10 ? 0 : rest;
-    }
-    if (digit(digits.slice(0, 9), 10) !== Number(digits[9])) return false;
-    return digit(digits.slice(0, 10), 11) === Number(digits[10]);
-  }
 
   function show(id) {
     var el = $(id);
@@ -108,55 +91,6 @@
   function hide(id) {
     var el = $(id);
     if (el) el.classList.add('hidden');
-  }
-
-  /* ------------------------------------------------- guia completo (rodapé)
-
-     O mesmo guia aparece na página pública e no painel. Na página pública ele
-     abre na primeira aba ("O projeto"); no painel ele assume o bloco do papel
-     de quem está logado, com o convite para o outro papel. */
-
-  var GUIDE_NAV = [
-    ['O projeto', 'guiaProjeto'],
-    ['Como funciona', 'guiaPrograma'],
-    ['Divisão', 'guiaDivisao'],
-  ];
-
-  var PUBLIC_NAV = [
-    ['Como funciona', 'como-funciona'],
-    ['Dinheiro', 'divisao'],
-    ['Participar', 'participar'],
-  ];
-
-  function setNavLinks(links) {
-    var nav = document.querySelector('.partners-nav');
-    if (!nav) return;
-    var anchors = nav.querySelectorAll('a');
-    links.forEach(function (item, index) {
-      var anchor = anchors[index];
-      if (!anchor) return;
-      anchor.textContent = item[0];
-      anchor.setAttribute('href', '#' + item[1]);
-    });
-  }
-
-  /* O guia em acordeao saiu quando a pagina publica foi reescrita: a
-     explicacao agora mora nas secoes "Escolha seu papel" e "Como o valor
-     e dividido". As funcoes abaixo sao do modelo antigo e nao tem mais
-     elemento para funcionar — nao as religue sem o HTML correspondente. */
-  function showGuide(role) {
-    setNavLinks(GUIDE_NAV);
-  }
-
-  function setupGuideAccordion() {
-    return;
-  }
-
-  /* A página pública mantém o guia visível: ele só volta ao estado inicial
-     (primeira aba aberta, sem convite de papel) e aponta o menu para a
-     página pública. */
-  function resetGuide() {
-    setNavLinks(PUBLIC_NAV);
   }
 
   function brl(cents) {
@@ -684,10 +618,10 @@
     window.history.replaceState(null, '', '/membros');
   }
 
-  function createAccount(code, isAfiliado, handle, allowRetry, cpf, email, name) {
-    var body = { handle: handle, code: code, cpf: cpf, email: email };
+  function createAccount(code, isAfiliado, handle, allowRetry, email, name) {
+    var body = { handle: handle, code: code, email: email };
     // O nome da pessoa vai para a conta: e ele que identifica o titular
-    // do Pix nos saques (o @ e so o identificador publico).
+    // (e precisa bater com o nome informado na Stripe).
     if (name) body.name = name;
     if (!isAfiliado && attributionCode) body.hunter_code = attributionCode;
     return api(isAfiliado ? '/hunters' : '/creators', {
@@ -700,7 +634,7 @@
       .catch(function (error) {
         var message = String(error.message || error);
         if (allowRetry && error.status === 409 && /handle/i.test(message)) {
-          return createAccount(code, isAfiliado, deriveHandle(code, true), false, cpf, email);
+          return createAccount(code, isAfiliado, deriveHandle(code, true), false, email, name);
         }
         throw error;
       });
@@ -732,17 +666,11 @@
       return;
     }
 
-    // CPF e e-mail: exigência dos bancos para segurança da conta e saques
-    // (prevenção à lavagem de dinheiro).
-    var cpfInput = $('createCpf');
+    // Nome completo (identifica a pessoa e precisa bater com a Stripe) e e-mail
+    // (avisos e comprovantes). O CPF é pedido pela própria Stripe, no momento
+    // de configurar a conta de recebimento.
     var emailInput = $('createEmail');
-    var cpf = cpfInput ? String(cpfInput.value || '').replace(/\D/g, '') : '';
     var email = emailInput ? String(emailInput.value || '').trim() : '';
-    if (!isValidCpf(cpf)) {
-      $('createError').textContent = 'Digite um CPF válido.';
-      if (cpfInput) cpfInput.focus();
-      return;
-    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
       $('createError').textContent = 'Digite um e-mail válido.';
       if (emailInput) emailInput.focus();
@@ -755,7 +683,12 @@
       var handle = handleAtual || deriveHandle(code);
       var nameInput = $('createName');
       var nome = nameInput ? String(nameInput.value || '').trim() : '';
-      return createAccount(code, isAfiliado, handle, true, cpf, email, nome).catch(function (error) {
+      if (nome.length < 2) {
+        $('createError').textContent = 'Digite seu nome completo.';
+        if (nameInput) nameInput.focus();
+        return null;
+      }
+      return createAccount(code, isAfiliado, handle, true, email, nome).catch(function (error) {
         var code409 = error.status === 409;
         var data = error.data || {};
         // Bloqueio por IP: datacenter, VPN, proxy, Tor ou fora do Brasil.
@@ -770,7 +703,7 @@
           // digitou faria a segunda tentativa ser recusada sem explicacao.
           var retryCode = generateAffiliateCode();
           if (codeInput) codeInput.value = retryCode;
-          return createAccount(retryCode, isAfiliado, deriveHandle(retryCode), true, cpf, email, nome).catch(function (retryError) {
+          return createAccount(retryCode, isAfiliado, deriveHandle(retryCode), true, email, nome).catch(function (retryError) {
             var retryData = retryError.data || {};
             if (retryData.code === 'IP_DENIED') {
               goToNotFound();
@@ -846,7 +779,6 @@
     show('dashboardView');
     hide('createView');
     hide('createdView');
-    showGuide('creator');
     var request = preloaded
       ? Promise.resolve(preloaded)
       : api('/creators/me?token=' + encodeURIComponent(creatorToken));
@@ -927,7 +859,6 @@
     show('afiliadoDashboardView');
     hide('createView');
     hide('createdView');
-    showGuide('afiliado');
     var view = $('afiliadoDashboardView');
     if (view) view.classList.add('is-loaded');
     var request = preloaded
@@ -1021,13 +952,56 @@
     });
   }
 
+  /* Intenção de saque guardada enquanto a pessoa configura a conta na Stripe:
+     ao voltar, o saque continua sozinho (sem precisar clicar de novo). */
+  function pendingKey(kind) {
+    return 'vizin.os.payout.pending.' + kind;
+  }
+
+  function rememberPending(kind) {
+    try {
+      window.sessionStorage.setItem(pendingKey(kind), newIdempotencyKey('ksaq'));
+    } catch (error) {
+      /* Sem storage: o saque continua manual após o onboarding. */
+    }
+  }
+
+  function pendingKeyValue(kind) {
+    try {
+      var saved = window.sessionStorage.getItem(pendingKey(kind));
+      if (saved) return saved;
+    } catch (error) {
+      /* Sem storage: gera uma chave nova. */
+    }
+    return newIdempotencyKey('ksaq');
+  }
+
+  function hasPending(kind) {
+    try {
+      return Boolean(window.sessionStorage.getItem(pendingKey(kind)));
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function clearPending(kind) {
+    try {
+      window.sessionStorage.removeItem(pendingKey(kind));
+    } catch (error) {
+      /* Nada a fazer. */
+    }
+  }
+
   function requestWithdrawal(kind) {
     var isAfiliado = kind === 'afiliado';
     var errorEl = $(isAfiliado ? 'afiliadoWithdrawError' : 'withdrawError');
     var button = $(isAfiliado ? 'afiliadoWithdrawButton' : 'withdrawButton');
     errorEl.textContent = '';
+    errorEl.classList.remove('ok');
 
     if (connectStatus[kind] !== 'complete') {
+      // Guarda a intenção: ao voltar da Stripe o saque segue sozinho.
+      rememberPending(kind);
       withLoading(button, function () {
         return runConnectOnboarding(kind, errorEl);
       });
@@ -1039,10 +1013,11 @@
         method: 'POST',
         body: JSON.stringify({
           token: isAfiliado ? afiliadoToken : creatorToken,
-          idempotency_key: newIdempotencyKey('ksaq'),
+          idempotency_key: pendingKeyValue(kind),
         }),
       })
         .then(function () {
+          clearPending(kind);
           return isAfiliado ? loadAfiliadoDashboard() : loadCreatorDashboard();
         })
         .then(function () {
@@ -1050,14 +1025,27 @@
           errorEl.classList.add('ok');
         })
         .catch(function (error) {
+          var data = error.data || {};
+          if (error.status === 409 && data.code === 'name_mismatch') {
+            clearPending(kind);
+            errorEl.textContent = String(error.message || error);
+            return;
+          }
+          if (error.status === 409) {
+            errorEl.textContent =
+              'Sua configuração da Stripe ainda está incompleta. Abrindo a configuração novamente…';
+            rememberPending(kind);
+            runConnectOnboarding(kind, errorEl);
+            return;
+          }
           errorEl.textContent = String(error.message || error);
         });
     });
   }
 
-  /* Retorno do onboarding hospedado da Stripe: confirma o estado da conta e
-     atualiza o painel. Em refresh, a pessoa só precisa clicar em “Sacar” de
-     novo. */
+  /* Retorno do onboarding hospedado da Stripe: confirma o estado da conta,
+     atualiza o painel e — se a pessoa já tinha clicado em “Sacar” — conclui o
+     saque automaticamente, sem outro clique. */
   function handleStripeConnectReturn() {
     var flag = params.get('stripe_connect_return') || params.get('stripe_connect_refresh');
     if (!flag) return;
@@ -1073,8 +1061,13 @@
     })
       .then(function (data) {
         updateConnectStatus(role, data.onboarding_status);
-        if (role === 'afiliado') return loadAfiliadoDashboard();
-        return loadCreatorDashboard();
+        var pronto = data.onboarding_status === 'complete';
+        return (role === 'afiliado'
+          ? loadAfiliadoDashboard()
+          : loadCreatorDashboard()
+        ).then(function () {
+          if (pronto && hasPending(role)) requestWithdrawal(role);
+        });
       })
       .catch(function () {
         /* Sem estado novo: o painel mostra o status salvo no servidor. */
@@ -1285,7 +1278,6 @@
 
   function setupPage() {
     setupReveal();
-    setupGuideAccordion();
   }
 
   if (document.readyState === 'loading') {
@@ -1303,7 +1295,6 @@
   } else if (panelToken) {
     resolvePanelRole();
   } else {
-    resetGuide();
     loadAttributionName();
     updateAttributionUI();
   }

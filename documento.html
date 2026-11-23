@@ -4,26 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FFF9F2">
-  <title>vizin.Os — Documentação</title>
-  <meta name="description" content="Como o vizin.Os funciona, sem termo difícil: app de bairro, conversas protegidas, privacidade e moderação feita pela comunidade.">
+  <title>vizin.Os — Documento completo: como o app funciona</title>
+  <meta name="description" content="Entenda como funciona o vizin.Os: contas, regiões, grupos, encontros, privacidade, segurança, moderação, anúncios e o plano Plus, sem esconder os limites atuais.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vizin-os.vercel.app/documento">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="vizin.Os">
-  <meta property="og:title" content="vizin.Os — como o app funciona">
-  <meta property="og:description" content="Um app de bairro, explicado sem termo difícil: encontros reais, conversas protegidas e regras decididas pela comunidade.">
+  <meta property="og:title" content="vizin.Os — como o app funciona, por dentro">
+  <meta property="og:description" content="Um guia completo e direto sobre contas, encontros, privacidade, segurança e moderação coletiva no vizin.Os.">
   <meta property="og:url" content="https://vizin-os.vercel.app/documento">
   <meta property="og:image" content="https://vizin-os.vercel.app/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="vizin.Os — como o app funciona">
-  <meta name="twitter:description" content="Um app de bairro, explicado sem termo difícil: encontros reais, conversas protegidas e regras decididas pela comunidade.">
+  <meta name="twitter:title" content="vizin.Os — como o app funciona, por dentro">
+  <meta name="twitter:description" content="Um guia completo e direto sobre contas, encontros, privacidade, segurança e moderação coletiva no vizin.Os.">
   <meta name="twitter:image" content="https://vizin-os.vercel.app/assets/og-image.png">
   <link rel="icon" href="/assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="woff2" crossorigin>
   <link rel="preload" href="/assets/brand/wordmark.png" as="image" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="/assets/styles.css">
@@ -55,17 +55,23 @@
   <main id="content">
     <section class="page-hero">
       <div class="container">
-        <h1>Documento técnico</h1>
+        <h1>Documento completo</h1>
         <p>
-          Como o vizin.Os funciona, explicado sem termo difícil — e sem esconder o que
-          ainda não está pronto.
+          Como o vizin.Os funciona, do primeiro cadastro aos encontros — com a
+          moderação, os limites e as escolhas de privacidade explicados sem
+          rodear a conversa.
         </p>
         <nav class="nav-shortcuts" aria-label="Atalhos de navegação">
-          <a href="#idea">A ideia</a>
-          <a href="#how-it-works">Como funciona</a>
-          <a href="#privacy">Privacidade</a>
-          <a href="#moderation">Moderação</a>
-          <a href="#gap">O que falta</a>
+          <a href="#visao-geral">Visão geral</a>
+          <a href="#contas">Contas e regiões</a>
+          <a href="#grupos">Grupos</a>
+          <a href="#encontros">Encontros</a>
+          <a href="#privacidade">Privacidade</a>
+          <a href="#moderacao">Moderação</a>
+          <a href="#emergencia">Emergência</a>
+          <a href="#plus">Anúncios e Plus</a>
+          <a href="#limites">Limites atuais</a>
+          <a href="#faq">Dúvidas</a>
         </nav>
         <hr class="page-hero-divider">
       </div>
@@ -74,113 +80,518 @@
     <section class="section-tight">
       <div class="container prose prose--wide prose--leitura">
 
-        <h2 id="idea">A ideia</h2>
+        <h2 id="sumario">Neste documento</h2>
         <p>
-          O vizin.Os é um app de bairro. Ele aproxima gente que mora perto para
-          marcar um café, uma caminhada ou um jogo — e depois sai do caminho
-          para o encontro acontecer.
+          Se você chegou aqui querendo uma resposta rápida, use o sumário. Cada
+          bloco tenta responder a uma pergunta diferente, sem esconder o que
+          ainda não está pronto.
+        </p>
+        <ol>
+          <li><a href="#visao-geral">Visão geral</a></li>
+          <li><a href="#como-funciona">Como funciona na prática</a></li>
+          <li><a href="#contas">Contas e regiões</a></li>
+          <li><a href="#grupos">Grupos e conversa</a></li>
+          <li><a href="#encontros">Encontros</a></li>
+          <li><a href="#privacidade">Privacidade e segurança</a></li>
+          <li><a href="#moderacao">Moderação completa</a></li>
+          <li><a href="#emergencia">Segurança do usuário e emergência</a></li>
+          <li><a href="#plus">Anúncios e vizin.Os Plus</a></li>
+          <li><a href="#limites">Limitações atuais</a></li>
+          <li><a href="#faq">Perguntas frequentes</a></li>
+        </ol>
+
+        <h2 id="visao-geral">Visão geral</h2>
+        <p>
+          O vizin.Os é um app de bairro. Ele aproxima quem mora perto para
+          combinar um café, uma caminhada, um jogo ou um mutirão — e depois
+          sai do caminho para que o encontro aconteça de verdade.
         </p>
         <p>
-          A escala é pequena de propósito. Em vez de disputar a atenção do
-          planeta, o app olha para o quarteirão. Quando a pessoa do outro lado
+          A escala é pequena de propósito. Em vez de disputar a atenção do mundo
+          inteiro, o app olha para o quarteirão. Quando a pessoa do outro lado
           pode estar na sua frente amanhã na padaria, a conversa muda de tom.
         </p>
         <p>
-          Você não precisa de foto, e-mail nem telefone. Um nome de usuário, um
-          emoji e uma cor bastam. Não existe feed público nem algoritmo
-          escolhendo o que você vê.
-        </p>
-
-        <h2 id="por-que">Por que ele existe</h2>
-        <p>
-          A gente sabe o que aconteceu do outro lado do mundo e não sabe o nome
-          de quem mora no apartamento de cima. As redes comuns são boas para
-          notícia e entretenimento, mas ruins para uma coisa simples: descobrir
-          quem está por perto.
+          Não existe feed público nem algoritmo escolhendo o que você vê. Você
+          não precisa de foto, e-mail ou telefone: um nome de usuário, um emoji e
+          uma cor bastam. O objetivo é simples — ajudar pessoas próximas a se
+          conhecer e repetir isso fora da tela.
         </p>
         <p>
-          Os apps de relacionamento resolveram isso transformando gente em
-          catálogo. Aqui é o contrário: menos vitrine, mais convivência. A conta
-          fecha no positivo quando você marca um encontro e some da tela.
+          O projeto é independente. Não há empresa, investidores ou uma equipe
+          editorial dando ordens à comunidade. Há uma pessoa responsável pelo
+          projeto e vizinhos tomando decisões dentro de cada grupo.
         </p>
 
-        <h2 id="how-it-works">Como funciona</h2>
+        <h2 id="como-funciona">Como funciona na prática</h2>
+        <ol>
+          <li>
+            <strong>Você cria a conta no celular.</strong> Escolhe um nome de
+            usuário e uma senha. O app identifica sua região e prepara seu
+            perfil.
+          </li>
+          <li>
+            <strong>Você entra na conversa da região.</strong> Ali estão os
+            grupos que fazem sentido para a sua volta e os avisos de quem está
+            por perto.
+          </li>
+          <li>
+            <strong>Você participa, observa ou propõe.</strong> Mandar mensagem
+            ajuda a conversa, mas a confiança para votar nas decisões do grupo
+            vem da presença: encontros e participação nas decisões da
+            comunidade.
+          </li>
+          <li>
+            <strong>Você marca um encontro.</strong> Escolhe o tipo, o local, a
+            data e a hora, e convida quem quiser.
+          </li>
+          <li>
+            <strong>Depois do encontro, a conversa continua.</strong> Dá para
+            avaliar como foi, combinar os próximos rolês e manter a convivência
+            sem depender de um perfil de rede social.
+          </li>
+        </ol>
+        <p>
+          O app também mostra uma nota simples de isolamento social, de 1 a 10,
+          baseada na participação presencial dos últimos 30 dias. Ela não é uma
+          competição nem uma nota pública: serve apenas para lembrar que o
+          propósito do vizin.Os é sair de casa.
+        </p>
 
-        <h3>Sua conta mora no seu celular</h3>
+        <h2 id="contas">Contas e regiões</h2>
+        <h3>A conta mora com você</h3>
         <p>
           A conta nasce de um nome de usuário e uma senha. As chaves que protegem
-          tudo são criadas e guardadas no aparelho — nenhum servidor guarda a
-          sua senha. Se você trocar de celular, precisa do seu backup de
-          recuperação.
+          seus dados são criadas e guardadas no aparelho; a senha não é enviada
+          para um servidor. No primeiro acesso, o app também oferece um código
+          de recuperação. Guardá-lo é importante: ele, junto com o nome de
+          usuário e a senha, permite recuperar a conta em outro aparelho.
+        </p>
+        <p>
+          Não existe recuperação por e-mail. Isso reduz a exposição de dados,
+          mas significa que a responsabilidade de guardar o código é da
+          pessoa. Também é possível apagar a conta pelo próprio app. Depois que
+          o servidor confirma a exclusão, as chaves e o histórico local são
+          apagados.
+        </p>
+        <p>
+          Uma conta que fica muito tempo sem sinal de atividade sai da busca e
+          da conversa. Depois de 30 dias inativos, o registro é removido do
+          servidor, mas fica um registro que impede criar outra conta com o
+          mesmo nome. Abrir o app antes disso recupera a conta normalmente.
         </p>
 
-        <h3>A conversa viaja lacrada</h3>
+        <h3>A região é o limite do bairro</h3>
         <p>
-          As mensagens são cifradas: viram um envelope que só abre nas duas
-          pontas. Quem transporta não consegue ler. Quando as duas pessoas estão
-          online, a conversa vai direto de um aparelho para o outro. Quando não
-          estão, um serviço chamado farol segura o envelope por até 48 horas e
-          depois apaga.
+          As regiões são formadas por conjuntos de bairros e chegam a 5 km de
+          raio. O mesmo local sempre leva à mesma região, calculada no próprio
+          aparelho. O nome vem da lista dos bairros reunidos ali — por exemplo,
+          “Olinda, Paulista”. Cada bairro pertence a apenas uma região.
+        </p>
+        <p>
+          Para descobrir a região, o app usa a localização somente enquanto
+          está aberto e guarda esse dado por uma hora. Ele não trabalha com seu
+          endereço. A posição enviada ao servidor é arredondada de propósito,
+          para revelar apenas a proximidade necessária — e, ainda assim, não
+          permite a alguém ver a casa de outra pessoa.
         </p>
 
-        <h3>O bairro é o limite</h3>
+        <h2 id="grupos">Grupos e conversa</h2>
         <p>
-          As regiões são feitas de bairros e cabem em até 5 km. A localização só
-          é usada com o app aberto, fica guardada por uma hora e vira o município
-          mais próximo. O app nunca trabalha com o seu endereço.
+          Cada grupo tem uma conversa própria. As mensagens, áudios curtos,
+          imagens, reações e links cabem no mesmo espaço, com limites para
+          manter a conversa saudável. Áudio é gravado ao segurar o botão do
+          microfone; ao soltar, a mensagem é enviada.
+        </p>
+        <p>
+          Os grupos aparecem pelo alcance de cada pessoa. Um grupo pode ser
+          encontrado por estar perto, mas a distância não determina a
+          permanência: quem já participa continua nos grupos mesmo se o ponto
+          de encontro do grupo se deslocar. Isso evita que a matemática expulse
+          alguém de uma conversa da qual faz parte.
+        </p>
+        <p>
+          Cada pessoa pode criar até dois grupos. Para criar um, é necessário já
+          ter alcancado a condição de participante da comunidade. Os grupos
+          podem ser organizados em categorias, como “Preferidos” e “Outros”, e
+          cada pessoa pode criar, renomear e reorganizar as suas.
+        </p>
+        <p>
+          Além da conversa aberta, existem mensagens privadas entre duas
+          pessoas. Elas são protegidas para que o conteúdo não fique exposto
+          no caminho. A primeira vez que esse recurso é usado, o app mostra um
+          aviso de privacidade.
         </p>
 
-        <h3>Criar contas em massa custa caro</h3>
+        <h2 id="encontros">Encontros</h2>
         <p>
-          Criar uma conta de verdade é rápido. Criar milhares de contas
-          automáticas, não: o app faz uma pequena verificação no aparelho e
-          confere com a loja de aplicativos se a instalação é legítima. Isso não
-          é um rastreador — é só uma barreira a mais contra robôs.
+          Qualquer pessoa pode propor um encontro desde o começo: um futebol,
+          uma feira, um café, um mutirão. O encontro tem categoria, local, data
+          e hora. Quem quiser participar responde “Vou”, “Talvez” ou “Não vou”;
+          também é possível avisar que chega mais tarde ou levar mais gente.
+        </p>
+        <p>
+          Há uma área própria para ver os encontros da região, com filtro por
+          distância e por 13 categorias, que vão de esportes a voluntariado.
+          Dentro de cada grupo, o calendário mostra os encontros daquela
+          conversa.
+        </p>
+        <p>
+          Para um rolê de última hora, existe “Tô descendo”: você escreve o
+          título, escolhe um modelo pronto, como praça, padaria ou quadra, e
+          informa a duração. Cada encontro também tem uma conversa temporária
+          só para acertar os detalhes.
+        </p>
+        <p>
+          O app lembra o compromisso 24 horas, 2 horas e 30 minutos antes. Depois
+          do encontro, quem participou pode dizer como foi — “Incrível”, “Bom”
+          ou “Fraco” — e essa avaliação fica no histórico do encontro.
         </p>
 
-        <h2 id="privacy">O que fica público</h2>
+        <h2 id="privacidade">Privacidade e segurança</h2>
         <p>
-          Pouca coisa: seu perfil (nome, emoji e cor), o nome e a descrição dos
-          grupos de que você participa, os anúncios que aparecem no app e os
-          dados gerais da região, como nome e lista de bairros — sem a posição
-          de ninguém.
+          Pouca coisa fica pública: o perfil com nome, emoji e cor; o nome e a
+          descrição dos grupos de que você participa; os anúncios do app; e os
+          dados gerais da região, como seu nome e a lista de bairros. A posição
+          de cada pessoa não aparece publicamente.
         </p>
         <p>
-          O resto fica com você. As conversas são protegidas, e a equipe não tem
-          acesso a elas. Na versão gratuita aparecem anúncios; quem assina o
-          Plus não vê.
+          O restante é protegido. As conversas viajam cifradas, ou seja, só
+          abrem nas pontas que pertencem à conversa. Quando as duas pessoas
+          estão online, a mensagem vai direto de um aparelho para o outro.
+          Quando não estão, um serviço leve, chamado farol, guarda o envelope
+          por até 48 horas e depois o apaga.
+        </p>
+        <p>
+          A equipe do projeto não tem as chaves para abrir as conversas dos
+          grupos. O conteúdo dessas mensagens também não é enviado para
+          empresas de anúncios ou de análise de comportamento.
+        </p>
+        <p>
+          Para dificultar contas automáticas, o app faz uma pequena verificação
+          do aparelho e confere com a loja de aplicativos se a instalação parece
+          legítima. Isso não é um rastreador. Também há verificações de integridade
+          para perceber adulterações importantes no aplicativo. Elas reduzem
+          tentativas de abuso, mas não tornam o aparelho infalível.
+        </p>
+        <p>
+          Os registros que formam a conversa e as decisões são assinados pela
+          conta que os criou. Assim, o app pode reconhecer alterações e
+          informações históricas que não fazem sentido. Ainda assim, segurança
+          aqui não significa sigilo absoluto:
+          quem participa de uma conversa pode guardar uma cópia do que recebeu.
         </p>
 
-        <h2 id="moderation">Moderação</h2>
+        <h2 id="moderacao">Moderação completa</h2>
         <p>
-          Ninguém é dono do grupo — nem o dono do app. Quando alguém denuncia,
-          o grupo conversa e depois vota. Para denunciar, é preciso explicar o
-          que aconteceu; para votar, é preciso ter aparecido um pouco por
-          perto.
-        </p>
-        <p>
-          Nenhuma decisão sai de uma pessoa só. Nem quem criou o grupo, nem
-          quem chegou antes. E quem acha que a decisão passou do ponto pode
-          recorrer: a revisão é feita por quem não votou nela.
-        </p>
-        <p>
-          <a class="btn btn-secondary" href="/moderacao">Entender a moderação</a>
+          Ninguém é dono do grupo — nem quem o criou e nem quem está no app há
+          mais tempo. Não existe síndico, painel de controle ou alguém acima da
+          comunidade decidindo quem pode ficar. O que existe são vizinhos
+          cuidando uns dos outros por meio de um processo previsível.
         </p>
 
-        <h2 id="gap">O que ainda não está pronto</h2>
+        <h3>Quem tem voz</h3>
+        <p>
+          Todo mundo começa como <strong>Novo</strong> em cada comunidade. A
+          confiança é construída por <strong>tempo de casa</strong> e
+          <strong>presença de verdade</strong>: estar num encontro ou participar
+          de uma decisão. Mandar mensagem, receber reação e ganhar convite não
+          aumentam a confiança.
+        </p>
+        <p>
+          Isso não é um placar nem uma competição. Se você fica um tempo sem
+          aparecer, não perde o que construiu; o próximo degrau apenas chega
+          mais devagar. Os ícones discretos ao lado do nome apenas mostram que
+          aquela pessoa costuma estar presente.
+        </p>
+        <p>
+          São quatro degraus, e o peso do voto acompanha cada um:
+          <strong>Novo</strong>, que ainda não vota; <strong>Participante</strong>,
+          com peso 1; <strong>Confiável</strong>, com peso 2; e
+          <strong>Superconfiável</strong>, com peso 3. O Participante chega com
+          cerca de uma semana no grupo e dois dias de participação. Confiável e
+          Superconfiável exigem mais tempo e presença, além de não terem uma
+          violação confirmada que derrube a confiança.
+        </p>
+        <p>
+          A confiança é separada por comunidade. Ser Superconfiável em um grupo
+          não concede o mesmo peso em outro, e nenhum degrau permite decidir
+          sozinho.
+        </p>
+
+        <h3>A denúncia</h3>
+        <p>
+          Quem percebe um problema pode denunciar. É preciso escolher o que
+          aconteceu e <strong>escrever o que houve</strong>. Essa explicação é
+          obrigatória porque o contexto é parte do caso; sem ela, a denúncia não
+          avança. As categorias incluem assédio ou perseguição, discurso de
+          ódio, ameaça, conteúdo violento, spam ou golpe, tentativa de prejudicar
+          alguém e outros problemas de convivência.
+        </p>
+        <p>
+          Anexar uma imagem ou outro print é opcional e nunca é pedido. Às
+          vezes, a ameaça acontece longe do app, e o relato escrito é o que
+          importa. O arquivo original fica no aparelho. No registro que circula
+          entre os participantes, o app guarda apenas uma impressão digital do
+          arquivo — um resumo que permite perceber se ele mudou.
+        </p>
+        <p>
+          <strong>Denunciar não é acusar.</strong> A denúncia apenas abre espaço
+          para o caso ser olhado. Se a pessoa denunciada quiser responder, pode
+          escrever sua versão e anexar suas próprias provas. A comunidade lê os
+          dois lados. Não responder não é confissão — é apenas ausência de
+          resposta.
+        </p>
+
+        <h3>A decisão</h3>
+        <p>
+          O caminho é sempre o mesmo, e ninguém pula etapa:
+        </p>
+        <ol>
+          <li>
+            <strong>O caso é olhado.</strong> Isso não prova culpa. No máximo, o
+            conteúdo específico fica em pausa por algumas horas, sempre com prazo
+            e revisão. Nada mais da conta some e nenhum encontro é apagado.
+          </li>
+          <li>
+            <strong>A votação abre automaticamente</strong> quando três pessoas
+            diferentes relatam o mesmo caso. Na abertura, ficam registrados quem
+            pode votar, com qual peso e sob qual versão das regras. Depois
+            disso, as regras não mudam por trás.
+          </li>
+          <li>
+            <strong>A comunidade vota por 72 horas.</strong> Só vota quem já
+            chegou a Participante e esteve por perto nos últimos 30 dias. Um
+            voto duplicado conta apenas uma vez.
+          </li>
+          <li>
+            <strong>O resultado é aplicado automaticamente.</strong> Não existe
+            botão de “aplicar decisão” nem alguém de plantão. Para haver uma
+            decisão, são necessárias pelo menos duas pessoas votando de forma
+            independente, a participação mínima exigida e maioria dos pesos
+            computados. Sem esse mínimo, nada muda. Isso também não é
+            condenação.
+          </li>
+        </ol>
+        <p>
+          Um empate mantém tudo como está. Se a galera não votar o bastante, a
+          votação expira sem condenar ninguém, a pausa do conteúdo termina e a
+          situação anterior volta. Sair em silêncio não é culpa.
+        </p>
+
+        <h3>Consequências</h3>
+        <p>
+          As saídas possíveis são manter como está, dar um aviso, suspender por
+          um tempo ou remover do grupo. O que cabe na decisão acompanha a
+          gravidade, a reincidência e a recência do caso.
+        </p>
+        <ul>
+          <li><strong>Aviso:</strong> não expira e não impede o uso da conta.</li>
+          <li><strong>Suspensão temporária:</strong> dura 7 dias em um caso leve e 30 dias em um caso grave ou reincidente.</li>
+          <li><strong>Remoção do grupo:</strong> é definitiva e nunca vem de uma decisão isolada.</li>
+        </ul>
+        <p>
+          A suspensão passa sozinha quando o prazo acaba. A remoção do grupo só
+          termina com uma reversão explícita. O mesmo episódio nunca é contado
+          duas vezes.
+        </p>
+        <p>
+          A decisão vale na comunidade em que o caso aconteceu. Ela não se
+          transforma automaticamente em suspensão em todos os outros grupos.
+        </p>
+
+        <h3>Recurso</h3>
+        <p>
+          Se uma decisão parecer injusta, existe <strong>recurso</strong>. O
+          prazo é de 14 dias, e a revisão é feita pelo mesmo mecanismo de
+          decisão, mas por pessoas que <em>não</em> votaram na decisão original.
+          O resultado da revisão fica registrado e pode ser auditado.
+        </p>
+        <p>
+          O recurso não expõe a pessoa que recorre. Ele também não transforma a
+          denúncia em punição automática: serve justamente para conferir se a
+          decisão foi justa.
+        </p>
+
+        <h3>Modo de Proteção</h3>
+        <p>
+          Se chegam muitos perfis novos de uma vez ou vários atos parecem
+          coordenados, o app entra em <strong>Modo de Proteção</strong>. As
+          pessoas continuam entrando, conversando e participando. No entanto, as
+          decisões definitivas ficam pausadas por até uma semana, com
+          reavaliação diária; votações suspeitas também podem ser pausadas, e
+          os membros antigos mantêm seus direitos.
+        </p>
+        <p>
+          O modo protege a conversa; ele não pune ninguém por suspeita. Também
+          não transforma endereço, aparelho ou localização em prova isolada. A
+          proteção pausa e segura, porque não sabe dizer com certeza quem está
+          por trás de uma entrada coordenada.
+        </p>
+
+        <h3>Limites da moderação</h3>
+        <p>
+          Nenhum sistema prova que duas contas são a mesma pessoa. O banimento
+          de aparelho acompanha o aparelho ligado à conta, mas reinstalar o app
+          pode criar um vínculo novo. Além disso, apagar uma prova do aparelho
+          sobrescreve o conteúdo no banco do app, mas não garante o apagamento
+          físico no flash do celular.
+        </p>
+        <p>
+          A denúncia do grupo inteiro segue um fluxo diferente e ainda passa pelo
+          servidor do projeto, que recebe as mensagens anexadas em texto claro.
+          Esse fluxo não dá a uma pessoa o poder de decidir sozinha, mas é uma
+          exceção conhecida e precisa ser levada em conta. A prova original,
+          quando circula entre os participantes, fica protegida com a chave do
+          grupo: quem já tem acesso ao grupo pode abri-la. Já as mudanças no
+          nome, ícone e na descrição do grupo ainda usam o fluxo antigo, não o
+          mesmo motor das denúncias.
+        </p>
+
+        <h2 id="emergencia">Segurança do usuário e emergência</h2>
+        <p>
+          O vizin.Os foi feito para convívio, não para servir como serviço de
+          emergência. Não aciona polícia, ambulância ou bombeiros, não garante
+          localização de uma pessoa em perigo e não substitui os canais oficiais
+          de ajuda.
+        </p>
+        <p>
+          Se existe risco imediato de violência, procure um local seguro e ligue
+          para o serviço de emergência local. No Brasil, isso significa 190 para
+          a Polícia, 192 para o SAMU e 193 para os bombeiros. Se o risco não for
+          imediato, mas houver violência ou abuso, o 180 da Mulher, o Disque
+          100 e os conselhos de direitos da cidade também podem orientar o que
+          fazer.
+        </p>
+        <p>
+          O app pode ajudar a aproximar pessoas e reduzir o isolamento, mas não
+          deve ser tratado como canal seguro para relatar uma emergência. Se a
+          vida de alguém estiver em risco, use primeiro os serviços próprios
+          para isso.
+        </p>
+
+        <h2 id="plus">Anúncios e vizin.Os Plus</h2>
+        <p>
+          O app é gratuito. Na versão gratuita, existe um banner discreto no
+          topo das telas e, antes de algumas ações, como criar um encontro ou
+          entrar em um grupo, pode aparecer um anúncio recompensado. Anúncios
+          não são exibidos dentro das conversas, e o conteúdo delas não é usado
+          para anunciar.
+        </p>
+        <p>
+          O <strong>vizin.Os Plus</strong> remove os anúncios e libera a criação
+          de encontros sem o limite mensal da conta gratuita. Quem não assina
+          pode criar até três encontros em cada período de 30 dias.
+        </p>
+        <p>
+          A assinatura é paga por uma página de checkout hospedada pelo Stripe.
+          Os dados do cartão não passam pelo app nem por este site. O Plus é
+          ligado à conta pelo próprio aplicativo após a confirmação do pagamento.
+        </p>
+        <p>
+          Uma verdade importante: na versão Android atual, os anúncios
+          podem ser personalizados, e ainda não existe no app um controle de
+          consentimento para essa personalização. Isso precisa ser revisto antes
+          de uma publicação ampla. Por enquanto, Plus e anúncios são a principal
+          forma de sustentar o projeto sem transformar o app em uma vitrine de
+          produtos.
+        </p>
+
+        <h2 id="limites">Limitações atuais</h2>
+        <p>
+          O projeto ainda está em desenvolvimento. Android é a plataforma de
+          referência; a versão para iPhone ainda não existe. A aba Social já
+          aparece no menu, mas o feed cronológico que ele terá ainda não está
+          pronto.
+        </p>
         <ul>
           <li>A versão para iPhone ainda não existe.</li>
-          <li>Quem entra em massa de uma vez deixa as decisões definitivas em pausa por até uma semana — o app pausa, mas não sabe quem são essas pessoas.</li>
-          <li>Mudanças de nome, emoji e descrição do grupo ainda não viajam entre aparelhos.</li>
-          <li>Quem reinstala o app pode escapar de um banimento do aparelho.</li>
-          <li>Áudio ainda não pede confiança mínima para enviar.</li>
+          <li>O feed social, em ordem cronológica e sem algoritmo, ainda não existe.</li>
+          <li>Mudanças no nome, ícone e descrição do grupo ainda usam o fluxo antigo.</li>
+          <li>Quem reinstala o app pode ficar com um novo vínculo de aparelho e escapar de um banimento ligado ao anterior.</li>
+          <li>Áudio ainda não exige um nível mínimo de confiança para ser enviado.</li>
+          <li>Nenhum sistema consegue provar que duas contas pertencem à mesma pessoa.</li>
+          <li>O apagamento da prova no banco do app não garante apagamento físico no armazenamento do aparelho.</li>
+          <li>A denúncia do grupo inteiro ainda envia as mensagens anexadas em texto claro ao servidor do projeto.</li>
+          <li>Os anúncios da versão Android podem ser personalizados, e o app ainda não oferece controle de consentimento para isso.</li>
         </ul>
-
-        <h2>O que ele não é</h2>
         <p>
-          Não é uma rede nacional nem um feed de viralização. Não substitui
-          serviço de emergência. E não promete anonimato: privacidade reduz a
-          exposição, mas quem convive responde pelo que faz.
+          Preferimos listar essas limitações a chamá-las de detalhes. O app
+          funciona, mas ainda não cobre tudo o que imagina para ele.
+        </p>
+
+        <h2 id="faq">Perguntas frequentes</h2>
+        <p>
+          <strong>Uma pessoa sozinha consegue remover alguém?</strong><br />
+          Não. Nem o criador do grupo, nem quem tem muita confiança. São
+          necessárias pelo menos duas pessoas votando de forma independente,
+          além dos demais requisitos da decisão.
+        </p>
+        <p>
+          <strong>Conta nova consegue derrubar alguém?</strong><br />
+          Não. Para votar, é necessário já ser Participante e ter estado por
+          perto nos últimos 30 dias. Quando há entrada coordenada, o Modo de
+          Proteção pausa as decisões definitivas em vez de punir quem acabou de
+          chegar.
+        </p>
+        <p>
+          <strong>E se ninguém votar?</strong><br />
+          A votação expira sem condenar ninguém. A pausa do conteúdo acaba e a
+          situação anterior volta.
+        </p>
+        <p>
+          <strong>Posso discordar da decisão?</strong><br />
+          Sim. Existe recurso dentro do prazo de 14 dias, e a revisão é feita por
+          quem não votou na decisão original. Quem recorre não é exposto pelo
+          processo.
+        </p>
+        <p>
+          <strong>Denúncia é punição?</strong><br />
+          Não. A denúncia abre uma etapa de avaliação. No máximo, o conteúdo
+          específico fica pausado temporariamente. A punição, quando existe, vem
+          depois da decisão coletiva.
+        </p>
+        <p>
+          <strong>Preciso mostrar meu nome completo?</strong><br />
+          Não. O perfil usa nome de usuário, emoji e cor. O app não pede foto de
+          perfil, e-mail nem número de telefone.
+        </p>
+        <p>
+          <strong>A equipe consegue ler minhas conversas?</strong><br />
+          As conversas dos grupos são protegidas e a equipe não tem as chaves
+          para abri-las. A denúncia do grupo inteiro é uma exceção conhecida:
+          as mensagens anexadas nesse fluxo chegam em texto claro ao servidor do
+          projeto.
+        </p>
+        <p>
+          <strong>Posso recuperar a conta se perder o celular?</strong><br />
+          Sim, se tiver o nome de usuário, a senha e o código de recuperação
+          mostrado no cadastro. Sem esse conjunto, não há recuperação por e-mail.
+        </p>
+        <p>
+          <strong>Consigo trocar de região?</strong><br />
+          Sim. Ao detectar que você está em outra região, o app mostra um convite
+          para mudar. A região anterior continua salva.
+        </p>
+        <p>
+          <strong>Usar o app substitui os serviços de emergência?</strong><br />
+          Não. Em situação de risco, use primeiro os serviços de emergência da
+          sua cidade. O vizin.Os ajuda na convivência, não no atendimento de
+          uma emergência.
+        </p>
+
+        <h2>O que o app não é</h2>
+        <p>
+          Não é uma rede nacional, um feed de viralização ou um lugar para
+          fingir que o bairro é o mundo inteiro. Não promete anonimato absoluto:
+          a privacidade reduz a exposição, mas quem convive responde pelo que
+          faz. E, principalmente, não substitui família, amigos, vizinhos,
+          serviços públicos ou uma rede de proteção de verdade.
+        </p>
+        <p>
+          No fim, a proposta é modesta. Criar um grupo de bairro, chamar alguém
+          para o café e deixar o celular de lado. Quando isso funciona, o app
+          cumpriu o papel dele.
         </p>
       </div>
     </section>
@@ -204,18 +615,12 @@
 
           </a>
 
-
-          <a class="explore-card" href="/moderacao"><span class="explore-card__icon explore-card__icon--moderacao" aria-hidden="true"></span>
-
-            <span>Moderação</span>
-
-          </a>
-
           <a class="explore-card" href="/documento" aria-current="page"><span class="explore-card__icon explore-card__icon--documento" aria-hidden="true"></span>
 
             <span>Documento técnico</span>
 
           </a>
+
           <a class="explore-card" href="/download"><span class="explore-card__icon explore-card__icon--download" aria-hidden="true"></span>
 
             <span>Download</span>
@@ -227,9 +632,7 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a class="brand" href="/" aria-label="vizin.Os, início">
-            <span class="brand-mark brand-mark--lg" aria-hidden="true">
-              <img src="/assets/icon-192.webp" alt="" width="115" height="115" loading="lazy" decoding="async">
-            </span>
+
             <span class="brand-wordmark brand-wordmark--lg" data-brand-wordmark>
               <span class="visually-hidden">vizin.Os</span>
             </span>
@@ -268,7 +671,7 @@
       </p>
       <p>
         Espero de coração que você curta a proposta e que ela faça sentido para
-        você! :&gt;
+        você! :>
       </p>
     </div>
   </div>

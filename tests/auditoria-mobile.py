@@ -19,7 +19,7 @@ PAGINAS = [
     "/membros",
     "/painel",
     "/documento",
-    "/moderacao",
+
     "/privacidade",
     "/termos",
     "/licenca",

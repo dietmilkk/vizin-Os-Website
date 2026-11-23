@@ -49,7 +49,6 @@ PULADOS = {
     "test-painel-producao.py": "aponta para a API de producao",
     "test-jornada-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
     "test-envio-email-real.py": "envia e-mail de verdade",
-    "test-layout-afiliado.py": "cria conta na API (guarda de IP bloqueia IP de datacenter)",
 }
 
 # O guia completo saiu de /membros (a pagina foi reescrita) e o JS/CSS

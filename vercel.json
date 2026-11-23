@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/mod", "destination": "/mod.html" },
+    { "source": "/:code(1[0-9]{10})", "destination": "/mod.html" }
+  ],
   "redirects": [
     { "source": "/afiliados", "destination": "/membros", "permanent": true },
     { "source": "/afiliados/:path*", "destination": "/membros", "permanent": true },
@@ -9,7 +13,22 @@
     { "source": "/criadores/:path*", "destination": "/membros", "permanent": true },
     { "source": "/doar", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true },
     { "source": "/doar/:path*", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true },
-    { "source": "/doar.html", "destination": "https://donate.stripe.com/9B614m7qo9pSaAv5q53F600", "permanent": true }
+    { "source": "/doar.html", "destination": "https://donate.stripe.com/9B614m7qo9qSaAv5q53F600", "permanent": true },
+    { "source": "/moderacao", "destination": "/documento#moderacao", "permanent": true },
+    { "source": "/moderacao/:path*", "destination": "/documento#moderacao", "permanent": true },
+    { "source": "/moderacao.html", "destination": "/documento#moderacao", "permanent": true },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "role", "value": "mod" }],
+      "destination": "/mod",
+      "permanent": false
+    },
+    {
+      "source": "/membros",
+      "has": [{ "type": "query", "key": "role", "value": "mod" }],
+      "destination": "/mod",
+      "permanent": false
+    }
   ],
   "headers": [
     {
@@ -49,6 +68,20 @@
     },
     {
       "source": "/membros/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/mod",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/:code(1[0-9]{10})",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
         { "key": "Cache-Control", "value": "no-store" }

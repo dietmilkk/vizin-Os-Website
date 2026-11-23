@@ -8,6 +8,21 @@
   overflow-x: clip;
 }
 
+/* A guarda de IP esconde somente as ações que dependem do acesso liberado.
+   O restante da página continua visível desde o primeiro instante. */
+html.is-guarding #criar,
+html.is-guarding #participar {
+  visibility: hidden;
+}
+
+.create-warning {
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
 /* ------------------------------------------------------------- navegação */
 .partners-nav {
   display: flex;
@@ -146,7 +161,7 @@
 }
 
 .aff-section--tint::before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: 0;
@@ -164,10 +179,24 @@
 
 .aff-section__head {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.62fr);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  margin-bottom: clamp(36px, 4.5vw, 56px);
+}
+
+.aff-section__head--split {
+  grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.7fr);
   gap: var(--space-8);
   align-items: end;
-  margin-bottom: clamp(36px, 4.5vw, 56px);
+}
+
+.aff-section__title {
+  min-width: 0;
+}
+
+.aff-section__title .aff-eyebrow {
+  margin-bottom: var(--space-3);
 }
 
 .aff-section__head h2 {
@@ -176,7 +205,7 @@
   line-height: 1.04;
 }
 
-.aff-section__head > p {
+.aff-section__lead {
   margin: 0;
   color: var(--text-muted);
   font-size: 1rem;
@@ -289,7 +318,7 @@
 }
 
 .aff-role li::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0.65em;
   left: 4px;
@@ -420,370 +449,6 @@
   }
 }
 
-/* ---------------------------------------------------------------- dinheiro */
-.revenue-sheet {
-  margin-top: var(--space-5);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
-.revenue-sheet__table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-.revenue-sheet__table th,
-.revenue-sheet__table td {
-  padding: 18px clamp(16px, 3vw, 28px);
-  text-align: left;
-  vertical-align: middle;
-}
-
-.revenue-sheet__table thead th {
-  background: var(--surface-alt);
-  color: var(--text-faint);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.revenue-sheet__table thead th:nth-child(2) {
-  width: 18%;
-}
-
-.revenue-sheet__table thead th:nth-child(3) {
-  width: 38%;
-}
-
-.revenue-sheet__table tbody tr {
-  border-top: 1px solid var(--border);
-}
-
-.revenue-sheet__table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--surface-alt) 42%, transparent);
-}
-
-.revenue-sheet__table tbody tr:hover {
-  background: color-mix(in srgb, var(--primary-soft) 35%, transparent);
-}
-
-.revenue-sheet__table tfoot tr {
-  border-top: 2px solid color-mix(in srgb, var(--text) 18%, var(--border));
-  background: var(--surface-alt);
-}
-
-.revenue-sheet__table tfoot th,
-.revenue-sheet__table tfoot td {
-  font-weight: 700;
-}
-
-.revenue-role {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.revenue-role__marker {
-  flex: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 3px;
-  background: var(--text-faint);
-}
-
-.revenue-role--creator .revenue-role__marker {
-  background: var(--primary);
-}
-
-.revenue-role--user .revenue-role__marker {
-  background: var(--success);
-}
-
-.revenue-role--affiliate .revenue-role__marker {
-  background: var(--accent);
-}
-
-.revenue-role--mod .revenue-role__marker {
-  background: var(--text);
-}
-
-.revenue-role--development .revenue-role__marker {
-  background: var(--text-faint);
-}
-
-.revenue-sheet__share {
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2.6vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.revenue-sheet__function {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.revenue-sheet__note {
-  max-width: 90ch;
-  margin: var(--space-5) 0 0;
-  color: var(--text-faint);
-  font-size: 0.8rem;
-  line-height: 1.65;
-}
-
-/* ------------------------------------------------------ mérito de cada papel */
-.revenue-merit-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-
-.revenue-merit-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: clamp(22px, 3vw, 32px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
-.revenue-merit-card--featured {
-  grid-column: 1 / -1;
-  border-color: color-mix(in srgb, var(--primary) 38%, var(--border));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--primary-soft) 70%, var(--surface)),
-    var(--surface) 70%
-  );
-}
-
-.revenue-merit-card__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.revenue-merit-card__tag {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--primary-ink);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.revenue-merit-card h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.revenue-merit-card__share {
-  flex: none;
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.4vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-.revenue-merit-card p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.93rem;
-  line-height: 1.65;
-}
-
-.revenue-quote {
-  margin: var(--space-6) 0 0;
-  padding: clamp(20px, 3vw, 30px) clamp(22px, 3vw, 34px);
-  border-left: 4px solid var(--primary);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  background: color-mix(in srgb, var(--primary-soft) 55%, var(--surface));
-}
-
-.revenue-quote p {
-  max-width: 72ch;
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  font-weight: 500;
-  line-height: 1.45;
-}
-
-/* ------------------------------------------------------- efeito multiplicador */
-.revenue-flow {
-  margin-top: var(--space-6);
-  padding: clamp(22px, 4vw, 40px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: radial-gradient(
-      circle at 50% 0%,
-      color-mix(in srgb, var(--primary-soft) 60%, transparent),
-      transparent 60%
-    ),
-    var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
-.revenue-flow__level {
-  display: grid;
-  grid-template-columns: minmax(190px, 0.8fr) minmax(0, 1.2fr);
-  gap: var(--space-5);
-  align-items: center;
-}
-
-.revenue-flow__label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.revenue-flow__tier {
-  color: var(--text-faint);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.revenue-flow__label strong {
-  font-size: 1rem;
-}
-
-.revenue-flow__label > span:last-child {
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-
-.revenue-flow__nodes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-
-.revenue-flow__node {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 7px 13px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.78rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.revenue-flow__node--mod {
-  border-color: color-mix(in srgb, var(--text) 40%, var(--border));
-  background: var(--text);
-  color: var(--background);
-}
-
-.revenue-flow__node--affiliate {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-  background: var(--accent-soft);
-}
-
-.revenue-flow__node--creator {
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
-  background: var(--primary-soft);
-}
-
-.revenue-flow__node--user {
-  border-color: color-mix(in srgb, var(--success) 40%, var(--border));
-  background: var(--success-soft);
-}
-
-.revenue-flow__arrow {
-  margin: 10px 0;
-  color: var(--text-faint);
-  font-size: 1.15rem;
-  line-height: 1;
-  text-align: center;
-}
-
-.revenue-flow__caption {
-  margin: var(--space-5) 0 0;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.6;
-  text-align: center;
-}
-
-.revenue-simulation {
-  margin-top: var(--space-5);
-  padding: clamp(22px, 3.5vw, 34px);
-  border: 1px dashed color-mix(in srgb, var(--primary) 45%, var(--border));
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--primary-soft) 32%, var(--surface));
-}
-
-.revenue-simulation__badge {
-  display: inline-flex;
-  margin-bottom: var(--space-3);
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--primary-ink);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.revenue-simulation h3 {
-  margin: 0 0 var(--space-3);
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.revenue-simulation p {
-  max-width: 74ch;
-  margin: 0 0 var(--space-3);
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-.revenue-simulation p:last-child {
-  margin-bottom: 0;
-}
-
-.revenue-simulation__note {
-  color: var(--text-faint) !important;
-  font-size: 0.8rem;
-}
-
 /* ---------------------------------------------------------------- por que */
 .aff-why-grid {
   display: grid;
@@ -906,7 +571,7 @@
 }
 
 .aff-faq summary::after {
-  content: "+";
+  content: '+';
   position: absolute;
   top: 50%;
   right: 4px;
@@ -923,7 +588,7 @@
 }
 
 .aff-faq details[open] summary::after {
-  content: "−";
+  content: '−';
 }
 
 .aff-faq details p {
@@ -1143,83 +808,5 @@
 
   .aff-rule {
     min-height: auto;
-  }
-
-  .revenue-merit-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .revenue-merit-card--featured {
-    grid-column: auto;
-  }
-
-  .revenue-flow__level {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
-
-  .revenue-flow__label {
-    align-items: center;
-    text-align: center;
-  }
-
-  /* A planilha vira uma lista de linhas no telefone: cada célula ganha o
-     rótulo da coluna, sem rolagem horizontal e sem perder a leitura. */
-  .revenue-sheet__table thead {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .revenue-sheet__table,
-  .revenue-sheet__table tbody,
-  .revenue-sheet__table tfoot,
-  .revenue-sheet__table tr,
-  .revenue-sheet__table th,
-  .revenue-sheet__table td {
-    display: block;
-    width: 100%;
-  }
-
-  .revenue-sheet__table tr {
-    padding: 16px clamp(16px, 4vw, 22px);
-    border-top: 1px solid var(--border);
-  }
-
-  .revenue-sheet__table tbody tr:first-child {
-    border-top: 0;
-  }
-
-  .revenue-sheet__table th,
-  .revenue-sheet__table td {
-    padding: 0;
-  }
-
-  .revenue-sheet__table th[data-label]::before,
-  .revenue-sheet__table td[data-label]::before {
-    content: attr(data-label);
-    display: block;
-    margin-bottom: 4px;
-    color: var(--text-faint);
-    font-size: 0.66rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .revenue-sheet__table td + td,
-  .revenue-sheet__table th + td {
-    margin-top: 12px;
-  }
-
-  .revenue-sheet__table tfoot tr {
-    border-top: 2px solid color-mix(in srgb, var(--text) 18%, var(--border));
-  }
-
-  .revenue-sheet__share {
-    font-size: 1.7rem;
   }
 }

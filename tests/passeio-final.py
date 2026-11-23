@@ -8,7 +8,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 SITE = "https://vizin-os.vercel.app"
-PAGINAS = ["/", "/membros", "/painel", "/documento", "/moderacao"]
+PAGINAS = ["/", "/membros", "/painel", "/documento"]
 
 
 def main():

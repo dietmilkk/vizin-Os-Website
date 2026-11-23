@@ -20,7 +20,7 @@ PAGINAS = {
     "home": "/",
     "painel": "/painel",
     "documento": "/documento",
-    "moderacao": "/moderacao",
+
     "membros": "/membros",
     "404": "/404.html",
 }

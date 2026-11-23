@@ -46,7 +46,7 @@ TOKEN_CACHE_2 = "/tmp/vizin-teste-email-token-2.json"
 FRASES_DO_MODELO = [
     "Uber da vizinhança quer te ter como criador parceiro",
     "Estamos abrindo o programa de criadores",
-    "Seu público ganha 30% de desconto",
+    "Seu público ganha 25% de desconto",
     "Eu faço parte do programa de afiliados e recebo 10%",
 ]
 

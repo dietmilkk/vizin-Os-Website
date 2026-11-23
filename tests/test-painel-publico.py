@@ -279,7 +279,6 @@ def main() -> int:
             print("\nNavegação a partir do painel")
             for href, seletor in [
                 ("/documento", "a[href='/documento']"),
-                ("/moderacao", "a[href='/moderacao']"),
                 ("/membros", "a[href='/membros']"),
                 ("/", "a[href='/']"),
             ]:
@@ -293,7 +292,7 @@ def main() -> int:
             internos = sorted({link for link in links if link and link.startswith("/")})
             check(
                 "o painel alcança todas as páginas internas",
-                {"/", "/documento", "/moderacao", "/membros"}.issubset(set(internos)),
+                {"/", "/documento", "/membros"}.issubset(set(internos)),
                 str(internos),
             )
 

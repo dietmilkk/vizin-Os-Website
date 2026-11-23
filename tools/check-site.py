@@ -10,8 +10,9 @@ PAGES = [
     "download.html",
     "documento.html",
     "membros.html",
+    "mod.html",
     "comunidade.html",
-    "moderacao.html",
+
     "painel.html",
     "privacidade.html",
     "termos.html",
@@ -38,6 +39,7 @@ class Checker(HTMLParser):
         self._in_style = False
         self._in_script = False
         self.meta_description = False
+        self.meta_assets = []
         self.images_without_alt = 0
 
     def handle_starttag(self, tag, attrs):
@@ -52,6 +54,11 @@ class Checker(HTMLParser):
             self._in_script = True
         if tag == "meta" and attrs.get("name") == "description":
             self.meta_description = True
+        if tag == "meta" and (
+            attrs.get("property") in ("og:image", "og:image:url")
+            or attrs.get("name") in ("twitter:image", "twitter:image:src")
+        ):
+            self.meta_assets.append(attrs.get("content") or "")
         if tag == "img" and "alt" not in attrs:
             self.images_without_alt += 1
         if "id" in attrs:
@@ -120,6 +127,14 @@ def check_page(name):
         if symbol not in parser.symbols:
             errors.append(f"{name}: símbolo SVG ausente: #{symbol}")
 
+    public_prefix = "https://vizin-os.vercel.app/"
+    for meta_asset in parser.meta_assets:
+        if not meta_asset.startswith(public_prefix):
+            continue
+        path = meta_asset[len(public_prefix):].split("?", 1)[0].split("#", 1)[0]
+        if path and not (ROOT / path.lstrip("/")).exists():
+            errors.append(f"{name}: imagem social ausente: {path}")
+
     return errors
 
 
@@ -136,7 +151,14 @@ def check_css():
 
 def check_js():
     errors = []
-    for name in ("assets/app.js", "assets/pix.js", "assets/config.js", "assets/panel.js"):
+    for name in (
+        "assets/app.js",
+        "assets/pix.js",
+        "assets/config.js",
+        "assets/panel.js",
+        "assets/mod.js",
+        "assets/revenue-split.js",
+    ):
         text = (ROOT / name).read_text(encoding="utf-8")
         if text.count("{") != text.count("}"):
             errors.append(f"{name}: chaves desbalanceadas")

@@ -21,11 +21,15 @@ Uso:
 
 from __future__ import annotations
 
+import re
 import sys
+import urllib.request
+from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099"
+ROOT = Path(__file__).resolve().parents[1]
 
 falhas: list[str] = []
 verificacoes = 0
@@ -50,6 +54,51 @@ def main() -> int:
 
         pagina.goto(f"{BASE}/membros", wait_until="load")
         pagina.wait_for_timeout(900)
+        # A guarda de IP pode esconder os CTAs por alguns segundos. Nos testes,
+        # removemos esse estado para medir a pagina real sem corrida de timing.
+        pagina.evaluate("document.documentElement.classList.remove('is-guarding')")
+
+        fonte_html = urllib.request.urlopen(f"{BASE}/membros", timeout=10).read().decode("utf-8")
+        fallbacks_percentuais = re.findall(
+            r'data-revenue-share="[^"]+"[^>]*>\s*[^<\s][^<]*', fonte_html
+        )
+        check(
+            "HTML nao fixa percentuais fora da configuracao",
+            not fallbacks_percentuais,
+            str(fallbacks_percentuais[:3]),
+        )
+        bloco_divisao = re.search(
+            r'<section\b[^>]*id="divisao".*?</section>',
+            fonte_html,
+            re.IGNORECASE | re.DOTALL,
+        )
+        if bloco_divisao:
+            sem_campos_dinamicos = re.sub(
+                r'<[^>]*data-revenue-(?:share|sim)[^>]*>.*?</[^>]+>',
+                '',
+                bloco_divisao.group(0),
+                flags=re.DOTALL,
+            )
+            percentuais_fixos = re.findall(r'\b(?:50|25|10|5)%', sem_campos_dinamicos)
+            check(
+                "prosa da divisao nao repete percentuais fora da config",
+                not percentuais_fixos,
+                str(percentuais_fixos[:5]),
+            )
+
+        rodapes_com_icone_grande = []
+        for pagina_html in sorted(ROOT.glob("*.html")):
+            fonte = pagina_html.read_text(encoding="utf-8")
+            rodape = re.search(r"<footer\b.*?</footer>", fonte, re.IGNORECASE | re.DOTALL)
+            if rodape and re.search(
+                r'<img\b[^>]*\bwidth=["\']115["\'][^>]*>', rodape.group(0), re.IGNORECASE
+            ):
+                rodapes_com_icone_grande.append(pagina_html.name)
+        check(
+            "nenhum rodape usa o icone grande de 115px",
+            not rodapes_com_icone_grande,
+            ", ".join(rodapes_com_icone_grande),
+        )
 
         # A janela de primeira visita aparece na primeira navegacao: um
         # usuario real fecha antes de continuar.
@@ -107,6 +156,16 @@ def main() -> int:
                 config.get("shares") == esperado,
                 str(config.get("shares")),
             )
+            check(
+                "premissas da simulacao ficam na mesma config",
+                config.get("simulation") == {
+                    "mods": 1,
+                    "affiliatesPerMod": 10,
+                    "creatorsPerAffiliate": 5,
+                    "referencePerCreator": 100,
+                },
+                str(config.get("simulation")),
+            )
 
         planilha = pagina.locator(".revenue-sheet")
         check(
@@ -115,16 +174,39 @@ def main() -> int:
         )
         linhas = pagina.locator(".revenue-sheet__table tbody tr")
         check("planilha tem os cinco papeis", linhas.count() == 5, str(linhas.count()))
-        if planilha.count():
-            texto = planilha.inner_text()
-            for pct in ("50%", "25%", "10%", "5%"):
-                check(f"percentual {pct} aparece na planilha", pct in texto)
-            check("total de 100% aparece", "100%" in texto)
-            check("funcao do criador aparece", "Produzem e trazem usuários" in texto)
-            check("funcao do Mod Parceiro aparece", "Recrutam afiliados" in texto)
+        if linhas.count() == 5:
+            mapa_planilha = linhas.evaluate_all(
+                """rows => rows.map(row => ({
+                    papel: row.querySelector('.revenue-role__name')?.textContent?.trim(),
+                    divisao: row.querySelector('.revenue-sheet__share [data-revenue-share]')?.textContent?.trim(),
+                    funcao: row.querySelector('.revenue-sheet__function-label')?.textContent?.trim(),
+                }))"""
+            )
+            esperado_planilha = [
+                ("Criadores de conteúdo", "50%", "Produzem e trazem usuários"),
+                ("Usuários", "25%", "Recebem desconto no app"),
+                ("Afiliados", "10%", "Recrutam criadores"),
+                ("Mods Parceiros", "5%", "Recrutam afiliados"),
+                ("Desenvolvimento", "10%", "Manutenção e servidores"),
+            ]
+            for indice, (papel, divisao, funcao) in enumerate(esperado_planilha):
+                linha = mapa_planilha[indice]
+                check(f"planilha mapeia {papel} corretamente", linha == {"papel": papel, "divisao": divisao, "funcao": funcao}, str(linha))
+            check(
+                "total da planilha vem da mesma configuracao",
+                pagina.locator(".revenue-sheet__table tfoot [data-revenue-total]").inner_text().strip() == "100%",
+            )
         check(
-            "barra horizontal antiga removida",
-            pagina.locator(".aff-splitbar, .split-bar").count() == 0,
+            "barra horizontal antiga removida do HTML",
+            pagina.locator(".aff-splitbar, .split-bar, .split-segment, .split-grid").count() == 0,
+        )
+        css_pagina = "".join(
+            urllib.request.urlopen(f"{BASE}/assets/{nome}", timeout=10).read().decode("utf-8")
+            for nome in ("styles.css", "affiliates.css", "panel-refine.css", "revenue-split.css")
+        )
+        check(
+            "barra horizontal antiga removida do CSS",
+            not re.search(r"aff-splitbar|split-bar|split-segment|split-grid", css_pagina, re.I),
         )
 
         print("\n[4] A secao de merito e o efeito multiplicador")
@@ -141,11 +223,68 @@ def main() -> int:
 
         efeito = pagina.locator("#efeito-multiplicador").inner_text()
         check("secao cita o efeito multiplicador", "efeito multiplicador" in efeito.lower())
-        check("diagrama de fluxo existe", pagina.locator(".revenue-flow").count() == 1)
-        check("simulacao identificada", "Simulação ilustrativa" in efeito)
+        check("diagrama de fluxo existe", pagina.locator(".revenue-network").count() == 1)
+        check(
+            "diagrama usa lista semantica",
+            pagina.locator(".revenue-network__levels").evaluate("el => el.tagName") == "OL",
+        )
+        papeis_fluxo = pagina.locator(".revenue-network__role strong").all_inner_texts()
+        check(
+            "diagrama preserva a ordem Mod, Afiliados, Criadores e Usuarios",
+            papeis_fluxo == ["Mod Parceiro", "Afiliados", "Criadores", "Usuários"],
+            str(papeis_fluxo),
+        )
+        check("simulacao identificada", "simulação ilustrativa" in efeito.lower())
         check(
             "simulacao mostra 1 Mod, 10 Afiliados e 50 Criadores",
             all(trecho in efeito for trecho in ("1", "10", "50")),
+        )
+        valores_simulacao = pagina.locator("[data-revenue-sim]").evaluate_all(
+            """nodes => Object.fromEntries(nodes.map(node => [
+                node.getAttribute('data-revenue-sim'), node.textContent.trim()
+            ]))"""
+        )
+        def sem_espaco_fino(valor: str) -> str:
+            return (valor or "").replace("\u00a0", " ").strip()
+
+        check("simulacao calcula 50 criadores", valores_simulacao.get("creators") == "50", str(valores_simulacao))
+        check(
+            "simulacao calcula R$ 5.000,00 de base",
+            sem_espaco_fino(valores_simulacao.get("networkReferenceTotal")) == "R$ 5.000,00",
+            str(valores_simulacao),
+        )
+        check(
+            "simulacao informa o total efetivamente cobrado",
+            sem_espaco_fino(valores_simulacao.get("networkPaidTotal")) == "R$ 3.750,00",
+            str(valores_simulacao),
+        )
+        check(
+            "prosa usa os valores por compra vindos da config",
+            all(
+                sem_espaco_fino(valores_simulacao.get(chave)) == esperado
+                for chave, esperado in {
+                    "userDiscountPerCreator": "R$ 25,00",
+                    "affiliateRevenuePerCreator": "R$ 10,00",
+                    "modRevenuePerCreator": "R$ 5,00",
+                    "developmentRevenuePerCreator": "R$ 10,00",
+                }.items()
+            ),
+            str(valores_simulacao),
+        )
+        check(
+            "simulacao calcula R$ 250,00 para o Mod",
+            sem_espaco_fino(valores_simulacao.get("modRevenue")) == "R$ 250,00",
+            str(valores_simulacao),
+        )
+        check(
+            "simulacao calcula R$ 50,00 para o criador isolado",
+            sem_espaco_fino(valores_simulacao.get("creatorRevenue")) == "R$ 50,00",
+            str(valores_simulacao),
+        )
+        check(
+            "comparacao usa a mesma base de 50 criadores",
+            sem_espaco_fino(valores_simulacao.get("creatorNetworkRevenue")) == "R$ 2.500,00",
+            str(valores_simulacao),
         )
         check("simulacao nao promete ganho", "não é promessa de ganho" in efeito)
 
@@ -165,7 +304,53 @@ def main() -> int:
         ):
             check(f"termo obrigatorio '{termo}' presente", termo in pagina_inteira)
 
-        print("\n[5] Criar conta abre a janela certa")
+        print("\n[5] A leitura continua clara em tela estreita")
+        pagina.set_viewport_size({"width": 320, "height": 800})
+        pagina.wait_for_timeout(250)
+        medidas_mobile = pagina.evaluate(
+            """() => {
+              const doc = document.documentElement;
+              const nivel = document.querySelector('.revenue-network__level');
+              const papel = nivel?.querySelector('.revenue-network__role');
+              const base = nivel?.querySelector('.revenue-network__basis');
+              const ledger = document.querySelector('.revenue-simulation__ledger');
+              return {
+                scrollWidth: doc.scrollWidth,
+                clientWidth: doc.clientWidth,
+                nivelColunas: nivel ? getComputedStyle(nivel).gridTemplateColumns : '',
+                baseAoLado: papel && base ? base.getBoundingClientRect().left >= papel.getBoundingClientRect().right - 1 : false,
+                linhasConta: ledger ? ledger.querySelectorAll('.revenue-simulation__row').length : 0,
+              };
+            }"""
+        )
+        check(
+            "sem estouro horizontal em 320px",
+            medidas_mobile["scrollWidth"] <= medidas_mobile["clientWidth"] + 1,
+            str(medidas_mobile),
+        )
+        check(
+            "fluxo da rede permanece em duas colunas legiveis",
+            len(medidas_mobile["nivelColunas"].split()) == 2,
+            str(medidas_mobile),
+        )
+        check(
+            "base de calculo fica ao lado do papel no celular",
+            medidas_mobile["baseAoLado"],
+            str(medidas_mobile),
+        )
+        check(
+            "conta da simulacao tem apenas tres linhas",
+            medidas_mobile["linhasConta"] == 3,
+            str(medidas_mobile),
+        )
+        check(
+            "rotulo da fatia aparece na tabela mobile",
+            pagina.locator(".revenue-sheet__mobile-label").first.is_visible(),
+        )
+        pagina.set_viewport_size({"width": 1366, "height": 900})
+        pagina.wait_for_timeout(150)
+
+        print("\n[6] Criar conta abre a janela certa")
         pagina.click('[data-open-create="afiliado"]:visible')
         pagina.wait_for_timeout(500)
         check(
@@ -179,11 +364,11 @@ def main() -> int:
         pagina.keyboard.press("Escape")
         pagina.wait_for_timeout(400)
 
-        print("\n[6] Rodape minimalista")
+        print("\n[7] Rodape minimalista")
         rodape = pagina.locator(".site-footer")
         check("rodape presente", rodape.count() == 1)
         cartoes = pagina.locator(".explore-card")
-        check("cartoes de exploracao presentes", cartoes.count() >= 5, str(cartoes.count()))
+        check("cartoes de exploracao presentes", cartoes.count() >= 4, str(cartoes.count()))
         icone = cartoes.first.locator(".explore-card__icon")
         titulo_card = cartoes.first.locator("span").first
         box_i = icone.bounding_box()

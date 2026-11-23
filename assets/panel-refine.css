@@ -36,7 +36,7 @@
 /* Rótulo acima do título: o mesmo "eyebrow" das seções do resto do
    site, para o painel ter a mesma entrada visual. */
 .dashboard-heading::before {
-  content: "Painel do parceiro";
+  content: 'Painel do parceiro';
   display: block;
   margin-bottom: var(--space-3);
   color: var(--primary-ink);
@@ -47,7 +47,7 @@
 }
 
 .dashboard-heading--afiliado::before {
-  content: "Painel do afiliado";
+  content: 'Painel do afiliado';
 }
 
 /* ------------------------------------------------- convite: trocar de papel */
@@ -87,7 +87,7 @@
 
 .panel-flow {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-8);
 }
 
 .panel-group {
@@ -184,7 +184,7 @@
 }
 
 .panel-list li::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0.62em;
   left: 4px;
@@ -336,26 +336,15 @@
 
 /* Cabeçalho de seção: quando há texto de apoio, o título fica à esquerda
    e o texto à direita; quando não há, o título ocupa a linha inteira em
-   vez de deixar metade da grade vazia. */
-.aff-section__head {
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
-  align-items: start;
-}
-
-.aff-section__head:has(> p) {
-  grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.62fr);
-  gap: var(--space-8);
-  align-items: end;
-}
-
+   vez de deixar metade da grade vazia. A estrutura fica em affiliates.css;
+   aqui só refinamos a escala tipográfica. */
 .aff-section__head h2 {
   max-width: 680px;
   font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1.05;
 }
 
-.aff-section__head:has(> p) h2 {
+.aff-section__head--split h2 {
   font-size: clamp(2.1rem, 4.2vw, 3.7rem);
   line-height: 1.04;
 }
@@ -385,7 +374,7 @@
 }
 
 @media (max-width: 960px) {
-  .aff-section__head:has(> p) {
+  .aff-section__head--split {
     grid-template-columns: 1fr;
     gap: var(--space-6);
   }

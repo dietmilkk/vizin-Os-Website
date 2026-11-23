@@ -14,6 +14,7 @@ import os
 import socket
 import socketserver
 import threading
+from urllib.parse import urlsplit
 
 # tests/lib/servidor_site.py -> site/
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,10 +29,17 @@ PAGES = {
     "/documento": "documento.html",
     "/download": "download.html",
     "/licenca": "licenca.html",
-    "/moderacao": "moderacao.html",
     "/painel": "painel.html",
     "/privacidade": "privacidade.html",
     "/termos": "termos.html",
+}
+
+# A pagina antiga foi incorporada ao documento. Estas rotas preservam links
+# salvos e antigos por redirect, inclusive o destino com a ancora de moderação.
+REDIRECTS = {
+    "/moderacao": "/documento#moderacao",
+    "/moderacao/": "/documento#moderacao",
+    "/moderacao.html": "/documento#moderacao",
 }
 
 
@@ -41,6 +49,30 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
 
     def log_message(self, format, *args):
         pass
+
+    def _redirect_target(self):
+        path = urlsplit(self.path).path
+        if path.startswith("/moderacao/"):
+            return "/documento#moderacao"
+        return REDIRECTS.get(path)
+
+    def _send_redirect(self):
+        target = self._redirect_target()
+        if not target:
+            return False
+        self.send_response(301)
+        self.send_header("Location", target)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+        return True
+
+    def do_GET(self):
+        if not self._send_redirect():
+            super().do_GET()
+
+    def do_HEAD(self):
+        if not self._send_redirect():
+            super().do_HEAD()
 
     def translate_path(self, path):
         clean = path.split("?")[0].split("#")[0]

@@ -15,7 +15,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8099").rstrip("/")
-PAGINAS = ["/", "/painel", "/documento", "/moderacao", "/membros", "/404.html"]
+PAGINAS = ["/", "/painel", "/documento", "/membros", "/404.html"]
 
 TOLERANCIA = 1  # px de diferença aceitável entre as páginas.
 

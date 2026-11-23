@@ -22,7 +22,7 @@ PAGINAS = [
     "/download",
     "/painel",
     "/documento",
-    "/moderacao",
+
     "/membros",
     "/privacidade",
     "/termos",

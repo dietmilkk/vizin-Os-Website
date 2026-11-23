@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF9F2">
+  <title>vizin.Os — Painel do Mod</title>
+  <meta name="description" content="Painel simples do Mod Parceiro do vizin.Os: acompanhe métricas da rede, ganhos e saques.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/mod.css">
+</head>
+<body class="page-painel mod-page">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="vizin.Os, início">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="/assets/icon-192.webp" alt="" width="40" height="40" loading="eager" decoding="async">
+        </span>
+        <span class="mod-brand-text">vizin.Os</span>
+      </a>
+      <a class="btn btn-secondary" href="/membros">Programa de parceiros</a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="container mod-main">
+    <div class="dashboard-heading mod-heading">
+      <h1 id="mod-title">Painel do Mod</h1>
+      <p>Um painel simples para acompanhar sua rede e retirar seus ganhos.</p>
+    </div>
+
+    <section id="mod-access" class="mod-access" aria-labelledby="mod-access-title">
+      <div class="form-card mod-access-card">
+        <h2 id="mod-access-title" class="panel-card__title">Acessar o painel</h2>
+        <p class="panel-card__lead">
+          O link numérico identifica este painel, mas não contém senha. Cole abaixo
+          o token do Mod fornecido pela administração.
+        </p>
+
+        <div id="mod-code-box" class="mod-code-box" hidden>
+          <span>Código do link</span>
+          <strong id="mod-code-value">—</strong>
+        </div>
+
+        <form id="mod-token-form" class="mod-token-form">
+          <div class="field">
+            <label for="mod-token">Token do Mod</label>
+            <input id="mod-token" name="token" type="password" autocomplete="off" spellcheck="false" required aria-describedby="mod-token-hint mod-token-feedback">
+            <p id="mod-token-hint" class="field-hint">O token será guardado somente nesta aba do navegador.</p>
+          </div>
+          <button id="mod-token-submit" class="btn btn-primary" type="submit">Abrir painel</button>
+        </form>
+
+        <p id="mod-token-feedback" class="mod-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="mod-dashboard" class="mod-dashboard" aria-labelledby="mod-dashboard-title" hidden>
+      <div class="dashboard-heading mod-heading">
+        <p class="mod-eyebrow">Mod Parceiro</p>
+        <h2 id="mod-dashboard-title">Visão geral</h2>
+        <p id="mod-identity">Carregando seus dados…</p>
+      </div>
+
+      <div class="stats-grid mod-stats" aria-label="Métricas da rede">
+        <div class="stat">
+          <span class="label">Afiliados recrutados</span>
+          <span id="mod-affiliates" class="value">—</span>
+        </div>
+        <div class="stat stat--accent">
+          <span class="label">Volume gerado pela rede</span>
+          <span id="mod-volume" class="value">—</span>
+        </div>
+        <div class="stat">
+          <span class="label">Ganhos acumulados</span>
+          <span id="mod-earnings" class="value">—</span>
+        </div>
+      </div>
+
+      <section class="form-card mod-handle-card" aria-labelledby="mod-handle-title">
+        <h2 id="mod-handle-title" class="panel-card__title">Seu cadastro</h2>
+        <p id="mod-profile-status" class="panel-card__lead">
+          Informe seu nome completo. Dá para deixar para depois.
+        </p>
+        <form id="mod-profile-form" class="mod-profile-form">
+          <div class="field">
+            <label for="mod-profile-name">Nome completo</label>
+            <input id="mod-profile-name" name="name" maxlength="60" autocomplete="name" placeholder="Como você se chama">
+          </div>
+          <div class="field">
+            <label for="mod-profile-email">E-mail (opcional)</label>
+            <input id="mod-profile-email" name="email" type="email" maxlength="200" autocomplete="email" placeholder="para receber o comprovante">
+          </div>
+          <div class="row">
+            <button id="mod-profile-save" class="btn btn-secondary" type="submit">Salvar</button>
+          </div>
+          <p id="mod-profile-feedback" class="mod-feedback" role="status" aria-live="polite"></p>
+          <p class="field-hint">
+            A Stripe pede seus documentos e dados bancários no momento da
+            configuração da conta. Aqui só precisamos do seu nome, e ele tem que
+            ser igual ao que você informing lá.
+          </p>
+        </form>
+        <details class="mod-about">
+          <summary>Sobre o programa</summary>
+          <p>
+            O vizin.Os é gratuito e mantido por quem usa. Você recruta afiliados;
+            eles recrutam criadores de conteúdo; criadores trazem novos usuários.
+            O preço de referência das assinaturas Plus é distribuído entre os
+            níveis da rede de afiliados e a manutenção do app. Seu saldo só
+            aparece depois que a compra é confirmada pela Stripe.
+          </p>
+        </details>
+      </section>
+
+      <section class="form-card mod-withdraw-card" aria-labelledby="mod-withdraw-title">
+        <div class="mod-withdraw-head">
+          <div>
+            <h2 id="mod-withdraw-title" class="panel-card__title">Saques</h2>
+            <p id="mod-connect-status" class="panel-card__lead">Verificando a conta Stripe…</p>
+          </div>
+          <button id="mod-copy-link" class="btn btn-secondary mod-copy-button" type="button">Copiar link</button>
+        </div>
+
+        <div class="mod-balance">
+          <span class="label">Saldo disponível</span>
+          <strong id="mod-available">—</strong>
+        </div>
+
+        <button id="mod-withdraw-button" class="btn btn-primary" type="button" aria-describedby="mod-withdraw-feedback">Sacar</button>
+        <p id="mod-withdraw-feedback" class="mod-feedback" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="form-card mod-history-card" aria-labelledby="mod-history-title">
+        <h2 id="mod-history-title" class="panel-card__title">Histórico de saques</h2>
+        <p class="panel-card__lead">Os pedidos mais recentes aparecem primeiro.</p>
+        <div id="mod-withdrawals" class="list" aria-live="polite">
+          <p class="muted">Carregando histórico…</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-explore" aria-label="Continue explorando">
+        <h2 class="footer-explore__title">Continue explorando</h2>
+        <div class="explore-grid">
+          <a class="explore-card" href="/membros"><span class="explore-card__icon explore-card__icon--membros" aria-hidden="true"></span>
+            <span>Membros</span>
+          </a>
+          <a class="explore-card" href="/comunidade"><span class="explore-card__icon explore-card__icon--comunidade" aria-hidden="true"></span>
+            <span>Comunidade</span>
+          </a>
+
+          <a class="explore-card" href="/documento"><span class="explore-card__icon explore-card__icon--documento" aria-hidden="true"></span>
+            <span>Documento técnico</span>
+          </a>
+          <a class="explore-card" href="/download"><span class="explore-card__icon explore-card__icon--download" aria-hidden="true"></span>
+            <span>Download</span>
+          </a>
+        </div>
+      </nav>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="vizin.Os, início">
+
+            <span class="mod-brand-text mod-brand-text--lg">vizin.Os</span>
+          </a>
+        </div>
+        <div class="footer-col">
+          <h3>Contato</h3>
+          <a href="mailto:vizin.oos@gmail.com">vizin.oos@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 vizin.Os. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="mod-toast" class="mod-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
+  <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/mod.js"></script>
+</body>
+</html>

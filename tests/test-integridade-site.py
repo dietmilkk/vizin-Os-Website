@@ -30,8 +30,8 @@ from playwright.sync_api import sync_playwright
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PAGINAS = [
-    "/", "/membros", "/comunidade", "/documento",
-    "/moderacao", "/download", "/painel", "/termos",
+    "/", "/membros", "/mod", "/11277376272", "/comunidade", "/documento",
+    "/download", "/painel", "/termos",
     "/privacidade", "/licenca", "/404.html",
 ]
 
@@ -60,9 +60,10 @@ def main() -> int:
     httpd, base = servir_site(porta_livre(), {
         "/": "index.html",
         "/membros": "membros.html",
+        "/mod": "mod.html",
+        "/11277376272": "mod.html",
         "/comunidade": "comunidade.html",
         "/documento": "documento.html",
-        "/moderacao": "moderacao.html",
         "/download": "download.html",
         "/painel": "painel.html",
         "/termos": "termos.html",
@@ -81,6 +82,24 @@ def main() -> int:
             links_vistos: set[str] = set()
             recursos_vistos: set[str] = set()
             rodapes: dict[str, list[str]] = {}
+
+            print("\n[Compatibilidade da URL antiga]")
+            for rota_antiga in ("/moderacao", "/moderacao.html"):
+                resposta = pagina.request.get(
+                    urljoin(base, rota_antiga),
+                    max_redirects=0,
+                )
+                destino = resposta.headers.get("location", "")
+                check(
+                    f"{rota_antiga} responde redirect",
+                    resposta.status in (301, 308),
+                    str(resposta.status),
+                )
+                check(
+                    f"{rota_antiga} aponta para a seção de moderação",
+                    destino.endswith("/documento#moderacao"),
+                    destino,
+                )
 
             for rota in PAGINAS:
                 print(f"\n[{rota}]")

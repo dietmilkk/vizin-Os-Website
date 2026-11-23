@@ -67,7 +67,7 @@ jobs:
 
       - name: Conferir o site no ar
         run: |
-          for path in / /painel /documento /membros /comunidade /moderacao; do
+          for path in / /painel /documento /membros /comunidade; do
             code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE_URL$path")"
             printf '%-12s %s\n' "$path" "$code"
             test "$code" = "200"
